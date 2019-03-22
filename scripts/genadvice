@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+rsync -a ~/Projects/G1-Dev/running/ pekania.moma:/home/wenyuz/running
+rm -rf ~/Projects/G1-Dev/running/results
+ssh pekania.moma -t "
+  rm -rf /home/wenyuz/running/build
+  mkdir -p /home/wenyuz/running/build
+  cp -r /home/wenyuz/Projects/G1-Dev/JikesRVM/dist/production_x86_64-linux /home/wenyuz/running/build
+"
+ssh pekania.moma -t "rm -rf ~/running/results"
+ssh pekania.moma -t "cd running && ./bin/runbms 8 7"
+rsync -a pekania.moma:/home/wenyuz/running/results/ ~/Projects/G1-Dev/running/results
+gunzip -r ~/Projects/G1-Dev/running/results/log

@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+import argparse, subprocess, os
+from shell import *
+from config import *
+
+def getFullBuildName(s):
+  if not s.startswith("BaseBase") and not s.startswith("FastAdaptive") and not s.startswith("FullAdaptive") \
+    and not s.startswith("RBaseBase") and s config.startswith("RFastAdaptive") and not s.startswith("RFullAdaptive"):
+      return f'{DEFAULT_BUILD_PREFIX}{s}'
+  return s
+
+class Build:
+  help = "Build JikesRVM"
+  def config(self, parser):
+    parser.add_argument('config', help='Build config, e.g. Immix, FaseAdaptiveImmix')
+    parser.add_argument('--nuke', action='store_true', help='Clean all before build')
+  def action(self, options):
+    config = getFullBuildName(options.config)
+    commands = [
+      f'{HOME}/{JIKESRVM_ROOT}/bin/buildit',
+      options.moma + '.moma',
+      config,
+      '-j', '/usr/lib/jvm/java-8-openjdk-amd64',
+      # '--eclipse',
+      # '--bc-arg', '-numThreads=16',
+      '--answer-yes', 
+      *(['--nuke', '--clear-cache', '--clear-cc' ] if ('nuke' in options) and options.nuke else [
+        '-q',
+        # '--clear-cache'#, '--clear-cc'
+      ])
+    ]
+    return shell(commands, cwd=f'{HOME}/{JIKESRVM_ROOT}')
+
+class Run:
+  help = "Run the DaCapo benchmark"
+  def config(self, parser):
+    parser.add_argument('config', help='Build config, e.g. BaseBaseMarkSweep')
+    parser.add_argument('--build', action='store_true', help='Build JikesRVM before run')
+    parser.add_argument('--rvm-args', nargs='*', default=[f'-Xms{HEAP_SIZE}', f'-Xmx{HEAP_SIZE}'], help='Arguments passed to JikesRVM')
+    parser.add_argument('--dacapo', default=DEFAULT_DACAPO_BENCHMARK_SUITE, help=f"Dacapo benchmark suite to run, default '{DEFAULT_DACAPO_BENCHMARK_SUITE}'")
+    parser.add_argument('--dacapo-args', nargs='*', default=[], help='Arguments passed to Dacapo')
+    parser.add_argument('--iter', default=None, help=f"How much iterations will dacapo run the benchmark, default 1")
+    parser.add_argument('--timer', action='store_true', help=f"Use the MMTk latency timer")
+    parser.add_argument('--log-dir', default='/Users/wenyu/mmtk-logs', help=f"Log directory")
+    parser.add_argument('-N', default=None, help=f"Execute [N] times, save outputs to `{LOGS_DIR}`")
+  def action(self, options):
+    if options.build:
+      if not SUB_COMMANDS['build'].action(options):
+        return False
+    config = config = getFullBuildName(options.config)
+    dacapo_args = options.dacapo_args
+    if ENABLE_MMTK_CALLBACK:
+      dacapo_args.extend(['-c', 'MMTkCallback'])
+    if options.timer:
+      options.rvm_args.append('-X:gc:enableLatencyTimer=true')
+    if options.iter is not None:
+      dacapo_args.extend(['-n', str(options.iter)])
+    if config.endswith('AdaptiveG1') or config.endswith('BaseG1'):
+      options.rvm_args.append(f'-X:gc:maxGCPauseMillis={PAUSE_TIME_GOAL}')
+      gen = 'true' if G1_GENERATIONAL else 'false'
+      options.rvm_args.append(f'-X:gc:g1GenerationalMode={gen}')
+    if SINGLE_CORE:
+      options.rvm_args.append('-X:availableProcessors=1')
+    if SINGLE_GC_THREAD:
+      options.rvm_args.append('-X:gc:threads=1')
+    if VERBOSE:# and not ENABLE_MMTK_CALLBACK:
+      options.rvm_args.append('-X:gc:verbose=1')
+    options.rvm_args.append('-X:gc:variableSizeHeap=false')
+    dacapo_jar = None
+    if DACAPO_VERSION == 9.12:
+      dacapo_jar = '/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar'
+    elif DACAPO_VERSION == 2006:
+      dacapo_jar = '/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar'
+    else:
+      assert False, f"Unsupported DACAPO_VERSION: '{DACAPO_VERSION}'"
+    commands = [
+      f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/{config}_x86_64-linux/rvm',
+      *options.rvm_args,
+      '-server',
+      '-jar', dacapo_jar,
+      *dacapo_args,
+      options.dacapo,
+    ]
+
+    N = options.N if options.N is not None else 1
+    if True:
+      assert shell([ 'rm', '-rf', f'{LOGS_DIR}/*' ])
+      for i in range(int(N)):
+        name = f'{i:03d}'
+        if shell(commands, moma=options.moma, out=f'{LOGS_DIR}/{name}.log', verbose=(i==0)):
+          print(f'===== #{name} passed =====')
+        else:
+          print(f'===== #{name} FAILED !!! =====')
+      return True
+    return shell(commands, moma=options.moma)
+
+MultiEntryMain(
+  build = Build(),
+  run = Run()
+)
