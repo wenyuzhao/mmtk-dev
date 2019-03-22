@@ -1,18 +1,21 @@
 import argparse, subprocess, os
 from config import * 
 
-def MultiEntryMain(**SUB_COMMANDS):
+SUB_COMMANDS = None
+
+def MultiEntryMain(**subCommands):
+  SUB_COMMANDS = subCommands
   # Parse command line arguments
   parser = argparse.ArgumentParser(description='MMTk Development Script')
   parser.add_argument('--moma', default=DEFAULT_MOMA_MACHINE, help='Moma machine')
   subparsers = parser.add_subparsers(dest='cmd', help='Sub commands')
-  for key, config in SUB_COMMANDS.items():
+  for key, config in subCommands.items():
     config.config(subparsers.add_parser(key, help=getattr(config, 'help', '')))
   options = parser.parse_args()
   # Trigger sub task
-  for key, callback in SUB_COMMANDS.items():
+  for key, callback in subCommands.items():
     if options.cmd == key:
-      if not callback.action(options):
+      if not callback.exec(options):
         print("💩")
       break
   else:
@@ -24,7 +27,7 @@ def SingleEntryMain(config):
   parser.add_argument('--moma', default=DEFAULT_MOMA_MACHINE, help='Moma machine')
   config.config(parser)
   options = parser.parse_args()
-  config.action(options)
+  config.exec(options)
 
 def shell(commands, moma=None, cwd=None, out=None, verbose=True):
   commands = commands if moma is None else ['ssh', moma + '.moma', '-t', *commands]

@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-
-import shell;
+from config import *
+from shell import *
+import os
 
 
 class Bench:
-  help = "Build JikesRVM"
+  help = "Run Benchmarking"
   def config(self, parser):
     parser.add_argument('moma', help='Remote machine')
-  def action(self, options):
+  def exec(self, options):
     moma = options.moma
+    assert shell(['rm', '-rf', f'{DEV_ROOT}/running/bin/RunConfig.pm'])
+    assert shell(['cp', f'{DEV_ROOT}/running/bin/{RUN_CONFIG}', f'{DEV_ROOT}/running/bin/RunConfig.pm'])
     assert shell(['rsync', '-a', f'../running/', f'{moma}.moma:/home/wenyuz/running'])
     assert shell(['rm', '-rf', f'../results/{moma}/'])
     assert shell(['rm', '-rf', '/home/wenyuz/running/build'], moma=moma)
@@ -16,19 +19,33 @@ class Bench:
     for jvm in BENCH_JVMS:
         assert shell(['cp', '-r', f'{jvm}', '/home/wenyuz/running/build'], moma=moma)
     assert shell(['rm', '-rf', '~/running/results'], moma=moma)
-    assert shell(['cd', 'running', '&&', './bin/runbms 8 1 3 5 7'], moma=moma)
-    assert shell(['rsync', '-a', f'{moma}.moma:/home/wenyuz/running/reuslts', f'../results/{moma}'])
-    assert shell(['gunzip', '-r', f'../results/{moma}/log'])
+    assert shell(['mkdir', '-p', '~/running/results'], moma=moma)
+    HEAP_ARGS = '8 7'
+    assert shell(['ssh', f'{moma}.moma', f'nohup ~/running/bin/runbms {HEAP_ARGS} > ~/running/results/nohup.out 2>&1 &'])
+    return True
+
+
+
+class Result:
+  help = "Fetch results"
+  def config(self, parser):
+    parser.add_argument('moma', help='Remote machine')
+  def exec(self, options):
+    moma = options.moma
+    assert shell(['mkdir', '-p', f'{DEV_ROOT}/results/{moma}'])
+    assert shell(['rsync', '-a', f'{moma}.moma:/home/wenyuz/running/results/', f'{DEV_ROOT}/results/{moma}'])
+    assert shell(['gunzip', '-r', f'{DEV_ROOT}/results/{moma}/log'])
     return True
 
 class Stop:
   help = "Build JikesRVM"
   def config(self, parser):
     parser.add_argument('moma', help='Remote machine')
-  def action(self, options):
-    return shell(['pkill' '-f' 'runbms'], moma=options.moma)
+  def exec(self, options):
+    return shell(['pkill', '-f', 'runbms'], moma=options.moma)
 
 MultiEntryMain(
-    run = Bench()
-    stop = Stop()
+    run = Bench(),
+    stop = Stop(),
+    fetch = Result()
 )

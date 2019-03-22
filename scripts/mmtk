@@ -5,7 +5,7 @@ from config import *
 
 def getFullBuildName(s):
   if not s.startswith("BaseBase") and not s.startswith("FastAdaptive") and not s.startswith("FullAdaptive") \
-    and not s.startswith("RBaseBase") and s config.startswith("RFastAdaptive") and not s.startswith("RFullAdaptive"):
+    and not s.startswith("RBaseBase") and s.startswith("RFastAdaptive") and not s.startswith("RFullAdaptive"):
       return f'{DEFAULT_BUILD_PREFIX}{s}'
   return s
 
@@ -14,7 +14,7 @@ class Build:
   def config(self, parser):
     parser.add_argument('config', help='Build config, e.g. Immix, FaseAdaptiveImmix')
     parser.add_argument('--nuke', action='store_true', help='Clean all before build')
-  def action(self, options):
+  def exec(self, options):
     config = getFullBuildName(options.config)
     commands = [
       f'{HOME}/{JIKESRVM_ROOT}/bin/buildit',
@@ -36,16 +36,16 @@ class Run:
   def config(self, parser):
     parser.add_argument('config', help='Build config, e.g. BaseBaseMarkSweep')
     parser.add_argument('--build', action='store_true', help='Build JikesRVM before run')
-    parser.add_argument('--rvm-args', nargs='*', default=[f'-Xms{HEAP_SIZE}', f'-Xmx{HEAP_SIZE}'], help='Arguments passed to JikesRVM')
+    parser.add_argument('--rvm-args', nargs='*', default=[f'-Xms{HEAP_SIZE}M', f'-Xmx{HEAP_SIZE}M'], help='Arguments passed to JikesRVM')
     parser.add_argument('--dacapo', default=DEFAULT_DACAPO_BENCHMARK_SUITE, help=f"Dacapo benchmark suite to run, default '{DEFAULT_DACAPO_BENCHMARK_SUITE}'")
     parser.add_argument('--dacapo-args', nargs='*', default=[], help='Arguments passed to Dacapo')
     parser.add_argument('--iter', default=None, help=f"How much iterations will dacapo run the benchmark, default 1")
     parser.add_argument('--timer', action='store_true', help=f"Use the MMTk latency timer")
     parser.add_argument('--log-dir', default='/Users/wenyu/mmtk-logs', help=f"Log directory")
     parser.add_argument('-N', default=None, help=f"Execute [N] times, save outputs to `{LOGS_DIR}`")
-  def action(self, options):
+  def exec(self, options):
     if options.build:
-      if not SUB_COMMANDS['build'].action(options):
+      if not SUB_COMMANDS['build'].exec(options):
         return False
     config = config = getFullBuildName(options.config)
     dacapo_args = options.dacapo_args
@@ -83,16 +83,14 @@ class Run:
     ]
 
     N = options.N if options.N is not None else 1
-    if True:
-      assert shell([ 'rm', '-rf', f'{LOGS_DIR}/*' ])
-      for i in range(int(N)):
-        name = f'{i:03d}'
-        if shell(commands, moma=options.moma, out=f'{LOGS_DIR}/{name}.log', verbose=(i==0)):
-          print(f'===== #{name} passed =====')
-        else:
-          print(f'===== #{name} FAILED !!! =====')
-      return True
-    return shell(commands, moma=options.moma)
+    assert shell([ 'rm', '-rf', f'{LOGS_DIR}/*' ])
+    for i in range(int(N)):
+      name = f'{i:03d}'
+      if shell(commands, moma=options.moma, out=f'{LOGS_DIR}/{name}.log', verbose=(i==0)):
+        print(f'===== #{name} passed =====')
+      else:
+        print(f'===== #{name} FAILED !!! =====')
+    return True
 
 MultiEntryMain(
   build = Build(),
