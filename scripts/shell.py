@@ -3,7 +3,11 @@ from config import *
 
 SUB_COMMANDS = None
 
+def SubCommand(name):
+  return SUB_COMMANDS[name]
+
 def MultiEntryMain(**subCommands):
+  global SUB_COMMANDS
   SUB_COMMANDS = subCommands
   # Parse command line arguments
   parser = argparse.ArgumentParser(description='MMTk Development Script')

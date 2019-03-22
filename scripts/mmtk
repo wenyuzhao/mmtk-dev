@@ -45,7 +45,7 @@ class Run:
     parser.add_argument('-N', default=None, help=f"Execute [N] times, save outputs to `{LOGS_DIR}`")
   def exec(self, options):
     if options.build:
-      if not SUB_COMMANDS['build'].exec(options):
+      if not SubCommand('build').exec(options):
         return False
     config = config = getFullBuildName(options.config)
     dacapo_args = options.dacapo_args

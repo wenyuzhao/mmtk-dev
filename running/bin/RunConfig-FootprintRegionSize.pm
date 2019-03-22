@@ -65,8 +65,8 @@ $remotedir = $rootdir;          # same directory structure on both machines
 # Misc variables
 #
 $standalonemode = 0;            # if 1, then stop daemons (including network!)
-$targetinvocations = 1;        # how many invocations of each benchmark?
-$defaulttimingiteration = 1;    # which iteration of the benchmark to time
+$targetinvocations = 20;        # how many invocations of each benchmark?
+$defaulttimingiteration = 2;    # which iteration of the benchmark to time
 $heaprange = 6;                 # controls x-axis range
 $maxinvocations = $targetinvocations;
 $arch = "_x86_64-linux";
@@ -179,11 +179,11 @@ $perfevents = "";
 	# "FastAdaptiveG1AllBarriers|s|wr|p-1",
 	# "FastAdaptiveG1|s|wr|pt|ng",
 	# "FastAdaptiveG1|s|wr|pt|g",
-	"FastAdaptiveG1|s|wr|pt|ng",
-	# "FastAdaptiveG10128K|s|wr|pt|ng",
-	# "FastAdaptiveG10256K|s|wr|pt|ng",
-	# "FastAdaptiveG10512K|s|wr|pt|ng",
-	# "FastAdaptiveG11024K|s|wr|pt|ng",
+	"FastAdaptiveG10064K|s|wr|pt|ng",
+	"FastAdaptiveG10128K|s|wr|pt|ng",
+	"FastAdaptiveG10256K|s|wr|pt|ng",
+	"FastAdaptiveG10512K|s|wr|pt|ng",
+	"FastAdaptiveG11024K|s|wr|pt|ng",
 	# "FastAdaptiveG1ZoneBarrier0064K|s|wr|p-1",
 	# "FastAdaptiveG1ZoneBarrier0128K|s|wr|p-1",
 	# "FastAdaptiveG1ZoneBarrier0256K|s|wr|p-1",

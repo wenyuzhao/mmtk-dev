@@ -18,20 +18,25 @@ HEAP_SIZE = 537 # mb
 SINGLE_CORE = False
 SINGLE_GC_THREAD = False
 PAUSE_TIME_GOAL = 300 # ms
-G1_GENERATIONAL = False
+G1_GENERATIONAL = True
 VERBOSE = False# or True
 ENABLE_MMTK_CALLBACK = False or True
 
 # Moma Machine Configs
 
-DEFAULT_MOMA_MACHINE = 'fisher'
+DEFAULT_MOMA_MACHINE = 'pekania'
 
 # Benchmark Configs
 
 RUN_CONFIG = 'RunConfig-FootprintRegionSize.pm'
 HEAP_ARGS = '8 7'
 BENCH_JVMS = [
-    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG1_x86_64-linux'
+    # f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG1_x86_64-linux'
+    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10064K_x86_64-linux',
+    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10128K_x86_64-linux',
+    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10256K_x86_64-linux',
+    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10512K_x86_64-linux',
+    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG11024K_x86_64-linux',
 ]
 
 # Derived Configs
