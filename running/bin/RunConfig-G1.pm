@@ -134,14 +134,15 @@ $perfevents = "";
     "sgc" => "-XX:+UseSerialGC",
     "rapl" => "-X:gc:useRAPL=true",
     "sjit" => "-Dprobes=StopJIT -Dprobe.stopjit.iteration=".($defaulttimingiteration-2),
-	"pt" => "-X:gc:maxGCPauseMillis=200",
+	"pt" => "-X:gc:maxGCPauseMillis=20",
 	"g" => "-X:gc:g1GenerationalMode=true",
 	"ng" => "-X:gc:g1GenerationalMode=false",
+	"lt" => "-X:gc:enableLatencyTimer=true",
 );
 # value options
 %valueopts = (
 	"i" => "iterations",
-	"p" => "-X:processors=",
+	"p" => "-X:availableProcessors=",
     "sp" => "-X:vm:forceOneCPU=", # single CPU of specified affinity
     # set a bounded nursery size (<int>M)
 	"n" => "-X:gc:boundedNursery=",
@@ -171,7 +172,11 @@ $perfevents = "";
 	# "jdk1.7.0|s",
 	# "ibm-java-i386-60|s",
 	# "jrmc-1.6.0|s",
-	# "RFastAdaptiveG1|s|",
+	"FastAdaptiveRegional|s|wr|lt",
+	"FastAdaptiveLSRegional|s|wr|lt",
+	"FastAdaptiveConcRegional|s|wr|lt",
+	"FastAdaptiveG1|s|wr|lt|pt|ng",
+	"FastAdaptiveG1|s|wr|lt|pt|g",
 	# "FastAdaptiveG1NoBarrier|s|wr|p-1",
 	# "FastAdaptiveG1SATBCond|s|wr|p-1",
 	# "FastAdaptiveG1SATBUncond|s|wr|p-1",
@@ -179,11 +184,11 @@ $perfevents = "";
 	# "FastAdaptiveG1AllBarriers|s|wr|p-1",
 	# "FastAdaptiveG1|s|wr|pt|ng",
 	# "FastAdaptiveG1|s|wr|pt|g",
-	"FastAdaptiveG10064K|s|wr|pt|ng",
-	"FastAdaptiveG10128K|s|wr|pt|ng",
-	"FastAdaptiveG10256K|s|wr|pt|ng",
-	"FastAdaptiveG10512K|s|wr|pt|ng",
-	"FastAdaptiveG11024K|s|wr|pt|ng",
+	# "FastAdaptiveG10064K|s|wr|pt|ng",
+	# "FastAdaptiveG10128K|s|wr|pt|ng",
+	# "FastAdaptiveG10256K|s|wr|pt|ng",
+	# "FastAdaptiveG10512K|s|wr|pt|ng",
+	# "FastAdaptiveG11024K|s|wr|pt|ng",
 	# "FastAdaptiveG1ZoneBarrier0064K|s|wr|p-1",
 	# "FastAdaptiveG1ZoneBarrier0128K|s|wr|p-1",
 	# "FastAdaptiveG1ZoneBarrier0256K|s|wr|p-1",
@@ -195,7 +200,8 @@ $perfevents = "";
 	# "FastAdaptiveG1ZoneBarrierFastXORSlowG1|s|wr|p-1",
 	# "FastAdaptiveG1ZoneBarrierFastXORNoG1|s|wr|p-1",
 	# "production|s"
-	# "FastAdaptiveSemiSpace|s"
+	# "FastAdaptiveSemiSpace|s|wr",
+	# "FastAdaptiveRegional|s|wr",
 );
 
 

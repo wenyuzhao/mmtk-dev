@@ -1,46 +1,57 @@
 import os
 from pathlib import Path
 
-
+RUST_MMTK = False
 
 # Project & Build Configs
 
 HOME = '/home/wenyu'
 REMOTE_HOME = '/home/wenyuz' # Home path on the moma machine
-JIKESRVM_ROOT = 'Projects/G1-Dev/JikesRVM' # Sub path under the local HOME
-RUST_MMTK_SUPPORT = False
+JIKESRVM_ROOT = 'Projects/G1-Dev/JikesRVM' if not RUST_MMTK else 'Projects/JikesRVM-Rust2' # Sub path under the local HOME
 
 # Runtime Configs
 
-DEFAULT_DACAPO_BENCHMARK_SUITE = 'avrora'
+DEFAULT_DACAPO_BENCHMARK_SUITE = 'lusearch'
 DACAPO_VERSION = 9.12 # 9.12 or 2006
-HEAP_SIZE = 537 # mb
+HEAP_SIZE = 1500 # mb
 SINGLE_CORE = False
 SINGLE_GC_THREAD = False
-PAUSE_TIME_GOAL = 300 # ms
-G1_GENERATIONAL = True
+PAUSE_TIME_GOAL = 20 # ms
+G1_GENERATIONAL = False
 VERBOSE = False# or True
 ENABLE_MMTK_CALLBACK = False or True
+LATENCY_TIMER = True
 
 # Moma Machine Configs
 
-DEFAULT_MOMA_MACHINE = 'pekania'
+DEFAULT_MOMA_MACHINE = 'fisher'
 
 # Benchmark Configs
 
-RUN_CONFIG = 'RunConfig-FootprintRegionSize.pm'
-HEAP_ARGS = '8 7'
+RUN_CONFIG = 'RunConfig-G1.pm'
+HEAP_ARGS = '8 1 3 5 7'
 BENCH_JVMS = [
-    # f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG1_x86_64-linux'
-    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10064K_x86_64-linux',
-    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10128K_x86_64-linux',
-    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10256K_x86_64-linux',
-    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG10512K_x86_64-linux',
-    f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/FastAdaptiveG11024K_x86_64-linux',
+    'FastAdaptiveRegional',
+    'FastAdaptiveLSRegional',
+    'FastAdaptiveConcRegional',
+    'FastAdaptiveG1',
+    # 'FastAdaptiveG10064K',
+    # 'FastAdaptiveG10128K',
+    # 'FastAdaptiveG10256K',
+    # 'FastAdaptiveG10512K',
+    # 'FastAdaptiveG11024K',
+    # 'FastAdaptiveG1NoBarrier',
+    # 'FastAdaptiveG1SATBCond',
+    # 'FastAdaptiveG1SATBUncond',
+    # 'FastAdaptiveG1RemSetBarrier',
+    # 'FastAdaptiveG1AllBarriers',
+    # 'FastAdaptiveRegional',
+    # 'FastAdaptiveSemiSpace',
 ]
+BENCH_JVMS = [ f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/{x}_x86_64-linux' for x in BENCH_JVMS ]
 
 # Derived Configs
 
 DEV_ROOT = Path(os.path.dirname(os.path.realpath(__file__))).parent
-DEFAULT_BUILD_PREFIX = 'RBaseBase' if RUST_MMTK_SUPPORT else 'BaseBase'
+DEFAULT_BUILD_PREFIX = 'RBaseBase' if RUST_MMTK else 'BaseBase'
 LOGS_DIR = f'{DEV_ROOT}/logs'

@@ -43,6 +43,14 @@ class Stop:
   def exec(self, options):
     return shell(['pkill', '-f', 'runbms'], moma=options.moma)
 
+class Prepare:
+  help = "Benchmark preparation work"
+  def config(self): ...
+  def exec(self, options):
+    # Upload advices
+    
+    return True
+
 MultiEntryMain(
     run = Bench(),
     stop = Stop(),

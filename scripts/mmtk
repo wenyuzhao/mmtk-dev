@@ -5,7 +5,7 @@ from config import *
 
 def getFullBuildName(s):
   if not s.startswith("BaseBase") and not s.startswith("FastAdaptive") and not s.startswith("FullAdaptive") \
-    and not s.startswith("RBaseBase") and s.startswith("RFastAdaptive") and not s.startswith("RFullAdaptive"):
+    and not s.startswith("RBaseBase") and not s.startswith("RFastAdaptive") and not s.startswith("RFullAdaptive"):
       return f'{DEFAULT_BUILD_PREFIX}{s}'
   return s
 
@@ -40,7 +40,7 @@ class Run:
     parser.add_argument('--dacapo', default=DEFAULT_DACAPO_BENCHMARK_SUITE, help=f"Dacapo benchmark suite to run, default '{DEFAULT_DACAPO_BENCHMARK_SUITE}'")
     parser.add_argument('--dacapo-args', nargs='*', default=[], help='Arguments passed to Dacapo')
     parser.add_argument('--iter', default=None, help=f"How much iterations will dacapo run the benchmark, default 1")
-    parser.add_argument('--timer', action='store_true', help=f"Use the MMTk latency timer")
+    # parser.add_argument('--timer', action='store_true', help=f"Use the MMTk latency timer")
     parser.add_argument('--log-dir', default='/Users/wenyu/mmtk-logs', help=f"Log directory")
     parser.add_argument('-N', default=None, help=f"Execute [N] times, save outputs to `{LOGS_DIR}`")
   def exec(self, options):
@@ -51,14 +51,14 @@ class Run:
     dacapo_args = options.dacapo_args
     if ENABLE_MMTK_CALLBACK:
       dacapo_args.extend(['-c', 'MMTkCallback'])
-    if options.timer:
+    if LATENCY_TIMER:
       options.rvm_args.append('-X:gc:enableLatencyTimer=true')
     if options.iter is not None:
       dacapo_args.extend(['-n', str(options.iter)])
     if config.endswith('AdaptiveG1') or config.endswith('BaseG1'):
-      options.rvm_args.append(f'-X:gc:maxGCPauseMillis={PAUSE_TIME_GOAL}')
+      if not RUST_MMTK: options.rvm_args.append(f'-X:gc:maxGCPauseMillis={PAUSE_TIME_GOAL}')
       gen = 'true' if G1_GENERATIONAL else 'false'
-      options.rvm_args.append(f'-X:gc:g1GenerationalMode={gen}')
+      if not RUST_MMTK: options.rvm_args.append(f'-X:gc:g1GenerationalMode={gen}')
     if SINGLE_CORE:
       options.rvm_args.append('-X:availableProcessors=1')
     if SINGLE_GC_THREAD:
@@ -73,8 +73,9 @@ class Run:
       dacapo_jar = '/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar'
     else:
       assert False, f"Unsupported DACAPO_VERSION: '{DACAPO_VERSION}'"
+    RUST_ENV = 'RUST_BACKTRACE=1 ' if RUST_MMTK else ''
     commands = [
-      f'{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/{config}_x86_64-linux/rvm',
+      f'{RUST_ENV}{REMOTE_HOME}/{JIKESRVM_ROOT}/dist/{config}_x86_64-linux/rvm',
       *options.rvm_args,
       '-server',
       '-jar', dacapo_jar,
