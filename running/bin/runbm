@@ -272,7 +272,7 @@ sub getcmdline {
 sub getjvmexecutable {
     my ($config) = @_;
     ($vmcfg, $argstr) = $config =~ /([^|]+)[|]*(\S*)$/;
-    if ($vmcfg =~ /jdk1[.]/ || $vmcfg =~ /ibm-java/ || $vmcfg =~ /jrmc/) {
+    if ($vmcfg =~ /jdk1[.]/ || $vmcfg =~ /ibm-java/ || $vmcfg =~ /jrmc/ || $vmcfg =~ /java-/) {
 	return $jvmroot{$vmcfg}."/$vmcfg/bin/java";
     } else {
 	$build = $builddir.$vmcfg;

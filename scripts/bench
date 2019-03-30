@@ -8,6 +8,7 @@ class Bench:
   help = "Run Benchmarking"
   def config(self, parser):
     parser.add_argument('moma', help='Remote machine')
+    parser.add_argument('--debug', action='store_true', help='Debug mode (disable nohup)')
   def exec(self, options):
     moma = options.moma
     assert shell(['rm', '-rf', f'{DEV_ROOT}/running/bin/RunConfig.pm'])
@@ -20,7 +21,10 @@ class Bench:
         assert shell(['cp', '-r', f'{jvm}', '/home/wenyuz/running/build'], moma=moma)
     assert shell(['rm', '-rf', '~/running/results'], moma=moma)
     assert shell(['mkdir', '-p', '~/running/results'], moma=moma)
-    assert shell(['ssh', f'{moma}.moma', f'nohup ~/running/bin/runbms {HEAP_ARGS} > ~/running/results/nohup.out 2>&1 &'])
+    if options.debug:
+      assert shell(['ssh', f'{moma}.moma', f'~/running/bin/runbms {HEAP_ARGS}'])
+    else:
+      assert shell(['ssh', f'{moma}.moma', f'nohup ~/running/bin/runbms {HEAP_ARGS} > ~/running/results/nohup.out 2>&1 &'])
     return True
 
 

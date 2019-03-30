@@ -209,6 +209,7 @@ $perfevents = "";
 %jvmroot = (
     "java-9-openjdk-amd64" => "/usr/lib/jvm/",
     "java-8-openjdk-amd64" => "/usr/lib/jvm/",
+	"java-11-openjdk-amd64" => "/usr/lib/jvm/"
 	"ibm-java-i386-60" => "/opt",
 	"jdk1.7.0" => "/opt",
 	"jdk1.6.0" => "/opt",
@@ -276,7 +277,8 @@ $perfevents = "";
 
 %sliceHeapSize = ();
 foreach $bm (keys %minheap) {
-    $sliceHeapSize{$bm} = $minheap{$bm}*(150);
+    $sliceHeapSize{$bm} = 300;
+	$minheap{$bm} = 300;#*(150);
 }
 
 # Timeouts for each benchmark (in seconds, based on time for second iteration runs on Core Duo with MarkSweep

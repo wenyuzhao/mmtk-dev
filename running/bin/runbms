@@ -53,7 +53,7 @@ $endk = $heaprange;   # must be < 10 for k val printing to work
 #
 $spreadfactor = 1;  # how much coarser is the spacing at the end relative 
                     # to start
-$heaplimit = 2500;   # our GCs can't handle heaps bigger than this at present
+$heaplimit = 25000;   # our GCs can't handle heaps bigger than this at present
 #$heaplimit = 900;   # our GCs can't handle heaps bigger than this at present
 $megabyte = 1<<20;
 
