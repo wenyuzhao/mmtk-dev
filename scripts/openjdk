@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+import argparse, subprocess, os
+from shell import *
+from config import *
+
+def getFullBuildName(s):
+  if not s.startswith("BaseBase") and not s.startswith("FastAdaptive") and not s.startswith("FullAdaptive") \
+    and not s.startswith("RBaseBase") and not s.startswith("RFastAdaptive") and not s.startswith("RFullAdaptive"):
+      return f'{DEFAULT_BUILD_PREFIX}{s}'
+  return s
+
+def build(gc, moma, config):
+  assert shell(['rsync', '-a', f'{HOME}/{OPENJDK_ROOT}/', f'ox.moma:{REMOTE_HOME}/{OPENJDK_ROOT}/'])
+  if config:
+    assert shell([f'cd {REMOTE_HOME}/{OPENJDK_ROOT} && bash configure --disable-warnings-as-errors'], moma=moma)
+  assert shell([f'cd {REMOTE_HOME}/{OPENJDK_ROOT}/mmtk && cargo +nightly build --release --no-default-features --features "openjdk,{gc}"'], moma=moma)
+  return shell([f'cd {REMOTE_HOME}/{OPENJDK_ROOT} && LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/mmtk/target/release make'], moma=moma)
+
+class Build:
+  help = "Build OpenJDK"
+  def config(self, parser):
+    parser.add_argument('gc', help='Selected GC, e.g. nogc')
+    parser.add_argument('--config', action='store_true', help='Run `bash configure` before build')
+  def exec(self, options):
+    return build(options.gc, 'ox', options.config)
+
+class Run:
+  help = "Run the DaCapo benchmark"
+  def config(self, parser):
+    # parser.add_argument('config', help='Build config, e.g. BaseBaseMarkSweep')
+    parser.add_argument('--build', default=None, help=f"Build a selected GC before run")
+    parser.add_argument('--rvm-args', nargs='*', default=[f'-Xms{HEAP_SIZE}M', f'-Xmx{HEAP_SIZE}M'], help='Arguments passed to JikesRVM')
+    parser.add_argument('--dacapo', default=DEFAULT_DACAPO_BENCHMARK_SUITE, help=f"Dacapo benchmark suite to run, default '{DEFAULT_DACAPO_BENCHMARK_SUITE}'")
+    parser.add_argument('--dacapo-args', nargs='*', default=[], help='Arguments passed to Dacapo')
+    parser.add_argument('--iter', default=None, help=f"How much iterations will dacapo run the benchmark, default 1")
+    parser.add_argument('--log-dir', default='/Users/wenyu/mmtk-logs', help=f"Log directory")
+    parser.add_argument('-N', default=None, help=f"Execute [N] times, save outputs to `{LOGS_DIR}`")
+  def exec(self, options):
+    if options.build is not None:
+      assert build(options.build, 'ox', False)
+    dacapo_args = options.dacapo_args
+    if options.iter is not None:
+      dacapo_args.extend(['-n', str(options.iter)])
+    dacapo_jar = None
+    if DACAPO_VERSION == 2006 or options.dacapo == 'fop':
+      dacapo_jar = '/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar'
+    elif DACAPO_VERSION == 9.12:
+      dacapo_jar = '/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar'
+    else:
+      assert False, f"Unsupported DACAPO_VERSION: '{DACAPO_VERSION}'"
+    CWD = f'{REMOTE_HOME}/{OPENJDK_ROOT}'
+    ENV = 'LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/mmtk/target/release RUST_BACKTRACE=1'
+    JAVA = './build/linux-x86_64-normal-server-release/jdk/bin/java'
+    return shell([f'cd {CWD} && {ENV} {JAVA} -XX:+UseMMTk -jar {dacapo_jar} {options.dacapo}'], moma='ox', out=f'{LOGS_DIR}/openjdk.log')
+
+class BreakAll:
+  help = "Break all processes"
+  def config(self, parser):
+    pass
+  def exec(self, options):
+    return shell([f'pkill -u wenyuz'], moma='ox')
+
+class DumpLog:
+  help = "Break all processes"
+  def config(self, parser):
+    parser.add_argument('id', help='Log ID (Numeric)')
+  def exec(self, options):
+    CWD = f'{REMOTE_HOME}/{OPENJDK_ROOT}'
+    return shell([f'cat {CWD}/hs_err_pid{options.id}.log'], moma='ox', out=f'{LOGS_DIR}/openjdk-dump.log')
+
+
+MultiEntryMain(
+  build = Build(),
+  run = Run(),
+  breakall = BreakAll(),
+  log = DumpLog(),
+)

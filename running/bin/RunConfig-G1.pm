@@ -65,7 +65,7 @@ $remotedir = $rootdir;          # same directory structure on both machines
 # Misc variables
 #
 $standalonemode = 0;            # if 1, then stop daemons (including network!)
-$targetinvocations = 20;        # how many invocations of each benchmark?
+$targetinvocations = 100;        # how many invocations of each benchmark?
 $defaulttimingiteration = 2;    # which iteration of the benchmark to time
 $heaprange = 6;                 # controls x-axis range
 $maxinvocations = $targetinvocations;
@@ -172,11 +172,11 @@ $perfevents = "";
 	# "jdk1.7.0|s",
 	# "ibm-java-i386-60|s",
 	# "jrmc-1.6.0|s",
-	"FastAdaptiveRegional|s|wr|lt",
-	"FastAdaptiveLSRegional|s|wr|lt",
-	"FastAdaptiveConcRegional|s|wr|lt",
-	"FastAdaptiveG1|s|wr|lt|pt|ng",
-	"FastAdaptiveG1|s|wr|lt|pt|g",
+	# "FastAdaptiveRegional|s|wr|lt",
+	# "FastAdaptiveLSRegional|s|wr|lt",
+	# "FastAdaptiveConcRegional|s|wr|lt",
+	# "FastAdaptiveG1|s|wr|lt|pt|ng",
+	# "FastAdaptiveG1|s|wr|lt|pt|g",
 	# "FastAdaptiveG1NoBarrier|s|wr|p-1",
 	# "FastAdaptiveG1SATBCond|s|wr|p-1",
 	# "FastAdaptiveG1SATBUncond|s|wr|p-1",
@@ -200,8 +200,8 @@ $perfevents = "";
 	# "FastAdaptiveG1ZoneBarrierFastXORSlowG1|s|wr|p-1",
 	# "FastAdaptiveG1ZoneBarrierFastXORNoG1|s|wr|p-1",
 	# "production|s"
-	# "FastAdaptiveSemiSpace|s|wr",
-	# "FastAdaptiveRegional|s|wr",
+	"FastAdaptiveSemiSpace|s|wr",
+	"FastAdaptiveRegional|s|wr",
 );
 
 
@@ -209,7 +209,7 @@ $perfevents = "";
 %jvmroot = (
     "java-9-openjdk-amd64" => "/usr/lib/jvm/",
     "java-8-openjdk-amd64" => "/usr/lib/jvm/",
-	"java-11-openjdk-amd64" => "/usr/lib/jvm/"
+	"java-11-openjdk-amd64" => "/usr/lib/jvm/",
 	"ibm-java-i386-60" => "/opt",
 	"jdk1.7.0" => "/opt",
 	"jdk1.6.0" => "/opt",
