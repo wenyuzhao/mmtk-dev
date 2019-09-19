@@ -1,5 +1,5 @@
 {
-    "terminal.integrated.cwd": "./scripts",
+    // "terminal.integrated.cwd": "./scripts",
     "actionButtons": {
         "defaultColor": "white", // Can also use string color names.
         "loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
