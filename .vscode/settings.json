@@ -1,3 +1,28 @@
 {
-    "terminal.integrated.cwd": "./scripts"
+    "terminal.integrated.cwd": "./scripts",
+    "actionButtons": {
+        "defaultColor": "white", // Can also use string color names.
+        "loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
+        "reloadButton":"😂", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
+        "commands": [
+            {
+                "name": "[Build+Run]",
+                "color": "white",
+                "singleInstance": true,
+                "command": "make build run", // This is executed in the terminal.
+            },
+            {
+                "name": "[Build]",
+                "color": "white",
+                "singleInstance": true,
+                "command": "make build", // This is executed in the terminal.
+            },
+            {
+                "name": "[Run]",
+                "color": "white",
+                "singleInstance": true,
+                "command": "make run", // This is executed in the terminal.
+            },
+        ]
+    }
 }

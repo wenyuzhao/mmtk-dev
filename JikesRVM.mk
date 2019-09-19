@@ -1,19 +1,19 @@
 
 DACAPO ?= lusearch
-HEAP ?= 500M
-GC ?= production
+HEAP ?= 512M
+GC ?= RFastAdaptiveG1
 
-MACHINE ?= elk.moma
+MACHINE ?= localhost
 DACAPO_VERSION ?= 9.12
 N ?= 1
 # GC_THREADS = 1
 
 # Constants
 
-LOCAL_HOME = /home/wenyu
+LOCAL_HOME = /home/wenyuz
 REMOTE_HOME = /home/wenyuz
-LOG_DIR = ../logs
-JIKESRVM_ROOT = Projects/JikesRVM-Rust
+LOG_DIR = ./logs
+JIKESRVM_ROOT = JikesRVM-Rust
 
 # Derived Variables
 
@@ -26,9 +26,9 @@ RVM_ARGS = $(if $(GC_THREADS), -X:gc:threads=$(GC_THREADS)) -Xms$(HEAP) -Xmx$(HE
 
 build:
     ifdef NUKE
-		@cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(MACHINE) $(GC) -j /usr/lib/jvm/java-8-openjdk-amd64 --answer-yes --nuke
+		@cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(MACHINE) $(GC) -j /usr/lib/jvm/java-8-openjdk-amd64 --answer-yes --nuke --clear-cc --clear-cache
     else
-		@cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(MACHINE) $(GC) -j /usr/lib/jvm/java-8-openjdk-amd64 --answer-yes
+		@cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(MACHINE) $(GC) -j /usr/lib/jvm/java-8-openjdk-amd64 --answer-yes --quick
     endif
 
 run:
@@ -49,7 +49,7 @@ run-once-impl:
         endif
     endif
     ifeq ($(MACHINE), localhost)
-		@trap 'exit' INT && $(LOCAL_HOME)/$(RVM) $(RVM_ARGS) > $(LOG_DIR)/$(or $(log_id),001).log 2>&1; EXIT=$$? $(MAKE) print-result
+		@trap 'exit' INT && RUST_BACKTRACE=1 $(LOCAL_HOME)/$(RVM) $(RVM_ARGS) > $(LOG_DIR)/$(or $(log_id),001).log 2>&1; EXIT=$$? $(MAKE) print-result
     else
 		@trap 'exit' INT && $(SSH_PREFIX) $(REMOTE_HOME)/$(RVM) $(RVM_ARGS) > $(LOG_DIR)/$(or $(log_id),001).log 2>&1; EXIT=$$? make print-result
     endif
@@ -65,4 +65,4 @@ print-result:
     endif
 
 download:
-	scp $(MACHINE):$(FILE) ../$(notdir $(FILE))
+	scp $(MACHINE):$(FILE) ./$(notdir $(FILE))
