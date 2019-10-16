@@ -1,6 +1,12 @@
-TASK := JikesRVM
+# TASK := JikesRVM
+TASK := Benchmark
 
 include $(TASK).mk
+
+# Build probes
+probes:
+	@rsync -av ./running/ $(RUN_MACHINE):$(REMOTE_HOME)/running
+	$(SSH) "cd $(REMOTE_HOME)/running/probes && make probes.jar OPTION=-m32"
 
 # VSCode Settings:
 #

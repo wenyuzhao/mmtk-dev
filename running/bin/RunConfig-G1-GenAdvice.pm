@@ -65,14 +65,13 @@ $remotedir = $rootdir;          # same directory structure on both machines
 # Misc variables
 #
 $standalonemode = 0;            # if 1, then stop daemons (including network!)
-$targetinvocations = 100;        # how many invocations of each benchmark?
-$defaulttimingiteration = 1;    # which iteration of the benchmark to time
-$heaprange = 7;                 # controls x-axis range
+$targetinvocations = 1;        # how many invocations of each benchmark?
+$defaulttimingiteration = 3;    # which iteration of the benchmark to time
+$heaprange = 6;                 # controls x-axis range
 $maxinvocations = $targetinvocations;
 $arch = "_x86_64-linux";
 $genadvice = 0;
-$perfevents = "";
-# $perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS";
+$perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS";
 
 #
 # Runtime rvm flags
@@ -95,6 +94,7 @@ $perfevents = "";
 	# Use the replay compiler (formerly pseudoadaptive)
 	"r" => "-X:aos:enable_replay_compile=true -X:aos:cafi=\$advicedir/\$benchmark.ca -X:aos:dcfi=\$advicedir/\$benchmark.dc -X:vm:edgeCounterFile=\$advicedir/\$benchmark.ec",
 	# Use the warmup replay compiler
+	"genadvice" => "-X:aos:enable_advice_generation=true -X:base:profile_edge_counters=true -X:aos:final_report_level=2 -X:aos:cafo=\$advicedir-candidates/\$benchmark.ca -X:aos:dcfo=\$advicedir-candidates/\$benchmark.dc -X:base:profile_edge_counter_file=\$advicedir-candidates/\$benchmark.ec",
 	"wr" => "-Dprobes=Replay -X:aos:initial_compiler=base -X:aos:enable_bulk_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=\$advicedir/\$benchmark.ca -X:aos:dcfi=\$advicedir/\$benchmark.dc -X:vm:edgeCounterFile=\$advicedir/\$benchmark.ec",
 	"wrz" => "-Dprobes=Replay -X:aos:initial_compiler=base -X:aos:enable_warmup_replay_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=\$advicedir/\$benchmark.ca",
 	"wrc" => "-Dprobes=Replay -X:aos:initial_compiler=base -X:aos:enable_warmup_replay_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=\$advicedir/\$benchmark.ca -X:aos:dcfi=\$advicedir/\$benchmark.dc",
@@ -134,15 +134,11 @@ $perfevents = "";
     "sgc" => "-XX:+UseSerialGC",
     "rapl" => "-X:gc:useRAPL=true",
     "sjit" => "-Dprobes=StopJIT -Dprobe.stopjit.iteration=".($defaulttimingiteration-2),
-	"pt" => "-X:gc:maxGCPauseMillis=20",
-	"g" => "-X:gc:g1GenerationalMode=true",
-	"ng" => "-X:gc:g1GenerationalMode=false",
-	"lt" => "-X:gc:enableLatencyTimer=true",
 );
 # value options
 %valueopts = (
 	"i" => "iterations",
-	"p" => "-X:availableProcessors=",
+	"p" => "-X:processors=",
     "sp" => "-X:vm:forceOneCPU=", # single CPU of specified affinity
     # set a bounded nursery size (<int>M)
 	"n" => "-X:gc:boundedNursery=",
@@ -167,41 +163,13 @@ $perfevents = "";
     "perf" => "-X:gc:perfEvents=",
     "rn" => "-X:aos:enable_replay_compile=true -X:aos:cafi=\$advicedir/\$benchmark.\$replayid.ca -X:aos:dcfi=\$advicedir/\$benchmark.\$replayid.dc -X:vm:edgeCounterFile=\$advicedir/\$benchmark.\$replayid.ec",
 );
+
 # configurations
 @gcconfigs = (
 	# "jdk1.7.0|s",
 	# "ibm-java-i386-60|s",
 	# "jrmc-1.6.0|s",
-	# "FastAdaptiveRegional|s|wr|lt",
-	# "FastAdaptiveLSRegional|s|wr|lt",
-	# "FastAdaptiveConcRegional|s|wr|lt",
-	# "FastAdaptiveG1|s|wr|lt|pt|ng",
-	# "FastAdaptiveG1|s|wr|lt|pt|g",
-	# "FastAdaptiveG1NoBarrier|s|wr|p-1",
-	# "FastAdaptiveG1SATBCond|s|wr|p-1",
-	# "FastAdaptiveG1SATBUncond|s|wr|p-1",
-	# "FastAdaptiveG1RemSetBarrier|s|wr|p-1",
-	# "FastAdaptiveG1AllBarriers|s|wr|p-1",
-	# "FastAdaptiveG1|s|wr|pt|ng",
-	# "FastAdaptiveG1|s|wr|pt|g",
-	# "FastAdaptiveG10064K|s|wr|pt|ng",
-	# "FastAdaptiveG10128K|s|wr|pt|ng",
-	# "FastAdaptiveG10256K|s|wr|pt|ng",
-	# "FastAdaptiveG10512K|s|wr|pt|ng",
-	# "FastAdaptiveG11024K|s|wr|pt|ng",
-	# "FastAdaptiveG1ZoneBarrier0064K|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrier0128K|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrier0256K|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrier0512K|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrier1024K|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrierFastG1FastXOR|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrierFastG1SlowXOR|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrierFastXORFastG1|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrierFastXORSlowG1|s|wr|p-1",
-	# "FastAdaptiveG1ZoneBarrierFastXORNoG1|s|wr|p-1",
-	# "production|s"
-	"FastAdaptiveSemiSpace|s|wr",
-	"FastAdaptiveRegional|s|wr",
+	"production|s|genadvice"
 );
 
 
@@ -209,7 +177,6 @@ $perfevents = "";
 %jvmroot = (
     "java-9-openjdk-amd64" => "/usr/lib/jvm/",
     "java-8-openjdk-amd64" => "/usr/lib/jvm/",
-	"java-11-openjdk-amd64" => "/usr/lib/jvm/",
 	"ibm-java-i386-60" => "/opt",
 	"jdk1.7.0" => "/opt",
 	"jdk1.6.0" => "/opt",
@@ -224,13 +191,8 @@ $perfevents = "";
 @jksbach = ("avrora", "sunflow");
 @jksdacapo = (@dacapobms, @jksbach);
 @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
-@all_dacapo_bachmarks = (
-	"luindex", "bloat", "fop", "hsqldb", "lusearch", "pmd", "xalan",
-	"avrora", "h2", "jython", "sunflow", 
-	"antlr",
-	# "batik", "chart", "eclipse", "tomcat", "tradebeans", "tradesoap",
-);
-@benchmarks = (@all_dacapo_bachmarks, "pjbb2005", @jvm98bms);
+
+@benchmarks = (@jksdacapo, "pjbb2005", @jvm98bms);
 
 #
 # Variables below this line should be stable
@@ -244,41 +206,48 @@ $perfevents = "";
 
 # base heap size for each benchmark: minimum heap using MarkCompact 20060801
 %minheap = (
-	# values established for immix-asplos-2008 on 20070718 with FastAdaptiveMarkSweep, using 10-iteration replay compilation
-    "_201_compress" => 19 * 2,
-    "_202_jess" => 19 * 3,
-    "_205_raytrace" => 19 * 2,
-    "_209_db" => 19 * 3,
-    "_213_javac" => 33 * 2,
-    "_222_mpegaudio" => 13 * 2.5,
-    "_227_mtrt" => 20 * 2,
-    "_228_jack" => 17 * 2,
-    "antlr" => 24 * 3,
-    "bloat" => 100,
+# values established for immix-asplos-2008 on 20070718 with FastAdaptiveMarkSweep, using 10-iteration replay compilation
+    "_201_compress" => 19,
+    "_202_jess" => 19,
+    "_205_raytrace" => 19,
+    "_209_db" => 19,
+    "_213_javac" => 33,
+    "_222_mpegaudio" => 13,
+    "_227_mtrt" => 20,
+    "_228_jack" => 17,
+    "antlr" => 24,
+    "bloat" => 33,
     "chart" => 49,
     "eclipse" => 84,
-    "fop" => 40 * 1.4,
-    "hsqldb" => 256,
-    "jython" => 150,
-    "lusearch" => 80,
-    "pmd" => 180,
-    "xalan" => 131 * 1.57,
-    "avrora" => 100,
+    "fop" => 40,
+    "hsqldb" => 127,
+    "jython" => 40,
+    "luindex" => 22,
+    "lusearch" => 34,
+    "pmd" => 49,
+    "xalan" => 54,
+    "avrora" => 50,
     "batik" => 50,
+    "eclipse" => 80,
+    "fop" => 40,
     "h2" => 127,
-    "luindex" => 30 * 2.5,
-    "sunflow" => 54 * 1.27,
+    "jython" => 40,
+    "luindex" => 22,
+    "lusearch" => 34,
+    "pmd" => 49,
+    "sunflow" => 54,
     "tomcat" => 100,  
     "tradebeans" => 200,
     "tradesoap" => 200,
-    "pjbb2005" => 350,
-	# "pjbb2000" => 214,
+    "xalan" => 54,
+    "pjbb2005" => 200,
+	"pjbb2000" => 214,
 );
 
+# heap size used for -s (slice) option (in this example, 1.5 X min heap)
 %sliceHeapSize = ();
 foreach $bm (keys %minheap) {
-    $sliceHeapSize{$bm} = 300;
-	$minheap{$bm} = 300;#*(150);
+    $sliceHeapSize{$bm} = $minheap{$bm}*(1.5);
 }
 
 # Timeouts for each benchmark (in seconds, based on time for second iteration runs on Core Duo with MarkSweep
@@ -291,25 +260,32 @@ foreach $bm (keys %minheap) {
     "_222_mpegaudio" => 6,
     "_227_mtrt" => 9,
     "_228_jack" => 10,
-    "antlr" => 12,
-    "bloat" => 36,
-    "chart" => 24,
+    # "antlr" => 12,
+    # "bloat" => 36,
+    # "chart" => 24,
+    # "eclipse" => 130,
+    # "fop" => 6,
+    # "hsqldb" => 7,
+    # "jython" => 100,
+    # "luindex" => 30,
+    # "lusearch" => 20,
+    # "pmd" => 23,
+    # "xalan" => 20,
     "avrora" => 30,
     "batik" => 30,
-	"hsqldb" => 200,
     "eclipse" => 120,
     "fop" => 20,
     "h2" => 30,
-    "jython" => 60,
+    "jython" => 100,
     "luindex" => 30,
     "lusearch" => 30,
     "pmd" => 30,
-    "sunflow" => 100,
+    "sunflow" => 30,
     "tomcat" => 30,
     "tradebeans" => 120,
     "tradesoap" => 120,
     "xalan" => 30,
-    "pjbb2005" => 100,
+    "pjbb2005" => 20,
 	"pjbb2000" => 50,
 );
 $bmtimeoutmultiplier = 2;
@@ -342,14 +318,14 @@ $benchmarkroot = "/usr/share/benchmarks";
 	"antlr" => dacapo,
 	"bloat" => dacapo,
 	"chart" => dacapo,
-    # "eclipse" => dacapo,
+	# "eclipse" => dacapo,
 	"fop" => dacapo,
 	"hsqldb" => dacapo,
-    # "jython" => dacapo,
-    # "luindex" => dacapo,
-    # "lusearch" => dacapo,
-    # "pmd" => dacapo,
-    # "xalan" => dacapo,
+	# "jython" => dacapo,
+	# "luindex" => dacapo,
+	# "lusearch" => dacapo,
+	# "pmd" => dacapo,
+	# "xalan" => dacapo,
 	"pjbb2005" => pjbb2005,
 	"pjbb2000" => pjbb2000,
 );
@@ -366,8 +342,8 @@ $tmp = "/tmp/runbms-".$ENV{USER};
 
 %bmargs = (
 	"jvm98" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:. SpecApplication -i[#] [bm]",
-	"dacapo" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/dacapo/dacapo-2006-10-MR2.jar Harness -c MMTkCallback -n [#] [bm]",
-	"dacapobach" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/dacapo/dacapo-9.12-bach.jar Harness -c MMTkCallback -n [#] [bm]",
+	"dacapo" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n [#] [bm]",
+	"dacapobach" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/dacapo/dacapo-9.12-bach.jar Harness -c probe.DacapoBachCallback -n [#] [bm]",
 	"pjbb2005" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/pjbb2005/jbb.jar:$benchmarkroot/pjbb2005/check.jar spec.jbb.JBBmain -propfile $benchmarkroot/pjbb2005/SPECjbb-8x10000.props -c probe.PJBB2005Callback -n [#]",
 	"pjbb2000" => "-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -n [#] [mmtkstart]",
 );

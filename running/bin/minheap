@@ -1,8 +1,10 @@
 #!/bin/bash
 
-(b,path,s)=fileparse($0);
-rootdir=abs_path("$path../");
-suf=_ia32-linux
+# ($b,$path,$s)=fileparse($0);
+# $rootdir=abs_path("$path../");
+# $root=
+root=/home/wenyuz/running
+suf=_x86_64-linux
 build=$root/build/FastAdaptive$1$suf
 advicedir=$root/advice
 timeout=240;
@@ -12,8 +14,17 @@ timefile=/tmp/minheap.time.txt
 #for bm in _202_jess _201_compress _205_raytrace _209_db _213_javac _222_mpegaudio _227_mtrt _228_jack antlr bloat chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
 #for bm in chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
 #for bm in antlr bloat chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
-# for bm in pjbb2000 chart eclipse xalan; do
-for bm in _202_jess _201_compress _205_raytrace do
+# === SPECjvm98 ===
+for bm in _202_jess _201_compress _209_db _213_javac _222_mpegaudio _227_mtrt _228_jack; do
+# === PJBB2005 ===
+# for bm in pjbb2005; do
+# === Dacapo 2006 ===
+# for bm in antlr bloat eclipse fop hsqldb; do
+# === Dacapo 9.12 ===
+# for bm in avrora jython luindex lusearch pmd sunflow xalan; do
+# === Test ===
+# for bm in lusearch; do
+# === [CAN'T RUN] chart batik eclipse h2 tomcat tradebeans tradesoap _205_raytrace
 	m=M;
 	out=/tmp/minheap.$1.$bm.out
 	tmpout=/tmp/minheap.out
@@ -25,10 +36,10 @@ for bm in _202_jess _201_compress _205_raytrace do
 	jvm=`expr match "$bm" '_'`
 	if [ $jvm -eq 0 ]; then
 	    if [ "$bm" == "pjbb2000" ]; then
-		cd /tmp/pseudojbb2000
+			cd /tmp/pseudojbb2000
 	    else
 		cd /tmp
-	    fi
+	    	fi
 	    pass=1
 	else
 	    cd /usr/share/benchmarks/SPECjvm98
@@ -36,29 +47,29 @@ for bm in _202_jess _201_compress _205_raytrace do
 	fi
 	for d in 64 32 16 8 4 2 1 0; do
 		hs=$h$m
-		baseargs="-X:processors=1 -Xms$hs -X:gc:variableSizeHeap=false -X:vm:errorsFatal=true -X:gc:ignoreSystemGC=true"
+		baseargs="-X:availableProcessors=1 -Xms$hs -X:gc:variableSizeHeap=false -X:vm:errorsFatal=true -X:gc:ignoreSystemGC=true"
 		echo -n $h
 		if [ "$bm" == "eclipse" ]; then
 		    adviceargs=""
 		else
 		    if [ "$bm" == "pjbb2000" ]; then
-			adviceargs=""
+				adviceargs=""
 		    else
-			#adviceargs="-X:aos:enable_replay_compile=true -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc -X:vm:edgeCounterFile=$advicedir/$bm.ec"
-		    	adviceargs="-Dprobes=Replay,MMTk -X:aos:initial_compiler=base -X:aos:enable_warmup_replay_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc"
+				# adviceargs="-X:aos:enable_replay_compile=true -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc -X:vm:edgeCounterFile=$advicedir/$bm.ec"
+		    	adviceargs="-Dprobes=Replay,MMTk -X:aos:initial_compiler=base -X:aos:enable_bulk_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc"
 		    fi
 		fi
 		if [ $jvm -eq 0 ]; then
 		    if [ "$bm" == "pjbb2000" ]; then
-			bmargs="-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -c MMTkCallback -n 2"
+				bmargs="-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -c MMTkCallback -n 2"
 		    else
-			#bmargs="-jar /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar -c MMTkCallback -n 2 $bm"
-		    	bmargs="-cp $root/bin/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n 2 $bm"
-			#bmargs="-cp $root/bin/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness -c probe.DacapoBachCallback -n 2 $bm"
-                    fi
+				# bmargs="-jar /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar -c MMTkCallback -n 2 $bm"
+		    	bmargs="-cp $root/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n 2 $bm"
+				# bmargs="-cp $root/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness -c probe.DacapoBachCallback -n 2 $bm"
+            fi
 		else
 		    #bmargs="SpecApplication $bm _997_begin $bm _998_end"
-     		    bmargs=" -cp $root/bin/probes/probes.jar:. SpecApplication -i2 $bm"
+     		bmargs=" -cp $root/probes/probes.jar:. SpecApplication -i2 $bm"
 		fi
 		if [ "$bm" == "chart" ]; then
 		    xvfb="xvfb-run -a "
@@ -72,30 +83,30 @@ for bm in _202_jess _201_compress _205_raytrace do
 		    (time $xvfb $root/bin/timedrun -t $timeout $build/rvm $baseargs $adviceargs $bmargs >> $tmpout 2>&1) 2> $timefile
 		    ome=`egrep "(Allocation Failed|OutOfMemoryError|ran out of memory)" $tmpout`
 		    if [ "" == "$ome" ]; then
-			alm=`egrep "(alarm)" $tmpout`
-			if [ "$alm" == "" ]; then
-			    if [ "$bm" == "pjbb2000" ]; then
-				result=`egrep "(Finished|PASSED)" $tmpout | wc -l`
-			    else
-				result=`egrep "(Finished|PASSED)" $tmpout | grep $bm | wc -l`
-			    fi
-			else
-			    result=-2
-			fi
+				alm=`egrep "(alarm)" $tmpout`
+				if [ "$alm" == "" ]; then
+				    if [ "$bm" == "pjbb2000" ]; then
+						result=`egrep "(Finished|PASSED)" $tmpout | wc -l`
+				    else
+						result=`egrep "(Finished|PASSED)" $tmpout | grep $bm | wc -l`
+				    fi
+				else
+				    result=-2
+				fi
 		    else
-			result=-1
+				result=-1
 		    fi
 		    t=$(egrep "real" $timefile | cut -f 2 )
 #		    echo -n "($result $ome)"
 #		    echo $pass
 		    if [ "$result" == "$pass" ]; then
-			lasttime=$t;
-			mv -f $tmpout $out
-			break
+				lasttime=$t;
+				mv -f $tmpout $out
+				break
 		    else
-			if [ "$ome" != "" ]; then
-			    break
-			fi
+				if [ "$ome" != "" ]; then
+				    break
+				fi
 		    fi
 		done
 		if [ "$result" == "$pass" ]; then 
@@ -104,13 +115,13 @@ for bm in _202_jess _201_compress _205_raytrace do
 		    h=$(($h-$d));
 		else
 		    if [ "$ome" != "" ]; then
-			echo -n "m-";
+				echo -n "m-";
 		    else
-			if [ "$alm" != "" ]; then
-			    echo -n "a-";
-			else
-			    echo -n "x-";
-			fi
+				if [ "$alm" != "" ]; then
+				    echo -n "a-";
+				else
+				    echo -n "x-";
+				fi
 		    fi
 		    h=$(($h+$d));
 		fi;
