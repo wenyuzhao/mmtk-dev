@@ -65,13 +65,13 @@ $remotedir = $rootdir;          # same directory structure on both machines
 # Misc variables
 #
 $standalonemode = 0;            # if 1, then stop daemons (including network!)
-$targetinvocations = 1;        # how many invocations of each benchmark?
-$defaulttimingiteration = 3;    # which iteration of the benchmark to time
+$targetinvocations = 10;        # how many invocations of each benchmark?
+$defaulttimingiteration = 5;    # which iteration of the benchmark to time
 $heaprange = 6;                 # controls x-axis range
 $maxinvocations = $targetinvocations;
 $arch = "_x86_64-linux";
 $genadvice = 0;
-$perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS";
+$perfevents = "";
 
 #
 # Runtime rvm flags
@@ -94,7 +94,7 @@ $perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_H
 	# Use the replay compiler (formerly pseudoadaptive)
 	"r" => "-X:aos:enable_replay_compile=true -X:aos:cafi=\$advicedir/\$benchmark.ca -X:aos:dcfi=\$advicedir/\$benchmark.dc -X:vm:edgeCounterFile=\$advicedir/\$benchmark.ec",
 	# Use the warmup replay compiler
-	"genadvice" => "-X:aos:enable_advice_generation=true -X:base:profile_edge_counters=true -X:aos:final_report_level=2 -X:aos:cafo=\$advicedir-candidates/\$benchmark.ca -X:aos:dcfo=\$advicedir-candidates/\$benchmark.dc -X:base:profile_edge_counter_file=\$advicedir-candidates/\$benchmark.ec",
+	"genadvice" => "-X:aos:enable_advice_generation=true -X:base:profile_edge_counters=true -X:aos:final_report_level=2 -X:aos:cafo=\$advicedir-candidates/\$benchmark.\$replayid.ca -X:aos:dcfo=\$advicedir-candidates/\$benchmark.\$replayid.dc -X:base:profile_edge_counter_file=\$advicedir-candidates/\$benchmark.\$replayid.ec",
 	"wr" => "-Dprobes=Replay -X:aos:initial_compiler=base -X:aos:enable_bulk_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=\$advicedir/\$benchmark.ca -X:aos:dcfi=\$advicedir/\$benchmark.dc -X:vm:edgeCounterFile=\$advicedir/\$benchmark.ec",
 	"wrz" => "-Dprobes=Replay -X:aos:initial_compiler=base -X:aos:enable_warmup_replay_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=\$advicedir/\$benchmark.ca",
 	"wrc" => "-Dprobes=Replay -X:aos:initial_compiler=base -X:aos:enable_warmup_replay_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=\$advicedir/\$benchmark.ca -X:aos:dcfi=\$advicedir/\$benchmark.dc",
@@ -169,7 +169,7 @@ $perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_H
 	# "jdk1.7.0|s",
 	# "ibm-java-i386-60|s",
 	# "jrmc-1.6.0|s",
-	"production|s|genadvice"
+	"FastAdaptiveG1Baseline|s|genadvice"
 );
 
 
@@ -185,14 +185,14 @@ $perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_H
 );
 
 # set of benchmarks to be run
-@dacapobms = ("luindex", "bloat", "chart", "fop", "hsqldb", "lusearch", "pmd", "xalan");
-@dacapobachbms = ("avrora", "batik", "eclipse", "fop", "h2", "jython", "luindex", "lusearch", "pmd", "sunflow", "tomcat", "tradebeans", "tradesoap", "xalan");
-@jksdcapo = ("antlr", "bloat", "chart", "fop", "hsqldb", "jython", "luindex", "lusearch", "pmd", "xalan", "avrora",);
-@jksbach = ("avrora", "sunflow");
-@jksdacapo = (@dacapobms, @jksbach);
-@jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
+# @dacapobms = ("luindex", "bloat", "chart", "fop", "hsqldb", "lusearch", "pmd", "xalan");
+# @dacapobachbms = ("avrora", "batik", "eclipse", "fop", "h2", "jython", "luindex", "lusearch", "pmd", "sunflow", "tomcat", "tradebeans", "tradesoap", "xalan");
+# @jksdcapo = ("antlr", "bloat", "chart", "fop", "hsqldb", "jython", "luindex", "lusearch", "pmd", "xalan", "avrora",);
+# @jksbach = ("avrora", "sunflow");
+# @jksdacapo = (@dacapobms, @jksbach);
+# @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
 
-@benchmarks = (@jksdacapo, "pjbb2005", @jvm98bms);
+@benchmarks = ("lusearch-fix", "eclipse");
 
 #
 # Variables below this line should be stable
@@ -228,12 +228,13 @@ $perfevents = "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_H
     "xalan" => 54,
     "avrora" => 50,
     "batik" => 50,
-    "eclipse" => 80,
+    "eclipse" => 100,
     "fop" => 40,
     "h2" => 127,
     "jython" => 40,
     "luindex" => 22,
     "lusearch" => 34,
+    "lusearch-fix" => 34,
     "pmd" => 49,
     "sunflow" => 54,
     "tomcat" => 100,  
@@ -273,11 +274,12 @@ foreach $bm (keys %minheap) {
     # "xalan" => 20,
     "avrora" => 30,
     "batik" => 30,
-    "eclipse" => 120,
+    "eclipse" => 200,
     "fop" => 20,
     "h2" => 30,
     "jython" => 100,
     "luindex" => 30,
+    "luindex-fix" => 30,
     "lusearch" => 30,
     "pmd" => 30,
     "sunflow" => 30,
@@ -309,6 +311,7 @@ $benchmarkroot = "/usr/share/benchmarks";
 	"jython" => dacapobach,
 	"luindex" => dacapobach,
 	"lusearch" => dacapobach,
+	"lusearch-fix" => dacapobach,
 	"pmd" => dacapobach,
 	"sunflow" => dacapobach,
 	"tomcat" => dacapobach,
@@ -318,7 +321,7 @@ $benchmarkroot = "/usr/share/benchmarks";
 	"antlr" => dacapo,
 	"bloat" => dacapo,
 	"chart" => dacapo,
-	# "eclipse" => dacapo,
+	"eclipse" => dacapo,
 	"fop" => dacapo,
 	"hsqldb" => dacapo,
 	# "jython" => dacapo,
@@ -343,7 +346,7 @@ $tmp = "/tmp/runbms-".$ENV{USER};
 %bmargs = (
 	"jvm98" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:. SpecApplication -i[#] [bm]",
 	"dacapo" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n [#] [bm]",
-	"dacapobach" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/dacapo/dacapo-9.12-bach.jar Harness -c probe.DacapoBachCallback -n [#] [bm]",
+	"dacapobach" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:/home/wenyuz/dacapo-9.12-MR1-bach-java6.jar Harness -c MMTkCallback -n [#] [bm]",
 	"pjbb2005" => "-Dprobes=MMTk -cp $rootdir/../probes/probes.jar:$benchmarkroot/pjbb2005/jbb.jar:$benchmarkroot/pjbb2005/check.jar spec.jbb.JBBmain -propfile $benchmarkroot/pjbb2005/SPECjbb-8x10000.props -c probe.PJBB2005Callback -n [#]",
 	"pjbb2000" => "-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -n [#] [mmtkstart]",
 );

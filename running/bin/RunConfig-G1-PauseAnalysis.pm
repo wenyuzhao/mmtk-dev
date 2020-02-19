@@ -67,7 +67,7 @@ $remotedir = $rootdir;          # same directory structure on both machines
 $standalonemode = 0;            # if 1, then stop daemons (including network!)
 $targetinvocations = 20;        # how many invocations of each benchmark?
 $defaulttimingiteration = 2;    # which iteration of the benchmark to time
-$heaprange = 20;                 # controls x-axis range
+$heaprange = 21;                 # controls x-axis range
 $maxinvocations = $targetinvocations;
 $arch = "_x86_64-linux";
 $genadvice = 0;
@@ -133,8 +133,6 @@ $perfevents = "";
     "sgc" => "-XX:+UseSerialGC",
     "rapl" => "-X:gc:useRAPL=true",
     "sjit" => "-Dprobes=StopJIT -Dprobe.stopjit.iteration=".($defaulttimingiteration-2),
-    "xperf" => "-X:gc:perfEvents=PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_REFERENCES,PERF_COUNT_HW_CACHE_MISSES,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_L1I:MISS,PERF_COUNT_HW_CACHE_LL:MISS",
-	"xperf2" => "-X:gc:perfEvents=PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1I:MISS",
 );
 # value options
 %valueopts = (
@@ -167,25 +165,12 @@ $perfevents = "";
 
 # configurations
 @gcconfigs = (
-	# "FastAdaptiveG1Baseline|s|wr|p-1|xperf"
-	"FastAdaptiveG1BarrierBaseline|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierSATBCond|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierSATBUncond|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierCardMarking|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierXOR|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierAll|s|wr|p-1|xperf2"
-
-	# "FastAdaptiveG1BarrierBaseline|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR64K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR128K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR256K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR512K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR1M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR2M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR4M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR8M|s|wr|p-1"
-	# "FastAdaptiveG1BarrierXOR16M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR32M|s|wr|p-1"
+	"FastAdaptiveG1PauseAnalysis_STWMark_NoRemSet_NonGen|s|wr",
+	"FastAdaptiveG1PauseAnalysis_STWMark_RemSet_NonGen|s|wr",
+	"FastAdaptiveG1PauseAnalysis_STWMark_RemSet_Gen|s|wr",
+	"FastAdaptiveG1PauseAnalysis_ConcMark_NoRemSet_NonGen|s|wr",
+	"FastAdaptiveG1PauseAnalysis_ConcMark_RemSet_NonGen_Predictor|s|wr",
+	"FastAdaptiveG1PauseAnalysis_ConcMark_RemSet_Gen_Predictor|s|wr"
 );
 
 
@@ -202,13 +187,22 @@ $perfevents = "";
 
 # set of benchmarks to be run
 # @dacapobms = ("antlr", "bloat", "eclipse", "fop", "hsqldb");
-@dacapobms = ("antlr", "bloat", "fop", "eclipse");
-@dacapobachbms = ("avrora", "jython", "luindex", "lusearch-fix", "pmd", "sunflow", "xalan");
+@dacapobms = ("antlr", "bloat", "fop");
+@dacapobachbms = ("avrora", "jython", "luindex", "lusearch-fix", "eclipse", "pmd", "sunflow", "xalan");
 @jksdacapo = (@dacapobms, @dacapobachbms);
 @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
 
+# @dacapobms = ("luindex", "bloat", "chart", "fop", "hsqldb", "lusearch", "pmd", "xalan");
+# @dacapobachbms = ("avrora", "batik", "eclipse", "fop", "h2", "jython", "luindex", "lusearch", "pmd", "sunflow", "tomcat", "tradebeans", "tradesoap", "xalan");
+# @jksdcapo = ("antlr", "bloat", "chart", "fop", "hsqldb", "jython", "luindex", "lusearch", "pmd", "xalan", "avrora",);
+# @jksbach = ("avrora", "sunflow");
+# @jksdacapo = (@dacapobms, @jksbach);
+# @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
+
+
+
 @benchmarks = (@jksdacapo, "pjbb2005", @jvm98bms);
-# @benchmarks = ("antlr", "lusearch-fix", "eclipse");
+# @benchmarks = ("chart");
 
 #
 # Variables below this line should be stable
@@ -233,7 +227,7 @@ $perfevents = "";
     "_228_jack" => 53,
 	# DaCapo 9.12
 	"avrora" => 60,
-	"jython" => 177,
+	"jython" => 100,
 	"luindex" => 54,
 	"lusearch" => 75,
 	"lusearch-fix" => 75,
@@ -243,9 +237,11 @@ $perfevents = "";
 	# DaCapo 2006
     "antlr" => 62,
     "bloat" => 95,
-    "eclipse" => 183,
+    "eclipse" => 100,
     "fop" => 67,
     "hsqldb" => 168,
+
+	"chart" => 100,
 
     # "jython" => 40,
     # "luindex" => 22,
@@ -266,7 +262,8 @@ $perfevents = "";
 # heap size used for -s (slice) option (in this example, 1.5 X min heap)
 %sliceHeapSize = ();
 foreach $bm (keys %minheap) {
-    $sliceHeapSize{$bm} = $minheap{$bm}*(1.5);
+	$minheap{$bm} = 96;
+    $sliceHeapSize{$bm} = 96;
 }
 
 # Timeouts for each benchmark (in seconds, based on time for second iteration runs on Core Duo with MarkSweep
@@ -298,7 +295,7 @@ foreach $bm (keys %minheap) {
     "jython" => 180,
     "luindex" => 60,
     "lusearch" => 60,
-    "lusearch-fix" => 60,
+	"lusearch-fix" => 60,
     "pmd" => 60,
     "sunflow" => 60,
     "tomcat" => 30,
@@ -329,6 +326,7 @@ $benchmarkroot = "/usr/share/benchmarks";
 	"pmd" => dacapobach,
 	"sunflow" => dacapobach,
 	"xalan" => dacapobach,
+	"chart" => dacapo,
 	
 	"antlr" => dacapo,
 	"bloat" => dacapo,

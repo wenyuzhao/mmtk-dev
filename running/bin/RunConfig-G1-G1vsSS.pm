@@ -133,8 +133,7 @@ $perfevents = "";
     "sgc" => "-XX:+UseSerialGC",
     "rapl" => "-X:gc:useRAPL=true",
     "sjit" => "-Dprobes=StopJIT -Dprobe.stopjit.iteration=".($defaulttimingiteration-2),
-    "xperf" => "-X:gc:perfEvents=PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_REFERENCES,PERF_COUNT_HW_CACHE_MISSES,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_L1I:MISS,PERF_COUNT_HW_CACHE_LL:MISS",
-	"xperf2" => "-X:gc:perfEvents=PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1I:MISS",
+	"xperf" => "-X:gc:perfEvents=PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_REFERENCES,PERF_COUNT_HW_CACHE_MISSES,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_L1I:MISS,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_ITLB:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS",
 );
 # value options
 %valueopts = (
@@ -167,25 +166,8 @@ $perfevents = "";
 
 # configurations
 @gcconfigs = (
-	# "FastAdaptiveG1Baseline|s|wr|p-1|xperf"
-	"FastAdaptiveG1BarrierBaseline|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierSATBCond|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierSATBUncond|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierCardMarking|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierXOR|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierAll|s|wr|p-1|xperf2"
-
-	# "FastAdaptiveG1BarrierBaseline|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR64K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR128K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR256K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR512K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR1M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR2M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR4M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR8M|s|wr|p-1"
-	# "FastAdaptiveG1BarrierXOR16M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR32M|s|wr|p-1"
+	"FastAdaptiveG1Baseline|s|wr|xperf",
+	"FastAdaptiveSemiSpace2|s|wr|xperf"
 );
 
 
@@ -202,13 +184,13 @@ $perfevents = "";
 
 # set of benchmarks to be run
 # @dacapobms = ("antlr", "bloat", "eclipse", "fop", "hsqldb");
-@dacapobms = ("antlr", "bloat", "fop", "eclipse");
-@dacapobachbms = ("avrora", "jython", "luindex", "lusearch-fix", "pmd", "sunflow", "xalan");
+@dacapobms = ("antlr", "bloat", "fop");
+@dacapobachbms = ("avrora", "jython", "luindex", "lusearch-fix", "eclipse", "pmd", "sunflow", "xalan");
 @jksdacapo = (@dacapobms, @dacapobachbms);
 @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
 
 @benchmarks = (@jksdacapo, "pjbb2005", @jvm98bms);
-# @benchmarks = ("antlr", "lusearch-fix", "eclipse");
+# @benchmarks = ("lusearch");
 
 #
 # Variables below this line should be stable
@@ -298,7 +280,7 @@ foreach $bm (keys %minheap) {
     "jython" => 180,
     "luindex" => 60,
     "lusearch" => 60,
-    "lusearch-fix" => 60,
+	"lusearch-fix" => 60,
     "pmd" => 60,
     "sunflow" => 60,
     "tomcat" => 30,

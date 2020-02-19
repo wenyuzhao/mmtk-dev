@@ -64,9 +64,9 @@ $remotedir = $rootdir;          # same directory structure on both machines
 #
 # Misc variables
 #
-$standalonemode = 0;            # if 1, then stop daemons (including network!)
-$targetinvocations = 20;        # how many invocations of each benchmark?
-$defaulttimingiteration = 2;    # which iteration of the benchmark to time
+$standalonemode = 0;             # if 1, then stop daemons (including network!)
+$targetinvocations = 10;         # how many invocations of each benchmark?
+$defaulttimingiteration = 2;     # which iteration of the benchmark to time
 $heaprange = 20;                 # controls x-axis range
 $maxinvocations = $targetinvocations;
 $arch = "_x86_64-linux";
@@ -133,8 +133,6 @@ $perfevents = "";
     "sgc" => "-XX:+UseSerialGC",
     "rapl" => "-X:gc:useRAPL=true",
     "sjit" => "-Dprobes=StopJIT -Dprobe.stopjit.iteration=".($defaulttimingiteration-2),
-    "xperf" => "-X:gc:perfEvents=PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_REFERENCES,PERF_COUNT_HW_CACHE_MISSES,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_L1I:MISS,PERF_COUNT_HW_CACHE_LL:MISS",
-	"xperf2" => "-X:gc:perfEvents=PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1I:MISS",
 );
 # value options
 %valueopts = (
@@ -167,25 +165,22 @@ $perfevents = "";
 
 # configurations
 @gcconfigs = (
-	# "FastAdaptiveG1Baseline|s|wr|p-1|xperf"
-	"FastAdaptiveG1BarrierBaseline|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierSATBCond|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierSATBUncond|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierCardMarking|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierXOR|s|wr|p-1|xperf2",
-	"FastAdaptiveG1BarrierAll|s|wr|p-1|xperf2"
+	# "FastAdaptiveG1RemSetNonGen|s|wr",
+	# "FastAdaptiveG1RemSetGen10|s|wr",
+	# "FastAdaptiveG1RemSetGen20|s|wr",
+	# "FastAdaptiveG1RemSetGen30|s|w1"
 
-	# "FastAdaptiveG1BarrierBaseline|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR64K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR128K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR256K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR512K|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR1M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR2M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR4M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR8M|s|wr|p-1"
-	# "FastAdaptiveG1BarrierXOR16M|s|wr|p-1",
-	# "FastAdaptiveG1BarrierXOR32M|s|wr|p-1"
+	# "FastAdaptiveG1RemSetNonGen64K|s|wr",
+	# "FastAdaptiveG1RemSetNonGen128K|s|wr",
+	# "FastAdaptiveG1RemSetNonGen256K|s|wr",
+	# "FastAdaptiveG1RemSetNonGen512K|s|wr",
+	# "FastAdaptiveG1RemSetNonGen1M|s|wr",
+	# "FastAdaptiveG1RemSetNonGen2M|s|wr",
+	# "FastAdaptiveG1RemSetNonGen4M|s|wr",
+	# "FastAdaptiveG1RemSetNonGen8M|s|wr"
+
+	# "FastAdaptiveG1RemSetConcMarkNonGen|s|wr"
+	"FastAdaptiveG1RemSetNonGen1M|s|wr"
 );
 
 
@@ -202,13 +197,13 @@ $perfevents = "";
 
 # set of benchmarks to be run
 # @dacapobms = ("antlr", "bloat", "eclipse", "fop", "hsqldb");
-@dacapobms = ("antlr", "bloat", "fop", "eclipse");
-@dacapobachbms = ("avrora", "jython", "luindex", "lusearch-fix", "pmd", "sunflow", "xalan");
+@dacapobms = ("antlr", "bloat", "fop");
+@dacapobachbms = ("avrora", "jython", "luindex", "lusearch-fix", "eclipse", "pmd", "sunflow", "xalan");
 @jksdacapo = (@dacapobms, @dacapobachbms);
 @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
 
-@benchmarks = (@jksdacapo, "pjbb2005", @jvm98bms);
-# @benchmarks = ("antlr", "lusearch-fix", "eclipse");
+# @benchmarks = (@jksdacapo, "pjbb2005", @jvm98bms);
+@benchmarks = ("eclipse", "jython", "_213_javac", "bloat", "lusearch-fix", "sunflow", "xalan");
 
 #
 # Variables below this line should be stable
@@ -243,7 +238,7 @@ $perfevents = "";
 	# DaCapo 2006
     "antlr" => 62,
     "bloat" => 95,
-    "eclipse" => 183,
+    "eclipse" => 100,
     "fop" => 67,
     "hsqldb" => 168,
 
@@ -298,7 +293,7 @@ foreach $bm (keys %minheap) {
     "jython" => 180,
     "luindex" => 60,
     "lusearch" => 60,
-    "lusearch-fix" => 60,
+	"lusearch-fix" => 60,
     "pmd" => 60,
     "sunflow" => 60,
     "tomcat" => 30,

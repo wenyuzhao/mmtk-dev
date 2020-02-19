@@ -15,7 +15,7 @@ timefile=/tmp/minheap.time.txt
 #for bm in chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
 #for bm in antlr bloat chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
 # === SPECjvm98 ===
-for bm in _202_jess _201_compress _209_db _213_javac _222_mpegaudio _227_mtrt _228_jack; do
+# for bm in _202_jess _201_compress _209_db _213_javac _222_mpegaudio _227_mtrt _228_jack; do
 # === PJBB2005 ===
 # for bm in pjbb2005; do
 # === Dacapo 2006 ===
@@ -23,7 +23,7 @@ for bm in _202_jess _201_compress _209_db _213_javac _222_mpegaudio _227_mtrt _2
 # === Dacapo 9.12 ===
 # for bm in avrora jython luindex lusearch pmd sunflow xalan; do
 # === Test ===
-# for bm in lusearch; do
+for bm in lusearch; do
 # === [CAN'T RUN] chart batik eclipse h2 tomcat tradebeans tradesoap _205_raytrace
 	m=M;
 	out=/tmp/minheap.$1.$bm.out
