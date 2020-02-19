@@ -1,12 +1,16 @@
 
-RUN_MACHINE = bear.moma
+RUN_MACHINE = mink.moma
 REMOTE_HOME = /home/wenyuz
-RUN_CONFIG = RunConfig-G1-BarrierAnalysis.pm
+# RUN_CONFIG = RunConfig-G1-BarrierAnalysis.pm
+RUN_CONFIG = RunConfig-G1-RemSetAnalysis.pm
+# RUN_CONFIG = RunConfig-G1-PauseAnalysis.pm
 
-BUILD_BASE_DIR = $(REMOTE_HOME)/Documents/JikesRVM-G1/dist
+BUILD_BASE_DIR = $(REMOTE_HOME)/Projects/JikesRVM-G1/dist
 BUILDS = G1BarrierBaseline
 
-HEAP_ARGS = 8 3
+HEAP_ARGS = 8 1 3 5 7
+# HEAP_ARGS = 8 3
+# HEAP_ARGS = 8 1
 
 SSH = ssh $(RUN_MACHINE) -t
 
@@ -18,6 +22,7 @@ sync:
 	@rsync -av ./running/ $(RUN_MACHINE):$(REMOTE_HOME)/running
 	@$(SSH) cp $(REMOTE_HOME)/running/bin/$(RUN_CONFIG) $(REMOTE_HOME)/running/bin/RunConfig.pm
 	@$(SSH) rsync -av $(BUILD_BASE_DIR)/ $(REMOTE_HOME)/running/build
+	# @$(SSH) rsync -av $(REMOTE_HOME)/Projects/JikesRVM/dist/ $(REMOTE_HOME)/running/build
 	$(SSH) "cd $(REMOTE_HOME)/running/probes && make probes.jar OPTION=-m32"
 
 run-benchmark: sync

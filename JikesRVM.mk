@@ -1,13 +1,13 @@
 # dacapo-9.12 / dacapo-2006 / pjbb2005
 BENCH_SUITE = dacapo-9.12
-BENCH ?= lusearch
+BENCH ?= lusearch-fix
 HEAP ?= 512M
-# GC ?= FastAdaptiveSemiSpace
-GC ?= FastAdaptiveG1BarrierBaseline
+# GC ?= FastAdaptiveSemiSpace2
+GC ?= FastAdaptiveG1Baseline
 # GC ?= FullAdaptiveG1
 
 BUILD_MACHINE ?= elk.moma
-RUN_MACHINE ?= bear.moma
+RUN_MACHINE ?= ermine.moma
 N ?= 1
 # GC_THREADS = 1
 
@@ -16,7 +16,7 @@ N ?= 1
 LOCAL_HOME = /home/wenyu
 REMOTE_HOME = /home/wenyuz
 LOG_DIR = ./logs
-JIKESRVM_ROOT = Documents/JikesRVM-G1
+JIKESRVM_ROOT = Projects/JikesRVM-G1
 
 # Derived Variables
 
@@ -29,7 +29,8 @@ else
     ifeq ($(BENCH_SUITE), dacapo-2006)
         BENCH_CLASSPATH = $(BM_ROOT)/dacapo/dacapo-2006-10-MR2.jar
     else
-        BENCH_CLASSPATH = $(BM_ROOT)/dacapo/dacapo-9.12-bach.jar
+        # BENCH_CLASSPATH = $(BM_ROOT)/dacapo/dacapo-9.12-bach.jar
+        BENCH_CLASSPATH = $(REMOTE_HOME)/dacapo-9.12-MR1-bach-java6.jar
     endif
     BENCH_ENTRY = Harness
     BENCH_ARGS = -c MMTkCallback $(BENCH)
@@ -38,17 +39,18 @@ endif
 SSH_PREFIX = ssh $(RUN_MACHINE) -t RUST_BACKTRACE=1
 RVM = $(JIKESRVM_ROOT)/dist/$(GC)_x86_64-linux/rvm
 PROBES_JAR = $(REMOTE_HOME)/running/probes/probes.jar
-RVM_ARGS = $(if $(GC_THREADS), -X:gc:threads=$(GC_THREADS)) -Xms$(HEAP) -Xmx$(HEAP) -X:gc:variableSizeHeap=false -server -cp $(PROBES_JAR):$(BENCH_CLASSPATH) $(BENCH_ENTRY) $(BENCH_ARGS)
+PERF = -X:gc:perfEvents=PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_REFERENCES,PERF_COUNT_HW_CACHE_MISSES,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_L1I:MISS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_ITLB:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS
+RVM_ARGS = $(if $(GC_THREADS), -X:gc:threads=$(GC_THREADS)) -Xms$(HEAP) -Xmx$(HEAP) -X:gc:variableSizeHeap=false $(PERF) -server -cp $(PROBES_JAR):$(BENCH_CLASSPATH) $(BENCH_ENTRY) $(BENCH_ARGS)
 
 BUILD_COPY = $(if $(RUN_MACHINE), -c $(RUN_MACHINE))
 BUILD_HOST_JDK = -j /usr/lib/jvm/java-8-openjdk-amd64
-BUILDIT_COMMON_ARGS = $(BUILD_MACHINE) $(GC) $(BUILD_COPY) $(BUILD_HOST_JDK) --answer-yes
+BUILDIT_COMMON_ARGS = $(BUILD_MACHINE) $(GC) $(BUILD_COPY) $(BUILD_HOST_JDK) --answer-yes --with-perfevent
 
 build:
     ifdef NUKE
 		@cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(BUILDIT_COMMON_ARGS) --nuke --clear-cc --clear-cache
     else
-		@cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(BUILDIT_COMMON_ARGS) --quick
+		cd $(LOCAL_HOME)/$(JIKESRVM_ROOT) && ./bin/buildit $(BUILDIT_COMMON_ARGS) --quick --with-perfevent
     endif
 
 run:
