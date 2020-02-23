@@ -16,6 +16,7 @@ def die(message: str = None):
     if message is not None:
         error_messages.append(f'Reason: {message}')
     max_len = max(len(s) for s in error_messages)
+    max_len = 80 if max_len > 80 else max_len
     print(file=sys.stderr)
     print('-' * max_len, file=sys.stderr)
     for s in error_messages: print(s, file=sys.stderr)

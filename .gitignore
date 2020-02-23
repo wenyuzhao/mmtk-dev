@@ -6,3 +6,4 @@ running/bin/RunConfig.pm
 pause-time-results
 scripts/scratch
 scratch
+hs_*.log
