@@ -26,9 +26,9 @@ def build(gc=DEFAULT_GC, config=False):
 def run(gc=DEFAULT_GC, threads=None, n=None):
     java = f'{OPENJDK}/build/linux-x86_64-normal-server-release/jdk/bin/java'
     heap = ''#f'-Xms{HEAP} -Xmx{HEAP}'
-    bm_classpath, bm_entry = dacapo.get_config(BENCH_SUITE, BENCH)
-    command = f'{ENV} {java} -XX:+UseMMTk {heap} -server -cp {bm_classpath} {bm_entry}'
-    task.exec(command, machine=MACHINE)
+    bm_classpath, bm_entry = dacapo.get_config(BENCH_SUITE, BENCH, probes=False)
+    command = f'{ENV} {java} -XX:+UseMMTk -XX:-UseCompressedOops {heap} -server -cp {bm_classpath} {bm_entry}'
+    task.exec(command, machine=MACHINE, cwd=task.LOG_DIR)
 
 
 assert MACHINE == 'localhost'
