@@ -4,13 +4,13 @@ import dacapo
 
 # Build/Run Config
 HEAP = '512M'
-DEFAULT_GC = 'BaseBaseSemiSpace'
+DEFAULT_GC = 'RFastAdaptiveSemiSpace'
 BENCH = 'lusearch'
 BENCH_SUITE = 'dacapo-9.12'
 
 # Project Config
 MACHINE = 'elk.moma'
-JIKESRVM = '~/Projects/JikesRVM-Rust'
+JIKESRVM = '~/JikesRVM-Rust'
 
 
 
