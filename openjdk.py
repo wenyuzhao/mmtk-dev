@@ -1,33 +1,47 @@
 #!/usr/bin/env python3
 import task_runner as task
 import dacapo
+import os
 
 # Build/Run Config
-HEAP = '512M'
+HEAP = '1G'
 DEFAULT_GC = 'semispace'
 BENCH = 'lusearch'
 BENCH_SUITE = 'dacapo-9.12'
+DEBUG_LEVEL = 'fastdebug' # release, fastdebug, slowdebug, optimized
 
 # Project Config
 MACHINE = 'localhost'
 OPENJDK = '~/OpenJDK-Rust'
-ENV = f'RUST_BACKTRACE=1 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{OPENJDK}/mmtk/target/release'
-
-
+RUST_PROFILE = 'release' if DEBUG_LEVEL == 'release' else 'debug'
+ENV = f'RUST_BACKTRACE=1 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{OPENJDK}/mmtk/target/{RUST_PROFILE}'
+JAVA = f'{OPENJDK}/build/linux-x86_64-normal-server-{DEBUG_LEVEL}/jdk/bin/java'
+_LAST_DEBUG_LEVEL = '__pycache__/openjdk-last-debug-level'
 
 @task.register
 def build(gc=DEFAULT_GC, config=False):
-    if config:
-        task.exec(f'bash configure --disable-warnings-as-errors')
-    task.exec(f'cargo +nightly build --no-default-features --features openjdk,{gc}', cwd=f'{OPENJDK}/mmtk')
-    task.exec(f'{ENV} make', cwd=OPENJDK)
+    should_auto_config = False
+    if os.path.exists(_LAST_DEBUG_LEVEL):
+        with open(_LAST_DEBUG_LEVEL, 'r') as f:
+            should_auto_config = f.read().strip() != DEBUG_LEVEL
+    else:
+        should_auto_config = True
+    if config or should_auto_config:
+        task.exec(f'bash configure --disable-warnings-as-errors --with-debug-level={DEBUG_LEVEL}', cwd=OPENJDK)
+        with open(_LAST_DEBUG_LEVEL, 'w') as f:
+            f.write(DEBUG_LEVEL)
+    release_flag = '--release' if DEBUG_LEVEL == 'release' else ''
+    task.exec(f'cargo +nightly build --no-default-features --features openjdk,{gc} {release_flag}', cwd=f'{OPENJDK}/mmtk')
+    task.exec(f'CONF=linux-x86_64-normal-server-{DEBUG_LEVEL} make', cwd=OPENJDK)
 
 @task.register
-def run(gc=DEFAULT_GC, threads=None, n=None):
-    java = f'{OPENJDK}/build/linux-x86_64-normal-server-release/jdk/bin/java'
-    heap = ''#f'-Xms{HEAP} -Xmx{HEAP}'
+def run(gc=DEFAULT_GC, threads=None, n=None, no_mmtk=False):
+    heap = f'-Xms{HEAP} -Xmx{HEAP}'
     bm_classpath, bm_entry = dacapo.get_config(BENCH_SUITE, BENCH, probes=False)
-    command = f'{ENV} {java} -XX:+UseMMTk -XX:-UseCompressedOops {heap} -server -cp {bm_classpath} {bm_entry}'
+    if no_mmtk:
+        command = f'{ENV} {JAVA} -XX:-UseCompressedOops {heap} -server -cp {bm_classpath} {bm_entry}'
+    else:
+        command = f'{ENV} {JAVA} -XX:+UseMMTk -XX:-UseCompressedOops {heap} -server -cp {bm_classpath} {bm_entry}'
     task.exec(command, machine=MACHINE, cwd=task.LOG_DIR)
 
 

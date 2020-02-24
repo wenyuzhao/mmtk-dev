@@ -67,11 +67,14 @@ def run_task(t: str):
     parent_task = CURRENT_TASK
     CURRENT_TASK = REGISTERED_TASKS[t]
     # Check all positional arguments are specified
+    kwargs = {}
     for n, p in signature(REGISTERED_TASKS[t]).parameters.items():
         if (p.kind == Parameter.POSITIONAL_OR_KEYWORD or p.kind == Parameter.KEYWORD_ONLY) and p.default == Parameter.empty:
             check(n in KW_ARGS, f'Flag `{n}` for task `{t} is missing`')
+        if n in KW_ARGS:
+            kwargs[n] = KW_ARGS[n]
     # Execute this task
-    REGISTERED_TASKS[t](**KW_ARGS)
+    REGISTERED_TASKS[t](**kwargs)
     CURRENT_TASK = parent_task
 
 def run():

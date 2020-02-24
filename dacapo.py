@@ -13,7 +13,7 @@ def get_config(suite, bm, probes=True):
         )
     if suite == 'dacapo-9.12':
         return (
-            f'{PROBES_JAR}:{BENCH_ROOT}/dacapo/dacapo-2006-10-MR2.jar',
+            f'{PROBES_JAR}:{BENCH_ROOT}/dacapo/dacapo-9.12-bach.jar',
             f'Harness{cb} {bm}'
         )
     task.die(f'Unknown benchmark suite `{suite}`')
