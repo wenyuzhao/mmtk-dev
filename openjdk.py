@@ -13,8 +13,7 @@ DEBUG_LEVEL = 'release' # release, fastdebug, slowdebug, optimized
 # Project Config
 MACHINE = 'localhost'
 OPENJDK = '~/OpenJDK-Rust'
-RUST_PROFILE = 'release' if DEBUG_LEVEL == 'release' else 'debug'
-ENV = f'RUST_BACKTRACE=1 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:{OPENJDK}/mmtk/vmbindings/openjdk/target/{RUST_PROFILE}'
+ENV = f'RUST_BACKTRACE=1'
 JAVA = f'{OPENJDK}/build/linux-x86_64-normal-server-{DEBUG_LEVEL}/jdk/bin/java'
 
 
@@ -22,10 +21,8 @@ JAVA = f'{OPENJDK}/build/linux-x86_64-normal-server-{DEBUG_LEVEL}/jdk/bin/java'
 @task.register
 def build(gc=DEFAULT_GC, config=False):
     if config:
-        task.exec(f'bash configure --disable-warnings-as-errors --with-debug-level={DEBUG_LEVEL}', cwd=OPENJDK)
-    release_flag = '--release' if DEBUG_LEVEL == 'release' else ''
-    task.exec(f'cargo +nightly build --manifest-path vmbindings/openjdk/Cargo.toml --no-default-features --features {gc} {release_flag}', cwd=f'{OPENJDK}/mmtk')
-    task.exec(f'{ENV} CONF=linux-x86_64-normal-server-{DEBUG_LEVEL} make', cwd=OPENJDK)
+        task.exec(f'sh configure --disable-warnings-as-errors --with-debug-level={DEBUG_LEVEL}', cwd=OPENJDK)
+    task.exec(f'{ENV} make CONF=linux-x86_64-normal-server-{DEBUG_LEVEL}', cwd=OPENJDK)
 
 @task.register
 def run(gc=DEFAULT_GC, threads=None, n=None, no_mmtk=False, log=False):
