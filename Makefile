@@ -1,5 +1,6 @@
 # TASK := JikesRVM
-TASK := Benchmark
+# TASK := JikesRVM.local
+TASK := OpenJDK
 
 include $(TASK).mk
 

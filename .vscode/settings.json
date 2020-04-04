@@ -24,5 +24,11 @@
                 "command": "make run", // This is executed in the terminal.
             },
         ]
+    },
+    "[makefile]": {
+      "editor.detectIndentation": false,
+      "editor.insertSpaces": false,
+      "editor.tabSize": 4,
+      "editor.renderWhitespace": "boundary",
     }
 }
