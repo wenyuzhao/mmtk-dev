@@ -4,7 +4,8 @@ import sys
 from inspect import signature, Parameter
 
 
-LOG_DIR = os.path.dirname(os.path.realpath(__file__)) + '/logs'
+DEV_DIR = os.path.dirname(os.path.realpath(__file__))
+LOG_DIR = DEV_DIR + '/logs'
 PIPE = subprocess.PIPE
 
 def die(message: str = None):
@@ -16,6 +17,7 @@ def die(message: str = None):
     if message is not None:
         error_messages.append(f'Reason: {message}')
     max_len = max(len(s) for s in error_messages)
+    max_len = 80 if max_len > 80 else max_len
     print(file=sys.stderr)
     print('-' * max_len, file=sys.stderr)
     for s in error_messages: print(s, file=sys.stderr)
@@ -66,11 +68,14 @@ def run_task(t: str):
     parent_task = CURRENT_TASK
     CURRENT_TASK = REGISTERED_TASKS[t]
     # Check all positional arguments are specified
+    kwargs = {}
     for n, p in signature(REGISTERED_TASKS[t]).parameters.items():
         if (p.kind == Parameter.POSITIONAL_OR_KEYWORD or p.kind == Parameter.KEYWORD_ONLY) and p.default == Parameter.empty:
             check(n in KW_ARGS, f'Flag `{n}` for task `{t} is missing`')
+        if n in KW_ARGS:
+            kwargs[n] = KW_ARGS[n]
     # Execute this task
-    REGISTERED_TASKS[t](**KW_ARGS)
+    REGISTERED_TASKS[t](**kwargs)
     CURRENT_TASK = parent_task
 
 def run():
