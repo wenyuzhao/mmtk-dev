@@ -4,7 +4,8 @@ import sys
 from inspect import signature, Parameter
 
 
-LOG_DIR = os.path.dirname(os.path.realpath(__file__)) + '/logs'
+DEV_DIR = os.path.dirname(os.path.realpath(__file__))
+LOG_DIR = DEV_DIR + '/logs'
 PIPE = subprocess.PIPE
 
 def die(message: str = None):
