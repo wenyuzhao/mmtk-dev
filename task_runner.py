@@ -4,7 +4,8 @@ import sys
 from inspect import signature, Parameter
 
 
-LOG_DIR = os.path.dirname(os.path.realpath(__file__)) + '/logs'
+DEV_DIR = os.path.dirname(os.path.realpath(__file__))
+LOG_DIR = DEV_DIR + '/logs'
 PIPE = subprocess.PIPE
 
 def die(message: str = None):
@@ -79,7 +80,7 @@ def run_task(t: str):
 
 def run():
     # Get all tasks
-    tasks = [ arg for arg in sys.argv[1:] if not arg.startswith('--') ]
+    tasks = [ arg for arg in sys.argv[1:] if not arg.startswith('--') and not arg.startswith('!') and not arg.startswith('+') ]
     for t in tasks:
         check(t in REGISTERED_TASKS, f'Unknown task `{t}`')
     # Build kwargs
@@ -87,6 +88,10 @@ def run():
         if arg.startswith('--'):
             op = arg[2:].split('=')
             KW_ARGS[op[0]] = op[1] if len(op) == 2 else True
+        if arg.startswith('!'):
+            KW_ARGS[arg[1:]] = False
+        if arg.startswith('+'):
+            KW_ARGS[arg[1:]] = True
     # Run tasks in order
     for t in tasks:
         run_task(t)
