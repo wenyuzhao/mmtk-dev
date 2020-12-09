@@ -1,0 +1,7 @@
+build/
+results/
+scratch/
+tmp/
+bin/RunConfig.pm
+*.log
+/log
