@@ -1,8 +1,0 @@
-results
-logs
-logs/*.log
-__pycache__
-running/bin/RunConfig.pm
-pause-time-results
-scripts/scratch
-scratch
