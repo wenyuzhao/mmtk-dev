@@ -3,7 +3,7 @@
 # ($b,$path,$s) = fileparse($0);
 # $rootdir = abs_path("$path../");
 # suf=_ia32-linux
-root=/home/wenyuz/MMTk-OpenJDK-Measurements
+root=.
 build=$root/build/$1
 advicedir=$root/advice
 timeout=240;
@@ -103,7 +103,7 @@ for bm in _205_raytrace; do
 			fi
 		    fi
 		done
-		if [ "$result" == "$pass" ]; then 
+		if [ "$result" == "$pass" ]; then
 		    echo -n "o-";
 		    min=$h;
 		    h=$(($h-$d));

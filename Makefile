@@ -17,7 +17,7 @@ export RUST_LOG=info
 
 heap_args=-Xms$(heap) -Xmx$(heap)
 mmtk_args=-XX:+UseThirdPartyHeap -Dprobes=RustMMTk
-probes=/home/wenyuz/MMTk-OpenJDK-Measurements/probes
+probes=$(PWD)/evaluation/probes
 dacapo_2006=-cp /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness
 dacapo_9_12=-Djava.library.path=$(probes) -cp $(probes):$(probes)/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness
 bm_args=$(dacapo_9_12) -n $(n) -c probe.DacapoBachCallback $(benchmark)
@@ -39,5 +39,5 @@ clean: vm-clean
 variant: profile=release
 variant:
 	$(MAKE) test
-	cp -r ../repos/openjdk/build/linux-x86_64-normal-server-release ~/MMTk-OpenJDK-Measurements/build/$(name)
+	cp -r $(vm_root)/build/linux-x86_64-normal-server-release $(PWD)/evaluation/build/$(name)
 
