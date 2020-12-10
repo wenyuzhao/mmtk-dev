@@ -41,7 +41,7 @@ clean: vm-clean
 
 bench-variant: profile=release
 bench-variant:
-	$(MAKE) test
+	$(MAKE) test profile=release
 	@mkdir -p $(PWD)/evaluation/build
 	@cp -r $(vm_root)/build/linux-x86_64-normal-server-release $(PWD)/evaluation/build/$(name)
 
