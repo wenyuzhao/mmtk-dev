@@ -170,8 +170,24 @@ $perfevents = "";
 	      );
 # configurations
 @gcconfigs = (
-	"jdk-pausetime|s|c2|cms",
-	"jdk-pausetime|s|c2|tph",
+	"jdk-mmtk-old-16m|ms|s|c2|tph",
+	"jdk-mmtk-new-16m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-4m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-8m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-16m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-32m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-64m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-128m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-256m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-512m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-4m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-8m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-16m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-32m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-64m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-128m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-256m|ms|s|c2|tph",
+	# "jdk-mmtk-nm-2-512m|ms|s|c2|tph",
 );
 
 
@@ -179,20 +195,18 @@ $perfevents = "";
 %jvmroot = ();
 
 # set of benchmarks to be run
+
 @dacapobms = ("luindex", "bloat", "chart", "fop", "hsqldb", "lusearch", "pmd", "xalan");
 @dacapobachbms = ("avrora", "batik", "eclipse", "fop", "h2", "jython", "luindex", "lusearch", "pmd", "sunflow", "tomcat", "tradebeans", "tradesoap", "xalan");
 @jksdcapo = ("antlr", "bloat", "chart", "fop", "hsqldb", "jython", "luindex", "lusearch", "pmd", "xalan", "avrora",);
 @jksbach = ("avrora", "sunflow");
 @jksdacapo = (@dacapobms, @jksbach);
 @jvm98bms = ("_202_jess", "_201_compress", "_209_db", "_213_javac", "_222_mpegaudio", "_227_mtrt", "_228_jack");
-@dacapo_9_12 = ("sunflow", "avrora", "h2", "tomcat", "tradebeans", "tradesoap");
-@dacapo_2006 = ("xalan", "sunflow", "pmd", "lusearch", "luindex", "jython", "hsqldb", "fop", "eclipse", "chart", "bloat", "batik", "antlr");
+@dacapo_9_12 = ("fop", "luindex", "lusearch", "pmd", "sunflow", "xalan", "avrora", "jython");
+@dacapo_2006 = ("antlr");
 
-@benchmarks = (@dacapo_2006, @jvm98bms, @dacapo_9_12);
-@benchmarks = (
-	"xalan", "pmd", "luindex", "lusearch-fix", "hsqldb", "fop", "eclipse",
-	"avrora", "h2", "tradesoap"
-);
+@benchmarks = (@dacapo_9_12, @dacapo_2006);
+# @benchmarks = ("eclipse");
 # hsqldb, luindex, h2, tradesoap
 
 #
@@ -245,8 +259,8 @@ $perfevents = "";
 # heap size used for -s (slice) option (in this example, 1.5 X min heap)
 %sliceHeapSize = ();
 foreach $bm (keys %minheap) {
-	$minheap{$bm} = 1024 * 10;
-    $sliceHeapSize{$bm} = 1024 * 10;# $minheap{$bm}*(1.5);
+    $sliceHeapSize{$bm} = 2 * 1024 * 1024;
+    $minheap{$bm} = 2 * 1024 * 1024;
 }
 
 # Timeouts for each benchmark (in seconds, based on time for second iteration runs on Core Duo with MarkSweep
@@ -283,7 +297,7 @@ foreach $bm (keys %minheap) {
               "sunflow" => 30,
               "tomcat" => 30,
               "tradebeans" => 120,
-              "tradesoap" => 120 * 2,
+              "tradesoap" => 120,
               "xalan" => 30,
               "pjbb2005" => 20,
 	      "pjbb2000" => 50,
@@ -302,25 +316,25 @@ $benchmarkroot = "/usr/share/benchmarks";
 	"_227_mtrt" => "jvm98",
 	"_228_jack" => "jvm98",
 	"avrora" => dacapobach,
-	"batik" => dacapo,
+	"batik" => dacapobach,
 	# "eclipse" => dacapobach,
-	# "fop" => dacapobach,  # buggy
+	"fop" => dacapobach,  # buggy
 	"h2" => dacapobach,
-	"jython" => dacapo,
-	"luindex" => dacapo,
+	"jython" => dacapobach,
+	"luindex" => dacapobach,
 	"lusearch" => dacapo,
 	"lusearch-fix" => dacapobach,
-	"pmd" => dacapo,
-	"sunflow" => dacapo,
+	"pmd" => dacapobach,
+	"sunflow" => dacapobach,
 	"tomcat" => dacapobach,
 	"tradebeans" => dacapobach,
 	"tradesoap" => dacapobach,
-	"xalan" => dacapo,
+	"xalan" => dacapobach,
 	"antlr" => dacapo,
 	"bloat" => dacapo,
 	"chart" => dacapo,
-    "eclipse" => dacapo,
-    "fop" => dacapo,
+    "eclipse" => dacapobach,
+    # "fop" => dacapo,
 	"hsqldb" => dacapo,
     # "jython" => dacapo,
     # "luindex" => dacapo,
@@ -342,9 +356,9 @@ $tmp = "/tmp/runbms-".$ENV{USER};
 	      );
 
 %bmargs = (
-	   "jvm98" => "-cp $rootdir/probes.jar:. SpecApplication -i[#] [bm]",
-	   "dacapo" => "-Dprobes=OpenJDK -cp $rootdir/probes.jar:$benchmarkroot/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n [#] [bm]",
-	   "dacapobach" => "-Dprobes=OpenJDK -cp $rootdir/probes/probes.jar:/home/wenyuz/dacapo-9.12-MR1-bach-java6.jar Harness -c probe.DacapoBachCallback -n [#] [bm]",
-	   "pjbb2005" => "-Dprobes=MMTk -cp $rootdir/probes/probes.jar:$benchmarkroot/pjbb2005/jbb.jar:$benchmarkroot/pjbb2005/check.jar spec.jbb.JBBmain -propfile $benchmarkroot/pjbb2005/SPECjbb-8x10000.props -c probe.PJBB2005Callback -n [#]",
+	   "jvm98" => "-cp $rootdir/probes/probes.jar:. SpecApplication -i[#] [bm]",
+	   "dacapo" => "-Dprobes=RustMMTk -Djava.library.path=$rootdir/probes -cp $rootdir/probes:$rootdir/probes/probes.jar:$benchmarkroot/dacapo/dacapo-2006-10-MR2.jar Harness -n [#] -c probe.Dacapo2006Callback [bm]",
+	   "dacapobach" => "-Dprobes=RustMMTk -Djava.library.path=$rootdir/probes -cp $rootdir/probes:$rootdir/probes/probes.jar:$benchmarkroot/dacapo/dacapo-9.12-bach.jar Harness -n [#] -c probe.DacapoBachCallback [bm]",
+	   "pjbb2005" => "-Dprobes=RustMMTk -Djava.library.path=$rootdir/probes -cp $rootdir/probes/probes.jar:$benchmarkroot/pjbb2005/jbb.jar:$benchmarkroot/pjbb2005/check.jar spec.jbb.JBBmain -propfile $benchmarkroot/pjbb2005/SPECjbb-8x10000.props -c probe.PJBB2005Callback -n [#]",
 	   "pjbb2000" => "-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -n [#] [mmtkstart]",
 	   );

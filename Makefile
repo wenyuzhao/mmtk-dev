@@ -36,8 +36,13 @@ test: build
 
 clean: vm-clean
 
-variant: profile=release
-variant:
+bench-variant: profile=release
+bench-variant:
 	$(MAKE) test
-	cp -r $(vm_root)/build/linux-x86_64-normal-server-release $(PWD)/evaluation/build/$(name)
+	@mkdir -p $(PWD)/evaluation/build
+	@cp -r $(vm_root)/build/linux-x86_64-normal-server-release $(PWD)/evaluation/build/$(name)
 
+bench-rsync: moma=shrew
+bench-rsync:
+	@rsync -azR --info=progress2 --exclude ./evaluation/scratch --exclude ./evaluation/results --exclude ./evaluation/tmp ~/./MMTk-Dev/evaluation $(moma).moma:/home/wenyuz/
+	# bin/runbms 8 1 &> runbms.log
