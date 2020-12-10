@@ -24,7 +24,10 @@ bm_args=$(dacapo_9_12) -n $(n) -c probe.DacapoBachCallback $(benchmark)
 
 include ./.vscode/$(vm).mk
 
-config: vm-config
+build-probes:
+	@cd evaluation/probes && make all
+
+config: build-probes vm-config
 
 build: vm-build
 
