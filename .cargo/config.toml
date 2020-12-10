@@ -1,1 +1,2 @@
+# Override `mmtk-core` depencency with the local copy
 paths = ["./mmtk-core"]
