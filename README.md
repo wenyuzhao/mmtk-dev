@@ -12,7 +12,7 @@
 1. `make config profile=release`
 2. `make build run profile=release gc=semispace benchmark=xalan`
 
-# `mmtk-core` Pre-submission CI
+# Run _mmtk-core_ Pre-submission CI
 
 * `make run-ci-tests`
 
