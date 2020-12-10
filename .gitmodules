@@ -1,0 +1,6 @@
+[submodule "mmtk-openjdk"]
+	path = mmtk-openjdk
+	url = https://github.com/mmtk/mmtk-openjdk.git
+[submodule "mmtk-core"]
+	path = mmtk-core
+	url = https://github.com/mmtk/mmtk-core.git
