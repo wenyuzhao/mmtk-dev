@@ -13,6 +13,7 @@ vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -XX:-TieredCompilation
 
 vm-config:
 	@echo "🟦 Config: $(conf) (mmtk-plan=$(gc))"
+	@cd mmtk-openjdk/mmtk && eval `ssh-agent` && ssh-add
 	@cd $(vm_root) && sh configure --disable-warnings-as-errors --with-debug-level=$(profile) --with-target-bits=64 --disable-zip-debug-info
 
 vm-build:
