@@ -1,7 +1,7 @@
 vm?=OpenJDK
 profile?=fastdebug
 gc?=gencopy
-benchmark?=avrora
+benchmark?=xalan
 n?=1
 heap?=500M
 
@@ -49,3 +49,8 @@ bench-rsync: moma=shrew
 bench-rsync:
 	@rsync -azR --info=progress2 --exclude ./evaluation/scratch --exclude ./evaluation/results --exclude ./evaluation/tmp ~/./MMTk-Dev/evaluation $(moma).moma:/home/wenyuz/
 	# bin/runbms 8 1 &> runbms.log
+
+run-ci-tests:
+	@cd mmtk-core && bash ./.github/scripts/ci-build.sh
+	@cd mmtk-core && bash ./.github/scripts/ci-test.sh
+	@cd mmtk-core && bash ./.github/scripts/ci-style.sh
