@@ -26,9 +26,9 @@ bm_args=$(dacapo_9_12) -n $(n) -c probe.DacapoBachCallback $(benchmark)
 export RUST_BACKTRACE=1
 export RUSTFLAGS=-Awarnings
 export MMTK_PLAN=$(gc)
-# export RUSTUP_TOOLCHAIN=nightly-2020-07-08
 export RUSTUP_TOOLCHAIN=nightly-2020-12-20
 export RUST_LOG=info
+export PERF_EVENTS=PERF_COUNT_HW_CACHE_DTLB:MISS,PERF_COUNT_HW_CACHE_ITLB:MISS
 
 
 
@@ -58,13 +58,3 @@ bench-variant:
 	$(MAKE) test profile=release
 	@mkdir -p $(PWD)/evaluation/build
 	@cp -r $(vm_root)/build/linux-x86_64-normal-server-release $(PWD)/evaluation/build/$(name)
-
-bench-rsync: moma=shrew
-bench-rsync:
-	@rsync -azR --info=progress2 --exclude ./evaluation/scratch --exclude ./evaluation/results --exclude ./evaluation/tmp ~/./MMTk-Dev/evaluation $(moma).moma:/home/wenyuz/
-	# bin/runbms 8 1 &> runbms.log
-
-run-ci-tests:
-	@cd mmtk-core && bash ./.github/scripts/ci-build.sh
-	@cd mmtk-core && bash ./.github/scripts/ci-test.sh
-	@cd mmtk-core && bash ./.github/scripts/ci-style.sh
