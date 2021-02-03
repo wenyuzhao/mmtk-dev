@@ -2,7 +2,7 @@ vm_root = ./mmtk-openjdk/repos/openjdk
 conf=linux-x86_64-normal-server-$(profile)
 vm_args:=-XX:MetaspaceSize=1G
 profile?=slowdebug
-gc?=gencopy
+gc?=GenCopy
 benchmark?=xalan
 n?=1
 heap?=500M
@@ -25,7 +25,6 @@ bm_args=$(dacapo_9_12) -n $(n) -c probe.DacapoBachCallback $(benchmark)
 
 export RUST_BACKTRACE=1
 export RUSTFLAGS=-Awarnings
-export MMTK_PLAN=$(gc)
 export RUSTUP_TOOLCHAIN=nightly-2020-12-20
 export RUST_LOG=info
 export PERF_EVENTS=PERF_COUNT_HW_CACHE_DTLB:MISS,PERF_COUNT_HW_CACHE_ITLB:MISS
@@ -44,7 +43,7 @@ build:
 
 run: java=$(vm_root)/build/$(conf)/jdk/bin/java
 run:
-	$(java) $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
+	MMTK_PLAN=$(gc) $(java) $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
 
 test: build
 	@echo "🟦 Testing: $(conf) (mmtk-plan=$(gc))"

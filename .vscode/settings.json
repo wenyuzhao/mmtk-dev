@@ -4,10 +4,7 @@
     "rust-client.channel": "nightly-2019-08-26",
     "rust.unstable_features": true,
     "rust-client.enableMultiProjectSetup": true,
-    "rust-analyzer.cargo.features": ["semispace", "sanity"],
+    "rust-analyzer.cargo.features": ["sanity"],
     "rust-analyzer.procMacro.enable": true,
-    "rust-analyzer.checkOnSave.extraArgs": [
-        // "+nightly-2020-07-08",
-        "+nightly-2020-12-20",
-    ],
+    "rust-analyzer.checkOnSave.extraArgs": [ "+nightly-2020-12-20" ],
 }
