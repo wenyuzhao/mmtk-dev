@@ -8,13 +8,13 @@ n?=1
 heap?=500M
 
 # Interpreter only
-# common_args=-server -XX:+DisableExplicitGC -Xint
+# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -Xint
 # Int+C1 only
-# common_args=-server -XX:+DisableExplicitGC -XX:TieredStopAtLevel=1
+# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -XX:TieredStopAtLevel=1
 # Int+C2 only
-vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -XX:-TieredCompilation
+# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -XX:-TieredCompilation
 # Int+C1+C2
-# common_args=-server -XX:+DisableExplicitGC
+# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC
 
 heap_args=-Xms$(heap) -Xmx$(heap)
 mmtk_args=-XX:+UseThirdPartyHeap -Dprobes=RustMMTk
@@ -28,7 +28,8 @@ export RUSTFLAGS=-Awarnings
 export RUSTUP_TOOLCHAIN=nightly-2020-12-20
 export RUST_LOG=info
 export PERF_EVENTS=PERF_COUNT_HW_CACHE_DTLB:MISS,PERF_COUNT_HW_CACHE_ITLB:MISS
-
+export LD_LIBRARY_PATH=~
+# export MMTK_PLAN=$(gc)
 
 
 config:
@@ -57,3 +58,9 @@ bench-variant:
 	$(MAKE) test profile=release
 	@mkdir -p $(PWD)/evaluation/build
 	@cp -r $(vm_root)/build/linux-x86_64-normal-server-release $(PWD)/evaluation/build/$(name)
+
+
+clean-bench-variant: clean bench-variant
+
+gdb:
+	MMTK_PLAN=$(gc) gdb --args ./mmtk-openjdk/repos/openjdk/build/linux-x86_64-normal-server-slowdebug/jdk/bin/java $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
