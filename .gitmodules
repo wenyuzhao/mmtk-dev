@@ -6,7 +6,7 @@
 	url = https://github.com/mmtk/mmtk-core.git
 [submodule "mmtk-v8"]
 	path = mmtk-v8
-	url = https://github.com/mmtk/mmtk-core.git
+	url = https://github.com/mmtk/mmtk-v8.git
 [submodule "mmtk-jikesrvm"]
 	path = mmtk-jikesrvm
 	url = https://github.com/mmtk/mmtk-jikesrvm.git
