@@ -1,13 +1,15 @@
 {
     "cquery.cacheDirectory": "${workspaceFolder}/.vscode/cquery_cached_index/",
-    "rust.features": ["semispace"],
-    "rust-client.channel": "nightly-2019-08-26",
+    "rust.features": [],
+    "rust-client.channel": "nightly-2020-12-20",
     "rust.unstable_features": true,
-    "rust-client.enableMultiProjectSetup": true,
+    "rust.all_targets": false,
     "rust-analyzer.cargo.features": [],
     "rust-analyzer.procMacro.enable": true,
     "rust-analyzer.checkOnSave.enable": true,
     "rust-analyzer.checkOnSave.allTargets": false,
+    "rust-analyzer.updates.channel": "nightly",
+    "rust-analyzer.updates.askBeforeDownload": false,
     "C_Cpp.default.compilerArgs": [
         "-DINCLUDE_THIRD_PARTY_HEAP",
         "-DTHIRD_PARTY_HEAP_SRC=${workspaceFolder}/mmtk-openjdk/repos/openjdk/../../openjdk",

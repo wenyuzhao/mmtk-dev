@@ -95,23 +95,23 @@ for ($i = 0; $i < $maxinvocations; $i++) {
     print STDERR "$i";
     $c = 'a';
     foreach $cfg (@gcconfigs) {
-	if ($completed{$cfg} < $targetinvocations) {
-	    $log = "$tmprootdir/$benchmark.$kval.$h.$cfg.log";
-	    $log =~ s/[|]/./g;
-	    runnit($cfg, "", $benchmark, $benchmarkdir, $benchmarkargs, $kval, $h, $log, $i);
-	    open (FOO, "tail -30 $log | egrep 'PASSED\|Finished' |");
-	    $_ = <FOO>;
-	    if (/Finished/ || /PASSED/ || /pseudojbb2005 complete/) {
-		$completed{$cfg}++;
-		print STDERR $c;
-	    } else {
-		print STDERR "_";
+    if ($completed{$cfg} < $targetinvocations) {
+        $log = "$tmprootdir/$benchmark.$kval.$h.$cfg.log";
+        $log =~ s/[|]/./g;
+        runnit($cfg, "", $benchmark, $benchmarkdir, $benchmarkargs, $kval, $h, $log, $i);
+        open (FOO, "tail -30 $log | egrep 'PASSED\|Finished' |");
+        $_ = <FOO>;
+        if (/Finished/ || /PASSED/ || /pseudojbb2005 complete/) {
+        $completed{$cfg}++;
+        print STDERR $c;
+        } else {
+        print STDERR "_";
             }
-	    close FOO;
-	} else {
-	    print STDERR ".";
-	}
-	$c++;
+        close FOO;
+    } else {
+        print STDERR ".";
+    }
+    $c++;
     }
 }
 
@@ -159,9 +159,9 @@ sub runnit {
 
     # deterimine heap size
     if ($exe =~ /rvm/) {
-	$heapcfg = "-Xms".$h."M -X:gc:variableSizeHeap=false ";
+    $heapcfg = "-Xms".$h."M -X:gc:variableSizeHeap=false ";
     } else {
-	$heapcfg = "-Xms".$h."M -Xmx".$h."M ";
+    $heapcfg = "-Xms".$h."M -Xmx".$h."M ";
     }
 
     # determine command line (set iterations as side effect)
@@ -172,7 +172,8 @@ sub runnit {
     if ($perfevents ne "") {
         $exe_s = "$rootdir/probes/perf_event_launcher $perfevents $exe_s -Djava.library.path=$rootdir/probes -Dprobes=PerfEventLauncher"
     }
-    $cmdline = "$bin/timedrun -t $timeout $exe_s";
+    $cmdline = getenv($cfg, $benchmark, \$timingiteration, \$tasksetmask, \$cpuidmask, \$cpufreq);
+    $cmdline .= " $bin/timedrun -t $timeout $exe_s";
     $cmdline .= getcmdline($cfg, $benchmark, \$timingiteration, \$tasksetmask, \$cpuidmask, \$cpufreq);
 
     # set up arguments
@@ -182,15 +183,15 @@ sub runnit {
     $bmargs =~ s/[[]#[]]/$timingiteration/;
 
     if ($exe =~ /rvm/) {
-	$bmargs =~ s/[[]mmtkstart[]]/$mmtkstart{$bmsuite{$bm}} /;
-	$bmargs =~ s/[[]mmtkend[]]/ $mmtkend{$bmsuite{$bm}}/;
+    $bmargs =~ s/[[]mmtkstart[]]/$mmtkstart{$bmsuite{$bm}} /;
+    $bmargs =~ s/[[]mmtkend[]]/ $mmtkend{$bmsuite{$bm}}/;
     } else {
-	$bmargs =~ s/[[]mmtkstart[]]//;
-	$bmargs =~ s/[[]mmtkend[]]//;
+    $bmargs =~ s/[[]mmtkstart[]]//;
+    $bmargs =~ s/[[]mmtkend[]]//;
     }
     if ($genadvice) {
-	($cafile) = $log =~ /(\S+).log/;
-	$cmdline .= "-X:aos:enable_advice_generation=true -X:aos:cafo=$cafile.$i$rcsuf -X:aos:dcfo=$cafile.$i$dcsuf -X:base:profile_edge_counters=true -X:base:profile_edge_counter_file=$cafile.$i$ecsuf -X:aos:final_report_level=2 ";
+    ($cafile) = $log =~ /(\S+).log/;
+    $cmdline .= "-X:aos:enable_advice_generation=true -X:aos:cafo=$cafile.$i$rcsuf -X:aos:dcfo=$cafile.$i$dcsuf -X:base:profile_edge_counters=true -X:base:profile_edge_counter_file=$cafile.$i$ecsuf -X:aos:final_report_level=2 ";
     }
     $cmdline .= $bmargs;
     $cmdline = consolidateprobes($cmdline);
@@ -206,20 +207,20 @@ sub runnit {
     system("echo -n 'cpu: ' >> $log"); system("cat /proc/cpuinfo | grep 'model name' | head -1 >> $log");
     system("echo -n 'number of cores: ' >> $log"); system("cat /proc/cpuinfo | grep MHz | wc -l >> $log");
     if ($cpuidmask ne "" || $taskselmask ne "" || $cpufreq ne "") {
-	system("echo 'using cpuidmask: $cpuidmask, taskselmask: $taskselmask ' >> $log");
-	for ($cpunum = 0; $cpunum < 2; $cpunum++) {
-	    system("echo -n 'enabling of cpu ".$cpunum.": ' >> $log");
-	    if ($cpunum) {
-		system("cat /sys/devices/system/cpu/cpu".$cpunum."/online >> $log");
-	    }
+    system("echo 'using cpuidmask: $cpuidmask, taskselmask: $taskselmask ' >> $log");
+    for ($cpunum = 0; $cpunum < 2; $cpunum++) {
+        system("echo -n 'enabling of cpu ".$cpunum.": ' >> $log");
+        if ($cpunum) {
+        system("cat /sys/devices/system/cpu/cpu".$cpunum."/online >> $log");
+        }
             # print out cpu speed for each cpu (just do 0 through 8 to cover all machines)
-	    system("echo -n 'Frequency of cpu ".$cpunum.": ' >> $log");
-	    system("cat /sys/devices/system/cpu/cpu".$cpunum."/cpufreq/scaling_cur_freq >> $log");
-	    system("echo -n 'Governor of cpu ".$cpunum.": ' >> $log");
-	    system("cat /sys/devices/system/cpu/cpu".$cpunum."/cpufreq/scaling_governor >> $log");
-	    system("echo -n 'Scaling_min_freq of cpu ".$cpunum.": ' >> $log");
-	    system("cat /sys/devices/system/cpu/cpu".$cpunum."/cpufreq/scaling_min_freq >> $log");
-	}
+        system("echo -n 'Frequency of cpu ".$cpunum.": ' >> $log");
+        system("cat /sys/devices/system/cpu/cpu".$cpunum."/cpufreq/scaling_cur_freq >> $log");
+        system("echo -n 'Governor of cpu ".$cpunum.": ' >> $log");
+        system("cat /sys/devices/system/cpu/cpu".$cpunum."/cpufreq/scaling_governor >> $log");
+        system("echo -n 'Scaling_min_freq of cpu ".$cpunum.": ' >> $log");
+        system("cat /sys/devices/system/cpu/cpu".$cpunum."/cpufreq/scaling_min_freq >> $log");
+    }
     }
 
     system("$job > $tmpfile 2>&1");
@@ -237,35 +238,54 @@ sub getcmdline {
     my $args = $defaultopts;
 
     foreach $a (@arg) {
-	if ($booleanopts{$a}) {
-	    if (!($a eq "r" && $noreplay{$bm})) {
-		$args .= " ".$booleanopts{$a};
-	    }
-	} else {
-	    if ($a =~ /([^-]+)[-](.+)/) {
-		if ($valueopts{$1}) {
-		    if ($valueopts{$1} eq "iterations") {
-			${$timingiteration} = $2;
-		    } elsif ($valueopts{$1} eq "taskselmask") {
-			${$taskselmask} = $2;
-		    } elsif ($valueopts{$1} eq "cpuidmask") {
-			${$cpuidmask} = $2;
-		    } elsif ($valueopts{$1} eq "cpufreq") {
-                        ${$cpufreq} = $2;
-		    } elsif ($1 eq "rn") {
-			$replayid = $2;
-			$args .= " ".$valueopts{$1};
-		    } else {
-			$args .= " ".$valueopts{$1}.$2;
-		    }
-		}
-	    }
-	}
+        if ($booleanopts{$a}) {
+            if (!($a eq "r" && $noreplay{$bm})) {
+                $args .= " ".$booleanopts{$a};
+            }
+        } else {
+            if ($a =~ /([^-]+)[-](.+)/) {
+                if ($valueopts{$1}) {
+                    if ($valueopts{$1} eq "iterations") {
+                    ${$timingiteration} = $2;
+                    } elsif ($valueopts{$1} eq "taskselmask") {
+                    ${$taskselmask} = $2;
+                    } elsif ($valueopts{$1} eq "cpuidmask") {
+                    ${$cpuidmask} = $2;
+                    } elsif ($valueopts{$1} eq "cpufreq") {
+                                ${$cpufreq} = $2;
+                    } elsif ($1 eq "rn") {
+                    $replayid = $2;
+                    $args .= " ".$valueopts{$1};
+                    } else {
+                    $args .= " ".$valueopts{$1}.$2;
+                    }
+                }
+            }
+        }
     }
     # evaluate any variables (eg "$directoryname") in the argument strings
     while ($args =~ /\$/) {
-	($pre, $var, $post) = $args =~ /^(.*)\$(\w+)(.*)$/;
-	$args = $pre.${$var}.$post;
+        ($pre, $var, $post) = $args =~ /^(.*)\$(\w+)(.*)$/;
+        $args = $pre.${$var}.$post;
+    }
+    return $args." ";
+}
+
+sub getenv {
+    my ($config, $bm, $timingiteration, $taskselmask, $cpuidmask,$cpufreq) = @_;
+    ($gc, $argstr) = $config =~ /([^|]+)[|]*(\S*)$/;
+    @arg = split /[|]/, $argstr;
+    my $args = $defaultopts;
+
+    foreach $a (@arg) {
+        if ($envopts{$a}) {
+            $args .= $envopts{$a} . " ";
+        }
+    }
+    # evaluate any variables (eg "$directoryname") in the argument strings
+    while ($args =~ /\$/) {
+        ($pre, $var, $post) = $args =~ /^(.*)\$(\w+)(.*)$/;
+        $args = $pre.${$var}.$post;
     }
     return $args." ";
 }
@@ -277,13 +297,13 @@ sub getjvmexecutable {
     my ($config) = @_;
     ($vmcfg, $argstr) = $config =~ /([^|]+)[|]*(\S*)$/;
     if ($vmcfg =~ /jdk1[.]/ || $vmcfg =~ /ibm-java/ || $vmcfg =~ /jrmc/ || $vmcfg =~ /java-/) {
-	    return $jvmroot{$vmcfg}."/$vmcfg/bin/java";
+        return $jvmroot{$vmcfg}."/$vmcfg/bin/java";
     } elsif ($vmcfg =~ /jdk/) {
-	    return $builddir.$vmcfg."/jdk/bin/java";
+        return $builddir.$vmcfg."/jdk/bin/java";
     } else {
-	    $build = $builddir.$vmcfg;
-	    $build .= "$arch";
-	    return "$build/rvm";
+        $build = $builddir.$vmcfg;
+        $build .= "$arch";
+        return "$build/rvm";
     }
 }
 
@@ -301,8 +321,8 @@ sub consolidateprobes {
 
     # make a set of the settings
     foreach my $p (@probecmds) {
-	my (@probes) = $p =~ /[=,]([^,]+)/g;
-	foreach my $q (@probes) { $probeset{$q} = 1; }
+    my (@probes) = $p =~ /[=,]([^,]+)/g;
+    foreach my $q (@probes) { $probeset{$q} = 1; }
     }
 
     # construct a new command

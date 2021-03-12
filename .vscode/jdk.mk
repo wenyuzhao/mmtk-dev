@@ -62,5 +62,5 @@ bench-variant:
 
 clean-bench-variant: clean bench-variant
 
-gdb:
-	MMTK_PLAN=$(gc) gdb --args ./mmtk-openjdk/repos/openjdk/build/linux-x86_64-normal-server-slowdebug/jdk/bin/java $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
+gdb: build
+	MMTK_PLAN=$(gc) gdb --args ./mmtk-openjdk/repos/openjdk/build/linux-x86_64-normal-server-$(profile)/jdk/bin/java $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
