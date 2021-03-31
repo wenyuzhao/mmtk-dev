@@ -19,7 +19,7 @@ heap?=500M
 heap_args=-Xms$(heap) -Xmx$(heap)
 mmtk_args=-XX:+UseThirdPartyHeap -Dprobes=RustMMTk
 probes=$(PWD)/evaluation/probes
-dacapo_2006=-cp /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness
+dacapo_2006=-Djava.library.path=$(probes) -cp $(probes):$(probes)/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness
 dacapo_9_12=-Djava.library.path=$(probes) -cp $(probes):$(probes)/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness
 bm_args=$(dacapo_9_12) -n $(n) -c probe.DacapoBachCallback $(benchmark)
 
@@ -32,8 +32,7 @@ export LD_LIBRARY_PATH=~
 # export MMTK_PLAN=$(gc)
 
 
-config:
-	@cd evaluation/probes && make all
+config: config-probe
 	@echo "🟦 Config: $(conf) (mmtk-plan=$(gc))"
 	@cd mmtk-openjdk/mmtk && eval `ssh-agent` && ssh-add
 	@cd $(vm_root) && sh configure --disable-warnings-as-errors --with-debug-level=$(profile) --with-target-bits=64 --disable-zip-debug-info
@@ -52,6 +51,10 @@ test: build
 
 clean:
 	@cd $(vm_root) && make clean CONF=$(CONF) --no-print-directory
+
+bench: profile=release
+bench: n=5
+bench: build run
 
 bench-variant: profile=release
 bench-variant:
