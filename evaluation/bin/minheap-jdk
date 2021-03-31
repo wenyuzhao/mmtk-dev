@@ -2,20 +2,20 @@
 
 # ($b,$path,$s) = fileparse($0);
 # $rootdir = abs_path("$path../");
+# suf=_ia32-linux
 root=$PWD
-suf=_x86_64-linux
-build=$root/build/$1$suf
+build=$root/build/$1
 advicedir=$root/advice
 timeout=240;
 attempts=5;
 timefile=/tmp/minheap.time.txt
+iterations=5
+
+export MMTK_PLAN=SemiSpace
 
 #for bm in _202_jess _201_compress _205_raytrace _209_db _213_javac _222_mpegaudio _227_mtrt _228_jack antlr bloat chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
-#for bm in chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
-#for bm in antlr bloat chart eclipse fop hsqldb jython luindex lusearch pmd xalan pjbb2000; do
-# for bm in bloat eclipse fop hsqldb; do
-for bm in pmd sunflow xalan; do
-# for bm in avrora; do
+# for bm in avrora fop h2 jython luindex pmd sunflow tomcat tradebeans xalan; do
+for bm in antlr bloat chart eclipse hsqldb lusearch; do
 	m=M;
 	out=/tmp/minheap.$1.$bm.out
 	tmpout=/tmp/minheap.out
@@ -38,29 +38,32 @@ for bm in pmd sunflow xalan; do
 	fi
 	for d in 256 128 64 32 16 8 4 2 1 0; do
 		hs=$h$m
-		baseargs="-Xms$hs -Xmx$hs -X:gc:variableSizeHeap=false -X:vm:errorsFatal=true -X:gc:ignoreSystemGC=true"
+		baseargs="-Xms$hs -Xmx$hs -XX:MetaspaceSize=500M -XX:+DisableExplicitGC -XX:-TieredCompilation -Xcomp"
 		echo -n $h
-		if [ "$bm" == "eclipse—" ]; then
+		if [ "$bm" == "eclipse" ]; then
 		    adviceargs=""
 		else
 		    if [ "$bm" == "pjbb2000" ]; then
 			adviceargs=""
 		    else
-			#adviceargs="-X:aos:enable_replay_compile=true -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc -X:vm:edgeCounterFile=$advicedir/$bm.ec"
-		    	adviceargs="-Dprobes=Replay,RustMMTk32 -X:aos:initial_compiler=base -X:aos:enable_bulk_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc -X:vm:edgeCounterFile=$advicedir/$bm.ec"
+				#adviceargs="-X:aos:enable_replay_compile=true -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc -X:vm:edgeCounterFile=$advicedir/$bm.ec"
+		    	# adviceargs="-Dprobes=Replay,MMTk -X:aos:initial_compiler=base -X:aos:enable_warmup_replay_compile=true -X:aos:enable_recompilation=false -X:aos:cafi=$advicedir/$bm.ca -X:aos:dcfi=$advicedir/$bm.dc"
+				adviceargs=""
 		    fi
 		fi
 		if [ $jvm -eq 0 ]; then
 		    if [ "$bm" == "pjbb2000" ]; then
-			bmargs="-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -c MMTkCallback -n 2"
+				bmargs="-cp pseudojbb.jar spec.jbb.JBBmain -propfile SPECjbb-8x12500.props -c MMTkCallback -n 2"
 		    else
-			#bmargs="-jar /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar -c MMTkCallback -n 2 $bm"
-		    	# bmargs="-Djava.library.path=$root/probes -cp $root/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n 2 $bm"
-			bmargs="-Djava.library.path=$root/probes -cp $root/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness -c probe.DacapoBachCallback -n 2 $bm"
-                    fi
+				# bmargs="-jar /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar -c MMTkCallback -n 2 $bm"
+		    	# bmargs="-cp $root/bin/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n 2 $bm"
+				# bmargs="-cp $root/bin/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness -c probe.DacapoBachCallback -n 2 $bm"
+				# bmargs="-cp /usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness -n $iterations $bm"
+				bmargs="-cp /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness -n $iterations $bm"
+            fi
 		else
 		    #bmargs="SpecApplication $bm _997_begin $bm _998_end"
-     		    bmargs=" -cp $root/probes/probes.jar:. SpecApplication -i2 $bm"
+     		bmargs=" -cp $root/bin/probes/probes.jar:. SpecApplication -i2 $bm"
 		fi
 		if [ "$bm" == "chart" ]; then
 		    xvfb="xvfb-run -a "
@@ -70,8 +73,8 @@ for bm in pmd sunflow xalan; do
 		err="";
 		for i in `seq 1 $attempts`; do
 		    echo -n "."
-		    echo "$xvfb $root/bin/timedrun -t $timeout $build/rvm $baseargs $adviceargs $bmargs" > $tmpout;
-		    (time $xvfb $root/bin/timedrun -t $timeout $build/rvm $baseargs $adviceargs $bmargs >> $tmpout 2>&1) 2> $timefile
+		    echo "$xvfb $root/bin/timedrun -t $timeout $build/jdk/bin/java -XX:+UseThirdPartyHeap $baseargs $adviceargs $bmargs" > $tmpout;
+		    (time $xvfb $root/bin/timedrun -t $timeout $build/jdk/bin/java -XX:+UseThirdPartyHeap $baseargs $adviceargs $bmargs >> $tmpout 2>&1) 2> $timefile
 		    ome=`egrep "(Allocation Failed|OutOfMemoryError|ran out of memory)" $tmpout`
 		    if [ "" == "$ome" ]; then
 			alm=`egrep "(alarm)" $tmpout`

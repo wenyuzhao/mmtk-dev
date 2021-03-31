@@ -159,7 +159,7 @@ sub runnit {
 
     # deterimine heap size
     if ($exe =~ /rvm/) {
-    $heapcfg = "-Xms".$h."M -X:gc:variableSizeHeap=false ";
+    $heapcfg = "-Xms".$h."M -Xmx".$h."M -X:gc:variableSizeHeap=false ";
     } else {
     $heapcfg = "-Xms".$h."M -Xmx".$h."M ";
     }
