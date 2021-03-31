@@ -1,4 +1,5 @@
 /scratch
+_*
 *.log
 /.cipd
 /v8
