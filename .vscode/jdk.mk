@@ -2,19 +2,19 @@ vm_root = ./mmtk-openjdk/repos/openjdk
 conf=linux-x86_64-normal-server-$(profile)
 vm_args:=-XX:MetaspaceSize=1G
 profile?=slowdebug
-gc?=GenCopy
+gc?=SemiSpace
 benchmark?=xalan
 n?=1
-heap?=500M
+heap?=100M
 
 # Interpreter only
-# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -Xint
+# vm_args += -server -XX:+DisableExplicitGC -Xint
 # Int+C1 only
-# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -XX:TieredStopAtLevel=1
+# vm_args += -server -XX:+DisableExplicitGC -XX:TieredStopAtLevel=3
 # Int+C2 only
-# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC -XX:-TieredCompilation
+# vm_args += -server -XX:+DisableExplicitGC -XX:-TieredCompilation
 # Int+C1+C2
-# vm_args:=$(vm_args) -server -XX:+DisableExplicitGC
+# vm_args += -server -XX:+DisableExplicitGC
 
 heap_args=-Xms$(heap) -Xmx$(heap)
 mmtk_args=-XX:+UseThirdPartyHeap -Dprobes=RustMMTk
@@ -22,6 +22,7 @@ probes=$(PWD)/evaluation/probes
 dacapo_2006=-Djava.library.path=$(probes) -cp $(probes):$(probes)/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness
 dacapo_9_12=-Djava.library.path=$(probes) -cp $(probes):$(probes)/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness
 bm_args=$(dacapo_9_12) -n $(n) -c probe.DacapoBachCallback $(benchmark)
+java=$(vm_root)/build/$(conf)/jdk/bin/java
 
 export RUST_BACKTRACE=1
 export RUSTFLAGS=-Awarnings
@@ -41,7 +42,6 @@ build:
 	@echo "🟦 Building: $(conf) (mmtk-plan=$(gc))"
 	@cd $(vm_root) && make --no-print-directory CONF=$(conf) THIRD_PARTY_HEAP=$$PWD/../../openjdk
 
-run: java=$(vm_root)/build/$(conf)/jdk/bin/java
 run:
 	MMTK_PLAN=$(gc) $(java) $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
 
@@ -66,4 +66,4 @@ bench-variant:
 clean-bench-variant: clean bench-variant
 
 gdb: build
-	MMTK_PLAN=$(gc) gdb --args ./mmtk-openjdk/repos/openjdk/build/linux-x86_64-normal-server-$(profile)/jdk/bin/java $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
+	gdb -ex "set env MMTK_PLAN=$(gc)" --args $(java) $(vm_args) $(heap_args) $(mmtk_args) $(bm_args)
