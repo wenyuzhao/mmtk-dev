@@ -1,11 +1,15 @@
 # Rakefile
 task default: [:hello]
 
-at_exit { sleep 1 }
+$command_finished = true
+at_exit { $command_finished || sleep(1) }
 
 def 🔵(command, cwd: '.')
     puts "🔵 #{command}"
-    system("cd #{cwd} && #{command}") || raise('❌')
+    $command_finished = false
+    res = system("cd #{cwd} && #{command}")
+    $command_finished = true
+    res || raise('❌')
 end
 
 ENV["RUST_BACKTRACE"] = "1"
@@ -67,5 +71,9 @@ namespace "jdk" do
 
     task :test => :build do
         🔵 "#{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
+    end
+
+    task :gdb => :build do
+        🔵 "gdb --args #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
     end
 end
