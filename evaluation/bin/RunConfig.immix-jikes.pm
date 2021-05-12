@@ -56,9 +56,10 @@ require Exporter;
 #
 # Directories
 #
+chomp($whoami = `whoami`);
 ($b,$path,$s) = fileparse($0);
 $rootdir = abs_path("$path../");
-$remotehost = "wenyuz\@squirrel.moma";
+$remotehost = "$whoami\@squirrel.moma";
 $remotedir = $rootdir;          # same directory structure on both machines
 
 #
