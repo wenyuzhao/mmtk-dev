@@ -12,6 +12,7 @@ def 🔵(command, cwd: '.')
     res || raise('❌')
 end
 
+# ENV["RUSTUP_TOOLCHAIN"] = "nightly-2020-12-20"
 ENV["RUST_BACKTRACE"] = "1"
 ENV['MMTK_PLAN'] = ENV['gc'] || 'NoGC'
 if ENV.has_key?("threads")
@@ -22,6 +23,7 @@ namespace "v8" do
     profile = ENV["profile"] || 'optdebug-mmtk'
     v8 = "./v8"
     mmtk = "./mmtk-v8/mmtk"
+    octane = "~/octane"
     no_max_failures = true
 
     task :build do
@@ -41,6 +43,11 @@ namespace "v8" do
         Rake::Task["v8:build"].invoke
         🔵 "gdb -ex='set confirm on' -ex r -ex q --args #{cmd}", cwd:v8
         exit 0
+    end
+
+    task :octane => :build do
+        cwd = ENV['PWD']
+        🔵 "#{cwd}/v8/out/x64.#{profile}/d8 ./run.js", cwd:octane
     end
 end
 
@@ -75,5 +82,31 @@ namespace "jdk" do
 
     task :gdb => :build do
         🔵 "gdb --args #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
+    end
+end
+
+namespace "jks" do
+    profile = ENV["profile"] || 'RBaseBaseSemiSpace'
+    heap = ENV["heap"] || '100M'
+    benchmark = ENV["bench"] || 'xalan'
+    n = ENV["n"] || '1'
+
+    jks = "./mmtk-jikesrvm/repos/jikesrvm"
+    build_args = "--m32 --answer-yes --use-third-party-heap=../../ --use-third-party-build-configs=../../jikesrvm/build/configs/ --use-external-source=../../jikesrvm/rvm/src"
+    if ENV.has_key?("q") || ENV.has_key?("quick")
+        build_args += " -q"
+    end
+    rvm = -> { "#{jks}/dist/#{profile}_x86_64_m32-linux/rvm" }
+    heap_args = -> { "-Xms#{heap} -Xmx#{heap}" }
+    probes = "$PWD/evaluation/probes"
+    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness"
+    bm_args = "#{dacapo_9_12} -n #{n} -c probe.DacapoBachCallback #{benchmark}"
+
+    task :build do
+        🔵 "./bin/buildit localhost #{profile} #{build_args}", cwd:jks
+    end
+
+    task :test do
+        🔵 "#{rvm.()} #{heap_args.()} #{bm_args}"
     end
 end

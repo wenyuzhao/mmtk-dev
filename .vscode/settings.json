@@ -13,6 +13,7 @@
     "rust-analyzer.linkedProjects": [
         "mmtk-core/Cargo.toml",
         "mmtk-openjdk/mmtk/Cargo.toml",
+        "mmtk-v8/mmtk/Cargo.toml",
     ],
     "C_Cpp.default.compilerArgs": [
         "-DINCLUDE_THIRD_PARTY_HEAP",
