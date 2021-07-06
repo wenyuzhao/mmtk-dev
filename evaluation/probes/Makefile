@@ -1,6 +1,6 @@
 include common.mk
 
-JAVAC_6=/usr/lib/jvm/java-6-openjdk-amd64/bin/javac
+JAVAC=/usr/lib/jvm/java-6-openjdk-amd64/bin/javac
 #usage: make [OPTION=-m32]. If OPTION=-m32 is specified and the current machine is X86_64, 32bit version will be build.
 #Before run make:
 #1) Please set the JDK variable in common.mk.
@@ -51,12 +51,12 @@ clean:
 	cd native/ptlsim; $(MAKE) $(MFLAGS) clean
 	cd native/valgrind; $(MAKE) $(MFLAGS) clean
 
-probes.jar: probe/RustMMTkProbe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class probe/DacapoChopinCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
+probes.jar: probe/RustMMTkProbe.class probe/RustMMTk32Probe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class probe/DacapoChopinCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
 	zip -r probes.jar *.class spec/harness/*.class probe/*.class
 	zip -r probes.jar *.class probe/*.class
 
 probe/RustMMTk32Probe.class: probe/RustMMTk32Probe.java
-	$(JAVAC_6) -target 1.6 -cp . $<
+	$(JAVAC) -target 1.6 -cp . $<
 
 SpecApplication.class: SpecApplication.java
 	$(JAVAC) -implicit:none -cp .:/usr/share/benchmarks/SPECjvm98 -sourcepath . $<
@@ -74,7 +74,7 @@ probe/DacapoBachCallback.class:
 	$(JAVAC) -cp .:$(DACAPOBACHJAR) probe/DacapoBachCallback.java
 
 probe/DacapoChopinCallback.class:
-	$(JAVAC) -cp .:$(DACAPOCHOPINJAR) probe/DacapoChopinCallback.java
+	$(JDK)/bin/javac -cp .:$(DACAPOCHOPINJAR) probe/DacapoChopinCallback.java
 
 probe/PJBB2005Callback.class:
 	$(JAVAC) -cp .:/usr/share/benchmarks/pjbb2005/jbb.jar probe/PJBB2005Callback.java
