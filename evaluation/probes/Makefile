@@ -1,6 +1,5 @@
 include common.mk
 
-JAVAC=/usr/lib/jvm/java-6-openjdk-amd64/bin/javac
 #usage: make [OPTION=-m32]. If OPTION=-m32 is specified and the current machine is X86_64, 32bit version will be build.
 #Before run make:
 #1) Please set the JDK variable in common.mk.
@@ -15,7 +14,6 @@ all: native-code probes.jar
 native-code:
 	cd native/rust_mmtk; $(MAKE) $(MFLAGS) all
 	cp -a native/rust_mmtk/librust_mmtk_probe.so librust_mmtk_probe.so
-	cp -a native/rust_mmtk/librust_mmtk_probe_32.so librust_mmtk_probe_32.so
 	cd native/hello_world; $(MAKE) $(MFLAGS) all
 	cp -a native/hello_world/libhello_world.so libhello_world.so
 	cd native/perf_event; $(MAKE) $(MFLAGS) all
@@ -30,6 +28,7 @@ test: all
 	$(JAVA) -Djava.library.path=`pwd` -Dprobes=HelloWorldNative -cp probes.jar:$(DACAPO2006JAR) Harness -c probe.Dacapo2006Callback fop
 	$(JAVA) -Dprobes=HelloWorld -cp probes.jar:$(DACAPO2006JAR) Harness -c probe.Dacapo2006Callback fop
 	$(JAVA) -Dprobes=Scenario -cp probes.jar:$(DACAPOBACHJAR) Harness -c probe.DacapoBachCallback fop
+	$(JAVA) -Dprobes=Scenario -cp probes.jar:$(DACAPOCHOPINJAR) Harness -c probe.DacapoChopinCallback fop
 	cd /usr/share/benchmarks/SPECjvm98; $(JAVA) -Dprobes=HelloWorld -cp $(CURDIR)/probes.jar:. SpecApplication -i1 _202_jess
 	$(JAVA) -Xmx1G -Xms200M -Dprobes=HelloWorld -cp probes.jar:/usr/share/benchmarks/pjbb2005/jbb.jar:/usr/share/benchmarks/pjbb2005/check.jar spec.jbb.JBBmain -propfile SPECjbb-8x10000.props -c probe.PJBB2005Callback -n 1
 	./perf_event_launcher PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS $(JAVA) -Djava.library.path=`pwd` -Dprobes=PerfEventLauncher -cp probes.jar:$(DACAPO2006JAR) Harness -c probe.Dacapo2006Callback fop
@@ -50,12 +49,9 @@ clean:
 	cd native/ptlsim; $(MAKE) $(MFLAGS) clean
 	cd native/valgrind; $(MAKE) $(MFLAGS) clean
 
-probes.jar: probe/RustMMTkProbe.class probe/RustMMTk32Probe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
+probes.jar: probe/RustMMTkProbe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class probe/DacapoChopinCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
 	zip -r probes.jar *.class spec/harness/*.class probe/*.class
 	zip -r probes.jar *.class probe/*.class
-
-probe/RustMMTk32Probe.class: probe/RustMMTk32Probe.java
-	$(JAVAC) -target 1.6 -cp . $<
 
 SpecApplication.class: SpecApplication.java
 	$(JAVAC) -implicit:none -cp .:/usr/share/benchmarks/SPECjvm98 -sourcepath . $<
@@ -71,6 +67,9 @@ probe/Dacapo2006Callback.class:
 
 probe/DacapoBachCallback.class:
 	$(JAVAC) -cp .:$(DACAPOBACHJAR) probe/DacapoBachCallback.java
+
+probe/DacapoChopinCallback.class:
+	$(JAVAC) -cp .:$(DACAPOCHOPINJAR) probe/DacapoChopinCallback.java
 
 probe/PJBB2005Callback.class:
 	$(JAVAC) -cp .:/usr/share/benchmarks/pjbb2005/jbb.jar probe/PJBB2005Callback.java
