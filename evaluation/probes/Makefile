@@ -1,5 +1,6 @@
 include common.mk
 
+JAVAC_6=/usr/lib/jvm/java-6-openjdk-amd64/bin/javac
 #usage: make [OPTION=-m32]. If OPTION=-m32 is specified and the current machine is X86_64, 32bit version will be build.
 #Before run make:
 #1) Please set the JDK variable in common.mk.
@@ -14,6 +15,7 @@ all: native-code probes.jar
 native-code:
 	cd native/rust_mmtk; $(MAKE) $(MFLAGS) all
 	cp -a native/rust_mmtk/librust_mmtk_probe.so librust_mmtk_probe.so
+	cp -a native/rust_mmtk/librust_mmtk_probe_32.so librust_mmtk_probe_32.so
 	cd native/hello_world; $(MAKE) $(MFLAGS) all
 	cp -a native/hello_world/libhello_world.so libhello_world.so
 	cd native/perf_event; $(MAKE) $(MFLAGS) all
@@ -52,6 +54,9 @@ clean:
 probes.jar: probe/RustMMTkProbe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class probe/DacapoChopinCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
 	zip -r probes.jar *.class spec/harness/*.class probe/*.class
 	zip -r probes.jar *.class probe/*.class
+
+probe/RustMMTk32Probe.class: probe/RustMMTk32Probe.java
+	$(JAVAC_6) -target 1.6 -cp . $<
 
 SpecApplication.class: SpecApplication.java
 	$(JAVAC) -implicit:none -cp .:/usr/share/benchmarks/SPECjvm98 -sourcepath . $<
