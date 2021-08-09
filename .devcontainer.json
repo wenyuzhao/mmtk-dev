@@ -1,0 +1,9 @@
+{
+    "name": "LeetCode",
+    "extensions": ["ms-vscode.cpptools", "leetcode.vscode-leetcode", "bungcip.better-toml", "matklad.rust-analyzer"],
+    "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu",
+    "postCreateCommand": "bash ./.github/scripts/setup.sh",
+    "settings": {
+        "terminal.integrated.defaultProfile.linux": "fish",
+    }
+}
