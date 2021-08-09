@@ -18,6 +18,7 @@ ENV['MMTK_PLAN'] = ENV['gc'] || 'NoGC'
 if ENV.has_key?("threads")
     ENV['MMTK_THREADS'] = ENV["threads"]
 end
+bench_dir = "$PWD/evaluation/bench"
 
 namespace "v8" do
     profile = ENV["profile"] || 'optdebug-mmtk'
@@ -70,7 +71,7 @@ namespace "jdk" do
         mmtk_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
     end
     probes = "$PWD/evaluation/probes"
-    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness"
+    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:#{bench_dir}/dacapo/dacapo-9.12-bach.jar Harness"
     bm_args = "#{dacapo_9_12} -n #{n} -c probe.DacapoBachCallback #{benchmark}"
     jdk = "./mmtk-openjdk/repos/openjdk"
     mmtk = "./mmtk-openjdk/mmtk"
@@ -108,7 +109,7 @@ namespace "jks" do
     rvm = -> { "#{jks}/dist/#{profile}_x86_64_m32-linux/rvm" }
     heap_args = -> { "-Xms#{heap} -Xmx#{heap}" }
     probes = "$PWD/evaluation/probes"
-    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar Harness"
+    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:#{bench_dir}/dacapo/dacapo-9.12-bach.jar Harness"
     bm_args = "#{dacapo_9_12} -n #{n} -c probe.DacapoBachCallback #{benchmark}"
 
     task :build do
