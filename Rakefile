@@ -23,6 +23,7 @@ namespace "v8" do
     profile = ENV["profile"] || 'optdebug-mmtk'
     v8 = "./v8"
     mmtk = "./mmtk-v8/mmtk"
+    octane = "~/octane"
     no_max_failures = true
 
     task :build do
@@ -42,6 +43,11 @@ namespace "v8" do
         Rake::Task["v8:build"].invoke
         🔵 "gdb -ex='set confirm on' -ex r -ex q --args #{cmd}", cwd:v8
         exit 0
+    end
+
+    task :octane => :build do
+        cwd = ENV['PWD']
+        🔵 "#{cwd}/v8/out/x64.#{profile}/d8 ./run.js", cwd:octane
     end
 end
 
@@ -87,7 +93,6 @@ namespace "jdk" do
         🔵 "gdb --args #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
     end
 end
-
 
 namespace "jks" do
     profile = ENV["profile"] || 'RBaseBaseSemiSpace'
