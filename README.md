@@ -1,29 +1,18 @@
 
-# Clone this repo
+# Getting Started
 
-1. `git clone https://github.com/wenyuzhao/MMTk-Dev.git --recursive`
-2. `cd MMTk-Dev`
+1. Open with GitHub Codespace or `git clone https://github.com/wenyuzhao/MMTk-Dev.git --recursive`
 
-# OpenJDK: Quick Start
+## OpenJDK
 
-1. `make vm=jdk config` -- _Note: this only needs to run once._
-2. `make vm=jdk build run gc=semispace benchmark=xalan`
+1. `rake jdk:config` -- _Note: this only needs to run once._
+2. `rake jdk:test gc=semispace heap=100M bench=xalan`
 
-### Release Build
+## JikesRVM
 
-1. `make vm=jdk config profile=release`
-2. `make vm=jdk build run profile=release gc=semispace benchmark=xalan`
+1. `rake jks:build profile=RBaseBaseSemiSpace `
+2. `rake jks:test profile=RBaseBaseSemiSpace heap=100M bench=xalan`
 
-### Run _mmtk-core_ Pre-submission CI
+# V8
 
-* `make vm=jdk run-ci-tests`
-
-# JikesRVM: Quick Start
-
-1. `make vm=jikes config` -- _Note: this only needs to run once._
-1. `make vm=jikes build test profile=RBaseBaseSemiSpace benchmark=xalan`
-
-# V8: Quick Start
-
-1. `make vm=v8 setup` -- _Note: this only needs to run once._
-1. `make vm=v8 build test`
+...WIP
