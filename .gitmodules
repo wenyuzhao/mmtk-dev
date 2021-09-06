@@ -10,3 +10,6 @@
 [submodule "mmtk-jikesrvm"]
 	path = mmtk-jikesrvm
 	url = https://github.com/mmtk/mmtk-jikesrvm.git
+[submodule "running-ng"]
+	path = running-ng
+	url = https://github.com/anupli/running-ng

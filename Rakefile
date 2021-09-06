@@ -12,7 +12,8 @@ def 🔵(command, cwd: '.')
     res || raise('❌')
 end
 
-ENV["RUSTUP_TOOLCHAIN"] = "nightly-2021-05-12"
+# ENV["RUSTUP_TOOLCHAIN"] = "nightly-2021-05-12"
+# ENV["RUSTUP_TOOLCHAIN"] = "nightly-2020-12-20"
 ENV["RUST_BACKTRACE"] = "1"
 ENV['MMTK_PLAN'] = ENV['gc'] || 'NoGC'
 if ENV.has_key?("threads")
@@ -58,7 +59,7 @@ namespace "jdk" do
     benchmark = ENV["bench"] || 'xalan'
     n = ENV["n"] || '1'
 
-    vm_args = "-XX:MetaspaceSize=1G"
+    vm_args = "-XX:MetaspaceSize=1G -XX:-UseBiasedLocking"
     heap_args = -> { "-Xms#{heap} -Xmx#{heap}" }
     mmtk_args = "-XX:+UseThirdPartyHeap -Dprobes=RustMMTk"
     if ENV.has_key?("int")
@@ -71,8 +72,8 @@ namespace "jdk" do
         mmtk_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
     end
     probes = "$PWD/evaluation/probes"
-    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:#{bench_dir}/dacapo/dacapo-9.12-bach.jar Harness"
-    bm_args = "#{dacapo_9_12} -n #{n} -c probe.DacapoBachCallback #{benchmark}"
+    dacapo_9_12 = "-Djava.library.path=#{probes} -cp #{probes}:#{probes}/probes.jar:/usr/share/benchmarks/dacapo/dacapo-evaluation-git-69a704e.jar Harness"
+    bm_args = "#{dacapo_9_12} -n #{n} -c probe.DacapoChopinCallback #{benchmark}"
     jdk = "./mmtk-openjdk/repos/openjdk"
     mmtk = "./mmtk-openjdk/mmtk"
     conf = -> { "linux-x86_64-normal-server-#{profile}" }
