@@ -15,11 +15,14 @@ end
 # ENV["RUSTUP_TOOLCHAIN"] = "nightly-2021-05-12"
 # ENV["RUSTUP_TOOLCHAIN"] = "nightly-2020-12-20"
 ENV["RUST_BACKTRACE"] = "1"
-ENV['MMTK_PLAN'] = ENV['gc'] || 'NoGC'
 if ENV.has_key?("threads")
     ENV['MMTK_THREADS'] = ENV["threads"]
 end
 bench_dir = "$PWD/evaluation/bench"
+gc = ENV['gc'] || 'NoGC'
+if gc == gc.downcase
+    ENV['MMTK_PLAN'] = gc
+end
 
 namespace "v8" do
     profile = ENV["profile"] || 'optdebug-mmtk'
@@ -77,7 +80,7 @@ namespace "jdk" do
     jdk = "./mmtk-openjdk/repos/openjdk"
     mmtk = "./mmtk-openjdk/mmtk"
     conf = -> { "linux-x86_64-normal-server-#{profile}" }
-    java = -> { "#{jdk}/build/#{conf.()}/jdk/bin/java" }
+    java = -> { "MMTK_PLAN=#{gc} #{jdk}/build/#{conf.()}/jdk/bin/java" }
 
     task :config do
         🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --disable-zip-debug-info", cwd:jdk
