@@ -69,7 +69,7 @@ namespace "jdk" do
         mmtk_args += ' -Xint'
     end
     if ENV.has_key?("noc1")
-        mmtk_args += ' -XX:-TieredCompilation  -Xcomp'
+        mmtk_args += ' -XX:-TieredCompilation' # -Xcomp
     end
     if ENV.has_key?("nozero")
         mmtk_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
@@ -80,7 +80,7 @@ namespace "jdk" do
     jdk = "./mmtk-openjdk/repos/openjdk"
     mmtk = "./mmtk-openjdk/mmtk"
     conf = -> { "linux-x86_64-normal-server-#{profile}" }
-    java = -> { "MMTK_PLAN=#{gc} #{jdk}/build/#{conf.()}/jdk/bin/java" }
+    java = -> { "#{jdk}/build/#{conf.()}/jdk/bin/java" }
 
     task :config do
         🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --disable-zip-debug-info", cwd:jdk
@@ -90,12 +90,16 @@ namespace "jdk" do
         🔵 "make --no-print-directory CONF=#{conf.()} THIRD_PARTY_HEAP=$PWD/../../openjdk", cwd:jdk
     end
 
+    task :clean do
+        🔵 "make --no-print-directory CONF=#{conf.()} clean", cwd:jdk
+    end
+
     task :test => :build do
-        🔵 "#{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
+        🔵 "MMTK_PLAN=#{gc} #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
     end
 
     task :gdb => :build do
-        🔵 "gdb --args #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
+        🔵 "MMTK_PLAN=#{gc} gdb --args #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
     end
 end
 

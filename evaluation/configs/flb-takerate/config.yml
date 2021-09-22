@@ -1,0 +1,56 @@
+includes:
+  - "../../../running-ng/config/base/runbms.yml"
+
+benchmarks:
+  dacapochopin-69a704e:
+    - avrora
+    - batik
+    - biojava
+    - cassandra
+    - eclipse
+    - fop
+    - graphchi
+    - h2
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - lusearch
+    - pmd
+    - sunflow
+    - tradebeans
+    - tradesoap
+    - tomcat
+    - xalan
+    - zxing
+
+overrides:
+  "suites.dacapochopin-69a704e.timing_iteration": 1
+  "suites.dacapochopin-69a704e.callback": "probe.DacapoChopinCallback"
+  "suites.dacapochopin-69a704e.timeout": 600
+  "minheap_multiplier": 4.0
+
+runtimes:
+  immix_field_barrier:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/flb-takerate/jdk-barrier-measurement/jdk"
+
+modifiers:
+  probes_cp:
+    type: JVMClasspath
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
+  probes:
+    type: JVMArg
+    val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
+  barrier:
+    type: EnvVar
+    var: "IX_BARRIER"
+    val: "{0}"
+  threads:
+    type: EnvVar
+    var: "MMTK_THREADS"
+    val: "{0}"
+
+configs:
+  - "immix_field_barrier|ms|s|c2|mmtk_gc-Immix|barrier-FieldBarrier|threads-1|tph|probes_cp|probes"
