@@ -5,3 +5,4 @@ tmp/
 bin/RunConfig.pm
 *.log
 /log
+configs/

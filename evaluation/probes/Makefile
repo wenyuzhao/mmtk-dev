@@ -24,13 +24,14 @@ native-code:
 	cp -a native/perf_event/libperf_event_reader.so libperf_event_reader.so
 	cd native/ptlsim; $(MAKE) $(MFLAGS) all
 	cp -a native/ptlsim/libptlsim.so libptlsim.so
+	cd native/jvmti_agents; $(MAKE) $(MFLAGS) all
+	cp -a native/jvmti_agents/lib*.so ./
 
 
 test: all
 	$(JAVA) -Djava.library.path=`pwd` -Dprobes=HelloWorldNative -cp probes.jar:$(DACAPO2006JAR) Harness -c probe.Dacapo2006Callback fop
 	$(JAVA) -Dprobes=HelloWorld -cp probes.jar:$(DACAPO2006JAR) Harness -c probe.Dacapo2006Callback fop
 	$(JAVA) -Dprobes=Scenario -cp probes.jar:$(DACAPOBACHJAR) Harness -c probe.DacapoBachCallback fop
-	$(JAVA) -Dprobes=Scenario -cp probes.jar:$(DACAPOCHOPINJAR) Harness -c probe.DacapoChopinCallback fop
 	cd /usr/share/benchmarks/SPECjvm98; $(JAVA) -Dprobes=HelloWorld -cp $(CURDIR)/probes.jar:. SpecApplication -i1 _202_jess
 	$(JAVA) -Xmx1G -Xms200M -Dprobes=HelloWorld -cp probes.jar:/usr/share/benchmarks/pjbb2005/jbb.jar:/usr/share/benchmarks/pjbb2005/check.jar spec.jbb.JBBmain -propfile SPECjbb-8x10000.props -c probe.PJBB2005Callback -n 1
 	./perf_event_launcher PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS $(JAVA) -Djava.library.path=`pwd` -Dprobes=PerfEventLauncher -cp probes.jar:$(DACAPO2006JAR) Harness -c probe.Dacapo2006Callback fop
@@ -48,10 +49,11 @@ clean:
 	rm -f probe/*.class
 	cd native/perf_event; $(MAKE) $(MFLAGS) clean
 	cd native/hello_world; $(MAKE) $(MFLAGS) clean
+	cd native/jvmti_agents; $(MAKE) $(MFLAGS) clean
 	cd native/ptlsim; $(MAKE) $(MFLAGS) clean
 	cd native/valgrind; $(MAKE) $(MFLAGS) clean
 
-probes.jar: probe/RustMMTkProbe.class probe/RustMMTk32Probe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class probe/DacapoChopinCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
+probes.jar: probe/RustMMTkProbe.class probe/RustMMTk32Probe.class probe/OpenJDKProbe.class probe/HelloWorldNativeProbe.class probe/ScenarioProbe.class probe/StopJITProbe.class probe/ValgrindProbe.class probe/PTLsimProbe.class probe/JikesRVMPerfEventProbe.class probe/MMTkProbe.class probe/ThreadEventProbe.class probe/PowerProbe.class probe/PerfEventProbe.class probe/PerfEventReader.class probe/PerfEventLauncherProbe.class probe/ApplicationPerfEventProbe.class probe/HelloWorldProbe.class probe/Probe.class probe/ProbeMux.class probe/Dacapo2006Callback.class probe/DacapoBachCallback.class  probe/DacapoChopinCallback.class spec/harness/ProgramRunner.class spec/harness/RunProgram.class SpecApplication.class probe/ReplayProbe.class probe/CompilerSamplesProbe.class probe/PJBB2005Callback.class
 	zip -r probes.jar *.class spec/harness/*.class probe/*.class
 	zip -r probes.jar *.class probe/*.class
 
@@ -73,9 +75,6 @@ probe/Dacapo2006Callback.class:
 probe/DacapoBachCallback.class:
 	$(JAVAC) -cp .:$(DACAPOBACHJAR) probe/DacapoBachCallback.java
 
-probe/DacapoChopinCallback.class:
-	$(JDK)/bin/javac -cp .:$(DACAPOCHOPINJAR) probe/DacapoChopinCallback.java
-
 probe/PJBB2005Callback.class:
 	$(JAVAC) -cp .:/usr/share/benchmarks/pjbb2005/jbb.jar probe/PJBB2005Callback.java
 
@@ -84,3 +83,6 @@ probe/OpenJDKProbe.class: probe/OpenJDKProbe.java
 
 probe/RustMMTkProbe.class: probe/RustMMTkProbe.java
 	$(JAVAC) -cp . probe/RustMMTkProbe.java
+
+probe/DacapoChopinCallback.class:
+	$(JDK)/bin/javac -cp .:$(DACAPOCHOPINJAR) probe/DacapoChopinCallback.java
