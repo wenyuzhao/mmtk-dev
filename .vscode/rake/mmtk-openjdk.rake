@@ -14,13 +14,13 @@ namespace "jdk" do
     heap_args = -> { "-Xms#{heap} -Xmx#{heap}" }
     mmtk_args = "-XX:+UseThirdPartyHeap -Dprobes=RustMMTk"
     if interpreter_only
-        mmtk_args += ' -Xint'
+        vm_args += ' -Xint'
     end
     if disable_c1
-        mmtk_args += ' -XX:-TieredCompilation' # -Xcomp
+        vm_args += ' -XX:-TieredCompilation' # -Xcomp
     end
     if disable_tlab_zeroing
-        mmtk_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
+        vm_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
     end
     bm_args = "#{$dacapo_args.($dacapo_new_jar)} -n #{n} -c probe.DacapoChopinCallback #{benchmark}"
     jdk = "./mmtk-openjdk/repos/openjdk"
@@ -49,5 +49,13 @@ namespace "jdk" do
 
     task :gdb => :build do
         🔵 "MMTK_PLAN=#{$gc} gdb --args #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
+    end
+
+    namespace "hs" do
+        openjdk_gc_args = "-XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:TLABSize=32K -XX:-ResizeTLAB -XX:+UnlockExperimentalVMOptions -XX:+Use#{$gc}GC"
+
+        task :test => :build do
+            🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{openjdk_gc_args} #{$jvmti_args} #{bm_args}"
+        end
     end
 end

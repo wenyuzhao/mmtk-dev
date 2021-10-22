@@ -5,3 +5,24 @@ $dacapo_args = -> (dacapo_jar) { "-Djava.library.path=#{$probes_dir} -cp #{$prob
 
 $probes_dir = "$PWD/evaluation/probes"
 $probes_jar = "#{$probes_dir}/probes.jar"
+
+$jvmti_args = "-agentpath:$PWD/evaluation/probes/libperf_statistics.so -Dprobes=RustMMTk"
+$jvmti_env = "LD_PRELOAD=$PWD/evaluation/probes/libperf_statistics.so"
+
+perf_events = [
+    "PERF_COUNT_HW_CPU_CYCLES",
+    "PERF_COUNT_HW_INSTRUCTIONS",
+    # "PERF_COUNT_HW_CACHE_LL:MISS",
+    "PERF_COUNT_HW_CACHE_L1D:MISS",
+    "PERF_COUNT_HW_CACHE_DTLB:MISS",
+]
+# Intel
+# perf_events.append([
+#     "PERF_COUNT_HW_CACHE_LL:MISS",
+# ])
+
+ENV['PERF_EVENTS'] = perf_events.join(",")
+
+mmtk_perf_events = perf_events.map { |x| "#{x},0,-1" }.join(";")
+
+ENV['MMTK_PHASE_PERF_EVENTS'] = mmtk_perf_events
