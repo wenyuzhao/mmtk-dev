@@ -81,6 +81,9 @@ namespace "jdk" do
     mmtk = "./mmtk-openjdk/mmtk"
     conf = -> { "linux-x86_64-normal-server-#{profile}" }
     java = -> { "#{jdk}/build/#{conf.()}/jdk/bin/java" }
+    if ENV.has_key?("t")
+        bm_args += ' -t ' + ENV["t"]
+    end
 
     task :config do
         🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --disable-zip-debug-info", cwd:jdk
