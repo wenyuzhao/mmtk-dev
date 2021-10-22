@@ -5,4 +5,5 @@ tmp/
 bin/RunConfig.pm
 *.log
 /log
-configs/
+configs/*
+!configs/*.yml

@@ -1,0 +1,126 @@
+includes:
+  - "../running-ng/config/base/runbms.yml"
+
+overrides:
+  invocations: 20
+  suites.dacapochopin-69a704e.timing_iteration: 5
+  suites.dacapochopin-69a704e.callback: probe.DacapoChopinCallback
+  suites.dacapochopin-69a704e.timeout: 600
+  suites.dacapochopin-69a704e.minheap_values.immix-sim:
+    avrora: 57
+    batik: 980
+    biojava: 566
+    cassandra: 2344
+    eclipse: 2824
+    fop: 170
+    graphchi: 306
+    h2: 1154 # ???
+    h2o: 978
+    jme: 236
+    jython: 908
+    # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
+    # kafka: inf
+    luindex: 153
+    lusearch: 732
+    pmd: 1913
+    sunflow: 1060
+    tomcat: 1508
+    tradebeans: 169 # ???
+    tradesoap: 133 # ???
+    xalan: 186
+    zxing: 794
+  suites.dacapochopin-69a704e.minheap_values.gencopy:
+    avrora: 14
+    batik: 668
+    biojava: 428
+    cassandra: 218
+    eclipse: 1054
+    fop: 44
+    graphchi: 256
+    # h2: 1154 # ???
+    h2o: 1013
+    jme: 236
+    jython: 112
+    # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
+    # kafka: inf
+    luindex: 54
+    lusearch: 418
+    pmd: 3964
+    sunflow: 52
+    tomcat: 120
+    # tradebeans: 169 # ???
+    # tradesoap: 133 # ???
+    xalan: 36
+    zxing: 560
+
+benchmarks:
+  dacapochopin-69a704e:
+    - avrora
+    - batik
+    - biojava
+    - cassandra
+    - eclipse
+    - fop
+    - graphchi
+    # - h2
+    - h2o
+    - jme
+    - jython
+    # - kafka
+    - luindex
+    - lusearch
+    - pmd
+    - sunflow
+    - tomcat
+    # - tradebeans
+    # - tradesoap
+    - xalan
+    - zxing
+
+modifiers:
+  probes_cp:
+    type: JVMClasspath
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
+  probes:
+    type: JVMArg
+    val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
+  jvmti:
+    type: JVMArg
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+  jvmti_env:
+    type: EnvVar
+    var: "LD_PRELOAD"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+  perf:
+    type: EnvVar
+    var: "PERF_EVENTS"
+    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+  pretouch:
+    type: JVMArg
+    val: "-XX:+AlwaysPreTouch"
+  mmtk_perf:
+    type: EnvVar
+    var: "MMTK_PHASE_PERF_EVENTS"
+    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  hugetlb:
+    type: JVMArg
+    val: "-XX:+UseTransparentHugePages"
+  barrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "{0}"
+  threads:
+    type: EnvVar
+    var: "MMTK_THREADS"
+    val: "{0}"
+  common:
+    type: ModifierSet
+    val: "ms|s|c2|probes|probes_cp"
+  nogc:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "NoGC"
+  ix:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
