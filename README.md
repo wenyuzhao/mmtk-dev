@@ -1,12 +1,13 @@
 
 # Getting Started
 
-1. Open with GitHub Codespace or `git clone https://github.com/wenyuzhao/MMTk-Dev.git --recursive`
+1. `git clone https://github.com/wenyuzhao/MMTk-Dev.git --recursive`
+2. Run `rake init` once to initialize the repo.
 
 ## OpenJDK
 
 1. `rake jdk:config` -- _Note: this only needs to run once._
-2. `rake jdk:test gc=semispace heap=100M bench=xalan`
+2. `rake jdk:test gc=SemiSpace heap=100M bench=xalan`
 
 ## JikesRVM
 
