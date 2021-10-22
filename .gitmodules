@@ -13,3 +13,6 @@
 [submodule "running-ng"]
 	path = running-ng
 	url = https://github.com/anupli/running-ng
+[submodule "probes"]
+	path = evaluation/probes
+	url = https://github.com/anupli/probes.git
