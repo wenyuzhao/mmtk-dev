@@ -1,0 +1,71 @@
+modifiers:
+  probes_cp:
+    type: JVMClasspath
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
+  probes:
+    type: JVMArg
+    val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
+  jvmti:
+    type: JVMArg
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+  jvmti_env:
+    type: EnvVar
+    var: "LD_PRELOAD"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+  perf:
+    type: EnvVar
+    var: "PERF_EVENTS"
+    # AMD
+    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+    # Intel
+    # val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+  pretouch:
+    type: JVMArg
+    val: "-XX:+AlwaysPreTouch"
+  hs_perf:
+    type: ModifierSet
+    val: "jvmti|jvmti_env|perf"
+  mmtk_perf:
+    type: EnvVar
+    var: "MMTK_PHASE_PERF_EVENTS"
+    # AMD
+    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+    # Intel
+    # val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  hugetlb:
+    type: JVMArg
+    val: "-XX:+UseTransparentHugePages"
+  barrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "{0}"
+  threads:
+    type: EnvVar
+    var: "MMTK_THREADS"
+    val: "{0}"
+  ms:
+    type: JVMArg
+    val: "-XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking"
+  common:
+    type: ModifierSet
+    val: "ms|s|c2|probes|probes_cp"
+  nogc:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "NoGC"
+  ix:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
+  epsilon:
+    type: ModifierSet
+    val: "hotspot_gc-Epsilon"
+  g1:
+    type: ModifierSet
+    val: "hotspot_gc-G1"
+  shenandoah:
+    type: ModifierSet
+    val: "hotspot_gc-Shenandoah"
+  parallel:
+    type: ModifierSet
+    val: "hotspot_gc-Parallel"

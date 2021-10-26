@@ -1,5 +1,6 @@
 includes:
   - "../running-ng/config/base/runbms.yml"
+  - "./modifiers.yml"
 
 overrides:
   invocations: 20
@@ -52,6 +53,27 @@ overrides:
     # tradesoap: 133 # ???
     xalan: 36
     zxing: 560
+  suites.dacapochopin-69a704e.minheap_values.immix-rc:
+    avrora: 13
+    batik: 429
+    biojava: 270
+    cassandra: 281
+    eclipse: 825
+    fop: 43
+    graphchi: 256
+    h2: 2216
+    h2o: 109
+    jme: 236
+    jython: 82
+    luindex: 34
+    lusearch: 454
+    pmd: 736
+    sunflow: 81
+    tomcat: 130
+    # tradebeans: .inf
+    # tradesoap: .inf
+    xalan: 45
+    zxing: 484
 
 benchmarks:
   dacapochopin-69a704e:
@@ -76,51 +98,3 @@ benchmarks:
     # - tradesoap
     - xalan
     - zxing
-
-modifiers:
-  probes_cp:
-    type: JVMClasspath
-    val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
-  probes:
-    type: JVMArg
-    val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
-  jvmti:
-    type: JVMArg
-    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
-  jvmti_env:
-    type: EnvVar
-    var: "LD_PRELOAD"
-    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
-  perf:
-    type: EnvVar
-    var: "PERF_EVENTS"
-    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
-  pretouch:
-    type: JVMArg
-    val: "-XX:+AlwaysPreTouch"
-  mmtk_perf:
-    type: EnvVar
-    var: "MMTK_PHASE_PERF_EVENTS"
-    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
-  hugetlb:
-    type: JVMArg
-    val: "-XX:+UseTransparentHugePages"
-  barrier:
-    type: EnvVar
-    var: "BARRIER"
-    val: "{0}"
-  threads:
-    type: EnvVar
-    var: "MMTK_THREADS"
-    val: "{0}"
-  common:
-    type: ModifierSet
-    val: "ms|s|c2|probes|probes_cp"
-  nogc:
-    type: EnvVar
-    var: "MMTK_PLAN"
-    val: "NoGC"
-  ix:
-    type: EnvVar
-    var: "MMTK_PLAN"
-    val: "Immix"
