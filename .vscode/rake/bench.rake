@@ -5,7 +5,7 @@ namespace "bench" do
     dest = -> { "#{moma}.moma:/home/wenyuz/" }
 
     def rsync(src, dst)
-        🔵 "rsync -azR --info=progress2 #{src} #{dst}"
+        🔵 "rsync -azR --no-i-r -h --info=progress2 #{src} #{dst}"
     end
 
     task :rsync do
