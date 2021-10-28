@@ -52,7 +52,8 @@ namespace "jdk" do
     end
 
     namespace "hs" do
-        openjdk_gc_args = "-XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:TLABSize=32K -XX:-ResizeTLAB -XX:+UnlockExperimentalVMOptions -XX:+Use#{$gc}GC"
+        mn = ENV["mn"] || '96M'
+        openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:TLABSize=32K -XX:-ResizeTLAB -Xmn#{mn} -XX:+Use#{$gc}GC"
 
         task :test => :build do
             🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{openjdk_gc_args} #{$jvmti_args} #{bm_args}"
