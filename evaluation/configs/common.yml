@@ -8,28 +8,26 @@ overrides:
   suites.dacapochopin-69a704e.callback: probe.DacapoChopinCallback
   suites.dacapochopin-69a704e.timeout: 600
   suites.dacapochopin-69a704e.minheap_values.immix-sim:
-    avrora: 57
-    batik: 980
-    biojava: 566
-    cassandra: 2344
-    eclipse: 2824
-    fop: 170
-    graphchi: 306
-    h2: 1154 # ???
-    h2o: 978
+    avrora: 27
+    batik: 968
+    biojava: 418
+    cassandra: 2325
+    eclipse: 2780
+    fop: 134
+    graphchi: 256
+    # h2: .inf
+    h2o: 4099
     jme: 236
-    jython: 908
-    # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
-    # kafka: inf
-    luindex: 153
-    lusearch: 732
-    pmd: 1913
-    sunflow: 1060
-    tomcat: 1508
-    tradebeans: 169 # ???
-    tradesoap: 133 # ???
-    xalan: 186
-    zxing: 794
+    jython: 729
+    luindex: 55
+    lusearch: 1154
+    pmd: 1855
+    sunflow: 1282
+    tomcat: 1482
+    # tradebeans: .inf
+    # tradesoap: .inf
+    xalan: 78
+    zxing: 746
   suites.dacapochopin-69a704e.minheap_values.gencopy:
     avrora: 14
     batik: 668
