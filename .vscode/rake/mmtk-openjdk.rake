@@ -8,6 +8,9 @@ namespace "jdk" do
     disable_c1 = ENV.has_key?("noc1")
     disable_tlab_zeroing = ENV.has_key?("nozero")
     fixed_mutator_threads = ENV.has_key?("t")
+    if ENV.has_key?("features")
+        ENV["GC_FEATURES"] = ENV["features"]
+    end
 
     # Other configs
     vm_args = "-XX:MetaspaceSize=1G -XX:-UseBiasedLocking"
@@ -53,7 +56,7 @@ namespace "jdk" do
 
     namespace "hs" do
         mn = ENV["mn"] || '96M'
-        openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:TLABSize=32K -XX:-ResizeTLAB -Xmn#{mn} -XX:+Use#{$gc}GC"
+        openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -Xmn#{mn} -XX:+Use#{$gc}GC"
 
         task :test => :build do
             🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{openjdk_gc_args} #{$jvmti_args} #{bm_args}"
