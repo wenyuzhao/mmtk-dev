@@ -1,4 +1,15 @@
 modifiers:
+  c2:
+    type: JVMArg
+    val: "-XX:-TieredCompilation -Xcomp"
+    excludes:
+      # These two benchmarks exit with code 1
+      dacapochopin-69a704e:
+        - tradebeans
+        - tradesoap
+      dacapochopin-29a657f:
+        - tradebeans
+        - tradesoap
   probes_cp:
     type: JVMClasspath
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
@@ -75,3 +86,6 @@ modifiers:
   g1r:
     type: JVMArg
     val: "-XX:G1HeapRegionSize={0}"
+  tlab:
+    type: JVMArg
+    val: "-XX:TLABSize={0} -XX:-ResizeTLAB"

@@ -7,7 +7,10 @@ overrides:
   suites.dacapochopin-69a704e.timing_iteration: 5
   suites.dacapochopin-69a704e.callback: probe.DacapoChopinCallback
   suites.dacapochopin-69a704e.timeout: 600
-  suites.dacapochopin-69a704e.minheap_values.immix-sim:
+  suites.dacapochopin-29a657f.timing_iteration: 5
+  suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
+  suites.dacapochopin-29a657f.timeout: 600
+  suites.dacapochopin-29a657f.minheap_values.immix-sim:
     avrora: 27
     batik: 968
     biojava: 418
@@ -28,7 +31,7 @@ overrides:
     # tradesoap: .inf
     xalan: 78
     zxing: 746
-  suites.dacapochopin-69a704e.minheap_values.gencopy:
+  suites.dacapochopin-29a657f.minheap_values.gencopy:
     avrora: 14
     batik: 668
     biojava: 428
@@ -51,7 +54,7 @@ overrides:
     # tradesoap: 133 # ???
     xalan: 36
     zxing: 560
-  suites.dacapochopin-69a704e.minheap_values.immix-rc:
+  suites.dacapochopin-29a657f.minheap_values.immix-rc:
     avrora: 13
     batik: 429
     biojava: 270
@@ -74,7 +77,7 @@ overrides:
     zxing: 484
 
 benchmarks:
-  dacapochopin-69a704e:
+  dacapochopin-29a657f:
     - avrora
     - batik
     - biojava
