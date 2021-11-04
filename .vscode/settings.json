@@ -57,11 +57,11 @@
     ],
     "C_Cpp.autoAddFileAssociations": false,
     "terminal.integrated.defaultProfile.linux": "fish",
-    "git.ignoredRepositories": [
-        "evaluation/probes",
-        "evaluation/running-ng",
-    ],
-    "git.ignoreSubmodules": true,
+    // "git.ignoredRepositories": [
+    //     "evaluation/probes",
+    //     "evaluation/running-ng",
+    // ],
+    // "git.ignoreSubmodules": true,
 }
 
 // BUILD_GTEST_LAUNCHER_COMPILE_VARDEPS_old:=-D__STDC_FORMAT_MACROS

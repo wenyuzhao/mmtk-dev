@@ -46,6 +46,10 @@ namespace "jdk" do
         🔵 "make --no-print-directory CONF=#{conf.()} clean", cwd:jdk
     end
 
+    task :fix_mmtk do
+        🔵 "cargo clean", cwd:mmtk
+    end
+
     task :test => :build do
         🔵 "MMTK_PLAN=#{$gc} #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args}"
     end
