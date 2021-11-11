@@ -59,7 +59,7 @@ modifiers:
     val: "-XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking"
   mn:
     type: JVMArg
-    val: "-Xmn{0}"
+    val: "-Xmn{0} -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp"
@@ -77,6 +77,9 @@ modifiers:
   g1:
     type: ModifierSet
     val: "hotspot_gc-G1"
+  z:
+    type: ModifierSet
+    val: "hotspot_gc-Z"
   shenandoah:
     type: ModifierSet
     val: "hotspot_gc-Shenandoah"

@@ -35,7 +35,7 @@ namespace "jdk" do
     end
 
     task :config do
-        🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --disable-zip-debug-info", cwd:jdk
+        🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --disable-zip-debug-info --with-jvm-features=shenandoahgc", cwd:jdk
     end
 
     task :build do
@@ -59,11 +59,13 @@ namespace "jdk" do
     end
 
     namespace "hs" do
-        mn = ENV["mn"] || '96M'
-        openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -Xmn#{mn} -XX:+Use#{$gc}GC"
+        mn = ENV["mn"] || '33M'
+        openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy -Xmn#{mn} -XX:+Use#{$gc}GC"
+        # openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:+Use#{$gc}GC"
+        hs_args = ENV["hs_args"] || ''
 
         task :test => :build do
-            🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{openjdk_gc_args} #{$jvmti_args} #{bm_args}"
+            🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{openjdk_gc_args} #{$jvmti_args} #{hs_args} #{bm_args}"
         end
     end
 end

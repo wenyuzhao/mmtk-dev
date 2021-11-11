@@ -31,6 +31,27 @@ overrides:
     # tradesoap: .inf
     xalan: 78
     zxing: 746
+  suites.dacapochopin-29a657f.minheap_values.immix:
+    avrora: 10
+    batik: 457
+    biojava: 194
+    cassandra: 136
+    eclipse: 571
+    fop: 30
+    graphchi: 256
+    h2: 2082
+    h2o: 100
+    jme: 236
+    jython: 71
+    luindex: 28
+    lusearch: 30
+    pmd: 289
+    sunflow: 76
+    tomcat: 71
+    # tradebeans: .inf
+    # tradesoap: .inf
+    xalan: 20
+    zxing: 435
   suites.dacapochopin-29a657f.minheap_values.gencopy:
     avrora: 14
     batik: 668
@@ -63,9 +84,9 @@ overrides:
     fop: 43
     graphchi: 256
     h2: 2216
-    h2o: 109
+    h2o: 1013
     jme: 236
-    jython: 82
+    jython: 112
     luindex: 34
     lusearch: 454
     pmd: 736
@@ -75,6 +96,27 @@ overrides:
     # tradesoap: .inf
     xalan: 45
     zxing: 484
+  suites.dacapochopin-29a657f.minheap_values.lxr:
+    avrora: 13
+    batik: 481
+    biojava: 203
+    cassandra: 344
+    eclipse: 939
+    fop: 45
+    graphchi: 256
+    h2: 2892
+    h2o: 124
+    jme: 236
+    jython: 82
+    luindex: 4098
+    lusearch: 524
+    pmd: 736
+    sunflow: 88
+    tomcat: 786
+    # tradebeans: .inf
+    # tradesoap: .inf
+    xalan: 58
+    zxing: 526
 
 benchmarks:
   dacapochopin-29a657f:
