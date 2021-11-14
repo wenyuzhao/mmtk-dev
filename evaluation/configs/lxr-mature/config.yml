@@ -1,0 +1,74 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-mature/config.yml 8 0 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 5
+  suites.dacapochopin-29a657f.minheap: immix-rc
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - cassandra
+    - eclipse
+    - graphchi
+    # - h2
+    - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    # - tradebeans
+    # - tradesoap
+    - xalan
+    - zxing
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-mature/jdk-d20bb224/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+
+
+configs:
+  - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M
+  - jdk|g1|common|hs_perf|tlab-32K|mn-64M|g1r-1M # 32M
+
+  # - jdk|ix|common|tph|mmtk_perf|nb-1024|noreuse
+  # - jdk-noreuse|ix|common|tph|mmtk_perf|nb-1024
+  # - jdk-sim|ix|common|tph|mmtk_perf|nb-1024
+  # - jdk-barrier|ix|common|tph|mmtk_perf|nb-1024|barrier-NoBarrier
+  # - jdk-barrier|ix|common|tph|mmtk_perf|nb-1024|barrier-FieldBarrier
+  # - jdk-sim-meta-sloppy|ix|common|tph|mmtk_perf|nb-1024|barrier-FieldBarrier
+  # - jdk-sim-3|ix|common|tph|mmtk_perf|nb-1024|barrier-NoBarrier
+  # - jdk-sim-3|ix|common|tph|mmtk_perf|nb-1024|barrier-FieldBarrier
+  # - jdk-sim-6|ix|common|tph|mmtk_perf|nb-1024|barrier-FieldBarrier
+  # - jdk-sim-9|ix|common|tph|mmtk_perf|nb-1024|barrier-FieldBarrier
+  # - jdk-sim-12|ix|common|tph|mmtk_perf|nb-1024|barrier-FieldBarrier
+  # - jdk-sim-meta|ix|common|tph|mmtk_perf|nobarrier|nb-1024
+  # - jdk|g1|common|hs_perf|tlab-32K|mn-32M|g1r-1M
+  # - jdk|parallel|common|hs_perf|tlab-32K|mn-32M
+  # - jdk|g1|common|hs_perf
+  # - jdk|parallel|common|hs_perf
+  # - jdk|shenandoah|common|hs_perf

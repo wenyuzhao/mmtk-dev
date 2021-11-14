@@ -1,0 +1,34 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/ix-alloc/config.yml --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  suites.dacapochopin-69a704e.minheap: immix-sim
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-alloc/jdk-fa87532c/jdk"
+
+modifiers:
+  giantheap:
+    type: JVMArg
+    val: "-Xms80G -Xmx80G"
+  fixedlab:
+    type: JVMArg
+    val: "-XX:-EpsilonElasticTLAB -XX:TLABSize=32K -XX:-ResizeTLAB"
+  refill:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
+
+configs:
+  - jdk|epsilon|fixedlab|common|hs_perf|giantheap
+  - jdk|nogc|common|tph|mmtk_perf|giantheap
+  - jdk|ix|refill-1|common|tph|mmtk_perf|giantheap
+  - jdk|ix|refill-4|common|tph|mmtk_perf|giantheap
+  - jdk|ix|refill-16|common|tph|mmtk_perf|giantheap
+  - jdk|ix|refill-64|common|tph|mmtk_perf|giantheap
+  - jdk|ix|refill-256|common|tph|mmtk_perf|giantheap

@@ -1,0 +1,104 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-block-size/config.yml 8 5 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 8
+  suites.dacapochopin-29a657f.minheap: immix-rc
+  # benchmarks.dacapochopin-29a657f:
+  #   - fop
+  #   - lusearch
+
+runtimes:
+  jdk-16k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-16k-b8d7e549/jdk"
+  jdk-32k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-32k-b8d7e549/jdk"
+  jdk-64k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-64k-b8d7e549/jdk"
+  jdk-128k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-128k-b8d7e549/jdk"
+  jdk-256k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-256k-b8d7e549/jdk"
+  # jdk-512k:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-512k-b8d7e549/jdk"
+  # jdk-1m:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-1m-b8d7e549/jdk"
+  jdk-los16k-16k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-16k-b8d7e549/jdk"
+  jdk-los16k-32k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-32k-b8d7e549/jdk"
+  jdk-los16k-64k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-64k-b8d7e549/jdk"
+  jdk-los16k-128k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-128k-b8d7e549/jdk"
+  jdk-los16k-256k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-256k-b8d7e549/jdk"
+  # jdk-los16k-512k:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-512k-b8d7e549/jdk"
+  # jdk-los16k-1m:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-block-size/jdk-los16k-1m-b8d7e549/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+
+
+configs:
+  # Different los threshold, same nursery size
+  - jdk-16k|ix|common|tph|mmtk_perf|nb-2048
+  - jdk-32k|ix|common|tph|mmtk_perf|nb-1024
+  - jdk-64k|ix|common|tph|mmtk_perf|nb-512
+  - jdk-128k|ix|common|tph|mmtk_perf|nb-256
+  - jdk-256k|ix|common|tph|mmtk_perf|nb-128
+  # - jdk-512k|ix|common|tph|mmtk_perf|nb-64
+  # - jdk-1m|ix|common|tph|mmtk_perf|nb-32
+  # Same los threshold, same nursery size
+  - jdk-los16k-16k|ix|common|tph|mmtk_perf|nb-2048
+  - jdk-los16k-32k|ix|common|tph|mmtk_perf|nb-1024
+  - jdk-los16k-64k|ix|common|tph|mmtk_perf|nb-512
+  - jdk-los16k-128k|ix|common|tph|mmtk_perf|nb-256
+  - jdk-los16k-256k|ix|common|tph|mmtk_perf|nb-128
+  # - jdk-los16k-512k|ix|common|tph|mmtk_perf|nb-64
+  # - jdk-los16k-1m|ix|common|tph|mmtk_perf|nb-32
+

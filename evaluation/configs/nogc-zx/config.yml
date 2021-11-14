@@ -1,0 +1,26 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/nogc-zx/config.yml -i 20 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  suites.dacapochopin-69a704e.minheap: immix-sim
+  suites.dacapochopin-69a704e.timing_iteration: 20
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/nogc-zx/jdk-mmtk/jdk"
+
+modifiers:
+  giantheap:
+    type: JVMArg
+    val: "-Xms120G -Xmx120G"
+  fixedlab:
+    type: JVMArg
+    val: "-XX:-EpsilonElasticTLAB -XX:TLABSize=32K -XX:-ResizeTLAB"
+
+configs:
+  - jdk|nogc|common|tph|probes_cp|probes|mmtk_perf|giantheap
+  - jdk|epsilon|fixedlab|common|probes_cp|probes|jvmti|jvmti_env|perf|giantheap

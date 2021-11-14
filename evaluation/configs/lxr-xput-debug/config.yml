@@ -1,0 +1,68 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput-debug/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > ~/_log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 8
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput-debug/jdk-ceece056/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+  c4:
+    type: Wrapper
+    val: "taskset -c 0,1,2,3 "
+  c8:
+    type: Wrapper
+    val: "taskset -c 0,1,2,3,4,5,6,7 "
+
+
+configs:
+  - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M Nursery
+  - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|c4|common|tph|mmtk_perf|nb-1024 # 32M Nursery
+  - jdk|ix|c4|common|tph|mmtk_perf|nb-2048 # 64M Nursery
+  - jdk|ix|c4|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
+  - jdk|ix|c4|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|c8|common|tph|mmtk_perf|nb-1024 # 32M Nursery
+  - jdk|ix|c8|common|tph|mmtk_perf|nb-2048 # 64M Nursery
+  - jdk|ix|c8|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
+  - jdk|ix|c8|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|g1|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
+  - jdk|g1|common|hs_perf
+  - jdk|shenandoah|common|hs_perf
+  - jdk|z|common|hs_perf
+  - jdk|g1|c4|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
+  - jdk|g1|c4|common|hs_perf
+  - jdk|shenandoah|c4|common|hs_perf
+  - jdk|z|c4|common|hs_perf
+  - jdk|g1|c8|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
+  - jdk|g1|c8|common|hs_perf
+  - jdk|shenandoah|c8|common|hs_perf
+  - jdk|z|c8|common|hs_perf

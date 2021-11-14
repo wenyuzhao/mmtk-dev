@@ -1,0 +1,68 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 8
+  suites.dacapochopin-29a657f.minheap: lxr
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - cassandra
+    - eclipse
+    - graphchi
+    # - h2
+    - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    # - tradebeans
+    # - tradesoap
+    - xalan
+    - zxing
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-3d213734/jdk"
+  jdk-ix:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-ix-3d213734/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+
+
+configs:
+  - jdk-ix|ix|common|tph|mmtk_perf # Baseline
+  - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
+  - jdk|parallel|common|hs_perf
+  - jdk|parallel|common|hs_perf|tlab-32K|mn-66M # 64M Nursery
+  - jdk|g1|common|hs_perf
+  - jdk|g1|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
+  - jdk|shenandoah|common|hs_perf
+  - jdk|z|common|hs_perf

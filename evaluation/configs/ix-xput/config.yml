@@ -1,0 +1,93 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/ix-xput/config.yml 8 3 5 1 7 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: lxr
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - cassandra
+    - eclipse
+    - graphchi
+    # - h2
+    - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    # - tradebeans
+    # - tradesoap
+    - xalan
+    - zxing
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-88cd1e86/jdk"
+  jdk-128k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-128k-88cd1e86/jdk"
+  jdk-no-wp-timer:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-no-wp-timer-88cd1e86/jdk"
+  jdk-barrier:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-barrier-348a7259/jdk"
+  jdk-sim:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-sim-7f0a37c2/jdk"
+  jdk-sim-meta:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-sim-meta-dd8d1e02/jdk"
+  jdk-sim-meta-sloppy:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput/jdk-sim-meta-sloppy-3448f9ba/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+
+
+configs:
+  - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
+  # 128K block, 128M nursery
+  # - jdk-128k|ix|common|tph|mmtk_perf|nb-1024
+  - jdk|parallel|common|hs_perf
+  - jdk|parallel|common|hs_perf|tlab-32K|mn-66M # 64M Nursery
+  - jdk|g1|common|hs_perf
+  - jdk|g1|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
+  - jdk|shenandoah|common|hs_perf
+  - jdk|z|common|hs_perf

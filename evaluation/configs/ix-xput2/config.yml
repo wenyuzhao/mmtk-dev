@@ -1,0 +1,69 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/ix-xput2/config.yml 8 3 1 5 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  suites.dacapochopin-29a657f.minheap: immix-sim
+  benchmarks.dacapochopin-29a657f:
+    - batik
+    - fop
+    - biojava
+    - h2o
+    - jme
+
+runtimes:
+  jdk-ix-b:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput2/jdk-ix-b-5a598a9e/jdk"
+  jdk-ix-b-l:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput2/jdk-ix-b-l-5a598a9e/jdk"
+  jdk-ix-b-m:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput2/jdk-ix-b-m-f9c5d929/jdk"
+  jdk-ix:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput2/jdk-ix-5a598a9e/jdk"
+  jdk-ix-l:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-xput2/jdk-ix-l-5a598a9e/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  refill:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+
+
+configs:
+  # IX-B 32K block size
+  - jdk-ix-b|ix|common|tph|mmtk_perf|refill-32
+  - jdk-ix-b-l|ix|common|tph|mmtk_perf|refill-1
+  # IX-B 32K block size + extra metadata
+  # - jdk-ix-b-m|ix|common|tph|mmtk_perf
+  # IX 32K block size
+  - jdk-ix|ix|common|tph|mmtk_perf|refill-32
+  # IX 1M block size
+  - jdk-ix-l|ix|common|tph|mmtk_perf|refill-1
+  - jdk-ix|parallel|common|hs_perf
+  - jdk-ix|parallel|common|hs_perf|tlab-32K|mn-64M
+  - jdk-ix|parallel|common|hs_perf|tlab-1M|mn-64M

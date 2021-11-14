@@ -1,0 +1,17 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/fb-sim/config.yml 8 3 -i 20 --skip-oom 1 --skip-timeout 1
+
+includes:
+  - "../common.yml"
+
+overrides:
+  suites.dacapochopin-69a704e.minheap: immix-sim
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/fb-sim/jdk-mmtk/jdk"
+
+configs:
+  - jdk|ix|barrier-NoBarrier|common|tph|probes_cp|probes|mmtk_perf
+  - jdk|ix|barrier-FieldBarrier|common|tph|probes_cp|probes|mmtk_perf

@@ -14,29 +14,29 @@ overrides:
   maxheap: 16384
 
 benchmarks:
-  dacapochopin-69a704e:
-    - avrora
-    - batik
-    - biojava
-    - cassandra
-    - eclipse
-    - fop
-    - graphchi
-    - h2
-    - h2o
-    - jme
-    - jython
-    # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
-    # - kafka
-    - luindex
-    - lusearch
-    - pmd
-    - sunflow
-    - tradebeans
-    - tradesoap
-    - tomcat
-    - xalan
-    - zxing
+  # dacapochopin-69a704e:
+  #   - avrora
+  #   - batik
+  #   - biojava
+  #   - cassandra
+  #   - eclipse
+  #   - fop
+  #   - graphchi
+  #   - h2
+  #   - h2o
+  #   - jme
+  #   - jython
+  #   # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
+  #   # - kafka
+  #   - luindex
+  #   - lusearch
+  #   - pmd
+  #   - sunflow
+  #   - tradebeans
+  #   - tradesoap
+  #   - tomcat
+  #   - xalan
+  #   - zxing
   dacapochopin-29a657f:
     - avrora
     - batik

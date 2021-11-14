@@ -1,0 +1,29 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/ix-xput/config.yml 8 1 7 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../minheap.yml"
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-minheap/jdk-3d213734/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+
+
+configs:
+  # - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M
+  - jdk|ix|common|tph|mmtk_perf # 32M

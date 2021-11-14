@@ -60,7 +60,13 @@ modifiers:
   mn:
     type: JVMArg
     val: "-Xmn{0} -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
+  no_inline_clone:
+    type: JVMArg
+    val: "-XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy"
   common:
+    type: ModifierSet
+    val: "ms|s|c2|probes|probes_cp|no_inline_clone"
+  common2:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp"
   nogc:

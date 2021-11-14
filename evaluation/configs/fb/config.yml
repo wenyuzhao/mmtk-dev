@@ -1,0 +1,18 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/fb/config.yml 8 2 --skip-oom 1 --skip-timeout 1 > ~/_log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  invocations: 20
+  suites.dacapochopin-29a657f.minheap: immix
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/fb/jdk-3d213734/jdk"
+
+configs:
+  - jdk|ix|barrier-NoBarrier|common|tph|probes_cp|probes|mmtk_perf|threads-1
+  - jdk|ix|barrier-FieldBarrier|common|tph|probes_cp|probes|mmtk_perf|threads-1

@@ -1,0 +1,34 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-ins/config.yml 8 1 3 5 7 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 3
+  suites.dacapochopin-29a657f.minheap: immix-rc
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-ins/jdk-767e05cd/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+
+configs:
+  - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M Nursery
+  - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
+  - jdk|ix|common|tph|mmtk_perf|nb-4096 # 128M Nursery
