@@ -20,7 +20,7 @@ namespace "jdk" do
         vm_args += ' -Xint'
     end
     if disable_c1
-        vm_args += ' -XX:-TieredCompilation' # -Xcomp
+        vm_args += ' -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy' # -Xcomp
     end
     if disable_tlab_zeroing
         vm_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
@@ -60,12 +60,13 @@ namespace "jdk" do
 
     namespace "hs" do
         mn = ENV["mn"] || '33M'
-        openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy -Xmn#{mn} -XX:+Use#{$gc}GC"
-        # openjdk_gc_args = " -XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:+Use#{$gc}GC"
+        common_hs_args = "-XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -XX:+Use#{$gc}GC"
+        optional_hs_args = ""
+        optional_hs_args = " -Xmn#{mn} -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
         hs_args = ENV["hs_args"] || ''
 
         task :test => :build do
-            🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{openjdk_gc_args} #{$jvmti_args} #{hs_args} #{bm_args}"
+            🔵 "#{$jvmti_env} #{java.()} #{vm_args} #{heap_args.()} #{common_hs_args}  #{optional_hs_args} #{$jvmti_args} #{hs_args} #{bm_args}"
         end
     end
 end

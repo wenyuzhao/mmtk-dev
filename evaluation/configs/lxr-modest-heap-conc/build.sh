@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -ex
 
 config_dir=$(dirname $0)

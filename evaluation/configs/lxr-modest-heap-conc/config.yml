@@ -56,10 +56,10 @@ modifiers:
 
 
 configs:
-  - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M Nursery
-  - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
-  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
+  # - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M Nursery
+  # - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
   - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
   - jdk|g1|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
   - jdk|g1|common|hs_perf
   - jdk|shenandoah|common|hs_perf
