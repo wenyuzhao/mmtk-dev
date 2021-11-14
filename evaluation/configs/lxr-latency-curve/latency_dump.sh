@@ -54,18 +54,16 @@ retry() {
     done
 }
 
-exit
-
 mkdir -p ~/MMTk-Dev/_latency_logs/$run_id
 
 pushd ~/MMTk-Dev
 
 for gc in G1 Shenandoah Parallel; do
-    retry 5 LD_PRELOAD=/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so PERF_EVENTS="PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS" $java -XX:-UseCompressedOops -XX:+UnlockExperimentalVMOptions -XX:+Use${gc}GC -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking -server -XX:-TieredCompilation -Xcomp -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so -Xms$heap -Xmx$heap -cp /usr/share/benchmarks/dacapo/dacapo-evaluation-git-29a657f.jar:/home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar Harness -c probe.DacapoChopinCallback -n $n -s $size $bench --dump-latency &> $out/$gc.log
+    LD_PRELOAD=/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so PERF_EVENTS="PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS" retry 5 $java -XX:-UseCompressedOops -XX:+UnlockExperimentalVMOptions -XX:+Use${gc}GC -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking -server -XX:-TieredCompilation -Xcomp -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so -Xms$heap -Xmx$heap -cp /usr/share/benchmarks/dacapo/dacapo-evaluation-git-29a657f.jar:/home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar Harness -c probe.DacapoChopinCallback -n $n -s $size $bench --dump-latency &> $out/$gc.log
     mv scratch $out/scratch-$gc
 done
 
-retry 5 MMTK_PLAN=Immix NURSERY_RATIO=3 MTK_PHASE_PERF_EVENTS="PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1" $java -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking -server -XX:-TieredCompilation -Xcomp -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -XX:+UseThirdPartyHeap -Xms$heap -Xmx$heap -cp /usr/share/benchmarks/dacapo/dacapo-evaluation-git-29a657f.jar:/home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar Harness -c probe.DacapoChopinCallback -n $n -s $size $bench --dump-latency &> $out/LXR.log
+MMTK_PLAN=Immix NURSERY_RATIO=3 MTK_PHASE_PERF_EVENTS="PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1" retry 5 $java -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking -server -XX:-TieredCompilation -Xcomp -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -XX:+UseThirdPartyHeap -Xms$heap -Xmx$heap -cp /usr/share/benchmarks/dacapo/dacapo-evaluation-git-29a657f.jar:/home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar Harness -c probe.DacapoChopinCallback -n $n -s $size $bench --dump-latency &> $out/LXR.log
 mv scratch $out/scratch-LXR
 
 popd

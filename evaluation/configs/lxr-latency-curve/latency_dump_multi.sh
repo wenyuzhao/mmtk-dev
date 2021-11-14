@@ -10,7 +10,7 @@ fi
 
 branch=$1
 
-$latency_dump=~/MMTk-Dev/evaluation/configs/lxr-latency-curve/latency_dump.sh
+latency_dump=~/MMTk-Dev/evaluation/configs/lxr-latency-curve/latency_dump.sh
 
 $latency_dump $branch default 3
 $latency_dump $branch large   3
