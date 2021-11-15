@@ -1,0 +1,46 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/{config}/config.yml 8 4 --skip-oom 1 --skip-timeout 1 > ~/_log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+  gctriggeralt:
+    type: EnvVar
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "0"
+
+
+configs:
+  - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/4 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1|gctriggeralt # 1/2 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1|gctriggeralt # 1/2 Nursery # 1/2 Nursery
