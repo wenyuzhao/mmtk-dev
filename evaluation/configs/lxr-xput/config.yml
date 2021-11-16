@@ -10,23 +10,23 @@ overrides:
   benchmarks.dacapochopin-29a657f:
     - fop
     - lusearch
+    - tradebeans
+    - tradesoap
+    - cassandra
     - h2o
     - avrora
     - batik
     - biojava
-    - cassandra
     - eclipse
     - graphchi
-    # - h2
-    - jme
+    - h2
+    # - jme
     - jython
-    # - kafka
+    - kafka
     - luindex
     - pmd
     - sunflow
     - tomcat
-    # - tradebeans
-    # - tradesoap
     - xalan
     - zxing
 
@@ -34,11 +34,51 @@ runtimes:
   jdk:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-3d213734/jdk"
-  jdk-ix:
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
+  jdk-lock-3:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-ix-3d213734/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-3-{git}/jdk"
+  jdk-lock-4:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-4-{git}/jdk"
+  jdk-lock-5:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-5-{git}/jdk"
+  jdk-lock-7:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-7-{git}/jdk"
+  jdk-lock-8:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-8-{git}/jdk"
+  jdk-lock-9:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-9-{git}/jdk"
+  jdk-block-64k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-64k-{git}/jdk"
+  jdk-block-128k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-128k-{git}/jdk"
+  jdk-block-256k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-256k-{git}/jdk"
+  jdk-block-512k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-512k-{git}/jdk"
+  jdk-block-1m:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-1m-{git}/jdk"
 
 modifiers:
   nobarrier:
@@ -53,16 +93,32 @@ modifiers:
     type: EnvVar
     var: "NURSERY_RATIO"
     val: "{0}"
-
+  lfb:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
 
 configs:
-  - jdk-ix|ix|common|tph|mmtk_perf # Baseline
-  - jdk|ix|common|tph|mmtk_perf|nb-2048 # 64M Nursery
-  - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
-  - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2 Nursery
-  - jdk|parallel|common|hs_perf
-  - jdk|parallel|common|hs_perf|tlab-32K|mn-66M # 64M Nursery
+  # Different nursery
+  # - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4
+  # - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2
+  - jdk|ix|common|tph|mmtk_perf|nr-0 # 1/1
+  # Different lock-free blocks
+  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-32
+  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-96
+  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-128
+  # Different lock-bit granularity
+  - jdk-lock-3|ix|common|tph|mmtk_perf|nr-0
+  - jdk-lock-4|ix|common|tph|mmtk_perf|nr-0
+  - jdk-lock-5|ix|common|tph|mmtk_perf|nr-0
+  - jdk-lock-7|ix|common|tph|mmtk_perf|nr-0
+  - jdk-lock-8|ix|common|tph|mmtk_perf|nr-0
+  - jdk-lock-9|ix|common|tph|mmtk_perf|nr-0
+  # Different block size
+  # - jdk-block-64k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-128k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-256k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
+  # G1
   - jdk|g1|common|hs_perf
-  - jdk|g1|common|hs_perf|tlab-32K|mn-66M|g1r-1M # 64M Nursery
-  - jdk|shenandoah|common|hs_perf
-  - jdk|z|common|hs_perf

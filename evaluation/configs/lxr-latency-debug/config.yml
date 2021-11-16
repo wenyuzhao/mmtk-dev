@@ -5,7 +5,7 @@ includes:
   # - "../minheap.yml"
 
 overrides:
-  invocations: 10
+  invocations: 20
   suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
     - lusearch
@@ -42,5 +42,5 @@ modifiers:
 configs:
   - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
   - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/4 Nursery
-  - jdk|ix|common|tph|mmtk_perf|nr-1|gctriggeralt # 1/2 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-3|gctriggeralt # 1/2 Nursery
   - jdk|ix|common|tph|mmtk_perf|nr-1|gctriggeralt # 1/2 Nursery # 1/2 Nursery
