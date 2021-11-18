@@ -9,28 +9,34 @@ overrides:
   suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
     # - fop
-    # - lusearch
-    # - tradebeans
-    # - tradesoap
+    - cassandra
+    - lusearch
+    - tomcat
     # - h2o
     # - avrora
     # - batik
     # - biojava
-    # - cassandra
-    - eclipse
-    - graphchi
+
+    # - eclipse
+    # - graphchi
     - h2
+    # - jython
+    # - luindex
+    # - pmd
+    # - sunflow
+    # - xalan
+    # - zxing
+  # Can't run
+    # - tradebeans
+    # - tradesoap
     # - jme
-    - jython
-    - kafka
-    - luindex
-    - pmd
-    - sunflow
-    - tomcat
-    - xalan
-    - zxing
+    # - kafka
 
 runtimes:
+  jdk-b32k-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-old-{git}/jdk"
   jdk-b32k:
     type: OpenJDK
     release: 11
@@ -47,6 +53,14 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-stw-{git}/jdk"
+  jdk-b32k-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-stw-{git}/jdk"
+  jdk-b32k-mixcmrc:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-mixcmrc-{git}/jdk"
   jdk-17:
     type: OpenJDK
     release: 17
@@ -80,11 +94,40 @@ modifiers:
     type: EnvVar
     var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
     val: "0"
+  incs:
+    type: EnvVar
+    var: "INCS_LIMIT"
+    val: "{0}"
+  mevac:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_MB"
+    val: "{0}"
+  trace:
+    type: EnvVar
+    var: "TRACE_THRESHOLD"
+    val: "{0}"
 
 configs:
-  - jdk-b64k-stw|ix|common|tph|mmtk_perf|nr-1
-  - jdk-b32k|ix|common|tph|mmtk_perf|nr-1
-  - jdk-b64k|ix|common|tph|mmtk_perf|nr-1
-  - jdk-b64k-hole|ix|common|tph|mmtk_perf|nr-1
-  - jdk-b64k|shenandoah|common|hs_perf
-  - jdk-b64k|g1|common|hs_perf
+  # - jdk-b32k-stw|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-64
+  - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-4
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-8
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-16
+  # - jdk-b32k-old|ix|common|tph|mmtk_perf|nr-1|mu-1
+  # - jdk-b32k-old|ix|common|tph|mmtk_perf|nr-1|mu-2
+  # - jdk-b32k-old|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-b32k|ix|common|tph|mmtk_perf|trace-2.5
+  # - jdk-b32k|ix|common|tph|mmtk_perf|trace-5
+  # - jdk-b32k|ix|common|tph|mmtk_perf|trace-10
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-160
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-192
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-224
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-256
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-512
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|mevac-1024
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|incs-15000
+  # - jdk-b32k|ix|common|tph|mmtk_perf|nr-1|incs-20000
+  # - jdk-b32k-mixcmrc|ix|common|tph|mmtk_perf|nr-1
+  - jdk-b32k|g1|common|hs_perf
+  # - jdk-b32k|shenandoah|common|hs_perf
+  # - jdk-b32k|z|common|hs_perf

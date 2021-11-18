@@ -11,7 +11,7 @@ runtimes:
   jdk:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/fb/jdk-3d213734/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/fb/jdk-{git}/jdk"
 
 configs:
   - jdk|ix|barrier-NoBarrier|common|tph|probes_cp|probes|mmtk_perf|threads-1

@@ -1,7 +1,7 @@
 config_dir=$(dirname $0)
 config=$(basename $config_dir)
 pushd ~/MMTk-Dev/mmtk-core
-branch=$(git rev-parse --short HEAD)
+branch=${1:-$(git rev-parse --short HEAD)}
 popd
 
 render_config() {

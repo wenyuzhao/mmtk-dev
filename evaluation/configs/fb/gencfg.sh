@@ -4,5 +4,3 @@ set -ex
 source $(dirname $0)/../utils.sh
 
 render_config
-
-BARRIER=FieldBarrier build_one jdk-$branch barrier_measurement,ix_defrag
