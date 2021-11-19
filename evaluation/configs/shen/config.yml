@@ -1,0 +1,115 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-modest-heap-conc/config.yml 8 4 8 --skip-oom 1 --skip-timeout 1 > ~/_log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - cassandra
+    - lusearch
+    - fop
+    - eclipse
+    - h2o
+    - avrora
+    - batik
+    - biojava
+
+    - tomcat
+    - h2
+    - graphchi
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+  # Can't run
+    # - tradebeans
+    # - tradesoap
+    # - jme
+    # - kafka
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
+  jdk-b32k-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-old-{git}/jdk"
+  jdk-b32k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-{git}/jdk"
+  jdk-b64k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-{git}/jdk"
+  jdk-b64k-hole:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-hole-{git}/jdk"
+  jdk-b64k-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-stw-{git}/jdk"
+  jdk-b32k-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-stw-{git}/jdk"
+  jdk-b32k-mixcmrc:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-mixcmrc-{git}/jdk"
+  jdk-17:
+    type: OpenJDK
+    release: 17
+    home: "/usr/lib/jvm/temurin-17-amd64"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+  mu:
+    type: ProgramArg
+    val: "-t {0}"
+  waitlazy:
+    type: EnvVar
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "1"
+  nowaitlazy:
+    type: EnvVar
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "0"
+  incs:
+    type: EnvVar
+    var: "INCS_LIMIT"
+    val: "{0}"
+  mevac:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_MB"
+    val: "{0}"
+  trace:
+    type: EnvVar
+    var: "TRACE_THRESHOLD"
+    val: "{0}"
+
+configs:
+  - jdk|shenandoah|common|hs_perf
