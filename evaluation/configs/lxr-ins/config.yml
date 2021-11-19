@@ -8,25 +8,21 @@ overrides:
   invocations: 3
   suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
-    - fop
+    - cassandra
     - lusearch
+    - fop
+    - eclipse
     - h2o
     - avrora
     - batik
     - biojava
-    - cassandra
-    - eclipse
-    - graphchi
+    - tomcat
     - h2
-    # - jme
+    - graphchi
     - jython
-    - kafka
     - luindex
     - pmd
     - sunflow
-    - tomcat
-    - tradebeans
-    - tradesoap
     - xalan
     - zxing
 
@@ -34,7 +30,7 @@ runtimes:
   jdk:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-ins/jdk-767e05cd/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-{config}/jdk-{git}/jdk"
 
 modifiers:
   nobarrier:
@@ -55,4 +51,4 @@ modifiers:
     val: "{0}"
 
 configs:
-  - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4 Nursery
+  - jdk|ix|common|tph|mmtk_perf|nr-1
