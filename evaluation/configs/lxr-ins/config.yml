@@ -10,6 +10,7 @@ overrides:
   benchmarks.dacapochopin-29a657f:
     - cassandra
     - lusearch
+    - pmd
     - fop
     - eclipse
     - h2o
@@ -21,7 +22,6 @@ overrides:
     - graphchi
     - jython
     - luindex
-    - pmd
     - sunflow
     - xalan
     - zxing
@@ -30,7 +30,11 @@ runtimes:
   jdk:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-{config}/jdk-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
+  jdk-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-stw-{git}/jdk"
 
 modifiers:
   nobarrier:
@@ -51,4 +55,5 @@ modifiers:
     val: "{0}"
 
 configs:
+  # - jdk-stw|ix|common|tph|mmtk_perf|nr-1
   - jdk|ix|common|tph|mmtk_perf|nr-1

@@ -10,6 +10,17 @@ modifiers:
       dacapochopin-29a657f:
         - tradebeans
         - tradesoap
+  c2ins:
+    type: JVMArg
+    val: "-XX:-TieredCompilation"
+    excludes:
+      # These two benchmarks exit with code 1
+      dacapochopin-69a704e:
+        - tradebeans
+        - tradesoap
+      dacapochopin-29a657f:
+        - tradebeans
+        - tradesoap
   probes_cp:
     type: JVMClasspath
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
@@ -66,6 +77,9 @@ modifiers:
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp|no_inline_clone"
+  commonins:
+    type: ModifierSet
+    val: "ms|c2ins|probes|probes_cp|no_inline_clone"
   common2:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp"
