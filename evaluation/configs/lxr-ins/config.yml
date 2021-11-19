@@ -8,15 +8,16 @@ overrides:
   invocations: 3
   suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
-    - cassandra
-    - lusearch
-    - pmd
-    - fop
-    - eclipse
-    - h2o
-    - avrora
-    - batik
-    - biojava
+    # - cassandra
+    # - lusearch
+    # - pmd
+    # - fop
+    # - eclipse
+    # - h2o
+    # - avrora
+    # - batik
+    # - biojava
+
     - tomcat
     - h2
     - graphchi
@@ -56,4 +57,4 @@ modifiers:
 
 configs:
   # - jdk-stw|ix|common|tph|mmtk_perf|nr-1
-  - jdk|ix|common|tph|mmtk_perf|nr-1
+  - jdk|ix|common|tph|mmtk_perf|nb-1024
