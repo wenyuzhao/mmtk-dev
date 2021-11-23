@@ -20,7 +20,7 @@ namespace "jdk" do
         vm_args += ' -Xint'
     end
     if disable_c1
-        vm_args += ' -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy' # -Xcomp
+        vm_args += ' -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy' #
     end
     if disable_tlab_zeroing
         vm_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
@@ -62,7 +62,7 @@ namespace "jdk" do
         mn = ENV["mn"] || '33M'
         common_hs_args = "-XX:+UnlockExperimentalVMOptions -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -XX:+Use#{$gc}GC"
         optional_hs_args = ""
-        optional_hs_args = " -Xmn#{mn} -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
+        # optional_hs_args = " -Xmn#{mn} -XX:G1HeapRegionSize=1M -XX:TLABSize=32K -XX:-ResizeTLAB -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
         hs_args = ENV["hs_args"] || ''
 
         task :test => :build do
