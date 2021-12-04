@@ -1,0 +1,84 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-modest-heap-conc/config.yml 8 4 8 --skip-oom 1 --skip-timeout 1 > ~/_log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 1
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - cassandra
+    - lusearch
+    - fop
+    - eclipse
+    - h2o
+    - avrora
+    - batik
+
+    - tomcat
+    - h2
+    - graphchi
+    - jython
+    - luindex
+    - pmd
+    - biojava
+
+  # Can't run
+    - sunflow
+    - xalan
+    - zxing
+    - tradebeans
+    - tradesoap
+    - jme
+    - kafka
+
+runtimes:
+  jdk:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev//mmtk-openjdk/repos/openjdk/build/linux-x86_64-normal-server-release/jdk"
+
+modifiers:
+  nobarrier:
+    type: EnvVar
+    var: "BARRIER"
+    val: "NoBarrier"
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  noreuse:
+    type: EnvVar
+    var: "DISABLE_MUTATOR_LINE_REUSING"
+    val: "1"
+  mu:
+    type: ProgramArg
+    val: "-t {0}"
+  waitlazy:
+    type: EnvVar
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "1"
+  nowaitlazy:
+    type: EnvVar
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "0"
+  incs:
+    type: EnvVar
+    var: "INCS_LIMIT"
+    val: "{0}"
+  mevac:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_MB"
+    val: "{0}"
+  trace:
+    type: EnvVar
+    var: "TRACE_THRESHOLD"
+    val: "{0}"
+
+configs:
+  - jdk|ix|common|tph|mmtk_perf|nr-1
