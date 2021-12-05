@@ -9,6 +9,6 @@ pushd ~/MMTk-Dev
 
 pkill -f java -u wenyuz -9
 
-running runbms ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/$config/config.yml $hfac_args --skip-oom 1 --skip-timeout 1 &> ~/MMTk-Dev/lxr-correctness.log
+running runbms ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/$config/config.yml $hfac_args &> ~/MMTk-Dev/lxr-correctness.log
 
 popd

@@ -62,7 +62,7 @@ plugins:
   dacapo-latency:
     type: CopyFile
     patterns:
-      - "scratch/dacapo-latency-*.csv"
+      - "scratch/pauses.csv"
 
 modifiers:
   nobarrier:
@@ -111,5 +111,5 @@ modifiers:
 configs:
   - jdk|ix|common|tph|mmtk_perf|nr-1
   - jdk|g1|common|hs_perf
-  - jdk|shenandoah|common|hs_perf
-  - jdk|z|common|hs_perf
+  # - jdk|shenandoah|common|hs_perf
+  # - jdk|z|common|hs_perf
