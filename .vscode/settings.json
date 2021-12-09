@@ -4,7 +4,7 @@
     "rust-client.channel": "nightly-2020-12-20",
     "rust.unstable_features": true,
     "rust.all_targets": false,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "files.trimTrailingWhitespace": true,
     // "rust-analyzer.cargo.features": [],
     // "rust-analyzer.procMacro.enable": true,
