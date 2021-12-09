@@ -1,0 +1,47 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-modest-heap-conc/config.yml 8 4 8 --skip-oom 1 --skip-timeout 1 > ~/_log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 20
+  suites.dacapochopin-29a657f.minheap: immix
+  benchmarks.dacapochopin-29a657f:
+    - cassandra
+    - lusearch
+    - fop
+    - eclipse
+    - h2o
+    - avrora
+    - batik
+
+    - tomcat
+    - h2
+    - graphchi
+    - jython
+    - luindex
+    - pmd
+    - biojava
+  # Can't run
+    - sunflow
+    - xalan
+    - zxing
+    # - tradebeans
+    # - tradesoap
+    # - jme
+    # - kafka
+
+runtimes:
+  jdk-master:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-339640fe/jdk"
+  jdk-blockpr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-ec0551e0/jdk"
+
+configs:
+  - jdk-master|ix|common|tph|mmtk_perf
+  - jdk-blockpr|ix|common|tph|mmtk_perf
