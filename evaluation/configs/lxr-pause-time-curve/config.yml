@@ -9,10 +9,10 @@ overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
+    - h2
     - lusearch
     - cassandra
     - tomcat
-    - h2
 
   # Can't run
     # - tradebeans
@@ -25,34 +25,6 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
-  jdk-b32k-old:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-old-{git}/jdk"
-  jdk-b32k:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-{git}/jdk"
-  jdk-b64k:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-{git}/jdk"
-  jdk-b64k-hole:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-hole-{git}/jdk"
-  jdk-b64k-stw:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b64k-stw-{git}/jdk"
-  jdk-b32k-stw:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-stw-{git}/jdk"
-  jdk-b32k-mixcmrc:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-b32k-mixcmrc-{git}/jdk"
   jdk-17:
     type: OpenJDK
     release: 17
@@ -110,6 +82,4 @@ modifiers:
 
 configs:
   - jdk|ix|common|tph|mmtk_perf|nr-1
-  - jdk|g1|common|hs_perf
-  # - jdk|shenandoah|common|hs_perf
-  # - jdk|z|common|hs_perf
+  - jdk|ix|common|tph|mmtk_perf|nr-1|threads-1

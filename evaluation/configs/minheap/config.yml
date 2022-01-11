@@ -7,7 +7,7 @@ runtimes:
   jdk:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/ix-minheap/jdk-3d213734/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
 
 modifiers:
   nobarrier:
@@ -26,4 +26,5 @@ modifiers:
 
 configs:
   # - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M
-  - jdk|ix|common|tph|mmtk_perf # 32M
+  # - jdk|ix|common|tph|mmtk_perf # 32M
+  - jdk|ss|common|tph|mmtk_perf

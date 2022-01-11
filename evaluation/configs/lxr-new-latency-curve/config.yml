@@ -5,7 +5,7 @@ includes:
   # - "../minheap.yml"
 
 overrides:
-  invocations: 10
+  invocations: 20
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
@@ -107,9 +107,18 @@ modifiers:
     type: EnvVar
     var: "TRACE_THRESHOLD"
     val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
 
 configs:
-  - jdk|ix|common|tph|mmtk_perf|nr-1|latency
+  - jdk|ix|common|tph|mmtk_perf|oevac|latency
   - jdk|g1|common|hs_perf|latency
-  - jdk|shenandoah|common|latency|hs_perf|latency
-  - jdk|z|common|hs_perf|latency

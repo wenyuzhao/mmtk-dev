@@ -117,6 +117,27 @@ overrides:
     # tradesoap: .inf
     xalan: 58
     zxing: 526
+  suites.dacapochopin-29a657f.minheap_values.ss:
+    avrora: 14
+    batik: 658
+    biojava: 386
+    cassandra: 227
+    eclipse: 1039
+    fop: 44
+    graphchi: 2065
+    h2: 2285
+    h2o: 144
+    jme: 236
+    jython: 108
+    luindex: 54
+    lusearch: 46
+    pmd: 506
+    sunflow: 48
+    tomcat: 111
+    # tradebeans: .inf
+    # tradesoap: .inf
+    xalan: 66
+    zxing: 532
 
 benchmarks:
   dacapochopin-29a657f:

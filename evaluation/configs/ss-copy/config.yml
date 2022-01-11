@@ -8,7 +8,6 @@ overrides:
   invocations: 20
   suites.dacapochopin-29a657f.minheap: immix
   benchmarks.dacapochopin-29a657f:
-    - h2
     - cassandra
     - lusearch
     - fop
@@ -18,7 +17,7 @@ overrides:
     - batik
 
     - tomcat
-    # - h2
+    - h2
     - graphchi
     - jython
     - luindex
@@ -37,17 +36,12 @@ runtimes:
   jdk-master:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-5c4e9eae/jdk"
-  jdk-blockpr-1:
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-ad95d779/jdk"
+  jdk-cp:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-bpr1-fca7de18/jdk"
-  jdk-blockpr-2:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-bpr2-3071d618/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-cp-ad95d779/jdk"
 
 configs:
   - jdk-master|ix|common|tph|mmtk_perf
-  - jdk-blockpr-1|ix|common|tph|mmtk_perf
-  - jdk-blockpr-2|ix|common|tph|mmtk_perf
+  - jdk-cp|ix|common|tph|mmtk_perf

@@ -10,5 +10,5 @@ build_one() {
     rake bench:cp name=$config/$1
 }
 
-build_one jdk-$branch lxr
+OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-$branch lxr,lxr_heap_health_guided_gc
 
