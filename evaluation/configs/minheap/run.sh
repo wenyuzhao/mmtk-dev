@@ -7,6 +7,6 @@ pushd ~/MMTk-Dev
 
 pkill -f java -u wenyuz -9
 
-running minheap ~/MMTk-Dev/evaluation/configs/$config/_config.yml ~/MMTk-Dev/minheap.log &> ~/_log
+running minheap ~/MMTk-Dev/evaluation/configs/$config/_config.yml ~/MMTk-Dev/minheap.10.log &> ~/_log
 
 popd

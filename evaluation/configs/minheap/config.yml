@@ -8,6 +8,66 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
+  jdk-4bits:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}-4bits/jdk"
+  jdk-8bits:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}-8bits/jdk"
+  jdk-master:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master/jdk"
+  jdk-master-nolos:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-nolos/jdk"
+  jdk-master-nocalclos:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-nocalclos/jdk"
+  jdk-master-noweak:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-noweak/jdk"
+overrides:
+  suites.dacapochopin-f480064.timing_iteration: 5
+  benchmarks.dacapochopin-f480064:
+    - batik
+    - biojava
+    # - tomcat
+    - zxing
+    - eclipse
+    - pmd
+    - sunflow
+    - xalan
+    # - h2o
+    # - jme
+  # benchmarks.dacapochopin-f480064:
+  #   - avrora
+  #   - batik
+  #   - biojava
+  #   - cassandra
+  #   - eclipse
+  #   - fop
+  #   - graphchi
+  #   - h2
+  #   - h2o
+  #   - jme
+  #   - jython
+  #   # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
+  #   # - kafka
+  #   - luindex
+  #   - lusearch
+  #   - pmd
+  #   - sunflow
+  #   # - tradebeans
+  #   # - tradesoap
+  #   - tomcat
+  #   - xalan
+  #   - zxing
 
 modifiers:
   nobarrier:
@@ -22,9 +82,45 @@ modifiers:
     type: EnvVar
     var: "DISABLE_MUTATOR_LINE_REUSING"
     val: "1"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  lfb:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
+  lfb:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{}"
+  noweak:
+    type: JVMArg
+    val: "-XX:-RegisterReferences"
 
 
 configs:
-  # - jdk|ix|common|tph|mmtk_perf|nb-1024 # 32M
-  # - jdk|ix|common|tph|mmtk_perf # 32M
-  - jdk|ss|common|tph|mmtk_perf
+  # - jdk|ix|common|tph|mmtk_perf|oevac|lfb-8 # 32M
+  # - jdk|ix|common|tph|mmtk_perf|nr-1 # 32M
+  # - jdk-4bits|ix|common|tph|mmtk_perf|oevac # 32M
+  # - jdk-8bits|ix|common|tph|mmtk_perf|oevac # 32M
+  # # - jdk|ix|common|tph|mmtk_perf # 32M
+  # - jdk-master|ss|common|tph|mmtk_perf
+  # - jdk-master-nolos|ss|common|tph|mmtk_perf
+  # - jdk-master-nocalclos|ss|common|tph|mmtk_perf
+  # - jdk-master-noweak|ss|common|tph|mmtk_perf|noweak
+  # - jdk-master|ss|common|tph|mmtk_perf
+  # - jdk-master|ix|common|tph|mmtk_perf
+  - jdk-master-noweak|g1|common|hs_perf|noweak
+  # - jdk|ix|common|tph|mmtk_perf|oevac # 32M

@@ -10,8 +10,8 @@ overrides:
   benchmarks.dacapochopin-29a657f:
     - fop
     - lusearch
-    - tradebeans
-    - tradesoap
+    # - tradebeans
+    # - tradesoap
     - cassandra
     - h2o
     - avrora
@@ -22,7 +22,7 @@ overrides:
     - h2
     # - jme
     - jython
-    - kafka
+    # - kafka
     - luindex
     - pmd
     - sunflow
@@ -31,10 +31,18 @@ overrides:
     - zxing
 
 runtimes:
-  jdk:
+  jdk-old:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-36a30992/jdk"
+  jdk-new:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-0105d92d/jdk"
+  jdk-new-2:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-d377a75c/jdk"
   jdk-lock-3:
     type: OpenJDK
     release: 11
@@ -97,28 +105,42 @@ modifiers:
     type: EnvVar
     var: "LOCK_FREE_BLOCKS"
     val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
 
 configs:
   # Different nursery
   # - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4
   # - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2
-  - jdk|ix|common|tph|mmtk_perf|nr-0 # 1/1
+  # - jdk|ix|common|tph|mmtk_perf|nr-0 # 1/1
   # Different lock-free blocks
   # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-32
   # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-96
   # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-128
   # Different lock-bit granularity
-  - jdk-lock-3|ix|common|tph|mmtk_perf|nr-0
-  - jdk-lock-4|ix|common|tph|mmtk_perf|nr-0
-  - jdk-lock-5|ix|common|tph|mmtk_perf|nr-0
-  - jdk-lock-7|ix|common|tph|mmtk_perf|nr-0
-  - jdk-lock-8|ix|common|tph|mmtk_perf|nr-0
-  - jdk-lock-9|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-3|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-4|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-5|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-7|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-8|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-9|ix|common|tph|mmtk_perf|nr-0
   # Different block size
   # - jdk-block-64k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-128k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-256k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
+  - jdk-old|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-new|ix|common|tph|mmtk_perf|oevac
+  - jdk-new-2|ix|common|tph|mmtk_perf|oevac
   # G1
-  - jdk|g1|common|hs_perf
+  - jdk-new|g1|common|hs_perf

@@ -11,6 +11,10 @@ overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
   suites.dacapochopin-29a657f.timeout: 600
+  suites.dacapochopin-f480064.timing_iteration: 5
+  suites.dacapochopin-f480064.callback: probe.DacapoChopinCallback
+  suites.dacapochopin-f480064.timeout: 600
+  suites.dacapochopin-f480064.path: /home/wenyuz/dacapo-evaluation-git-f480064.jar
   maxheap: 16384
 
 benchmarks:
@@ -37,7 +41,7 @@ benchmarks:
   #   - tomcat
   #   - xalan
   #   - zxing
-  dacapochopin-29a657f:
+  dacapochopin-f480064:
     - avrora
     - batik
     - biojava
@@ -55,8 +59,8 @@ benchmarks:
     - lusearch
     - pmd
     - sunflow
-    - tradebeans
-    - tradesoap
+    # - tradebeans
+    # - tradesoap
     - tomcat
     - xalan
     - zxing
