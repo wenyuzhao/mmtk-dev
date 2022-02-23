@@ -1,0 +1,9 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/ix-xput/config.yml 8 1 7 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  suites.dacapochopin-f480064.timing_iteration: 5
+  configs:
+    - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload

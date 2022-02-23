@@ -91,6 +91,10 @@ modifiers:
     type: EnvVar
     var: "MMTK_PLAN"
     val: "Immix"
+  mc:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "MarkCompact"
   epsilon:
     type: ModifierSet
     val: "hotspot_gc-Epsilon"

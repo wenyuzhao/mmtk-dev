@@ -1,20 +1,16 @@
 # Min-heap measurement
 
 includes:
-  - "../running-ng/config/base/minheap.yml"
+  - "../running-ng/src/running/config/base/minheap.yml"
   - "./modifiers.yml"
 
 overrides:
-  suites.dacapochopin-69a704e.timing_iteration: 5
-  suites.dacapochopin-69a704e.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-69a704e.timeout: 600
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
   suites.dacapochopin-29a657f.timeout: 600
   suites.dacapochopin-f480064.timing_iteration: 5
   suites.dacapochopin-f480064.callback: probe.DacapoChopinCallback
   suites.dacapochopin-f480064.timeout: 600
-  suites.dacapochopin-f480064.path: /home/wenyuz/dacapo-evaluation-git-f480064.jar
   maxheap: 16384
 
 benchmarks:

@@ -1,5 +1,5 @@
 includes:
-  - "../running-ng/config/base/runbms.yml"
+  - "../running-ng/src/config/base/runbms.yml"
   - "./modifiers.yml"
 
 overrides:
