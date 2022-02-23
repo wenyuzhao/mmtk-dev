@@ -1,0 +1,41 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  # - "../minheap.yml"
+
+overrides:
+  invocations: 20
+  suites.dacapochopin-29a657f.minheap: ss
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    - cassandra
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - h2
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-master:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master/jdk"
+  jdk-fixleak:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-fixleak/jdk"
+
+configs:
+  - jdk-master|ss|common|tph|mmtk_perf
+  - jdk-fixleak|ss|common|tph|mmtk_perf

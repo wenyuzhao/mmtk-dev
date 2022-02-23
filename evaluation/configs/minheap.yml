@@ -41,7 +41,7 @@ benchmarks:
   #   - tomcat
   #   - xalan
   #   - zxing
-  dacapochopin-f480064:
+  dacapochopin-29a657f:
     - avrora
     - batik
     - biojava

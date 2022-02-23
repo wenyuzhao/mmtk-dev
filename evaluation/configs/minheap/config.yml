@@ -31,43 +31,35 @@ runtimes:
   jdk-master-noweak:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-noweak/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-noweak-2/jdk"
+  jdk-master-ld:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-master-ld/jdk"
+  jdk-fixleak:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-fixleak/jdk"
 overrides:
-  suites.dacapochopin-f480064.timing_iteration: 5
-  benchmarks.dacapochopin-f480064:
+  suites.dacapochopin-29a657f.timing_iteration: 5
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    - cassandra
+    - h2o
+    - avrora
     - batik
     - biojava
-    # - tomcat
-    - zxing
     - eclipse
+    - graphchi
+    - h2
+    - jython
+    - luindex
     - pmd
     - sunflow
+    - tomcat
     - xalan
-    # - h2o
-    # - jme
-  # benchmarks.dacapochopin-f480064:
-  #   - avrora
-  #   - batik
-  #   - biojava
-  #   - cassandra
-  #   - eclipse
-  #   - fop
-  #   - graphchi
-  #   - h2
-  #   - h2o
-  #   - jme
-  #   - jython
-  #   # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
-  #   # - kafka
-  #   - luindex
-  #   - lusearch
-  #   - pmd
-  #   - sunflow
-  #   # - tradebeans
-  #   # - tradesoap
-  #   - tomcat
-  #   - xalan
-  #   - zxing
+    - zxing
 
 modifiers:
   nobarrier:
@@ -108,6 +100,9 @@ modifiers:
   noweak:
     type: JVMArg
     val: "-XX:-RegisterReferences"
+  noclassunload:
+    type: JVMArg
+    val: "-XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
 
 
 configs:
@@ -120,7 +115,7 @@ configs:
   # - jdk-master-nolos|ss|common|tph|mmtk_perf
   # - jdk-master-nocalclos|ss|common|tph|mmtk_perf
   # - jdk-master-noweak|ss|common|tph|mmtk_perf|noweak
-  # - jdk-master|ss|common|tph|mmtk_perf
+  - jdk-fixleak|ss|common|tph|mmtk_perf
   # - jdk-master|ix|common|tph|mmtk_perf
-  - jdk-master-noweak|g1|common|hs_perf|noweak
+  # - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload
   # - jdk|ix|common|tph|mmtk_perf|oevac # 32M
