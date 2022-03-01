@@ -51,8 +51,9 @@ namespace "jdk" do
     end
 
     task :test => :build do
+        hs_args = ENV["hs_args"] || '';
         args = ENV["args"] || '';
-        🔵 "MMTK_PLAN=#{$gc} #{java.()} #{vm_args} #{heap_args.()} #{mmtk_args} #{bm_args} #{args}"
+        🔵 "MMTK_PLAN=#{$gc} #{java.()} #{vm_args} #{hs_args} #{heap_args.()} #{mmtk_args} #{bm_args} #{args}"
     end
 
     task :gdb => :build do

@@ -8,6 +8,7 @@ overrides:
   invocations: 20
   suites.dacapochopin-29a657f.minheap: ss
   benchmarks.dacapochopin-29a657f:
+    - luindex
     - fop
     - lusearch
     - cassandra
@@ -19,7 +20,6 @@ overrides:
     - graphchi
     - h2
     - jython
-    - luindex
     - pmd
     - sunflow
     - tomcat

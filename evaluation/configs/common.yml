@@ -1,12 +1,9 @@
 includes:
-  - "../running-ng/src/config/base/runbms.yml"
+  - "../running-ng/src/running/config/base/runbms.yml"
   - "./modifiers.yml"
 
 overrides:
   invocations: 20
-  suites.dacapochopin-69a704e.timing_iteration: 5
-  suites.dacapochopin-69a704e.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-69a704e.timeout: 600
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
   suites.dacapochopin-29a657f.timeout: 600

@@ -4,6 +4,6 @@ includes:
   - "./_config.yml"
 
 overrides:
-  suites.dacapochopin-29a657f.timing_iteration: 10
+  suites.dacapochopin-29a657f.timing_iteration: 5
   configs:
-    - jdk-master|mc|common|tph|mmtk_perf
+    - jdk-fixleak|ix|common|tph|mmtk_perf
