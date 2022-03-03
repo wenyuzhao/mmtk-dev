@@ -5,7 +5,8 @@ source $(dirname $0)/../utils.sh
 
 render_config
 
-# build_one jdk-$branch lxr_evac
+NURSERY_RATIO=1 build_one jdk-lxr-stw-old-$branch lxr_evac
+OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-stw-$branch lxr_evac,lxr_heap_health_guided_gc
 
 # for i in $(seq 3 9); do
 #     build_one jdk-lock-$i-$branch lxr_evac,mmtk/lxr_lock_$i

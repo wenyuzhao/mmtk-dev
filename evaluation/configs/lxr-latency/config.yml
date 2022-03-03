@@ -1,18 +1,40 @@
-# running runbms ./evaluation/results/log ./evaluation/configs/lxr-latency/config.yml 8 5 --skip-oom 1 --skip-timeout 1 > _log
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-modest-heap-conc/config.yml 8 4 8 --skip-oom 1 --skip-timeout 1 > ~/_log
 
 includes:
   - "../common.yml"
   # - "../minheap.yml"
 
 overrides:
-  invocations: 10
-  suites.dacapochopin-29a657f.minheap: immix-rc
+  invocations: 20
+  suites.dacapochopin-29a657f.timing_iteration: 5
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - cassandra
+    - tomcat
+    - h2
+
+  # Can't run
+    # - tradebeans
+    # - tradesoap
+    # - jme
+    # - kafka
 
 runtimes:
-  jdk:
+  jdk-lxr-stw-old:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-latency/jdk-bbcb5b0f/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-{git}/jdk"
+  jdk-lxr-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
+
+plugins:
+  dacapo-latency:
+    type: CopyFile
+    patterns:
+      - "scratch/dacapo-latency-*.csv"
 
 modifiers:
   nobarrier:
@@ -23,17 +45,59 @@ modifiers:
     type: EnvVar
     var: "NURSERY_BLOCKS"
     val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
   noreuse:
     type: EnvVar
     var: "DISABLE_MUTATOR_LINE_REUSING"
     val: "1"
-  satb:
+  mu:
+    type: ProgramArg
+    val: "-t {0}"
+  latency:
+    type: ProgramArg
+    val: "--dump-latency"
+  waitlazy:
     type: EnvVar
-    var: "CONCURRENT_MARKING_THRESHOLD"
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "1"
+  nowaitlazy:
+    type: EnvVar
+    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
+    val: "0"
+  incs:
+    type: EnvVar
+    var: "INCS_LIMIT"
     val: "{0}"
+  mevac:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_MB"
+    val: "{0}"
+  trace:
+    type: EnvVar
+    var: "TRACE_THRESHOLD"
+    val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
+  g1_default:
+    type: JVMArg
+    val: "-XX:+UseG1GC"
 
 configs:
-  - jdk|ix|common|tph|mmtk_perf
-  - jdk|parallel|common|hs_perf
-  - jdk|g1|common|hs_perf
-  - jdk|z|common|hs_perf
+  - jdk-lxr-stw|g1|common|hs_perf|latency
+  - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1|latency
+  - jdk-lxr-stw|g1_default|common|hs_perf|latency
+  - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac|latency
+  - jdk-lxr-stw|shenandoah|common|hs_perf|latency
+  - jdk-lxr-stw|z|common|hs_perf|latency

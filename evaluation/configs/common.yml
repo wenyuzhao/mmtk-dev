@@ -7,6 +7,24 @@ overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
   suites.dacapochopin-29a657f.timeout: 600
+  suites.dacapochopin-29a657f.minheap_values.g1:
+    avrora: 7
+    batik: 1076
+    biojava: 191
+    cassandra: 263
+    eclipse: 534
+    fop: 73
+    graphchi: 255
+    h2: 1191
+    h2o: 3689
+    jython: 325
+    luindex: 41
+    lusearch: 53
+    pmd: 637
+    sunflow: 87
+    tomcat: 71
+    xalan: 43
+    zxing: 153
   suites.dacapochopin-29a657f.minheap_values.immix-sim:
     avrora: 27
     batik: 968

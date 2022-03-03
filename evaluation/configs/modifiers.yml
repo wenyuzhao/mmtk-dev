@@ -68,6 +68,9 @@ modifiers:
   no_inline_clone:
     type: JVMArg
     val: "-XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy"
+  no_weak_and_class_unload:
+    type: JVMArg
+    val: "-XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp|no_inline_clone"
@@ -91,22 +94,25 @@ modifiers:
     val: "MarkCompact"
   epsilon:
     type: ModifierSet
-    val: "hotspot_gc-Epsilon"
+    val: "hotspot_gc-Epsilon|no_weak_and_class_unload"
   g1:
     type: ModifierSet
-    val: "hotspot_gc-G1"
+    val: "hotspot_gc-G1|no_weak_and_class_unload"
   z:
     type: ModifierSet
-    val: "hotspot_gc-Z"
+    val: "hotspot_gc-Z|no_weak_and_class_unload"
   shenandoah:
     type: ModifierSet
-    val: "hotspot_gc-Shenandoah"
+    val: "hotspot_gc-Shenandoah|no_weak_and_class_unload"
   parallel:
     type: ModifierSet
-    val: "hotspot_gc-Parallel"
+    val: "hotspot_gc-Parallel|no_weak_and_class_unload"
   g1r:
     type: JVMArg
     val: "-XX:G1HeapRegionSize={0}"
   tlab:
     type: JVMArg
     val: "-XX:TLABSize={0} -XX:-ResizeTLAB"
+
+# final minheap values
+#  _ features used for G1, LXR

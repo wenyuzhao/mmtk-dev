@@ -2,11 +2,10 @@
 
 includes:
   - "../common.yml"
-  # - "../minheap.yml"
 
 overrides:
-  invocations: 8
-  suites.dacapochopin-29a657f.minheap: lxr
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: g1
   benchmarks.dacapochopin-29a657f:
     - fop
     - lusearch
@@ -20,7 +19,7 @@ overrides:
     - eclipse
     - graphchi
     - h2
-    # - jme
+    - jme
     - jython
     # - kafka
     - luindex
@@ -31,68 +30,16 @@ overrides:
     - zxing
 
 runtimes:
-  jdk-old:
+  jdk-lxr-stw-old:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-36a30992/jdk"
-  jdk-new:
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-{git}/jdk"
+  jdk-lxr-stw:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-0105d92d/jdk"
-  jdk-new-2:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-d377a75c/jdk"
-  jdk-lock-3:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-3-{git}/jdk"
-  jdk-lock-4:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-4-{git}/jdk"
-  jdk-lock-5:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-5-{git}/jdk"
-  jdk-lock-7:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-7-{git}/jdk"
-  jdk-lock-8:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-8-{git}/jdk"
-  jdk-lock-9:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lock-9-{git}/jdk"
-  jdk-block-64k:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-64k-{git}/jdk"
-  jdk-block-128k:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-128k-{git}/jdk"
-  jdk-block-256k:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-256k-{git}/jdk"
-  jdk-block-512k:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-512k-{git}/jdk"
-  jdk-block-1m:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-block-1m-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
 
 modifiers:
-  nobarrier:
-    type: EnvVar
-    var: "BARRIER"
-    val: "NoBarrier"
   nb:
     type: EnvVar
     var: "NURSERY_BLOCKS"
@@ -116,6 +63,18 @@ modifiers:
   oevac:
     type: ModifierSet
     val: "oevac_enable|oevac_threshold-50"
+  g1_default:
+    type: JVMArg
+    val: "-XX:+UseG1GC"
+  g1_nocompressoops:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
+  g1_noclassunload:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
+  g1_noweakref:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-RegisterReferences"
 
 configs:
   # Different nursery
@@ -139,8 +98,12 @@ configs:
   # - jdk-block-256k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
-  - jdk-old|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
   # - jdk-new|ix|common|tph|mmtk_perf|oevac
-  - jdk-new-2|ix|common|tph|mmtk_perf|oevac
+  # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac
   # G1
-  - jdk-new|g1|common|hs_perf
+  # - jdk-lxr-stw|g1|common|hs_perf
+  - jdk-lxr-stw|g1_default|common|hs_perf
+  - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
+  - jdk-lxr-stw|g1_noclassunload|common|hs_perf
+  - jdk-lxr-stw|g1_noweakref|common|hs_perf

@@ -40,6 +40,14 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-fixleak/jdk"
+  jdk-lxr-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
+  jdk-lxr-stw-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-{git}/jdk"
 overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
   benchmarks.dacapochopin-29a657f:
@@ -115,7 +123,9 @@ configs:
   # - jdk-master-nolos|ss|common|tph|mmtk_perf
   # - jdk-master-nocalclos|ss|common|tph|mmtk_perf
   # - jdk-master-noweak|ss|common|tph|mmtk_perf|noweak
-  - jdk-fixleak|ss|common|tph|mmtk_perf
+  # - jdk-fixleak|ss|common|tph|mmtk_perf
+  - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
+  - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac
   # - jdk-master|ix|common|tph|mmtk_perf
   # - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload
   # - jdk|ix|common|tph|mmtk_perf|oevac # 32M
