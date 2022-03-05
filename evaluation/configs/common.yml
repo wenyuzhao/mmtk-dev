@@ -17,6 +17,7 @@ overrides:
     graphchi: 255
     h2: 1191
     h2o: 3689
+    jme: 235
     jython: 325
     luindex: 41
     lusearch: 53

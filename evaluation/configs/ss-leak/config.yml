@@ -35,7 +35,12 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-fixleak/jdk"
+  jdk-fixleak-inl:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-fixleak-inl/jdk"
 
 configs:
   - jdk-master|ss|common|tph|mmtk_perf
   - jdk-fixleak|ss|common|tph|mmtk_perf
+  - jdk-fixleak-inl|ss|common|tph|mmtk_perf

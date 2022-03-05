@@ -19,7 +19,7 @@ overrides:
     - eclipse
     - graphchi
     - h2
-    - jme
+    # - jme
     - jython
     # - kafka
     - luindex
@@ -38,6 +38,10 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
 
 modifiers:
   nb:
@@ -99,10 +103,11 @@ configs:
   # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
   # - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-new|ix|common|tph|mmtk_perf|oevac
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac
   # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac
   # G1
   # - jdk-lxr-stw|g1|common|hs_perf
+  # Different G1 builds
   - jdk-lxr-stw|g1_default|common|hs_perf
   - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
   - jdk-lxr-stw|g1_noclassunload|common|hs_perf

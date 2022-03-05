@@ -29,6 +29,14 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
+  jdk-lxr-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-old-{git}/jdk"
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
 
 plugins:
   dacapo-latency:
@@ -95,9 +103,9 @@ modifiers:
     val: "-XX:+UseG1GC"
 
 configs:
-  - jdk-lxr-stw|g1|common|hs_perf|latency
-  - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1|latency
-  - jdk-lxr-stw|g1_default|common|hs_perf|latency
-  - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac|latency
-  - jdk-lxr-stw|shenandoah|common|hs_perf|latency
-  - jdk-lxr-stw|z|common|hs_perf|latency
+  - jdk-lxr|g1|common|hs_perf|latency
+  - jdk-lxr|g1_default|common|hs_perf|latency
+  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1|latency
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency
+  - jdk-lxr|shenandoah|common|hs_perf|latency
+  - jdk-lxr|z|common|hs_perf|latency

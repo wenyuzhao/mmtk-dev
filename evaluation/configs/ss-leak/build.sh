@@ -10,9 +10,9 @@ render_config
 # popd
 # build_one jdk-master
 
-pushd ~/MMTk-Dev/mmtk-openjdk
-git checkout fix-roots-leak
-popd
+# pushd ~/MMTk-Dev/mmtk-openjdk
+# git checkout fix-roots-leak
+# popd
 build_one jdk-fixleak
 
 # for i in $(seq 3 9); do
