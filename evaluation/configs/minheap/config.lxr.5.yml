@@ -5,6 +5,6 @@ includes:
 
 overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
-  configs:
-    - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
-    - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac
+  # configs:
+  #   - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
+  #   - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac

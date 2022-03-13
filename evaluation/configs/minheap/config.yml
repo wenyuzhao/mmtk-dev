@@ -2,6 +2,7 @@
 
 includes:
   - "../minheap.yml"
+  - "../lxr-modifiers.yml"
 
 runtimes:
   jdk:
@@ -48,6 +49,14 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-{git}/jdk"
+  jdk-lxr-fixleak:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/minheap/jdk-lxr-fixleak-{git}/jdk"
+  jdk-lxr-old-fixleak:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/minheap/jdk-lxr-old-fixleak-{git}/jdk"
 overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
   benchmarks.dacapochopin-29a657f:
@@ -124,8 +133,8 @@ configs:
   # - jdk-master-nocalclos|ss|common|tph|mmtk_perf
   # - jdk-master-noweak|ss|common|tph|mmtk_perf|noweak
   # - jdk-fixleak|ss|common|tph|mmtk_perf
-  - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
-  - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac
+  - jdk-lxr-fixleak|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
+  - jdk-lxr-old-fixleak|ix|common|tph|mmtk_perf|nr-1
   # - jdk-master|ix|common|tph|mmtk_perf
   # - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload
   # - jdk|ix|common|tph|mmtk_perf|oevac # 32M

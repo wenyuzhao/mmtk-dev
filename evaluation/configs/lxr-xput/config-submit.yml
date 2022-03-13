@@ -1,0 +1,72 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  invocations: 20
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - cassandra
+    - fop
+    - jython
+    - pmd
+    - tomcat
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - h2
+    - luindex
+
+runtimes:
+  jdk-submit:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-lxr-stw-submit-36a30992/jdk"
+  jdk-submit-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-36a30992/jdk"
+
+modifiers:
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  lfb:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
+  g1:
+    type: ModifierSet
+    val: "hotspot_gc-G1"
+  z:
+    type: ModifierSet
+    val: "hotspot_gc-Z"
+  shenandoah:
+    type: ModifierSet
+    val: "hotspot_gc-Shenandoah"
+
+configs:
+- jdk-submit|g1|common|hs_perf
+- jdk-submit|ix|common|tph|mmtk_perf|nr-1
+- jdk-submit-old|g1|common|hs_perf
+- jdk-submit-old|ix|common|tph|mmtk_perf|nr-1

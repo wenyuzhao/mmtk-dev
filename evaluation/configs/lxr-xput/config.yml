@@ -2,10 +2,12 @@
 
 includes:
   - "../common.yml"
+  - "../lxr-modifiers.yml"
 
 overrides:
   invocations: 10
   suites.dacapochopin-29a657f.minheap: g1
+  # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
     - fop
     - lusearch
@@ -30,55 +32,18 @@ overrides:
     - zxing
 
 runtimes:
-  jdk-lxr-stw-old:
+  jdk-lxr-old:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-{git}/jdk"
-  jdk-lxr-stw:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-old-{git}/jdk"
   jdk-lxr:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
-
-modifiers:
-  nb:
-    type: EnvVar
-    var: "NURSERY_BLOCKS"
-    val: "{0}"
-  nr:
-    type: EnvVar
-    var: "NURSERY_RATIO"
-    val: "{0}"
-  lfb:
-    type: EnvVar
-    var: "LOCK_FREE_BLOCKS"
-    val: "{0}"
-  oevac_threshold:
-    type: EnvVar
-    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
-    val: "{0}"
-  oevac_enable:
-    type: EnvVar
-    var: "OPPORTUNISTIC_EVAC"
-    val: "1"
-  oevac:
-    type: ModifierSet
-    val: "oevac_enable|oevac_threshold-50"
-  g1_default:
-    type: JVMArg
-    val: "-XX:+UseG1GC"
-  g1_nocompressoops:
-    type: JVMArg
-    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
-  g1_noclassunload:
-    type: JVMArg
-    val: "-XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
-  g1_noweakref:
-    type: JVMArg
-    val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  jdk-lxr-submit:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-36a30992/jdk"
 
 configs:
   # Different nursery
@@ -102,13 +67,56 @@ configs:
   # - jdk-block-256k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lxr-stw-old|ix|common|tph|mmtk_perf|nr-1
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac
-  # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac
+  # - jdk-lxr-stw-2021-11|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-submit|g1_old|common|hs_perf
+  # - jdk-lxr-submit|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-jan-06-1|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-jan-06-2|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-jan-19|ix|common|tph|mmtk_perf|nr-1
+  - jdk-lxr-old|g1|common|hs_perf
+  # - jdk-lxr-old|g1_default|common|hs_perf
+  # - jdk-lxr-jan-06-1|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-jan-06-2|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr-jan-19|ix|common|tph|mmtk_perf|nr-1
+  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1|cm-90
+
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-10|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-20
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-30
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-5000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-15000|trace-10
+
+
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-20
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-30
+
+
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-20000|trace-10
+
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-20
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-30
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-5000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-15000|trace-10
+
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-10|incs-15000|trace-30
+
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
+  # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
   # G1
-  # - jdk-lxr-stw|g1|common|hs_perf
+  # - jdk-lxr-old|g1_default|common|hs_perf
   # Different G1 builds
-  - jdk-lxr-stw|g1_default|common|hs_perf
-  - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
-  - jdk-lxr-stw|g1_noclassunload|common|hs_perf
-  - jdk-lxr-stw|g1_noweakref|common|hs_perf
+  # - jdk-lxr-stw-2022-03|g1_default|common|hs_perf
+  # - jdk-lxr-stw-2021-11|g1_2021_11|common|hs_perf
+  # - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
+  # - jdk-lxr-stw|g1_noclassunload|common|hs_perf
+  # - jdk-lxr-stw|g1_noweakref|common|hs_perf
+
+  - jdk-lxr-old|shenandoah|common|hs_perf
+  - jdk-lxr-old|z|common|hs_perf

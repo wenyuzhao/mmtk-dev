@@ -9,6 +9,6 @@ render_config() {
 }
 
 build_one() {
-    rake jdk:test gc=Immix heap=287M noc1=1 bench=xalan profile=release n=5 features=$2
+    rake jdk:test gc=Immix heap=287M noc1=1 bench=lusearch profile=release n=5 features=$2
     rake bench:cp name=$config/$1
 }

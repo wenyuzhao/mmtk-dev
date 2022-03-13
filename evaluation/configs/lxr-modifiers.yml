@@ -1,0 +1,64 @@
+modifiers:
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  lfb:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
+  mu:
+    type: ProgramArg
+    val: "-t {0}"
+  latency:
+    type: ProgramArg
+    val: "--dump-latency"
+  g1_default:
+    type: JVMArg
+    val: "-XX:+UseG1GC"
+  g1_2021_11:
+    type: ModifierSet
+    val: "hotspot_gc-G1"
+  g1_nocompressoops:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
+  g1_noclassunload:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
+  g1_noweakref:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  defrag_ratio:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_PERCENT"
+    val: "{0}"
+  cm:
+    type: EnvVar
+    var: "CONCURRENT_MARKING_THRESHOLD"
+    val: "{0}"
+  incs:
+    type: EnvVar
+    var: "INCS_LIMIT"
+    val: "{0}"
+  trace:
+    type: EnvVar
+    var: "TRACE_THRESHOLD"
+    val: "{0}"
+  g1_old:
+    type: ModifierSet
+    val: "hotspot_gc-G1"

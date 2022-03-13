@@ -2,7 +2,7 @@
 
 includes:
   - "../common.yml"
-  # - "../minheap.yml"
+  - "../lxr-modifiers.yml"
 
 overrides:
   invocations: 20
@@ -13,7 +13,6 @@ overrides:
     - cassandra
     - tomcat
     - h2
-
   # Can't run
     # - tradebeans
     # - tradesoap
@@ -24,7 +23,7 @@ runtimes:
   jdk-lxr-stw-old:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-old-cb38c7b0/jdk"
   jdk-lxr-stw:
     type: OpenJDK
     release: 11
@@ -44,68 +43,40 @@ plugins:
     patterns:
       - "scratch/dacapo-latency-*.csv"
 
-modifiers:
-  nobarrier:
-    type: EnvVar
-    var: "BARRIER"
-    val: "NoBarrier"
-  nb:
-    type: EnvVar
-    var: "NURSERY_BLOCKS"
-    val: "{0}"
-  nr:
-    type: EnvVar
-    var: "NURSERY_RATIO"
-    val: "{0}"
-  noreuse:
-    type: EnvVar
-    var: "DISABLE_MUTATOR_LINE_REUSING"
-    val: "1"
-  mu:
-    type: ProgramArg
-    val: "-t {0}"
-  latency:
-    type: ProgramArg
-    val: "--dump-latency"
-  waitlazy:
-    type: EnvVar
-    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
-    val: "1"
-  nowaitlazy:
-    type: EnvVar
-    var: "NO_GC_UNTIL_LAZY_SWEEPING_FINISHED"
-    val: "0"
-  incs:
-    type: EnvVar
-    var: "INCS_LIMIT"
-    val: "{0}"
-  mevac:
-    type: EnvVar
-    var: "MAX_MATURE_DEFRAG_MB"
-    val: "{0}"
-  trace:
-    type: EnvVar
-    var: "TRACE_THRESHOLD"
-    val: "{0}"
-  oevac_threshold:
-    type: EnvVar
-    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
-    val: "{0}"
-  oevac_enable:
-    type: EnvVar
-    var: "OPPORTUNISTIC_EVAC"
-    val: "1"
-  oevac:
-    type: ModifierSet
-    val: "oevac_enable|oevac_threshold-50"
-  g1_default:
-    type: JVMArg
-    val: "-XX:+UseG1GC"
-
 configs:
   - jdk-lxr|g1|common|hs_perf|latency
   - jdk-lxr|g1_default|common|hs_perf|latency
-  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1|latency
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency
+  # - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1|latency|cm-90
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|rc_free_blocks-5|cm-90
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|rc_free_blocks-5|cm-80
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|rc_free_blocks-5|cm-70
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|rc_free_blocks-5|cm-60
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-10|rc_free_blocks-5
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|rc_free_blocks-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|rc_free_blocks-15
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-10|rc_free_blocks-5
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|rc_free_blocks-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|rc_free_blocks-15
+
+  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1|latency|cm-90
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-10|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-20|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|incs-10000|trace-20
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|incs-10000|trace-30
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|incs-5000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|defrag_ratio-30|incs-15000|trace-10
+
+
+
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|incs-15000|trace-10
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|incs-15000|trace-20
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|incs-15000|trace-30
+
+
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|incs-15000|trace-10
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|latency|incs-20000|trace-10
+
   - jdk-lxr|shenandoah|common|hs_perf|latency
   - jdk-lxr|z|common|hs_perf|latency

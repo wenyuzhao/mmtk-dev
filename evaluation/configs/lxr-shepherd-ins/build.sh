@@ -5,14 +5,9 @@ source $(dirname $0)/../utils.sh
 
 render_config
 
-
-export PATH=$HOME/.cargo/bin:$PATH
-
-# build_one jdk-lxr-stw-submit-$branch lxr
-
-NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
-OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 TRACE_THRESHOLD=30 MAX_MATURE_DEFRAG_PERCENT=15 INCS_LIMIT=10000 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
-# MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
+NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr,instrumentation
+# OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-stw-$branch lxr_evac,lxr_heap_health_guided_gc
+# MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-$branch lxr_evac,instrumentation,lxr_heap_health_guided_gc
 # MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-stw-$branch lxr_evac,lxr_heap_health_guided_gc
 
 # NURSERY_RATIO=1 build_one jdk-lxr-stw-old-$branch lxr_evac

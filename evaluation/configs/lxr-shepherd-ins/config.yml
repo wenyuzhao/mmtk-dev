@@ -1,0 +1,122 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: g1
+  # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - h2
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-old-{git}/jdk"
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
+
+modifiers:
+  nb:
+    type: EnvVar
+    var: "NURSERY_BLOCKS"
+    val: "{0}"
+  nr:
+    type: EnvVar
+    var: "NURSERY_RATIO"
+    val: "{0}"
+  lfb:
+    type: EnvVar
+    var: "LOCK_FREE_BLOCKS"
+    val: "{0}"
+  oevac_threshold:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC_THRESHOLD"
+    val: "{0}"
+  oevac_enable:
+    type: EnvVar
+    var: "OPPORTUNISTIC_EVAC"
+    val: "1"
+  oevac:
+    type: ModifierSet
+    val: "oevac_enable|oevac_threshold-50"
+  g1_default:
+    type: JVMArg
+    val: "-XX:+UseG1GC"
+  g1_2021_11:
+    type: ModifierSet
+    val: "hotspot_gc-G1"
+  g1_nocompressoops:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
+  g1_noclassunload:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
+  g1_noweakref:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  defrag_ratio:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_PERCENT"
+    val: "{0}"
+
+configs:
+  # Different nursery
+  # - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4
+  # - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2
+  # - jdk|ix|common|tph|mmtk_perf|nr-0 # 1/1
+  # Different lock-free blocks
+  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-32
+  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-96
+  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-128
+  # Different lock-bit granularity
+  # - jdk-lock-3|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-4|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-5|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-7|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-8|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lock-9|ix|common|tph|mmtk_perf|nr-0
+  # Different block size
+  # - jdk-block-64k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-128k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-256k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
+  # - jdk-lxr-stw-2021-11|ix|common|tph|mmtk_perf|nr-1
+  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac
+  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
+  # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
+  # G1
+  # - jdk-lxr-stw|g1|common|hs_perf
+  # - jdk-lxr-stw|g1_default|common|hs_perf
+  # Different G1 builds
+  # - jdk-lxr-stw-2022-03|g1_default|common|hs_perf
+  # - jdk-lxr-stw-2021-11|g1_2021_11|common|hs_perf
+  # - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
+  # - jdk-lxr-stw|g1_noclassunload|common|hs_perf
+  # - jdk-lxr-stw|g1_noweakref|common|hs_perf

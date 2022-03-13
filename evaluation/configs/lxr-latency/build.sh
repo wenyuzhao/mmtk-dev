@@ -12,4 +12,4 @@ render_config
 
 
 # NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
-OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
+OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 MAX_MATURE_DEFRAG_PERCENT=10 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
