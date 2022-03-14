@@ -47,6 +47,10 @@ modifiers:
     type: EnvVar
     var: "MAX_MATURE_DEFRAG_PERCENT"
     val: "{0}"
+  defrag_mb:
+    type: EnvVar
+    var: "MAX_MATURE_DEFRAG_MB"
+    val: "{0}"
   cm:
     type: EnvVar
     var: "CONCURRENT_MARKING_THRESHOLD"

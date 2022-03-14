@@ -1,0 +1,66 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  heap_range: 6
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - h2
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
+  jdk-lxr-rc4:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc4-{git}/jdk"
+  jdk-lxr-rc8:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc8-{git}/jdk"
+  jdk-lxr-block16:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-block16-{git}/jdk"
+  jdk-lxr-block64:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-block64-{git}/jdk"
+
+configs:
+  - jdk-lxr|ix|common|tph|nr-1
+  # Different mature defrag limits
+  - jdk-lxr|ix|common|tph|nr-1|defrag_mb-2
+  - jdk-lxr|ix|common|tph|nr-1|defrag_mb-8
+  # Different block size
+  - jdk-lxr-block16|ix|common|tph|nr-1
+  - jdk-lxr-block64|ix|common|tph|nr-1
+  # Different RC bits
+  - jdk-lxr-rc4|ix|common|tph|nr-1
+  - jdk-lxr-rc8|ix|common|tph|nr-1

@@ -3,6 +3,7 @@ includes:
   - "./modifiers.yml"
 
 overrides:
+  heap_range: 3
   invocations: 20
   suites.dacapochopin-29a657f.timing_iteration: 5
   suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
