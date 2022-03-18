@@ -40,7 +40,7 @@ modifiers:
     val: "-XX:+AlwaysPreTouch"
   hs_perf:
     type: ModifierSet
-    val: "jvmti|jvmti_env|perf"
+    val: "jvmti|jvmti_env"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"

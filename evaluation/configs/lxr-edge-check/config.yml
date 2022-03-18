@@ -1,0 +1,65 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: g1
+  benchmarks.dacapochopin-29a657f:
+    - fop
+    - lusearch
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - h2
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw/jdk"
+  jdk-lxr-stw-meta:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-meta/jdk"
+  jdk-lxr-stw-check:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-check/jdk"
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr/jdk"
+  jdk-lxr-meta:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-meta/jdk"
+  jdk-lxr-check:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-check/jdk"
+
+configs:
+  - jdk-lxr-stw|ix|common|tph|oevac|incs-15000|trace-30
+  - jdk-lxr-stw-meta|ix|common|tph|oevac|incs-15000|trace-30
+  - jdk-lxr-stw-check|ix|common|tph|oevac|incs-15000|trace-30
+  - jdk-lxr|ix|common|tph|oevac|incs-15000|trace-30
+  - jdk-lxr-meta|ix|common|tph|oevac|incs-15000|trace-30
+  - jdk-lxr-check|ix|common|tph|oevac|incs-15000|trace-30

@@ -1,0 +1,34 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  invocations: 20
+  suites.dacapochopin-29a657f.minheap: g1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - cassandra
+    - tomcat
+    - h2
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr/jdk"
+  jdk-lxr-2:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-2/jdk"
+
+plugins:
+  dacapo-latency:
+    type: CopyFile
+    patterns:
+      - "scratch/dacapo-latency-*.csv"
+
+configs:
+  - jdk-lxr|ix|common|tph|oevac|incs-15000|trace-30|latency
+  - jdk-lxr-2|ix|common|tph|oevac|incs-15000|trace-30|latency

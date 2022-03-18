@@ -6,7 +6,6 @@ includes:
 overrides:
   invocations: 10
   suites.dacapochopin-29a657f.minheap: g1
-  # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
     - fop
     - lusearch
@@ -107,9 +106,9 @@ configs:
   # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
   # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
   # - jdk-lxr-stw-2021-11|ix|common|tph|mmtk_perf|nr-1
-  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1
+  - jdk-lxr-old|ix|common|tph|nr-1
   # - jdk-lxr|ix|common|tph|mmtk_perf|oevac
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
   # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
   # G1
   # - jdk-lxr-stw|g1|common|hs_perf
