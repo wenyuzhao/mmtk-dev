@@ -5,14 +5,30 @@ includes:
   - "../lxr-modifiers.yml"
 
 overrides:
-  heap_range: 6
   invocations: 3
-  suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  suites.dacapochopin-29a657f.minheap: g1
   benchmarks.dacapochopin-29a657f:
+    - fop
     - lusearch
-    # - cassandra
-    # - tomcat
-    # - h2
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - h2
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - tomcat
+    - xalan
+    - zxing
 
 runtimes:
   jdk-lxr:
@@ -24,7 +40,11 @@ plugins:
   dacapo-latency:
     type: CopyFile
     patterns:
-      - "_pauses.csv"
+      - "scratch/pauses.csv"
 
 configs:
+  - jdk-lxr|g1|common|hs_pauses
+  - jdk-lxr|g1_default|common|hs_pauses
   - jdk-lxr|ix|common|tph|nr-1
+  - jdk-lxr|shenandoah|common|hs_pauses
+  - jdk-lxr|z|common|hs_pauses
