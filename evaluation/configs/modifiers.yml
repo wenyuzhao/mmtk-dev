@@ -28,6 +28,13 @@ modifiers:
     type: EnvVar
     var: "LD_PRELOAD"
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+  jvmti_pauses:
+    type: JVMArg
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_with_pauses.so"
+  jvmti_env_pauses:
+    type: EnvVar
+    var: "LD_PRELOAD"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_with_pauses.so"
   perf:
     type: EnvVar
     var: "PERF_EVENTS"
@@ -41,6 +48,12 @@ modifiers:
   hs_perf:
     type: ModifierSet
     val: "jvmti|jvmti_env"
+  hs:
+    type: ModifierSet
+    val: "jvmti|jvmti_env"
+  hs_pauses:
+    type: ModifierSet
+    val: "jvmti_pauses|jvmti_env_pauses"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"

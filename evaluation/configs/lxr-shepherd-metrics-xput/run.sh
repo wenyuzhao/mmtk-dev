@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -x
 
-hfac_args="8 4"
+hfac_args="12 12"
 
 config=$(basename $(dirname $0))
 

@@ -56,11 +56,14 @@ runtimes:
 configs:
   - jdk-lxr|ix|common|tph|nr-1
   # Different mature defrag limits
-  - jdk-lxr|ix|common|tph|nr-1|defrag_mb-2
-  - jdk-lxr|ix|common|tph|nr-1|defrag_mb-8
+  # - jdk-lxr|ix|common|tph|nr-1|defrag_mb-2
+  # - jdk-lxr|ix|common|tph|nr-1|defrag_mb-8
   # Different block size
   - jdk-lxr-block16|ix|common|tph|nr-1
   - jdk-lxr-block64|ix|common|tph|nr-1
   # Different RC bits
   - jdk-lxr-rc4|ix|common|tph|nr-1
   - jdk-lxr-rc8|ix|common|tph|nr-1
+  # Different lock-free blocks
+  - jdk-lxr|ix|common|tph|nr-1|lfb-48
+  - jdk-lxr|ix|common|tph|nr-1|lfb-192
