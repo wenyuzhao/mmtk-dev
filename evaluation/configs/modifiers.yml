@@ -108,6 +108,9 @@ modifiers:
   epsilon:
     type: ModifierSet
     val: "hotspot_gc-Epsilon|no_weak_and_class_unload"
+  g1_default:
+    type: JVMArg
+    val: "-XX:+UseG1GC"
   g1:
     type: ModifierSet
     val: "hotspot_gc-G1|no_weak_and_class_unload"
@@ -126,6 +129,9 @@ modifiers:
   tlab:
     type: JVMArg
     val: "-XX:TLABSize={0} -XX:-ResizeTLAB"
+  hs_cgc:
+    type: JVMArg
+    val: "-XX:ConcGCThreads={0}"
 
 # final minheap values
 #  _ features used for G1, LXR

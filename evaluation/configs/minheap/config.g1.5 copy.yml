@@ -6,5 +6,5 @@ includes:
 overrides:
   suites.dacapochopin-29a657f.timing_iteration: 5
   configs:
-    # - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload
-    - jdk-master-noweak|g1_default|common|hs_perf|noweak|noclassunload
+    - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload
+    - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload

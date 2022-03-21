@@ -44,7 +44,8 @@ plugins:
 
 configs:
   - jdk-lxr|g1|common|hs_pauses
-  - jdk-lxr|g1_default|common|hs_pauses
+  # - jdk-lxr|g1_default|common|hs_pauses
   - jdk-lxr|ix|common|tph|nr-1
   - jdk-lxr|shenandoah|common|hs_pauses
-  - jdk-lxr|z|common|hs_pauses
+  - jdk-lxr|shenandoah|common|hs_pauses|hs_cgc-21
+  # - jdk-lxr|z|common|hs_pauses

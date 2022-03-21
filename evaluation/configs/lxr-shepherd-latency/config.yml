@@ -5,7 +5,7 @@ includes:
   - "../lxr-modifiers.yml"
 
 overrides:
-  invocations: 20
+  invocations: 10
   suites.dacapochopin-29a657f.minheap: g1
   benchmarks.dacapochopin-29a657f:
     - lusearch
@@ -37,13 +37,14 @@ configs:
   - jdk-lxr|g1|common|hs_perf|latency
   - jdk-lxr|g1_default|common|hs_perf|latency
 
-  - jdk-lxr|g1_nocompressoops|common|hs_perf|latency
-  - jdk-lxr|g1_noclassunload|common|hs_perf|latency
-  - jdk-lxr|g1_noweakref|common|hs_perf|latency
+  # - jdk-lxr|g1_nocompressoops|common|hs_perf|latency
+  # - jdk-lxr|g1_noclassunload|common|hs_perf|latency
+  # - jdk-lxr|g1_noweakref|common|hs_perf|latency
 
-  - jdk-ix|ix|common|tph|latency
-  - jdk-rcix|ix|common|tph|latency
+  # - jdk-ix|ix|common|tph|latency
+  # - jdk-rcix|ix|common|tph|latency
   - jdk-lxr|ix|common|tph|nr-1|latency
 
   - jdk-lxr|shenandoah|common|hs_perf|latency
+  - jdk-lxr|shenandoah|common|hs_perf|latency|hs_cgc-21
   - jdk-lxr|z|common|hs_perf|latency
