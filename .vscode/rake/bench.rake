@@ -12,6 +12,7 @@ namespace "bench" do
         rsync("~/./MMTk-Dev/evaluation/running-ng", dest.())
         rsync("~/./MMTk-Dev/evaluation/configs/#{config}", dest.())
         rsync("~/./MMTk-Dev/evaluation/configs/*.yml", dest.())
+        rsync("~/./MMTk-Dev/evaluation/configs/*.sh", dest.())
         rsync("~/./MMTk-Dev/evaluation/advice", dest.())
         rsync("~/./MMTk-Dev/evaluation/probes", dest.())
         puts "❗️ Please run `pip3 install -e . --user` on #{moma}.moma and add `~/.local/bin` to PATH."
