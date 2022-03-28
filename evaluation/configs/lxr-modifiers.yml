@@ -66,3 +66,11 @@ modifiers:
   g1_old:
     type: ModifierSet
     val: "hotspot_gc-G1"
+  sid:
+    type: EnvVar
+    var: "SIMPLE_INCREMENTAL_DEFRAG"
+    val: "{0}"
+  sidm:
+    type: EnvVar
+    var: "SIMPLE_INCREMENTAL_DEFRAG_MULTIPLIER"
+    val: "{0}"

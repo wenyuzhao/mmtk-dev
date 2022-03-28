@@ -13,6 +13,9 @@ export PATH=$HOME/.cargo/bin:$PATH
 rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only
 rake bench:cp name=$config/jdk-lxr-rc-$branch
 
+rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr,lxr_heap_health_guided_gc,mmtk/lxr_incremental_defrag SIMPLE_INCREMENTAL_DEFRAG=8
+rake bench:cp name=$config/jdk-lxr-rc-evac-$branch
+
 
 # rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only,mmtk/lxr_enable_initial_alloc_limit
 # rake bench:cp name=$config/jdk-lxr-rc-initalloc-$branch

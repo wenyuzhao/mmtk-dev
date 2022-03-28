@@ -7,12 +7,18 @@ modifiers:
       dacapochopin-29a657f:
         - tradebeans
         - tradesoap
+      dacapochopin-f480064:
+        - tradebeans
+        - tradesoap
   c2ins:
     type: JVMArg
     val: "-XX:-TieredCompilation"
     excludes:
       # These two benchmarks exit with code 1
       dacapochopin-29a657f:
+        - tradebeans
+        - tradesoap
+      dacapochopin-f480064:
         - tradebeans
         - tradesoap
   probes_cp:
