@@ -8,6 +8,5 @@ config=$(basename $(dirname $0))
 pushd ~/MMTk-Dev
 
 running runbms ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/$config/_config.yml 12 12 &> ~/_log
-running runbms ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/$config/_config.yml 12 7 &>> ~/_log
 
 popd

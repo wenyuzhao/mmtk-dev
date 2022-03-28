@@ -1,0 +1,41 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  invocations: 5
+  suites.dacapochopin-29a657f.minheap: 15g
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - tomcat
+    - h2
+    - fop
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-gencopy:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-gencopy-{git}/jdk"
+
+configs:
+  - jdk-gencopy|gencopy|common|tph
+

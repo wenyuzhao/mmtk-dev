@@ -5,6 +5,7 @@ includes:
   - "../lxr-modifiers.yml"
 
 overrides:
+  heap_range: 3
   invocations: 10
   suites.dacapochopin-29a657f.minheap: g1
   # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
@@ -14,89 +15,43 @@ overrides:
     # - tradebeans
     # - tradesoap
     - cassandra
+    - tomcat
+    - h2
     - h2o
     - avrora
     - batik
     - biojava
     - eclipse
     - graphchi
-    - h2
     # - jme
     - jython
     # - kafka
     - luindex
     - pmd
     - sunflow
-    - tomcat
     - xalan
     - zxing
 
 runtimes:
-  jdk-lxr-old:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-old-{git}/jdk"
   jdk-lxr:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
-  jdk-lxr-submit:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-36a30992/jdk"
 
 configs:
-  # Different nursery
-  # - jdk|ix|common|tph|mmtk_perf|nr-3 # 1/4
-  # - jdk|ix|common|tph|mmtk_perf|nr-1 # 1/2
-  # - jdk|ix|common|tph|mmtk_perf|nr-0 # 1/1
-  # Different lock-free blocks
-  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-32
-  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-96
-  # - jdk|ix|common|tph|mmtk_perf|nr-0|lfb-128
-  # Different lock-bit granularity
-  # - jdk-lock-3|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lock-4|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lock-5|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lock-7|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lock-8|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lock-9|ix|common|tph|mmtk_perf|nr-0
-  # Different block size
-  # - jdk-block-64k|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-block-128k|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-block-256k|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-block-512k|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-block-1m|ix|common|tph|mmtk_perf|nr-0
-  # - jdk-lxr-stw-2021-11|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-lxr-submit|g1_old|common|hs_perf
-  # - jdk-lxr-submit|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-lxr-jan-06-1|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-lxr-jan-06-2|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-lxr-jan-19|ix|common|tph|mmtk_perf|nr-1
-  - jdk-lxr-old|g1|common|hs_perf
-  # - jdk-lxr-old|g1_default|common|hs_perf
-  # - jdk-lxr-jan-06-1|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-lxr-jan-06-2|ix|common|tph|mmtk_perf|nr-1
-  # - jdk-lxr-jan-19|ix|common|tph|mmtk_perf|nr-1
-  - jdk-lxr-old|ix|common|tph|mmtk_perf|nr-1|cm-90
+  - jdk-lxr|g1|common|hs
+  - jdk-lxr|ix|common|tph
+  - jdk-lxr|shenandoah|common|hs
+  - jdk-lxr|z|common|hs
 
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-10|incs-10000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20|incs-10000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-20
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-30
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-5000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-15000|trace-10
-
-
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-20
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-30
-
-
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-10000|trace-10
   # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
-  - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-20000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-20
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-30
+
+
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-10000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
+  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-20000|trace-10
 
   # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20|incs-10000|trace-10
   # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-10
@@ -117,6 +72,3 @@ configs:
   # - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
   # - jdk-lxr-stw|g1_noclassunload|common|hs_perf
   # - jdk-lxr-stw|g1_noweakref|common|hs_perf
-
-  - jdk-lxr-old|shenandoah|common|hs_perf
-  - jdk-lxr-old|z|common|hs_perf

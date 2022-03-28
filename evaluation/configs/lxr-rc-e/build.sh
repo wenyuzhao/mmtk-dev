@@ -8,10 +8,19 @@ render_config
 
 export PATH=$HOME/.cargo/bin:$PATH
 
+
+
+rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only
+rake bench:cp name=$config/jdk-lxr-rc-$branch
+
+
+# rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only,mmtk/lxr_enable_initial_alloc_limit
+# rake bench:cp name=$config/jdk-lxr-rc-initalloc-$branch
+
 # build_one jdk-lxr-stw-submit-$branch lxr
 
 # NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
-build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
+# OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 TRACE_THRESHOLD=30 MAX_MATURE_DEFRAG_PERCENT=15 INCS_LIMIT=10000 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
 # MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
 # MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-stw-$branch lxr_evac,lxr_heap_health_guided_gc
 

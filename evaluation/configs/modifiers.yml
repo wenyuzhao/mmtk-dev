@@ -101,6 +101,10 @@ modifiers:
     type: EnvVar
     var: "MMTK_PLAN"
     val: "Immix"
+  gencopy:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "GenCopy"
   mc:
     type: EnvVar
     var: "MMTK_PLAN"
