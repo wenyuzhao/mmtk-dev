@@ -1,0 +1,41 @@
+# running minheap -a 5 /home/wenyuz/MMTk-Dev/evaluation/configs/minheap/config.dacapo.9.12.yml /home/wenyuz/MMTk-Dev/_dacapo_912_rc_minheap.yml &> ~/_log
+
+includes:
+  - "/home/wenyuz/MMTk-Dev/evaluation/running-ng/src/running/config/base/minheap.yml"
+
+benchmarks:
+  dacapobach-mr1-java6:
+    - lusearch-fix
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/minheap/jdk-lxr-ca834c0d/jdk"
+  jdk-lxr-rc:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/minheap/jdk-lxr-rc-ca834c0d/jdk"
+
+modifiers:
+  ms:
+    type: JVMArg
+    val: "-XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking"
+  no_weak_and_class_unload:
+    type: JVMArg
+    val: "-XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences"
+  g1:
+    type: ModifierSet
+    val: "hotspot_gc-G1|no_weak_and_class_unload"
+  ix:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
+
+overrides:
+  suites.dacapobach-mr1-java6.timing_iteration: 5
+
+configs:
+  - jdk-lxr|ix|ms|s|c2|tph
+  - jdk-lxr-rc|ix|ms|s|c2|tph
+  - jdk-lxr|g1|ms|s|c2

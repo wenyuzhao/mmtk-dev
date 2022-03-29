@@ -42,7 +42,10 @@ runtimes:
 
 configs:
   - jdk-lxr-rc|g1|common|hs
-  - jdk-lxr-rc|ix|common|tph|lfb-32|nb-1024|incs-128000  # 32M + 128K
-  - jdk-lxr-rc-evac|ix|common|tph|lfb-32|nb-1024|incs-128000|sid-4  # 32M + 128K + evac (n=4)
-  - jdk-lxr-rc-evac|ix|common|tph|lfb-32|nb-1024|incs-128000|sid-8  # 32M + 128K + evac (n=8)
-  - jdk-lxr-rc-evac|ix|common|tph|lfb-32|nb-1024|incs-128000|sid-16  # 32M + 128K + evac (n=16)
+  - jdk-lxr-rc|ix|common|tph|lfb-32|nb-8192|incs-128000  # 256M + 128K
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-4  # 256M + 128K + evac (n=4, 4mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-8  # 256M + 128K + evac (n=8, 4mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-16  # 256M + 128K + evac (n=16, 4mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-4|sidm-8  # 256M + 128K + evac (n=4, 32mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-8|sidm-8  # 256M + 128K + evac (n=8, 32mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-16|sidm-8  # 256M + 128K + evac (n=16, 32mb)
