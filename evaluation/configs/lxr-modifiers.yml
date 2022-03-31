@@ -21,7 +21,11 @@ modifiers:
     val: "1"
   oevac:
     type: ModifierSet
-    val: "oevac_enable|oevac_threshold-50"
+    val: "oevac_enable|oevac_threshold-{0}"
+  id:
+    type: EnvVar
+    var: "INCREMENTAL_DEFRAG"
+    val: "1"
   mu:
     type: ProgramArg
     val: "-t {0}"
@@ -66,11 +70,28 @@ modifiers:
   g1_old:
     type: ModifierSet
     val: "hotspot_gc-G1"
-  sid:
+  defrag_policy:
     type: EnvVar
-    var: "SIMPLE_INCREMENTAL_DEFRAG"
+    var: "DEFRAG_POLICY"
     val: "{0}"
+  sid:
+    type: ModifierSet
+    val: "defrag_policy-SimpleIncrementalDefrag"
   sidm:
     type: EnvVar
     var: "SIMPLE_INCREMENTAL_DEFRAG_MULTIPLIER"
+    val: "{0}"
+  sid2:
+    type: ModifierSet
+    val: "defrag_policy-SimpleIncrementalDefrag2"
+  sid2_threshold:
+    type: EnvVar
+    var: "SIMPLE_INCREMENTAL_DEFRAG2_THRESHOLD"
+    val: "{0}"
+  nodefrag:
+    type: ModifierSet
+    val: "defrag_policy-NoDefrag"
+  n:
+    type: EnvVar
+    var: "LXR_DEFRAG_N"
     val: "{0}"

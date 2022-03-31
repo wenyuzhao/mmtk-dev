@@ -8,10 +8,38 @@ render_config
 
 export PATH=$HOME/.cargo/bin:$PATH
 
+
+
+pushd mmtk-core
+
+# Shepherd version
+git checkout lxr-shepherd
+pushd ../mmtk-openjdk
+git checkout lxr-shepherd
+popd
+rake jdk:clean profile=release
+NURSERY_RATIO=1 build_one jdk-lxr-kc-$branch lxr
+pushd ../mmtk-openjdk
+git checkout lxr
+popd
+rake jdk:clean profile=release
+# Shepherd version + bug fix
+git checkout lxr
+NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
+
+# New GC trigger
+MAX_MATURE_DEFRAG_PERCENT=20 build_one jdk-lxr-new-trigger-$branch lxr,lxr_heap_health_guided_gc
+
+# New Evacuation
+git checkout lxr-new-mature-evac
+build_one jdk-lxr-new-evac-$branch lxr,lxr_heap_health_guided_gc,mmtk/lxr_region_4m
+
+popd
+
 # build_one jdk-lxr-stw-submit-$branch lxr
 
 # NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
-build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
+# build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
 # MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
 # MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-stw-$branch lxr_evac,lxr_heap_health_guided_gc
 

@@ -8,23 +8,23 @@ overrides:
   invocations: 10
   suites.dacapochopin-29a657f.minheap: huge
   benchmarks.dacapochopin-29a657f:
+    - lusearch
     - cassandra
-    # - lusearch
-    # - tomcat
+    - tomcat
     - h2
-    # - fop
-    # - h2o
-    # - avrora
-    # - batik
-    # - biojava
-    # - eclipse
-    # - graphchi
-    # - jython
-    # - luindex
-    # - pmd
-    # - sunflow
-    # - xalan
-    # - zxing
+    - fop
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
 
 runtimes:
   jdk-lxr-rc:
@@ -42,24 +42,18 @@ runtimes:
 
 configs:
   - jdk-lxr-rc|g1|common|hs
-  - jdk-lxr-rc|ix|common|tph|lfb-32|nb-8192|incs-128000  # 256M + 128K
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-4  # 256M + 128K + evac (n=4, 4mb)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-8  # 256M + 128K + evac (n=8, 4mb)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-16  # 256M + 128K + evac (n=16, 4mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-4|sidm-8  # 256M + 128K + evac (n=4, 32mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-8|sidm-8  # 256M + 128K + evac (n=8, 32mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-128000|sid-16|sidm-8  # 256M + 128K + evac (n=16, 32mb)
+  - jdk-lxr-rc|ix|common|tph|lfb-32|nb-4096|incs-128000  # 128M + 128K
 
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-256000|sid-4  # 256M + 128K + evac (n=4, 4mb)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-256000|sid-8  # 256M + 128K + evac (n=8, 4mb)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-256000|sid-16  # 256M + 128K + evac (n=16, 4mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-256000|sid-4|sidm-8  # 256M + 128K + evac (n=4, 32mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-256000|sid-8|sidm-8  # 256M + 128K + evac (n=8, 32mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-256000|sid-16|sidm-8  # 256M + 128K + evac (n=16, 32mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|nodefrag|n-4
 
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-512000|sid-4  # 256M + 128K + evac (n=4, 4mb)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-512000|sid-8  # 256M + 128K + evac (n=8, 4mb)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-512000|sid-16  # 256M + 128K + evac (n=16, 4mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-512000|sid-4|sidm-8  # 256M + 128K + evac (n=4, 32mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-512000|sid-8|sidm-8  # 256M + 128K + evac (n=8, 32mb)
-  # - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-8192|incs-512000|sid-16|sidm-8  # 256M + 128K + evac (n=16, 32mb)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-4|sid2_threshold-10  # 128M + 128K + evac (n=4, 10%)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-8|sid2_threshold-10  # 128M + 128K + evac (n=8, 10%)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-16|sid2_threshold-10  # 128M + 128K + evac (n=16, 10%)
+
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-4|sid2_threshold-20  # 128M + 128K + evac (n=4, 20%)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-8|sid2_threshold-20  # 128M + 128K + evac (n=8, 20%)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-16|sid2_threshold-20  # 128M + 128K + evac (n=16, 20%)
+
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-4|sid2_threshold-50  # 128M + 128K + evac (n=4, 20%)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-8|sid2_threshold-50  # 128M + 128K + evac (n=8, 20%)
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-16|sid2_threshold-50  # 128M + 128K + evac (n=16, 20%)
