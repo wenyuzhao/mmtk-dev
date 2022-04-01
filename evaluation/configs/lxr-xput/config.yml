@@ -55,8 +55,10 @@ configs:
 
   - jdk-lxr-kc|ix|common|tph|nr-1
   - jdk-lxr-old|ix|common|tph|nr-1
+  - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
   - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-60
-  - jdk-lxr-new-evac|ix|common|tph|oevac-10|id|incs-256000|trace-60
+  - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-30
+  - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-60|defrag_thold-30
 
   - jdk-lxr-old|shenandoah|common|hs
   - jdk-lxr-old|z|common|hs

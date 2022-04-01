@@ -84,14 +84,25 @@ modifiers:
   sid2:
     type: ModifierSet
     val: "defrag_policy-SimpleIncrementalDefrag2"
-  sid2_threshold:
+  defrag_thold:
     type: EnvVar
-    var: "SIMPLE_INCREMENTAL_DEFRAG2_THRESHOLD"
+    var: "DEFRAG_BLOCK_LIVENESS_THRESHOLD"
     val: "{0}"
+  sid3:
+    type: ModifierSet
+    val: "defrag_policy-SimpleIncrementalDefrag3"
   nodefrag:
     type: ModifierSet
     val: "defrag_policy-NoDefrag"
   n:
     type: EnvVar
     var: "LXR_DEFRAG_N"
+    val: "{0}"
+  m:
+    type: EnvVar
+    var: "LXR_DEFRAG_M"
+    val: "{0}"
+  co_m:
+    type: EnvVar
+    var: "LXR_DEFRAG_COALESCE_M"
     val: "{0}"

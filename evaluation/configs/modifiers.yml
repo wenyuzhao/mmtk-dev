@@ -10,6 +10,17 @@ modifiers:
       dacapochopin-f480064:
         - tradebeans
         - tradesoap
+  c2_noxcomp:
+    type: JVMArg
+    val: "-XX:-TieredCompilation"
+    excludes:
+      # These two benchmarks exit with code 1
+      dacapochopin-29a657f:
+        - tradebeans
+        - tradesoap
+      dacapochopin-f480064:
+        - tradebeans
+        - tradesoap
   c2ins:
     type: JVMArg
     val: "-XX:-TieredCompilation"
@@ -90,6 +101,9 @@ modifiers:
   no_weak_and_class_unload:
     type: JVMArg
     val: "-XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences"
+  common_noxcomp:
+    type: ModifierSet
+    val: "ms|s|c2_noxcomp|probes|probes_cp|no_inline_clone"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp|no_inline_clone"

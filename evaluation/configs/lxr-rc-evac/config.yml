@@ -30,11 +30,11 @@ runtimes:
   jdk-lxr-rc:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-{git}/jdk"
-  jdk-lxr-rc-evac:
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-6ae34304/jdk"
+  jdk-lxr-rc-evac-512k:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-evac-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-evac-512k-{git}/jdk"
   jdk-lxr-rc-evac-4m:
     type: OpenJDK
     release: 11
@@ -44,16 +44,25 @@ configs:
   - jdk-lxr-rc|g1|common|hs
   - jdk-lxr-rc|ix|common|tph|lfb-32|nb-4096|incs-128000  # 128M + 128K
 
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|nodefrag|n-4
+  ###     128M alloc trigger + 128K incs trigger     ###
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-1|defrag_thold-20
+  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-2|defrag_thold-20
 
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-4|sid2_threshold-10  # 128M + 128K + evac (n=4, 10%)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-8|sid2_threshold-10  # 128M + 128K + evac (n=8, 10%)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-16|sid2_threshold-10  # 128M + 128K + evac (n=16, 10%)
-
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-4|sid2_threshold-20  # 128M + 128K + evac (n=4, 20%)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-8|sid2_threshold-20  # 128M + 128K + evac (n=8, 20%)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-16|sid2_threshold-20  # 128M + 128K + evac (n=16, 20%)
-
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-4|sid2_threshold-50  # 128M + 128K + evac (n=4, 20%)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-8|sid2_threshold-50  # 128M + 128K + evac (n=8, 20%)
-  - jdk-lxr-rc-evac-4m|ix|common|tph|lfb-32|nb-4096|incs-128000|sid2|n-16|sid2_threshold-50  # 128M + 128K + evac (n=16, 20%)
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-1|defrag_thold-20 # n=4, m=1, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-2|defrag_thold-20 # n=4, m=2, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-4|defrag_thold-20 # n=4, m=4, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-1|defrag_thold-40 # n=4, m=1, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-2|defrag_thold-40 # n=4, m=2, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-4|defrag_thold-40 # n=4, m=4, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-1|defrag_thold-20 # n=8, m=1, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-2|defrag_thold-20 # n=8, m=2, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-4|defrag_thold-20 # n=8, m=4, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-1|defrag_thold-40 # n=8, m=1, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-2|defrag_thold-40 # n=8, m=2, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-4|defrag_thold-40 # n=8, m=4, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-1|defrag_thold-20 # n=16, m=1, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-2|defrag_thold-20 # n=16, m=2, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-4|defrag_thold-20 # n=16, m=4, 20%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-1|defrag_thold-40 # n=16, m=1, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-2|defrag_thold-40 # n=16, m=2, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-4|defrag_thold-40 # n=16, m=4, 40%

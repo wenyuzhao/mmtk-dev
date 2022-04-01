@@ -13,16 +13,16 @@ export PATH=$HOME/.cargo/bin:$PATH
 pushd mmtk-core
 
 # Shepherd version
-git checkout lxr-shepherd
-pushd ../mmtk-openjdk
-git checkout lxr-shepherd
-popd
-rake jdk:clean profile=release
-NURSERY_RATIO=1 build_one jdk-lxr-kc-$branch lxr
-pushd ../mmtk-openjdk
-git checkout lxr
-popd
-rake jdk:clean profile=release
+# git checkout lxr-shepherd
+# pushd ../mmtk-openjdk
+# git checkout lxr-shepherd
+# popd
+# rake jdk:clean profile=release
+# NURSERY_RATIO=1 build_one jdk-lxr-kc-$branch lxr
+# pushd ../mmtk-openjdk
+# git checkout lxr
+# popd
+# rake jdk:clean profile=release
 # Shepherd version + bug fix
 git checkout lxr
 NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
