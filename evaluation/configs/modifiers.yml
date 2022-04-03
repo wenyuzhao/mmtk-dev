@@ -101,9 +101,9 @@ modifiers:
   no_weak_and_class_unload:
     type: JVMArg
     val: "-XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences"
-  common_noxcomp:
+  common_noxcomp_noserver:
     type: ModifierSet
-    val: "ms|s|c2_noxcomp|probes|probes_cp|no_inline_clone"
+    val: "ms|c2_noxcomp|probes|probes_cp|no_inline_clone"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp|no_inline_clone"

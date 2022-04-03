@@ -38,5 +38,5 @@ runtimes:
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-gencopy-{git}/jdk"
 
 configs:
-  - jdk-gencopy|gencopy|common_noxcomp|tph
+  - jdk-gencopy|gencopy|common_noxcomp_noserver|tph
 

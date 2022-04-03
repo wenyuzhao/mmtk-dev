@@ -37,31 +37,40 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-kc-74635c46/jdk"
-  jdk-lxr-old:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-old-{git}/jdk"
   jdk-lxr-new-trigger:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-trigger-{git}/jdk"
-  jdk-lxr-new-evac:
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-trigger-0c8e76b6/jdk"
+  jdk-lxr:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-evac-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
 
 configs:
-  - jdk-lxr-old|g1|common|hs
-
-  - jdk-lxr-kc|ix|common|tph|nr-1
-  - jdk-lxr-old|ix|common|tph|nr-1
+  - jdk-lxr|g1|common|hs
   - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
-  - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-60
-  - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-30
-  - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-60|defrag_thold-30
 
-  - jdk-lxr-old|shenandoah|common|hs
-  - jdk-lxr-old|z|common|hs
+  # - jdk-lxr-kc|ix|common|tph|nr-1
+  # - jdk-lxr-old|ix|common|tph|nr-1
+  # - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-60
+  # - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-30
+  # - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-60|defrag_thold-30
+
+  - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-10
+  - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-20
+  - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-40
+  - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-50
+
+  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-10
+  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-20
+  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-40
+  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-50
+
+  - jdk-lxr|ix|common|tph|incs-256000|trace-40|defrag_thold-50
+  - jdk-lxr|ix|common|tph|incs-256000|trace-20|defrag_thold-50
+
+  # - jdk-lxr-old|shenandoah|common|hs
+  # - jdk-lxr-old|z|common|hs
 
   # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
   # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-20

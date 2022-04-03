@@ -24,17 +24,19 @@ pushd mmtk-core
 # popd
 # rake jdk:clean profile=release
 # Shepherd version + bug fix
-git checkout lxr
-NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
+# git checkout lxr
+# NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
 
-# New GC trigger
-MAX_MATURE_DEFRAG_PERCENT=20 build_one jdk-lxr-new-trigger-$branch lxr,lxr_heap_health_guided_gc
+# # New GC trigger
+# MAX_MATURE_DEFRAG_PERCENT=20 build_one jdk-lxr-new-trigger-$branch lxr,lxr_heap_health_guided_gc
 
 # New Evacuation
-git checkout lxr-new-mature-evac
-build_one jdk-lxr-new-evac-$branch lxr,lxr_heap_health_guided_gc,mmtk/lxr_region_4m
+# git checkout lxr-new-mature-evac
+# build_one jdk-lxr-new-evac-$branch lxr,lxr_heap_health_guided_gc,mmtk/lxr_region_4m
 
 popd
+
+build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc,mmtk/lxr_region_4m,mmtk/lxr_eager_defrag_selection
 
 # build_one jdk-lxr-stw-submit-$branch lxr
 

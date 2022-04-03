@@ -106,3 +106,7 @@ modifiers:
     type: EnvVar
     var: "LXR_DEFRAG_COALESCE_M"
     val: "{0}"
+  evac_all:
+    type: EnvVar
+    var: "DEFRAG_FORCE_SELECT_ALL_BLOCKS"
+    val: "1"
