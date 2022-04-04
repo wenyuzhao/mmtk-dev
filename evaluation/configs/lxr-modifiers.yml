@@ -110,3 +110,19 @@ modifiers:
     type: EnvVar
     var: "DEFRAG_FORCE_SELECT_ALL_BLOCKS"
     val: "1"
+  region_rank:
+    type: EnvVar
+    var: "SORT_REGIONS_AFTER_SATB"
+    val: "1"
+  block_holes_rank:
+    type: EnvVar
+    var: "FRAG_BLOCK_SELECTION"
+    val: "1"
+  mo:
+    type: EnvVar
+    var: "MATURE_OCCUPANCY"
+    val: "{0}"
+  rc_after_satb:
+    type: EnvVar
+    var: "RC_AFTER_SATB"
+    val: "{0}"

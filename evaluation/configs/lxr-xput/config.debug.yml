@@ -1,0 +1,33 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 3
+  suites.dacapochopin-29a657f.minheap: g1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - cassandra
+    - tomcat
+    - fop
+    - h2
+    - h2o
+    # - avrora
+    # - batik
+    # - biojava
+    - eclipse
+    - graphchi
+    - jython
+    - luindex
+    # - pmd
+    - sunflow
+    # - xalan
+    - zxing
+  configs:
+    - jdk-lxr|g1|common|hs
+    - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
+    # - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-50
+    # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|trace-40|defrag_thold-50
+    - jdk-lxr|ix|common|tph|oevac-80|id|incs-256000|trace-40|defrag_thold-50

@@ -104,6 +104,9 @@ modifiers:
   common_noxcomp_noserver:
     type: ModifierSet
     val: "ms|c2_noxcomp|probes|probes_cp|no_inline_clone"
+  common_noxcomp:
+    type: ModifierSet
+    val: "ms|s|c2_noxcomp|probes|probes_cp|no_inline_clone"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp|no_inline_clone"

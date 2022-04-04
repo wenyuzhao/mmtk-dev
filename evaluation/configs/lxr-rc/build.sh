@@ -10,7 +10,7 @@ export PATH=$HOME/.cargo/bin:$PATH
 
 
 
-rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only
+rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only,mmtk/report_mature_survival_ratio
 rake bench:cp name=$config/jdk-lxr-rc-$branch
 
 
