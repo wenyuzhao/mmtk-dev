@@ -41,6 +41,14 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-trigger-0c8e76b6/jdk"
+  jdk-lxr-old:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/lxr-xput/jdk-lxr-e822a45e/jdk"
+  jdk-lxr-new-trigger-2:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-trigger-2-{git}/jdk"
   jdk-lxr:
     type: OpenJDK
     release: 11
@@ -53,68 +61,23 @@ runtimes:
 configs:
   - jdk-lxr|g1|common|hs
   - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-50
-
-  - jdk-lxr|ix|common|tph|oevac-80|id|incs-256000|trace-40|defrag_thold-50
-  - jdk-lxr-1m|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-50
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-50|region_rank
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-50|block_holes_rank
-
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-50|rc_after_satb-2
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-70|rc_after_satb-2
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-90|rc_after_satb-2
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-50|rc_after_satb-4
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-70|rc_after_satb-4
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-90|rc_after_satb-4
-
-
-
-  # - jdk-lxr-kc|ix|common|tph|nr-1
-  # - jdk-lxr-old|ix|common|tph|nr-1
-  # - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-60
-  # - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-30
-  # - jdk-lxr-new-evac|ix|common|tph|oevac-20|id|incs-256000|trace-60|defrag_thold-30
-
-  # - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-10
-  # - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-20
-  # - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-40
-  # - jdk-lxr|ix|common|tph|evac_all|incs-256000|trace-40|defrag_thold-50
-
-  # - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-10
-  # - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-20
-  # - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|trace-40|defrag_thold-40
-
-  # - jdk-lxr|ix|common|tph|incs-256000|trace-40|defrag_thold-50
-  # - jdk-lxr|ix|common|tph|incs-256000|trace-20|defrag_thold-50
-
-  # - jdk-lxr-old|shenandoah|common|hs
-  # - jdk-lxr-old|z|common|hs
-
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-20
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-30
-
-
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-10000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-15000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|incs-20000|trace-10
-
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20|incs-10000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-20
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-10000|trace-30
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-5000|trace-10
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-30|incs-15000|trace-10
-
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-10|incs-15000|trace-30
-
-  # - jdk-lxr|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
-  # - jdk-lxr-stw|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
-  # G1
-  # - jdk-lxr-old|g1_default|common|hs_perf
-  # Different G1 builds
-  # - jdk-lxr-stw-2022-03|g1_default|common|hs_perf
-  # - jdk-lxr-stw-2021-11|g1_2021_11|common|hs_perf
-  # - jdk-lxr-stw|g1_nocompressoops|common|hs_perf
-  # - jdk-lxr-stw|g1_noclassunload|common|hs_perf
-  # - jdk-lxr-stw|g1_noweakref|common|hs_perf
+  - jdk-lxr-old|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  - jdk-lxr-new-trigger-2|ix|common|tph|incs-256000|trace-40
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  # Srv. 16, 32, 64, 128
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-16
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-32
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-128
+  # Mature 40, 60, 80
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-4|nb-16384
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-80|rc_after_satb-4|nb-16384
+  # Alloc 256M, 512M, 1G
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-8192
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-32768
+  # Time 20, 40, 80
+  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  - jdk-lxr|ix|common|tph|oevac-80|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  # RC after SATB 2, 4, 8
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-2|nb-16384
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-8|nb-16384

@@ -5,7 +5,7 @@ includes:
   - "../lxr-modifiers.yml"
 
 overrides:
-  invocations: 5
+  invocations: 10
   suites.dacapochopin-29a657f.minheap: huge
   benchmarks.dacapochopin-29a657f:
     - lusearch
@@ -31,6 +31,11 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-ins-{git}/jdk"
+  jdk-lxr-rc:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-{git}/jdk"
 
 configs:
   - jdk-lxr-rc-ins|ix|common|tph|lfb-32|nb-1024
+  - jdk-lxr-rc|ix|common|tph|lfb-32|nb-16384

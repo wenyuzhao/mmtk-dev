@@ -126,3 +126,7 @@ modifiers:
     type: EnvVar
     var: "RC_AFTER_SATB"
     val: "{0}"
+  srv:
+    type: EnvVar
+    var: "MAX_SURVIVAL_MB"
+    val: "{0}"
