@@ -130,3 +130,7 @@ modifiers:
     type: EnvVar
     var: "MAX_SURVIVAL_MB"
     val: "{0}"
+  srvw:
+    type: EnvVar
+    var: "SURVIVAL_PREDICTOR_WEIGHTED"
+    val: "1"

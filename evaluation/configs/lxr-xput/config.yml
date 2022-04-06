@@ -10,13 +10,13 @@ overrides:
   suites.dacapochopin-29a657f.minheap: g1
   # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
-    - fop
+    - h2
     - lusearch
+    - fop
     # - tradebeans
     # - tradesoap
     - cassandra
     - tomcat
-    - h2
     - h2o
     - avrora
     - batik
@@ -60,24 +60,31 @@ runtimes:
 
 configs:
   - jdk-lxr|g1|common|hs
-  - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
-  - jdk-lxr-old|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
-  - jdk-lxr-new-trigger-2|ix|common|tph|incs-256000|trace-40
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  # - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
+  # - jdk-lxr-old|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  # - jdk-lxr-new-trigger-2|ix|common|tph|incs-256000|trace-40
   # Srv. 16, 32, 64, 128
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-16
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-32
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-128
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-4|srvw
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-8|srvw
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-16|srvw
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-32|srvw
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-128|srvw
+
+
+  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+
+  - jdk-lxr|ix|common|tph|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+
   # Mature 40, 60, 80
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-4|nb-16384
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-80|rc_after_satb-4|nb-16384
-  # Alloc 256M, 512M, 1G
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-8192
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-32768
-  # Time 20, 40, 80
-  - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
-  - jdk-lxr|ix|common|tph|oevac-80|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
-  # RC after SATB 2, 4, 8
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-2|nb-16384
-  - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-8|nb-16384
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-4|nb-16384
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-80|rc_after_satb-4|nb-16384
+  # # Alloc 256M, 512M, 1G
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-8192
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-32768
+  # # Time 20, 40, 80
+  # - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  # - jdk-lxr|ix|common|tph|oevac-80|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  # # RC after SATB 2, 4, 8
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-2|nb-16384
+  # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-8|nb-16384
