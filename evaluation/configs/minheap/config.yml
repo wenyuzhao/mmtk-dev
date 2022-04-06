@@ -8,7 +8,7 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-fix-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
   jdk-lxr-fix:
     type: OpenJDK
     release: 11
@@ -33,7 +33,7 @@ overrides:
     - tomcat
     - xalan
     - zxing
-    - jme
+    # - jme
 
 configs:
   # - jdk|ix|common|tph|mmtk_perf|oevac|lfb-8 # 32M
@@ -49,8 +49,10 @@ configs:
   # - jdk-lxr-fixleak|ix|common|tph|mmtk_perf|oevac|defrag_ratio-20
   # - jdk-lxr-old-fixleak|ix|common|tph|mmtk_perf|nr-1
 
-  - jdk-lxr|ix|common|tph|oevac|incs-20000|trace-30
-  - jdk-lxr-fixleak|ix|common|tph|oevac|incs-20000|trace-30
+  # - jdk-lxr|ix|common|tph|oevac|incs-20000|trace-30
+  # - jdk-lxr-fixleak|ix|common|tph|oevac|incs-20000|trace-30
+
+  - jdk-lxr|ix|common|tph|incs-256000|trace-40
   # - jdk-master|ix|common|tph|mmtk_perf
   # - jdk-master-noweak|g1|common|hs_perf|noweak|noclassunload
   # - jdk|ix|common|tph|mmtk_perf|oevac # 32M
