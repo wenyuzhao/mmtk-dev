@@ -1,0 +1,21 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  configs:
+    - jdk-lxr|g1|common|hs
+
+    - jdk-lxr|ix|common|tph|trace2-5|defrag_thold-50|srv-128|srvw|lfb-32|maxcp-4096
+    - jdk-lxr|ix|common|tph|trace2-15|defrag_thold-50|srv-128|srvw|lfb-32|maxcp-4096
+    - jdk-lxr|ix|common|tph|trace2-25|defrag_thold-50|srv-128|srvw|lfb-32|maxcp-4096
+
+    - jdk-lxr|ix|common|tph|trace2-5|defrag_thold-50|srv-128|srvw|lfb-32|maxcp-4096|oevac-60|id
+    - jdk-lxr|ix|common|tph|trace2-10|defrag_thold-50|srv-128|srvw|lfb-32|maxcp-4096|oevac-60|id
+    - jdk-lxr|ix|common|tph|trace2-15|defrag_thold-50|srv-128|srvw|lfb-32|maxcp-4096|oevac-60|id
+
+    - jdk-lxr|ix|common|tph|trace2-10|defrag_thold-50|srv-64|srvw|lfb-32|maxcp-4096
+    - jdk-lxr|ix|common|tph|trace2-10|defrag_thold-50|srv-96|srvw|lfb-32|maxcp-4096
+    - jdk-lxr|ix|common|tph|trace2-10|defrag_thold-50|srv-256|srvw|lfb-32|maxcp-4096
+

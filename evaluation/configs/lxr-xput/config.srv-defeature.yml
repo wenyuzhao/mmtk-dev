@@ -1,0 +1,24 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  configs:
+    - jdk-lxr|g1|common|hs
+    - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
+    - jdk-lxr-new-trigger-2|ix|common|tph|incs-256000|trace-40 # With bug fix
+    - jdk-lxr|ix|common|tph|incs-256000|defrag_thold-50|trace-40 # Use regions
+    - jdk-lxr|ix|common|tph|incs-256000|defrag_thold-50|trace-40|srv-64|srvw # New RC trigger
+    - jdk-lxr|ix|common|tph|incs-256000|defrag_thold-50|mo-60|srv-64|srvw # New mature trigger
+    - jdk-lxr|ix|common|tph|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw # RCs after SATB
+    - jdk-lxr-new-trigger-2-nometa|ix|common|tph|incs-256000|trace-40 # No metadata
+
+    # - jdk-lxr|ix|common|tph|oevac-20|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+    # - jdk-lxr|ix|common|tph|oevac-30|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+    # - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+    # - jdk-lxr|ix|common|tph|oevac-50|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+    # - jdk-lxr|ix|common|tph|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64|srvw
+  #
+  # - jdk-lxr-old|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+  #

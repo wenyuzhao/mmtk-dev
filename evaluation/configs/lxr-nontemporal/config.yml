@@ -10,13 +10,13 @@ overrides:
   suites.dacapochopin-29a657f.minheap: g1
   # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
-    - fop
+    - h2
     - lusearch
+    - fop
     # - tradebeans
     # - tradesoap
     - cassandra
     - tomcat
-    - h2
     - h2o
     - avrora
     - batik
@@ -33,16 +33,12 @@ overrides:
     - zxing
 
 runtimes:
-  jdk-lxr:
+  jdk-lxr-new-trigger:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
-  jdk-lxr-nt:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-nt-{git}/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-trigger-{git}/jdk"
 
 configs:
-  - jdk-lxr|g1|common|hs
-  - jdk-lxr|ix|common|tph|oevac|incs-20000|trace-30
-  - jdk-lxr-nt|ix|common|tph|oevac|incs-20000|trace-30
+  - jdk-lxr-new-trigger|g1|common|hs
+  - jdk-lxr-new-trigger|ix|common|tph|trace2-10|srv-128|srvw|lfb-32|maxcp-4096
+  - jdk-lxr-new-trigger-nt|ix|common|tph|trace2-10|srv-128|srvw|lfb-32|maxcp-4096

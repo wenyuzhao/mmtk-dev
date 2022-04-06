@@ -1,0 +1,20 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  configs:
+    - jdk-lxr|ix|common|tph|oevac-10|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-2
+    - jdk-lxr|ix|common|tph|oevac-10|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-4
+    - jdk-lxr|ix|common|tph|oevac-10|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-8
+    - jdk-lxr|ix|common|tph|oevac-10|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-2
+    - jdk-lxr|ix|common|tph|oevac-10|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4
+    - jdk-lxr|ix|common|tph|oevac-10|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-8
+
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-2
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-4
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-40|rc_after_satb-8
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-2
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-8

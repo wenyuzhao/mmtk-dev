@@ -1,0 +1,14 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  configs:
+    - jdk-lxr-new-trigger-2|g1|common|hs
+    # - jdk-lxr-new-trigger-2|ix|common|tph|incs-256000|trace-30|rc_after_satb-4|srv-128|srvw|lfb-32
+    # - jdk-lxr-new-trigger-2|ix|common|tph|trace2-30|srv-128|srvw|lfb-32
+    - jdk-lxr-new-trigger-2|ix|common|tph|trace2-10|srv-128|srvw|lfb-32
+    # - jdk-lxr-new-trigger-2-256|ix|common|tph|trace2-10|srv-128|srvw|lfb-32
+    # - jdk-lxr-new-trigger-2-512|ix|common|tph|trace2-10|srv-128|srvw|lfb-32
+    # - jdk-lxr-new-trigger-2-2048|ix|common|tph|trace2-10|srv-128|srvw|lfb-32
