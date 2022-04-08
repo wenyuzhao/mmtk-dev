@@ -47,6 +47,9 @@ modifiers:
   g1_noweakref:
     type: JVMArg
     val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  noweakref:
+    type: JVMArg
+    val: "-XX:-RegisterReferences"
   defrag_ratio:
     type: EnvVar
     var: "MAX_MATURE_DEFRAG_PERCENT"
@@ -146,3 +149,7 @@ modifiers:
     type: EnvVar
     var: "SURVIVAL_PREDICTOR_WEIGHTED"
     val: "1"
+  cm_stop_blocks:
+    type: EnvVar
+    var: "CM_STOP_BLOCKS"
+    val: "{0}"

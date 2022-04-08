@@ -62,9 +62,12 @@ modifiers:
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
+  tph_perf:
+    type: ModifierSet
+    val: "tph|mmtk_perf"
   hs_perf:
     type: ModifierSet
-    val: "jvmti|jvmti_env"
+    val: "jvmti|jvmti_env|perf"
   hs:
     type: ModifierSet
     val: "jvmti|jvmti_env"
@@ -101,6 +104,9 @@ modifiers:
   no_weak_and_class_unload:
     type: JVMArg
     val: "-XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences"
+  no_cls_unload_cm:
+    type: JVMArg
+    val: "-XX:-ClassUnloadingWithConcurrentMark"
   common_noxcomp_noserver:
     type: ModifierSet
     val: "ms|c2_noxcomp|probes|probes_cp|no_inline_clone"
@@ -109,7 +115,7 @@ modifiers:
     val: "ms|s|c2_noxcomp|probes|probes_cp|no_inline_clone"
   common:
     type: ModifierSet
-    val: "ms|s|c2|probes|probes_cp|no_inline_clone"
+    val: "ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload"
   commonins:
     type: ModifierSet
     val: "ms|c2ins|probes|probes_cp|no_inline_clone"

@@ -1,0 +1,32 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  benchmarks.dacapochopin-29a657f:
+    # - tomcat
+    # - lusearch
+    # - h2
+    # # - tradebeans
+    # # - tradesoap
+    # - cassandra
+    # - fop
+    # - h2o
+    # - avrora
+    # - batik
+    # - biojava
+    - eclipse
+    - graphchi
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+  invocations: 3
+  configs:
+    - jdk-lxr|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
+
