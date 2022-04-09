@@ -6,29 +6,29 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 5
   suites.dacapochopin-29a657f.minheap: g1
   # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
   benchmarks.dacapochopin-29a657f:
+    - fop
     - lusearch
-    - h2
     # - tradebeans
     # - tradesoap
     - cassandra
-    - tomcat
-    - fop
     - h2o
     - avrora
     - batik
     - biojava
     - eclipse
     - graphchi
+    - h2
     # - jme
     - jython
     # - kafka
     - luindex
     - pmd
     - sunflow
+    - tomcat
     - xalan
     - zxing
 
@@ -37,12 +37,6 @@ runtimes:
     type: OpenJDK
     release: 11
     home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-{git}/jdk"
-  jdk-lxr-ins:
-    type: OpenJDK
-    release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-ins-{git}/jdk"
 
 configs:
-  - jdk-lxr|g1|common|hs
   - jdk-lxr|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
-  - jdk-lxr|shenandoah|common|hs

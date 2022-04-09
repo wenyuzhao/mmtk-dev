@@ -153,3 +153,8 @@ modifiers:
     type: EnvVar
     var: "CM_STOP_BLOCKS"
     val: "{0}"
+  conc_ratio:
+    type: EnvVar
+    var: "CONCURRENT_GC_THREADS_RATIO"
+    val: "{0}"
+
