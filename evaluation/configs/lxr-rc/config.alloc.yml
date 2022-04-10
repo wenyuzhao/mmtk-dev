@@ -1,0 +1,18 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+
+overrides:
+  heap_range: 2
+  configs:
+    - jdk-lxr-rc|g1|common|hs
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-128  # Nursery 4MB
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-256  # Nursery 8MB
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-512  # Nursery 16MB
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-1024 # Nursery 32MB
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-2048 # Nursery 64MB
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-4096 # Nursery 128MB
+    - jdk-lxr-rc|ix|common|tph|lfb-32|nb-8192 # Nursery 256MB
+

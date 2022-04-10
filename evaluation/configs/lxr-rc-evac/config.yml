@@ -1,0 +1,73 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: huge
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - cassandra
+    - tomcat
+    - h2
+    - fop
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr-rc:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-6ae34304/jdk"
+  jdk-lxr-rc-evac-512k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-evac-512k-{git}/jdk"
+  jdk-lxr-rc-evac-128k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-evac-128k-{git}/jdk"
+  jdk-lxr-rc-evac-32k:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-rc-evac-32k-{git}/jdk"
+
+configs:
+  - jdk-lxr-rc|g1|common|hs
+  - jdk-lxr-rc|ix|common|tph|lfb-32|nb-4096|incs-128000  # 128M + 128K
+
+  ###     128M alloc trigger + 128K incs trigger     ###
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-4|defrag_thold-40 # n=16, m=4, 40%
+  - jdk-lxr-rc-evac-512k|co_m-8|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-4|defrag_thold-40 # n=8, m=4, 40%
+
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-1|defrag_thold-40 # n=4, m=1, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-2|defrag_thold-40 # n=4, m=2, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-4|defrag_thold-40 # n=4, m=4, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-1|defrag_thold-40 # n=8, m=1, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-2|defrag_thold-40 # n=8, m=2, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-4|defrag_thold-40 # n=8, m=4, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-1|defrag_thold-40 # n=16, m=1, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-2|defrag_thold-40 # n=16, m=2, 40%
+  - jdk-lxr-rc-evac-128k|co_m-32|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-4|defrag_thold-40 # n=16, m=4, 40%
+
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-1|defrag_thold-40 # n=4, m=1, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-2|defrag_thold-40 # n=4, m=2, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-4|m-4|defrag_thold-40 # n=4, m=4, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-1|defrag_thold-40 # n=8, m=1, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-2|defrag_thold-40 # n=8, m=2, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-8|m-4|defrag_thold-40 # n=8, m=4, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-1|defrag_thold-40 # n=16, m=1, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-2|defrag_thold-40 # n=16, m=2, 40%
+  - jdk-lxr-rc-evac-32k|co_m-128|ix|common|tph|lfb-32|nb-4096|incs-128000|sid3|n-16|m-4|defrag_thold-40 # n=16, m=4, 40%

@@ -1,0 +1,60 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: g1
+  # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - h2
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - tomcat
+    - fop
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-4d4e516c/jdk"
+  jdk-ix:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-mmtk-519e8f3c/jdk"
+  jdk-lxr-stw:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-stw-{git}/jdk"
+  jdk-lxr-cm:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-cm-{git}/jdk"
+  jdk-lxr-lazy:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-lazy-{git}/jdk"
+
+configs:
+  - jdk-lxr|g1|common|hs
+  - jdk-lxr|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr|shenandoah|common|hs

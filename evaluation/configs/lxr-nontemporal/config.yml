@@ -1,0 +1,44 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+  - "../lxr-modifiers.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: g1
+  # suites.dacapochopin-29a657f.minheap: adoptopenjdk-15-G1
+  benchmarks.dacapochopin-29a657f:
+    - h2
+    - lusearch
+    - fop
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - tomcat
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr-new-trigger:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/configs/{config}/jdk-lxr-new-trigger-{git}/jdk"
+
+configs:
+  - jdk-lxr-new-trigger|g1|common|hs
+  - jdk-lxr-new-trigger|ix|common|tph|trace2-10|srv-128|srvw|lfb-32|maxcp-4096
+  - jdk-lxr-new-trigger-nt|ix|common|tph|trace2-10|srv-128|srvw|lfb-32|maxcp-4096

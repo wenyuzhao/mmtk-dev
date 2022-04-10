@@ -1,0 +1,11 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  heap_range: 5
+  suites.dacapochopin-29a657f.minheap: g1
+  configs:
+    - jdk-lxr-rc|g1|common|hs
+    - jdk-lxr-rc|shenandoah|common|hs

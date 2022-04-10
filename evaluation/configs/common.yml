@@ -27,6 +27,63 @@ overrides:
     tomcat: 71
     xalan: 43
     zxing: 153
+  suites.dacapochopin-29a657f.minheap_values.huge:
+    avrora: 51200
+    batik: 51200
+    biojava: 51200
+    cassandra: 51200
+    eclipse: 51200
+    fop: 51200
+    graphchi: 51200
+    h2: 51200
+    h2o: 51200
+    jme: 51200
+    jython: 51200
+    luindex: 51200
+    lusearch: 51200
+    pmd: 51200
+    sunflow: 51200
+    tomcat: 51200
+    xalan: 51200
+    zxing: 51200
+  suites.dacapochopin-29a657f.minheap_values.15g:
+    avrora: 15360
+    batik: 15360
+    biojava: 15360
+    cassandra: 15360
+    eclipse: 15360
+    fop: 15360
+    graphchi: 15360
+    h2: 15360
+    h2o: 15360
+    jme: 15360
+    jython: 15360
+    luindex: 15360
+    lusearch: 15360
+    pmd: 15360
+    sunflow: 15360
+    tomcat: 15360
+    xalan: 15360
+    zxing: 15360
+  suites.dacapochopin-29a657f.minheap_values.1g:
+    avrora: 1024
+    batik: 1024
+    biojava: 1024
+    cassandra: 1024
+    eclipse: 1024
+    fop: 1024
+    graphchi: 1024
+    h2: 1024
+    h2o: 1024
+    jme: 1024
+    jython: 1024
+    luindex: 1024
+    lusearch: 1024
+    pmd: 1024
+    sunflow: 1024
+    tomcat: 1024
+    xalan: 1024
+    zxing: 1024
   suites.dacapochopin-29a657f.minheap_values.immix-sim:
     avrora: 27
     batik: 968

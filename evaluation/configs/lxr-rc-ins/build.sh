@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -ex
+
+source $(dirname $0)/../utils.sh
+
+render_config
+
+
+export PATH=$HOME/.cargo/bin:$PATH
+
+
+
+# rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only,mmtk/report_mature_survival_ratio
+rake jdk:test gc=Immix heap=51200M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only,instrumentation,no_fast_alloc LOCK_FREE_BLOCKS=32 NURSERY_BLOCKS=1024
+rake bench:cp name=$config/jdk-lxr-rc-ins-$branch
+
+rake jdk:test gc=Immix heap=51200M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only LOCK_FREE_BLOCKS=32 NURSERY_BLOCKS=16384
+rake bench:cp name=$config/jdk-lxr-rc-$branch
+
+
+
+# rake jdk:test gc=Immix heap=2287M noc1=1 bench=lusearch profile=release n=5 features=lxr_heap_health_guided_gc,lxr_rc_only,mmtk/lxr_enable_initial_alloc_limit
+# rake bench:cp name=$config/jdk-lxr-rc-initalloc-$branch
+
+# build_one jdk-lxr-stw-submit-$branch lxr
+
+# NURSERY_RATIO=1 build_one jdk-lxr-old-$branch lxr
+# OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 TRACE_THRESHOLD=30 MAX_MATURE_DEFRAG_PERCENT=15 INCS_LIMIT=10000 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
+# MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-$branch lxr,lxr_heap_health_guided_gc
+# MAX_MATURE_DEFRAG_PERCENT=20 OPPORTUNISTIC_EVAC=1 OPPORTUNISTIC_EVAC_THRESHOLD=50 build_one jdk-lxr-stw-$branch lxr_evac,lxr_heap_health_guided_gc
+
+# NURSERY_RATIO=1 build_one jdk-lxr-stw-old-$branch lxr_evac
+
+# for i in $(seq 3 9); do
+#     build_one jdk-lock-$i-$branch lxr_evac,mmtk/lxr_lock_$i
+# done
+
+# build_one jdk-block-64k-$branch lxr_evac,mmtk/lxr_block_64k
+# build_one jdk-block-128k-$branch lxr_evac,mmtk/lxr_block_128k
+# build_one jdk-block-256k-$branch lxr_evac,mmtk/lxr_block_256k
+# build_one jdk-block-512k-$branch lxr_evac,mmtk/lxr_block_512k
+# build_one jdk-block-1m-$branch lxr_evac,mmtk/lxr_block_1m

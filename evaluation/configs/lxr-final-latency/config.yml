@@ -1,0 +1,391 @@
+benchmarks:
+  dacapochopin-b00bfa9:
+  - lusearch
+  - cassandra
+  - h2
+  - tomcat
+configs:
+  - jdk-lxr|g1|common|hs_perf|latency
+  - jdk-lxr|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32|latency
+  - jdk-lxr|shenandoah|common|hs_perf|latency
+  - jdk-lxr|z|common|hs_perf|latency
+heap_range: 3
+invocations: 10
+minheap_multiplier: 1.0
+modifiers:
+  barrier:
+    type: EnvVar
+    val: '{0}'
+    var: BARRIER
+  block_holes_rank:
+    type: EnvVar
+    val: '1'
+    var: FRAG_BLOCK_SELECTION
+  c2:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation -Xcomp
+  c2_noxcomp:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation
+  c2ins:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation
+  cm:
+    type: EnvVar
+    val: '{0}'
+    var: CONCURRENT_MARKING_THRESHOLD
+  cm_stop_blocks:
+    type: EnvVar
+    val: '{0}'
+    var: CM_STOP_BLOCKS
+  cms:
+    type: JVMArg
+    val: -XX:-UseCompressedOops -XX:+UseConcMarkSweepGC -XX:TLABSize=32K -XX:-ResizeTLAB
+  co_m:
+    type: EnvVar
+    val: '{0}'
+    var: LXR_DEFRAG_COALESCE_M
+  common:
+    type: ModifierSet
+    val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
+  common2:
+    type: ModifierSet
+    val: ms|s|c2|probes|probes_cp
+  common_noxcomp:
+    type: ModifierSet
+    val: ms|s|c2_noxcomp|probes|probes_cp|no_inline_clone
+  common_noxcomp_noserver:
+    type: ModifierSet
+    val: ms|c2_noxcomp|probes|probes_cp|no_inline_clone
+  commonins:
+    type: ModifierSet
+    val: ms|c2ins|probes|probes_cp|no_inline_clone
+  conc_ratio:
+    type: EnvVar
+    val: '{0}'
+    var: CONCURRENT_GC_THREADS_RATIO
+  defrag_mb:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_MATURE_DEFRAG_MB
+  defrag_policy:
+    type: EnvVar
+    val: '{0}'
+    var: DEFRAG_POLICY
+  defrag_ratio:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_MATURE_DEFRAG_PERCENT
+  defrag_thold:
+    type: EnvVar
+    val: '{0}'
+    var: DEFRAG_BLOCK_LIVENESS_THRESHOLD
+  epsilon:
+    type: ModifierSet
+    val: hotspot_gc-Epsilon|no_weak_and_class_unload
+  evac_all:
+    type: EnvVar
+    val: '1'
+    var: DEFRAG_FORCE_SELECT_ALL_BLOCKS
+  g1:
+    type: ModifierSet
+    val: hotspot_gc-G1|no_weak_and_class_unload
+  g1_2021_11:
+    type: ModifierSet
+    val: hotspot_gc-G1
+  g1_default:
+    type: JVMArg
+    val: -XX:+UseG1GC
+  g1_noclassunload:
+    type: JVMArg
+    val: -XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark
+  g1_nocompressoops:
+    type: JVMArg
+    val: -XX:+UseG1GC -XX:-UseCompressedOops
+  g1_noweakref:
+    type: JVMArg
+    val: -XX:+UseG1GC -XX:-RegisterReferences
+  g1_old:
+    type: ModifierSet
+    val: hotspot_gc-G1
+  g1r:
+    type: JVMArg
+    val: -XX:G1HeapRegionSize={0}
+  gencopy:
+    type: EnvVar
+    val: GenCopy
+    var: MMTK_PLAN
+  hotspot_gc:
+    type: JVMArg
+    val: -XX:-UseCompressedOops -XX:+UnlockExperimentalVMOptions -XX:+Use{0}GC
+  hs:
+    type: ModifierSet
+    val: jvmti|jvmti_env
+  hs_cgc:
+    type: JVMArg
+    val: -XX:ConcGCThreads={0}
+  hs_pauses:
+    type: ModifierSet
+    val: jvmti_pauses|jvmti_env_pauses
+  hs_perf:
+    type: ModifierSet
+    val: jvmti|jvmti_env|perf
+  hugetlb:
+    type: JVMArg
+    val: -XX:+UseTransparentHugePages
+  id:
+    type: EnvVar
+    val: '1'
+    var: INCREMENTAL_DEFRAG
+  incs:
+    type: EnvVar
+    val: '{0}'
+    var: INCS_LIMIT
+  ix:
+    type: EnvVar
+    val: Immix
+    var: MMTK_PLAN
+  jvmti:
+    type: JVMArg
+    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+  jvmti_env:
+    type: EnvVar
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+    var: LD_PRELOAD
+  jvmti_env_pauses:
+    type: EnvVar
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_with_pauses.so
+    var: LD_PRELOAD
+  jvmti_pauses:
+    type: JVMArg
+    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_with_pauses.so
+  latency:
+    type: ProgramArg
+    val: --dump-latency
+  lfb:
+    type: EnvVar
+    val: '{0}'
+    var: LOCK_FREE_BLOCKS
+  m:
+    type: EnvVar
+    val: '{0}'
+    var: LXR_DEFRAG_M
+  maxcp:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_COPY_SIZE
+  mc:
+    type: EnvVar
+    val: MarkCompact
+    var: MMTK_PLAN
+  mmtk_gc:
+    type: EnvVar
+    val: '{0}'
+    var: MMTK_PLAN
+  mmtk_perf:
+    type: EnvVar
+    val: PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1
+    var: MMTK_PHASE_PERF_EVENTS
+  mn:
+    type: JVMArg
+    val: -Xmn{0} -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy
+  mo:
+    type: EnvVar
+    val: '{0}'
+    var: MATURE_OCCUPANCY
+  ms:
+    type: JVMArg
+    val: -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking
+  mu:
+    type: ProgramArg
+    val: -t {0}
+  n:
+    type: EnvVar
+    val: '{0}'
+    var: LXR_DEFRAG_N
+  nb:
+    type: EnvVar
+    val: '{0}'
+    var: NURSERY_BLOCKS
+  no_cls_unload_cm:
+    type: JVMArg
+    val: -XX:-ClassUnloadingWithConcurrentMark
+  no_inline_clone:
+    type: JVMArg
+    val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
+  no_weak_and_class_unload:
+    type: JVMArg
+    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  nodefrag:
+    type: ModifierSet
+    val: defrag_policy-NoDefrag
+  nogc:
+    type: EnvVar
+    val: NoGC
+    var: MMTK_PLAN
+  noweakref:
+    type: JVMArg
+    val: -XX:-RegisterReferences
+  nr:
+    type: EnvVar
+    val: '{0}'
+    var: NURSERY_RATIO
+  oevac:
+    type: ModifierSet
+    val: oevac_enable|oevac_threshold-{0}
+  oevac_enable:
+    type: EnvVar
+    val: '1'
+    var: OPPORTUNISTIC_EVAC
+  oevac_threshold:
+    type: EnvVar
+    val: '{0}'
+    var: OPPORTUNISTIC_EVAC_THRESHOLD
+  parallel:
+    type: ModifierSet
+    val: hotspot_gc-Parallel|no_weak_and_class_unload
+  perf:
+    type: EnvVar
+    val: PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS
+    var: PERF_EVENTS
+  pretouch:
+    type: JVMArg
+    val: -XX:+AlwaysPreTouch
+  probes:
+    type: JVMArg
+    val: -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk
+  probes_cp:
+    type: JVMClasspath
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar
+  rc_after_satb:
+    type: EnvVar
+    val: '{0}'
+    var: RC_AFTER_SATB
+  region_rank:
+    type: EnvVar
+    val: '1'
+    var: SORT_REGIONS_AFTER_SATB
+  s:
+    type: JVMArg
+    val: -server
+  sgc:
+    type: JVMArg
+    val: -XX:+UseSerialGC
+  shenandoah:
+    type: ModifierSet
+    val: hotspot_gc-Shenandoah|no_weak_and_class_unload
+  sid:
+    type: ModifierSet
+    val: defrag_policy-SimpleIncrementalDefrag
+  sid2:
+    type: ModifierSet
+    val: defrag_policy-SimpleIncrementalDefrag2
+  sid3:
+    type: ModifierSet
+    val: defrag_policy-SimpleIncrementalDefrag3
+  sidm:
+    type: EnvVar
+    val: '{0}'
+    var: SIMPLE_INCREMENTAL_DEFRAG_MULTIPLIER
+  srv:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_SURVIVAL_MB
+  srvw:
+    type: EnvVar
+    val: '1'
+    var: SURVIVAL_PREDICTOR_WEIGHTED
+  ss:
+    type: EnvVar
+    val: SemiSpace
+    var: MMTK_PLAN
+  threads:
+    type: EnvVar
+    val: '{0}'
+    var: MMTK_THREADS
+  tlab:
+    type: JVMArg
+    val: -XX:TLABSize={0} -XX:-ResizeTLAB
+  tph:
+    type: JVMArg
+    val: -XX:+UseThirdPartyHeap
+  tph_perf:
+    type: ModifierSet
+    val: tph|mmtk_perf
+  trace:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD
+  trace2:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD2
+  trace3:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD3
+  z:
+    type: ModifierSet
+    val: hotspot_gc-Z|no_weak_and_class_unload
+plugins:
+  dacapo-latency:
+    patterns:
+    - scratch/dacapo-latency-*.csv
+    type: CopyFile
+remote_host: squirrel.moma
+runtimes:
+  jdk-lxr:
+    home: /home/wenyuz/MMTk-Dev/evaluation/configs/lxr-final-latency/jdk-lxr-4d4e516c/jdk
+    release: 11
+    type: OpenJDK
+spread_factor: 1
+suites:
+  dacapochopin-b00bfa9:
+    callback: probe.DacapoChopinCallback
+    minheap: g1
+    minheap_values:
+      g1:
+        avrora: 7
+        batik: 1076
+        biojava: 191
+        cassandra: 263
+        eclipse: 534
+        fop: 73
+        graphchi: 255
+        h2: 1191
+        h2o: 3689
+        jme: 235
+        jython: 325
+        luindex: 41
+        lusearch: 53
+        pmd: 637
+        sunflow: 87
+        tomcat: 71
+        xalan: 43
+        zxing: 153
+    path: /home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar
+    release: evaluation
+    timeout: 600
+    timing_iteration: 5
+    type: DaCapo

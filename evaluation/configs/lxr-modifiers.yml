@@ -21,7 +21,11 @@ modifiers:
     val: "1"
   oevac:
     type: ModifierSet
-    val: "oevac_enable|oevac_threshold-50"
+    val: "oevac_enable|oevac_threshold-{0}"
+  id:
+    type: EnvVar
+    var: "INCREMENTAL_DEFRAG"
+    val: "1"
   mu:
     type: ProgramArg
     val: "-t {0}"
@@ -43,6 +47,9 @@ modifiers:
   g1_noweakref:
     type: JVMArg
     val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  noweakref:
+    type: JVMArg
+    val: "-XX:-RegisterReferences"
   defrag_ratio:
     type: EnvVar
     var: "MAX_MATURE_DEFRAG_PERCENT"
@@ -63,6 +70,91 @@ modifiers:
     type: EnvVar
     var: "TRACE_THRESHOLD"
     val: "{0}"
+  trace2:
+    type: EnvVar
+    var: "TRACE_THRESHOLD2"
+    val: "{0}"
+  trace3:
+    type: EnvVar
+    var: "TRACE_THRESHOLD3"
+    val: "{0}"
+  maxcp:
+    type: EnvVar
+    var: "MAX_COPY_SIZE"
+    val: "{0}"
   g1_old:
     type: ModifierSet
     val: "hotspot_gc-G1"
+  defrag_policy:
+    type: EnvVar
+    var: "DEFRAG_POLICY"
+    val: "{0}"
+  sid:
+    type: ModifierSet
+    val: "defrag_policy-SimpleIncrementalDefrag"
+  sidm:
+    type: EnvVar
+    var: "SIMPLE_INCREMENTAL_DEFRAG_MULTIPLIER"
+    val: "{0}"
+  sid2:
+    type: ModifierSet
+    val: "defrag_policy-SimpleIncrementalDefrag2"
+  defrag_thold:
+    type: EnvVar
+    var: "DEFRAG_BLOCK_LIVENESS_THRESHOLD"
+    val: "{0}"
+  sid3:
+    type: ModifierSet
+    val: "defrag_policy-SimpleIncrementalDefrag3"
+  nodefrag:
+    type: ModifierSet
+    val: "defrag_policy-NoDefrag"
+  n:
+    type: EnvVar
+    var: "LXR_DEFRAG_N"
+    val: "{0}"
+  m:
+    type: EnvVar
+    var: "LXR_DEFRAG_M"
+    val: "{0}"
+  co_m:
+    type: EnvVar
+    var: "LXR_DEFRAG_COALESCE_M"
+    val: "{0}"
+  evac_all:
+    type: EnvVar
+    var: "DEFRAG_FORCE_SELECT_ALL_BLOCKS"
+    val: "1"
+  region_rank:
+    type: EnvVar
+    var: "SORT_REGIONS_AFTER_SATB"
+    val: "1"
+  block_holes_rank:
+    type: EnvVar
+    var: "FRAG_BLOCK_SELECTION"
+    val: "1"
+  mo:
+    type: EnvVar
+    var: "MATURE_OCCUPANCY"
+    val: "{0}"
+  rc_after_satb:
+    type: EnvVar
+    var: "RC_AFTER_SATB"
+    val: "{0}"
+  srv:
+    type: EnvVar
+    var: "MAX_SURVIVAL_MB"
+    val: "{0}"
+  srvw:
+    type: EnvVar
+    var: "SURVIVAL_PREDICTOR_WEIGHTED"
+    val: "1"
+  cm_stop_blocks:
+    type: EnvVar
+    var: "CM_STOP_BLOCKS"
+    val: "{0}"
+  conc_ratio:
+    type: EnvVar
+    var: "CONCURRENT_GC_THREADS_RATIO"
+    val: "{0}"
+

@@ -1,0 +1,13 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  invocations: 5
+  configs:
+    - jdk-lxr-stw|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
+    - jdk-lxr-cm|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
+    - jdk-lxr-evac|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
+    - jdk-ix|ix|common|tph_perf|trace2-5|lfb-32
+

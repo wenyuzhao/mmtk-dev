@@ -1,0 +1,17 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./_config.yml"
+
+overrides:
+  configs:
+    - jdk-lxr|g1|common|hs
+    - jdk-lxr-new-trigger|ix|common|tph|incs-256000|trace-40
+    - jdk-lxr-old|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+    - jdk-lxr-new-trigger-2|ix|common|tph|incs-256000|trace-40
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|nb-16384
+    # Srv. 16, 32, 64, 128
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-16
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-32
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-64
+    - jdk-lxr|ix|common|tph|oevac-40|id|incs-256000|defrag_thold-50|mo-60|rc_after_satb-4|srv-128
