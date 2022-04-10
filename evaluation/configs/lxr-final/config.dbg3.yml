@@ -1,0 +1,782 @@
+benchmarks:
+  dacapochopin-b00bfa9:
+  - lusearch
+  - h2
+  - cassandra
+  - tomcat
+  - fop
+  - h2o
+  - avrora
+  - batik
+  - biojava
+  - eclipse
+  - graphchi
+  - jython
+  - luindex
+  - pmd
+  - sunflow
+  - xalan
+  - zxing
+configs:
+- jdk-lxr|g1|common|hs_perf
+- jdk-lxr|g1|common|hs_perf|latency
+- jdk-lxr|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
+- jdk-lxr|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32|latency
+heap_range: 3
+invocations: 10
+minheap_multiplier: 1.0
+modifiers:
+  barrier:
+    type: EnvVar
+    val: '{0}'
+    var: BARRIER
+  block_holes_rank:
+    type: EnvVar
+    val: '1'
+    var: FRAG_BLOCK_SELECTION
+  c2:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation -Xcomp
+  c2_noxcomp:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation
+  c2ins:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation
+  cm:
+    type: EnvVar
+    val: '{0}'
+    var: CONCURRENT_MARKING_THRESHOLD
+  cm_stop_blocks:
+    type: EnvVar
+    val: '{0}'
+    var: CM_STOP_BLOCKS
+  cms:
+    type: JVMArg
+    val: -XX:-UseCompressedOops -XX:+UseConcMarkSweepGC -XX:TLABSize=32K -XX:-ResizeTLAB
+  co_m:
+    type: EnvVar
+    val: '{0}'
+    var: LXR_DEFRAG_COALESCE_M
+  common:
+    type: ModifierSet
+    val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
+  common2:
+    type: ModifierSet
+    val: ms|s|c2|probes|probes_cp
+  common_noxcomp:
+    type: ModifierSet
+    val: ms|s|c2_noxcomp|probes|probes_cp|no_inline_clone
+  common_noxcomp_noserver:
+    type: ModifierSet
+    val: ms|c2_noxcomp|probes|probes_cp|no_inline_clone
+  commonins:
+    type: ModifierSet
+    val: ms|c2ins|probes|probes_cp|no_inline_clone
+  conc_ratio:
+    type: EnvVar
+    val: '{0}'
+    var: CONCURRENT_GC_THREADS_RATIO
+  defrag_mb:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_MATURE_DEFRAG_MB
+  defrag_policy:
+    type: EnvVar
+    val: '{0}'
+    var: DEFRAG_POLICY
+  defrag_ratio:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_MATURE_DEFRAG_PERCENT
+  defrag_thold:
+    type: EnvVar
+    val: '{0}'
+    var: DEFRAG_BLOCK_LIVENESS_THRESHOLD
+  epsilon:
+    type: ModifierSet
+    val: hotspot_gc-Epsilon|no_weak_and_class_unload
+  evac_all:
+    type: EnvVar
+    val: '1'
+    var: DEFRAG_FORCE_SELECT_ALL_BLOCKS
+  g1:
+    type: ModifierSet
+    val: hotspot_gc-G1|no_weak_and_class_unload
+  g1_2021_11:
+    type: ModifierSet
+    val: hotspot_gc-G1
+  g1_default:
+    type: JVMArg
+    val: -XX:+UseG1GC
+  g1_noclassunload:
+    type: JVMArg
+    val: -XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark
+  g1_nocompressoops:
+    type: JVMArg
+    val: -XX:+UseG1GC -XX:-UseCompressedOops
+  g1_noweakref:
+    type: JVMArg
+    val: -XX:+UseG1GC -XX:-RegisterReferences
+  g1_old:
+    type: ModifierSet
+    val: hotspot_gc-G1
+  g1r:
+    type: JVMArg
+    val: -XX:G1HeapRegionSize={0}
+  gencopy:
+    type: EnvVar
+    val: GenCopy
+    var: MMTK_PLAN
+  hotspot_gc:
+    type: JVMArg
+    val: -XX:-UseCompressedOops -XX:+UnlockExperimentalVMOptions -XX:+Use{0}GC
+  hs:
+    type: ModifierSet
+    val: jvmti|jvmti_env
+  hs_cgc:
+    type: JVMArg
+    val: -XX:ConcGCThreads={0}
+  hs_pauses:
+    type: ModifierSet
+    val: jvmti_pauses|jvmti_env_pauses
+  hs_perf:
+    type: ModifierSet
+    val: jvmti|jvmti_env|perf
+  hugetlb:
+    type: JVMArg
+    val: -XX:+UseTransparentHugePages
+  id:
+    type: EnvVar
+    val: '1'
+    var: INCREMENTAL_DEFRAG
+  incs:
+    type: EnvVar
+    val: '{0}'
+    var: INCS_LIMIT
+  ix:
+    type: EnvVar
+    val: Immix
+    var: MMTK_PLAN
+  jvmti:
+    type: JVMArg
+    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+  jvmti_env:
+    type: EnvVar
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+    var: LD_PRELOAD
+  jvmti_env_pauses:
+    type: EnvVar
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_with_pauses.so
+    var: LD_PRELOAD
+  jvmti_pauses:
+    type: JVMArg
+    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_with_pauses.so
+  latency:
+    type: ProgramArg
+    val: --dump-latency
+  lfb:
+    type: EnvVar
+    val: '{0}'
+    var: LOCK_FREE_BLOCKS
+  m:
+    type: EnvVar
+    val: '{0}'
+    var: LXR_DEFRAG_M
+  maxcp:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_COPY_SIZE
+  mc:
+    type: EnvVar
+    val: MarkCompact
+    var: MMTK_PLAN
+  mmtk_gc:
+    type: EnvVar
+    val: '{0}'
+    var: MMTK_PLAN
+  mmtk_perf:
+    type: EnvVar
+    val: PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1
+    var: MMTK_PHASE_PERF_EVENTS
+  mn:
+    type: JVMArg
+    val: -Xmn{0} -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy
+  mo:
+    type: EnvVar
+    val: '{0}'
+    var: MATURE_OCCUPANCY
+  ms:
+    type: JVMArg
+    val: -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking
+  mu:
+    type: ProgramArg
+    val: -t {0}
+  n:
+    type: EnvVar
+    val: '{0}'
+    var: LXR_DEFRAG_N
+  nb:
+    type: EnvVar
+    val: '{0}'
+    var: NURSERY_BLOCKS
+  no_cls_unload_cm:
+    type: JVMArg
+    val: -XX:-ClassUnloadingWithConcurrentMark
+  no_inline_clone:
+    type: JVMArg
+    val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
+  no_weak_and_class_unload:
+    type: JVMArg
+    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  nodefrag:
+    type: ModifierSet
+    val: defrag_policy-NoDefrag
+  nogc:
+    type: EnvVar
+    val: NoGC
+    var: MMTK_PLAN
+  noweakref:
+    type: JVMArg
+    val: -XX:-RegisterReferences
+  nr:
+    type: EnvVar
+    val: '{0}'
+    var: NURSERY_RATIO
+  oevac:
+    type: ModifierSet
+    val: oevac_enable|oevac_threshold-{0}
+  oevac_enable:
+    type: EnvVar
+    val: '1'
+    var: OPPORTUNISTIC_EVAC
+  oevac_threshold:
+    type: EnvVar
+    val: '{0}'
+    var: OPPORTUNISTIC_EVAC_THRESHOLD
+  parallel:
+    type: ModifierSet
+    val: hotspot_gc-Parallel|no_weak_and_class_unload
+  perf:
+    type: EnvVar
+    val: PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS
+    var: PERF_EVENTS
+  pretouch:
+    type: JVMArg
+    val: -XX:+AlwaysPreTouch
+  probes:
+    type: JVMArg
+    val: -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk
+  probes_cp:
+    type: JVMClasspath
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar
+  rc_after_satb:
+    type: EnvVar
+    val: '{0}'
+    var: RC_AFTER_SATB
+  region_rank:
+    type: EnvVar
+    val: '1'
+    var: SORT_REGIONS_AFTER_SATB
+  s:
+    type: JVMArg
+    val: -server
+  sgc:
+    type: JVMArg
+    val: -XX:+UseSerialGC
+  shenandoah:
+    type: ModifierSet
+    val: hotspot_gc-Shenandoah|no_weak_and_class_unload
+  sid:
+    type: ModifierSet
+    val: defrag_policy-SimpleIncrementalDefrag
+  sid2:
+    type: ModifierSet
+    val: defrag_policy-SimpleIncrementalDefrag2
+  sid3:
+    type: ModifierSet
+    val: defrag_policy-SimpleIncrementalDefrag3
+  sidm:
+    type: EnvVar
+    val: '{0}'
+    var: SIMPLE_INCREMENTAL_DEFRAG_MULTIPLIER
+  srv:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_SURVIVAL_MB
+  srvw:
+    type: EnvVar
+    val: '1'
+    var: SURVIVAL_PREDICTOR_WEIGHTED
+  ss:
+    type: EnvVar
+    val: SemiSpace
+    var: MMTK_PLAN
+  threads:
+    type: EnvVar
+    val: '{0}'
+    var: MMTK_THREADS
+  tlab:
+    type: JVMArg
+    val: -XX:TLABSize={0} -XX:-ResizeTLAB
+  tph:
+    type: JVMArg
+    val: -XX:+UseThirdPartyHeap
+  tph_perf:
+    type: ModifierSet
+    val: tph|mmtk_perf
+  trace:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD
+  trace2:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD2
+  trace3:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD3
+  z:
+    type: ModifierSet
+    val: hotspot_gc-Z|no_weak_and_class_unload
+plugins:
+  dacapo-latency:
+    patterns:
+    - scratch/dacapo-latency-*.csv
+    type: CopyFile
+remote_host: squirrel.moma
+runtimes:
+  adoptopenjdk-11:
+    home: /usr/lib/jvm/adoptopenjdk-11-hotspot-amd64
+    release: 11
+    type: OpenJDK
+  adoptopenjdk-12:
+    home: /usr/lib/jvm/adoptopenjdk-12-hotspot-amd64
+    release: 12
+    type: OpenJDK
+  adoptopenjdk-13:
+    home: /usr/lib/jvm/adoptopenjdk-13-hotspot-amd64
+    release: 13
+    type: OpenJDK
+  adoptopenjdk-14:
+    home: /usr/lib/jvm/adoptopenjdk-14-hotspot-amd64
+    release: 14
+    type: OpenJDK
+  adoptopenjdk-15:
+    home: /usr/lib/jvm/adoptopenjdk-15-hotspot-amd64
+    release: 15
+    type: OpenJDK
+  adoptopenjdk-16:
+    home: /usr/lib/jvm/adoptopenjdk-16-hotspot-amd64
+    release: 16
+    type: OpenJDK
+  adoptopenjdk-8:
+    home: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+    release: 8
+    type: OpenJDK
+  jdk-lxr:
+    home: /home/wenyuz/MMTk-Dev/evaluation/configs/lxr-final/jdk-lxr-4d4e516c/jdk
+    release: 11
+    type: OpenJDK
+  temurin-11:
+    home: /usr/lib/jvm/temurin-11-jdk-amd64
+    release: 11
+    type: OpenJDK
+  temurin-17:
+    home: /usr/lib/jvm/temurin-17-jdk-amd64
+    release: 17
+    type: OpenJDK
+  temurin-8:
+    home: /usr/lib/jvm/temurin-8-jdk-amd64
+    release: 8
+    type: OpenJDK
+spread_factor: 1
+suites:
+  dacapo2006:
+    minheap: adoptopenjdk-15-G1
+    minheap_values:
+      adoptopenjdk-15-G1:
+        antlr: 5
+        chart: 21
+        eclipse: 25
+        hsqldb: 135
+    path: /usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar
+    release: '2006'
+    timeout: 120
+    timing_iteration: 3
+    type: DaCapo
+  dacapobach:
+    minheap: adoptopenjdk-15-G1
+    minheap_values:
+      adoptopenjdk-15-G1:
+        avrora: 5
+        fop: 37
+        jython: 31
+        luindex: 7
+        pmd: 41
+        sunflow: 17
+        xalan: 8
+    path: /usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar
+    release: '9.12'
+    timeout: 120
+    timing_iteration: 3
+    type: DaCapo
+  dacapobach-mr1:
+    minheap: adoptopenjdk-15-G1
+    minheap_values:
+      adoptopenjdk-15-G1:
+        avrora: 5
+        fop: 39
+        jython: 32
+        luindex: 9
+        pmd: 41
+        sunflow: 17
+        xalan: 10
+    path: /usr/share/benchmarks/dacapo/dacapo-9.12-MR1-bach.jar
+    release: '9.12'
+    timeout: 120
+    timing_iteration: 3
+    type: DaCapo
+  dacapobach-mr1-java6:
+    minheap_values: {}
+    path: /usr/share/benchmarks/dacapo/dacapo-9.12-MR1-bach-java6.jar
+    release: '9.12'
+    timeout: 120
+    timing_iteration: 3
+    type: DaCapo
+  dacapochopin-b00bfa9:
+    callback: probe.DacapoChopinCallback
+    minheap: g1
+    minheap_values:
+      15g:
+        avrora: 15360
+        batik: 15360
+        biojava: 15360
+        cassandra: 15360
+        eclipse: 15360
+        fop: 15360
+        graphchi: 15360
+        h2: 15360
+        h2o: 15360
+        jme: 15360
+        jython: 15360
+        luindex: 15360
+        lusearch: 15360
+        pmd: 15360
+        sunflow: 15360
+        tomcat: 15360
+        xalan: 15360
+        zxing: 15360
+      1g:
+        avrora: 1024
+        batik: 1024
+        biojava: 1024
+        cassandra: 1024
+        eclipse: 1024
+        fop: 1024
+        graphchi: 1024
+        h2: 1024
+        h2o: 1024
+        jme: 1024
+        jython: 1024
+        luindex: 1024
+        lusearch: 1024
+        pmd: 1024
+        sunflow: 1024
+        tomcat: 1024
+        xalan: 1024
+        zxing: 1024
+      adoptopenjdk-15-G1:
+        avrora: 7
+        batik: 253
+        biojava: 191
+        cassandra: 89
+        eclipse: 437
+        fop: 19
+        graphchi: 255
+        h2: 1154
+        h2o: 73
+        jme: 55
+        jython: 37
+        luindex: 42
+        lusearch: 23
+        pmd: 243
+        sunflow: 33
+        tomcat: 25
+        tradebeans: 169
+        tradesoap: 133
+        xalan: 9
+        zxing: 96
+      g1:
+        avrora: 7
+        batik: 1076
+        biojava: 191
+        cassandra: 263
+        eclipse: 534
+        fop: 73
+        graphchi: 255
+        h2: 1191
+        h2o: 3689
+        jme: 235
+        jython: 325
+        luindex: 41
+        lusearch: 53
+        pmd: 637
+        sunflow: 87
+        tomcat: 71
+        xalan: 43
+        zxing: 153
+      gencopy:
+        avrora: 14
+        batik: 668
+        biojava: 428
+        cassandra: 218
+        eclipse: 1054
+        fop: 44
+        graphchi: 256
+        h2o: 1013
+        jme: 236
+        jython: 112
+        luindex: 54
+        lusearch: 418
+        pmd: 3964
+        sunflow: 52
+        tomcat: 120
+        xalan: 36
+        zxing: 560
+      huge:
+        avrora: 51200
+        batik: 51200
+        biojava: 51200
+        cassandra: 51200
+        eclipse: 51200
+        fop: 51200
+        graphchi: 51200
+        h2: 51200
+        h2o: 51200
+        jme: 51200
+        jython: 51200
+        luindex: 51200
+        lusearch: 51200
+        pmd: 51200
+        sunflow: 51200
+        tomcat: 51200
+        xalan: 51200
+        zxing: 51200
+      immix:
+        avrora: 10
+        batik: 457
+        biojava: 194
+        cassandra: 136
+        eclipse: 571
+        fop: 30
+        graphchi: 256
+        h2: 2082
+        h2o: 100
+        jme: 236
+        jython: 71
+        luindex: 28
+        lusearch: 30
+        pmd: 289
+        sunflow: 76
+        tomcat: 71
+        xalan: 20
+        zxing: 435
+      immix-rc:
+        avrora: 13
+        batik: 429
+        biojava: 270
+        cassandra: 281
+        eclipse: 825
+        fop: 43
+        graphchi: 256
+        h2: 2216
+        h2o: 1013
+        jme: 236
+        jython: 112
+        luindex: 34
+        lusearch: 454
+        pmd: 736
+        sunflow: 81
+        tomcat: 130
+        xalan: 45
+        zxing: 484
+      immix-sim:
+        avrora: 27
+        batik: 968
+        biojava: 418
+        cassandra: 2325
+        eclipse: 2780
+        fop: 134
+        graphchi: 256
+        h2o: 4099
+        jme: 236
+        jython: 729
+        luindex: 55
+        lusearch: 1154
+        pmd: 1855
+        sunflow: 1282
+        tomcat: 1482
+        xalan: 78
+        zxing: 746
+      lxr:
+        avrora: 13
+        batik: 481
+        biojava: 203
+        cassandra: 344
+        eclipse: 939
+        fop: 45
+        graphchi: 256
+        h2: 2892
+        h2o: 124
+        jme: 236
+        jython: 82
+        luindex: 4098
+        lusearch: 524
+        pmd: 736
+        sunflow: 88
+        tomcat: 786
+        xalan: 58
+        zxing: 526
+      ss:
+        avrora: 14
+        batik: 658
+        biojava: 386
+        cassandra: 227
+        eclipse: 1039
+        fop: 44
+        graphchi: 2065
+        h2: 2285
+        h2o: 144
+        jme: 236
+        jython: 108
+        luindex: 54
+        lusearch: 46
+        pmd: 506
+        sunflow: 48
+        tomcat: 111
+        xalan: 66
+        zxing: 532
+      temurin-11-G1:
+        avrora: 5
+        batik: 185
+        biojava: 95
+        cassandra: 1026
+        eclipse: 423
+        fop: 13
+        graphchi: 255
+        h2: 771
+        h2o: 62
+        jme: 29
+        jython: 27
+        luindex: 40
+        lusearch: 25
+        pmd: 158
+        sunflow: 27
+        tomcat: 19
+        tradebeans: 129
+        tradesoap: 101
+        xalan: 7
+        zxing: 96
+      temurin-17-G1:
+        avrora: 7
+        batik: 189
+        biojava: 95
+        eclipse: 411
+        fop: 15
+        graphchi: 255
+        h2: 773
+        jme: 29
+        jython: 25
+        luindex: 42
+        lusearch: 21
+        lusearch_huge: 122
+        lusearch_large: 142
+        pmd: 156
+        sunflow: 29
+        tomcat: 21
+        tradebeans: 131
+        tradesoap: 103
+        xalan: 8
+        zxing: 97
+    path: /home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar
+    release: evaluation
+    timeout: 600
+    timing_iteration: 5
+    type: DaCapo
+  dacapochopin-f480064:
+    minheap: temurin-11-G1
+    minheap_values:
+      temurin-11-G1:
+        avrora: 5
+        batik: 186
+        biojava: 96
+        cassandra: 87
+        eclipse: 423
+        fop: 13
+        graphchi: 255
+        h2: 771
+        h2o: 83
+        jme: 29
+        jython: 27
+        kafka: 201
+        luindex: 41
+        lusearch: 26
+        pmd: 43
+        sunflow: 27
+        tomcat: 19
+        tradebeans: 129
+        tradesoap: 113
+        xalan: 7
+        zxing: 98
+      temurin-17-G1:
+        avrora: 7
+        batik: 190
+        biojava: 95
+        eclipse: 411
+        fop: 15
+        graphchi: 255
+        h2: 773
+        jme: 29
+        jython: 25
+        kafka: 197
+        luindex: 42
+        lusearch: 25
+        pmd: 45
+        sunflow: 27
+        tomcat: 21
+        tradebeans: 131
+        tradesoap: 103
+        xalan: 7
+        zxing: 101
+    path: /usr/share/benchmarks/dacapo/dacapo-evaluation-git-f480064.jar
+    release: evaluation
+    timeout: 120
+    timing_iteration: 3
+    type: DaCapo
+  specjbb2015:
+    path: /usr/share/benchmarks/SPECjbb2015/specjbb2015.jar
+    release: '1.03'
+    type: SPECjbb2015
