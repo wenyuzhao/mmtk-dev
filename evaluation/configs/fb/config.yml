@@ -6,6 +6,28 @@ includes:
 overrides:
   invocations: 20
   suites.dacapochopin-29a657f.minheap: immix
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - h2
+    # - tradebeans
+    # - tradesoap
+    - cassandra
+    - tomcat
+    - fop
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    # - jme
+    - jython
+    # - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
 
 runtimes:
   jdk:
