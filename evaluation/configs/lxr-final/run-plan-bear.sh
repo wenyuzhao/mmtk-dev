@@ -13,8 +13,11 @@ pushd ~/MMTk-Dev
 # running runbms ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final-latency/config.yml 32 7 &> ~/_log
 # 6x throughput
 
-running runbms -i 10 ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.p3.yml 12 7 &>> ~/_log
-running runbms -i 5 ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.p3-6.yml 12 12 &> ~/_log
+running runbms -i 15 ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.defeature.yml 12 7 &> ~/_log
+
+# running runbms -i 10 ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.p3.yml 12 7 &>> ~/_log
+# running runbms -i 5 ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.p3-6.yml 12 12 &> ~/_log
+# running runbms -i 10 ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.p3-6-fix.yml 12 12 &> ~/_log
 
 # Unfinished 1.3x
 # running runbms ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/lxr-final/config.p3-bear-unfinished.yml 32 7 &>> ~/_log
