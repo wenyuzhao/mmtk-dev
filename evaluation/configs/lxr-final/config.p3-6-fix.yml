@@ -1,0 +1,10 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./config.p3.yml"
+
+overrides:
+  benchmarks.dacapochopin-29a657f:
+    - lusearch
+    - eclipse
+  heap_range: 6

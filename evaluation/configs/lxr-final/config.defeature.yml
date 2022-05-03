@@ -8,6 +8,6 @@ overrides:
   configs:
     - jdk-lxr-stw|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
     - jdk-lxr-cm|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
-    - jdk-lxr-evac|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
+    - jdk-lxr-lazy|ix|common|tph_perf|trace2-5|srv-128|srvw|lfb-32
     - jdk-ix|ix|common|tph_perf|trace2-5|lfb-32
 
