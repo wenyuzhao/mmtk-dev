@@ -7,12 +7,12 @@ namespace "v8" do
 
     task :build do
         🔵 "cargo build", cwd:mmtk
-        🔵 "./tools/dev/gm.py x64.#{profile}.all", cwd:v8
+        🔵 "MMTK_PLAN=#{$gc} ./tools/dev/gm.py x64.#{profile}.all", cwd:v8
     end
 
     task :test => :build do
         no_max_failures = no_max_failures ? "--exit-after-n-failures=0" : ""
-        🔵 "./tools/dev/gm.py x64.#{profile}.checkall #{no_max_failures}", cwd:v8
+        🔵 "MMTK_PLAN=#{$gc} ./tools/dev/gm.py x64.#{profile}.checkall #{no_max_failures}", cwd:v8
     end
 
     task :gdb do
