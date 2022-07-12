@@ -10,9 +10,12 @@
 [submodule "mmtk-jikesrvm"]
 	path = mmtk-jikesrvm
 	url = https://github.com/mmtk/mmtk-jikesrvm.git
-[submodule "running-ng"]
-	path = evaluation/running-ng
-	url = https://github.com/anupli/running-ng
 [submodule "probes"]
 	path = evaluation/probes
 	url = https://github.com/anupli/probes.git
+[submodule "openjdk"]
+	path = openjdk
+	url = https://github.com/mmtk/openjdk.git
+[submodule "jikesrvm"]
+	path = jikesrvm
+	url = https://github.com/mmtk/jikesrvm.git

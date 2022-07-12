@@ -15,7 +15,5 @@ task :hello do
 end
 
 task :init do
-    🔵 "pip3 install -e . --user", cwd: '$PWD/evaluation/running-ng'
     🔵 "make native-code", cwd: '$PWD/evaluation/probes'
-    puts "❗️ Please add `~/.local/bin` to PATH."
 end

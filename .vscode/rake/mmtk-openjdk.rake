@@ -26,7 +26,7 @@ namespace "jdk" do
         vm_args += ' -XX:+ZeroTLAB -XX:-ReduceFieldZeroing -XX:-ReduceBulkZeroing'
     end
     bm_args = "#{$dacapo_args.($dacapo_new_jar)} -n #{n} -c probe.DacapoChopinCallback #{benchmark}"
-    jdk = "./mmtk-openjdk/repos/openjdk"
+    jdk = "./openjdk"
     mmtk = "./mmtk-openjdk/mmtk"
     conf = -> { "linux-x86_64-normal-server-#{profile}" }
     java = -> { "#{jdk}/build/#{conf.()}/jdk/bin/java" }
@@ -35,11 +35,11 @@ namespace "jdk" do
     end
 
     task :config do
-        🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --disable-zip-debug-info --with-jvm-features=shenandoahgc", cwd:jdk
+        🔵 "sh configure --disable-warnings-as-errors --with-debug-level=#{profile} --with-target-bits=64 --with-native-debug-symbols=zipped --with-jvm-features=shenandoahgc", cwd:jdk
     end
 
     task :build do
-        🔵 "make --no-print-directory CONF=#{conf.()} THIRD_PARTY_HEAP=$PWD/../../openjdk", cwd:jdk
+        🔵 "make --no-print-directory CONF=#{conf.()} THIRD_PARTY_HEAP=$PWD/../mmtk-openjdk/openjdk", cwd:jdk
     end
 
     task :clean do

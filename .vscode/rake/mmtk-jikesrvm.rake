@@ -4,8 +4,8 @@ namespace "jks" do
     benchmark = ENV["bench"] || 'xalan'
     n = ENV["n"] || '1'
 
-    jks = "./mmtk-jikesrvm/repos/jikesrvm"
-    build_args = "--m32 --answer-yes --use-third-party-heap=../../ --use-third-party-build-configs=../../jikesrvm/build/configs/ --use-external-source=../../jikesrvm/rvm/src"
+    jks = "./jikesrvm"
+    build_args = "--m32 --answer-yes --use-third-party-heap=../mmtk-jikesrvm --use-third-party-build-configs=../mmtk-jikesrvm/jikesrvm/build/configs/ --use-external-source=../mmtk-jikesrvm/jikesrvm/rvm/src"
     if ENV.has_key?("q") || ENV.has_key?("quick")
         build_args += " -q"
     end
