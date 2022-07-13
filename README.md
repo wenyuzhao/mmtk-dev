@@ -37,12 +37,20 @@ optional arguments:
   --mu [MU]             Fix mutators
   --threads [THREADS]   Fix GC workers
   --gdb                 Launch GDB
+  --cp-bench [BUILD_ID]
+                        Copy build to /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-<commit>-<BUILD_ID>
   -h, --help            Show this help message and exit
 ```
 
 # Benchmarking
 
-WIP
+1. Produce two different builds:
+  1. `./run-jdk.py --gc=Immix --bench=xalan --heap=100M --build --release --cp-bench master`
+  2. `./run-jdk.py --gc=Immix --bench=xalan --heap=100M --build --release --features dev --cp-bench dev`
+  3. You will get two builds under _evaluation/builds_: _jdk-mmtk-<commit>-master_ and _jdk-mmtk-<commit>-dev_
+2. Add a config file to _evaluation/configs/<config>/config.yml_
+3. Rsync files to a remote machine: `./bench-rsync.py --machine deer.moma`
+4. Run benchmarks
 
 # JikesRVM
 

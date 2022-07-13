@@ -33,9 +33,15 @@ modifiers:
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
+  tph_perf:
+    type: ModifierSet
+    val: "tph|mmtk_perf"
   hs_perf:
     type: ModifierSet
     val: "jvmti|jvmti_env|perf"
+  hs:
+    type: ModifierSet
+    val: "jvmti|jvmti_env"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
