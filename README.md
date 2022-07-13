@@ -7,38 +7,38 @@
 ## Instructions
 
 * [OpenJDK](#openjdk)
-  * [Config](#config-once)
-  * [Build and run DaCapo](#build-and-run-dacapo-chopin-benchmark)
-  * [Launch GDB](#launch-gdb)
-  * [Launch GDB](#benchmarking)
 * [JikesRVM](#jikesrvm)
 * [V8](#v8)
 
 # OpenJDK
 
-## Config (once)
+```
+usage: run-jdk.py --gc GC --bench BENCH --heap HEAP [--profile PROFILE]
+                  [--release] [--build] [--config] [-n ITER] [--no-c1]
+                  [--no-c2] [--mu [MU]] [--threads [THREADS]] [--gdb] [-h]
 
-`rake jdk:config` -- _Note: this only needs to run once._
+MMTk-OpenJDK Runner.
 
-* Config for release build: `rake jdk:config release=1`
+Example: ./run-jdk.py --gc=SemiSpace --bench=xalan --heap=100M --build
 
-## Build and run DaCapo (chopin) benchmark
+required arguments:
+  --gc GC               GC plan. e.g. SemiSpace
+  --bench BENCH         DaCapo benchmark name
+  --heap HEAP           Heap size
 
-_Please do the config step above once before building._
-
-`rake jdk:test gc=SemiSpace heap=100M bench=xalan`
-
-* Run with release build: `rake jdk:test gc=SemiSpace heap=100M bench=xalan release=1`
-* Run with multiple iterations: `rake jdk:test gc=SemiSpace heap=100M bench=xalan n=5`
-* Disable C1: `rake jdk:test gc=SemiSpace heap=100M bench=xalan noc1=1`
-* Interpreter only: `rake jdk:test gc=SemiSpace heap=100M bench=xalan int=1`
-* Fix mutator threads: `rake jdk:test gc=SemiSpace heap=100M bench=xalan t=10`
-* Fix GC worker threads: `rake jdk:test gc=SemiSpace heap=100M bench=xalan threads=10`
-
-## Launch GDB
-
-`rake jdk:gdb gc=SemiSpace heap=100M bench=xalan`
-
+optional arguments:
+  --profile PROFILE     Specify build profile. Default to fastdebug
+  --release             Use release profile. This overrides --profile.
+  --build               Build OpenJDK
+  --config              Config OpenJDK
+  -n ITER, --iter ITER  Number of iterations
+  --no-c1               Disable C1 compiler
+  --no-c2               Disable C2 compiler
+  --mu [MU]             Fix mutators
+  --threads [THREADS]   Fix GC workers
+  --gdb                 Launch GDB
+  -h, --help            Show this help message and exit
+```
 
 # Benchmarking
 

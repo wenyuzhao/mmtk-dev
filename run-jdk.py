@@ -10,20 +10,25 @@ DACAPO = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-29a657f.jar'
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='MMTk-OpenJDK Runner.')
-    parser.add_argument('--gc', type=str, help="GC plan. e.g. SemiSpace")
-    parser.add_argument('--bench', type=str, help="DaCapo benchmark name")
-    parser.add_argument('--heap', type=str, help="Heap size")
-    parser.add_argument('--profile', type=str, default='fastdebug', help="Specify build profile. Default to fastdebug")
-    parser.add_argument('--release', action='store_const', const='release', dest='profile', default=False, help="Use release profile. This overrides --profile.")
-    parser.add_argument('--build', action='store_true', default=False, help="Build OpenJDK")
-    parser.add_argument('--config', action='store_true', default=False, help="Config OpenJDK")
-    parser.add_argument('-n', '--iter', type=int, default=1, help="Number of iterations")
-    parser.add_argument('--no-c1', action='store_true', default=False, help="Disable C1 compiler")
-    parser.add_argument('--no-c2', action='store_true', default=False, help="Disable C2 compiler")
-    parser.add_argument('--mu', type=int, nargs='?', help="Fix mutators")
-    parser.add_argument('--threads', type=int, nargs='?', help="Fix GC workers")
-    parser.add_argument('--gdb', action='store_true', default=False, help="Launch GDB")
+    parser = argparse.ArgumentParser(description=f'MMTk-OpenJDK Runner.\n\nExample: ./{os.path.basename(__file__)} --gc=SemiSpace --bench=xalan --heap=100M --build', add_help=False, formatter_class=argparse.RawTextHelpFormatter)
+    # Required arguments
+    required = parser.add_argument_group('required arguments')
+    required.add_argument('--gc', type=str, required=True, help="GC plan. e.g. SemiSpace")
+    required.add_argument('--bench', type=str, required=True, help="DaCapo benchmark name")
+    required.add_argument('--heap', type=str, required=True, help="Heap size")
+    # Optional arguments
+    optional = parser.add_argument_group('optional arguments')
+    optional.add_argument('--profile', type=str, default='fastdebug', help="Specify build profile. Default to fastdebug")
+    optional.add_argument('--release', action='store_const', const='release', dest='profile', default=False, help="Use release profile. This overrides --profile.")
+    optional.add_argument('--build', action='store_true', default=False, help="Build OpenJDK")
+    optional.add_argument('--config', action='store_true', default=False, help="Config OpenJDK")
+    optional.add_argument('-n', '--iter', type=int, default=1, help="Number of iterations")
+    optional.add_argument('--no-c1', action='store_true', default=False, help="Disable C1 compiler")
+    optional.add_argument('--no-c2', action='store_true', default=False, help="Disable C2 compiler")
+    optional.add_argument('--mu', type=int, nargs='?', help="Fix mutators")
+    optional.add_argument('--threads', type=int, nargs='?', help="Fix GC workers")
+    optional.add_argument('--gdb', action='store_true', default=False, help="Launch GDB")
+    optional.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
     return parser.parse_args()
 
 
@@ -43,7 +48,7 @@ def build(profile: str):
 
 def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc2: bool, gdb: bool, threads=Optional[int], mu=Optional[int]):
     # MMTk args
-    mmtk_args = f'MMTK_PLAN={gc}'
+    mmtk_args = f'RUST_BACKTRACE=1 MMTK_PLAN={gc}'
     if threads is not None: mmtk_args += f' MMTK_THREADS={threads}'
     # Heap size
     heap_args = f'-XX:MetaspaceSize=1G -XX:-UseBiasedLocking -Xms{heap} -Xmx{heap} -XX:+UseThirdPartyHeap'
