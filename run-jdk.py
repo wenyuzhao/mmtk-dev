@@ -31,6 +31,7 @@ def parse_args():
     optional.add_argument('--threads', type=int, nargs='?', help="Fix GC workers")
     optional.add_argument('--features', type=str, nargs='*', help="Cargo features")
     optional.add_argument('--gdb', action='store_true', default=False, help="Launch GDB")
+    optional.add_argument('--clean', action='store_true', default=False, help="`make clean` before build")
     optional.add_argument('--cp-bench', dest='build_id', type=str, nargs='?', help=f"Copy build to {BENCH_BUILDS}/jdk-mmtk-<commit>-<BUILD_ID>")
     optional.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
     return parser.parse_args()
@@ -44,6 +45,10 @@ def exec(cmd: str, cwd: str):
 
 def config(profile: str):
     exec(f'sh configure --disable-warnings-as-errors --with-debug-level={profile} --with-target-bits=64 --with-native-debug-symbols=zipped --with-jvm-features=shenandoahgc', cwd=OPENJDK)
+
+
+def clean(profile: str):
+    exec(f'make clean --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', cwd=OPENJDK)
 
 
 def build(profile: str):
@@ -62,7 +67,7 @@ def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc
     compiler_args = ''
     if noc1 and noc2: compiler_args += '-Xint'
     elif noc1: compiler_args += '-XX:-TieredCompilation'
-    elif noc2: compiler_args += 'XX:TieredStopAtLevel=3'
+    elif noc2: compiler_args += '-XX:TieredStopAtLevel=3'
     # GDB Wrapper
     gdb_wrapper = 'gdb --args' if gdb else ''
     # Benchmark args
@@ -82,6 +87,7 @@ def bench_copy(profile: str, target: str):
 args = parse_args()
 
 if args.config: config(profile=args.profile)
+if args.clean: clean(profile=args.profile)
 if args.build: build(profile=args.profile)
 run(profile=args.profile, gc=args.gc, bench=args.bench, heap=args.heap, iter=args.iter, noc1=args.no_c1, noc2=args.no_c2, gdb=args.gdb, threads=args.threads, mu=args.mu)
 if args.build_id is not None:
