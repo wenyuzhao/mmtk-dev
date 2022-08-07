@@ -30,8 +30,9 @@ def rsync_files(machine: str, user: str):
     rsync("~/./MMTk-Dev/evaluation/configs", dst)
     rsync("~/./MMTk-Dev/evaluation/advice", dst)
     rsync("~/./MMTk-Dev/evaluation/probes", dst)
+    rsync("~/./MMTk-Dev/evaluation/builds", dst)
 
 
 args = parse_args()
 
-rsync_files(args.machine. args.user)
+rsync_files(args.machine, args.user)

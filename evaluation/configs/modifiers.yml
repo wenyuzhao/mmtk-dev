@@ -98,3 +98,7 @@ modifiers:
   tlab:
     type: JVMArg
     val: "-XX:TLABSize={0} -XX:-ResizeTLAB"
+  lxr:
+    type: EnvVar
+    val: LXR
+    var: MMTK_PLAN

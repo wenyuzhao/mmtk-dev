@@ -1,0 +1,161 @@
+benchmarks:
+  dacapochopin-b00bfa9:
+  - lusearch
+  - cassandra
+  - h2
+  - tomcat
+configs:
+  - jdk-lxr|g1|common|hs|latency
+  - jdk-lxr|lxr|common|tph|trace2-5|srv-128|srvw|lfb-32|latency
+  - jdk-lxr|shenandoah|common|hs|latency
+  - jdk-lxr|z|common|hs|latency
+heap_range: 3
+invocations: 40
+minheap_multiplier: 1.0
+modifiers:
+  c2:
+    excludes:
+      dacapochopin-b00bfa9:
+      - tradebeans
+      - tradesoap
+      dacapochopin-f480064:
+      - tradebeans
+      - tradesoap
+    type: JVMArg
+    val: -XX:-TieredCompilation -Xcomp
+  common:
+    type: ModifierSet
+    val: ms|s|c2|probes|probes_cp|no_weak_and_class_unload|no_inline_clone
+
+  hotspot_gc:
+    type: JVMArg
+    val: -XX:-UseCompressedOops -XX:+UnlockExperimentalVMOptions -XX:+Use{0}GC
+  g1:
+    type: ModifierSet
+    val: hotspot_gc-G1
+  shenandoah:
+    type: ModifierSet
+    val: hotspot_gc-Shenandoah
+  z:
+    type: ModifierSet
+    val: hotspot_gc-Z
+
+  mmtk_gc:
+    type: EnvVar
+    val: '{0}'
+    var: MMTK_PLAN
+  lxr:
+    type: EnvVar
+    val: LXR
+    var: MMTK_PLAN
+
+  hs:
+    type: ModifierSet
+    val: jvmti|jvmti_env
+  hs_perf:
+    type: ModifierSet
+    val: jvmti|jvmti_env|perf
+  tph:
+    type: JVMArg
+    val: -XX:+UseThirdPartyHeap
+  tph_perf:
+    type: ModifierSet
+    val: tph|mmtk_perf
+  perf:
+    type: EnvVar
+    val: PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS
+    var: PERF_EVENTS
+  mmtk_perf:
+    type: EnvVar
+    val: PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1
+    var: MMTK_PHASE_PERF_EVENTS
+
+  ms:
+    type: JVMArg
+    val: -XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking
+  no_weak_and_class_unload:
+    type: JVMArg
+    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  no_inline_clone:
+    type: JVMArg
+    val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
+  jvmti:
+    type: JVMArg
+    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+  jvmti_env:
+    type: EnvVar
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+    var: LD_PRELOAD
+  latency:
+    type: ProgramArg
+    val: --dump-latency
+  lfb:
+    type: EnvVar
+    val: '{0}'
+    var: LOCK_FREE_BLOCKS
+  probes:
+    type: JVMArg
+    val: -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk
+  probes_cp:
+    type: JVMClasspath
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar
+  s:
+    type: JVMArg
+    val: -server
+  srv:
+    type: EnvVar
+    val: '{0}'
+    var: MAX_SURVIVAL_MB
+  srvw:
+    type: EnvVar
+    val: '1'
+    var: SURVIVAL_PREDICTOR_WEIGHTED
+  trace:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD
+  trace2:
+    type: EnvVar
+    val: '{0}'
+    var: TRACE_THRESHOLD2
+plugins:
+  dacapo-latency:
+    patterns:
+    - scratch/dacapo-latency-*.csv
+    type: CopyFile
+remote_host: squirrel.moma
+runtimes:
+  jdk-lxr:
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-3bd09473/jdk
+    release: 11
+    type: OpenJDK
+spread_factor: 1
+suites:
+  dacapochopin-b00bfa9:
+    callback: probe.DacapoChopinCallback
+    minheap: g1
+    minheap_values:
+      g1:
+        avrora: 7
+        batik: 1076
+        biojava: 191
+        cassandra: 263
+        eclipse: 534
+        fop: 73
+        graphchi: 255
+        h2: 1191
+        h2o: 3689
+        jme: 235
+        jython: 325
+        luindex: 41
+        lusearch: 53
+        pmd: 637
+        sunflow: 87
+        tomcat: 71
+        xalan: 43
+        zxing: 153
+    path: /home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar
+    release: evaluation
+    timeout: 600
+    timing_iteration: 5
+    type: DaCapo

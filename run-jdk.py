@@ -67,7 +67,7 @@ def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc
     compiler_args = ''
     if noc1 and noc2: compiler_args += '-Xint'
     elif noc1: compiler_args += '-XX:-TieredCompilation'
-    elif noc2: compiler_args += '-XX:TieredStopAtLevel=3'
+    elif noc2: compiler_args += '-XX:TieredStopAtLevel=1'
     # GDB Wrapper
     gdb_wrapper = 'gdb --args' if gdb else ''
     # Benchmark args
