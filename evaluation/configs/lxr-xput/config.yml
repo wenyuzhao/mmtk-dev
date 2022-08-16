@@ -12,7 +12,7 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-3bd09473/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-a24d2a3b/jdk"
 
 configs:
   - jdk-lxr|g1|common|hs

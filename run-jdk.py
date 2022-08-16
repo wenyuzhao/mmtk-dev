@@ -33,6 +33,7 @@ def parse_args():
     optional.add_argument('--gdb', action='store_true', default=False, help="Launch GDB")
     optional.add_argument('--clean', action='store_true', default=False, help="`make clean` before build")
     optional.add_argument('--cp-bench', dest='build_id', type=str, nargs='?', help=f"Copy build to {BENCH_BUILDS}/jdk-mmtk-<commit>-<BUILD_ID>")
+    optional.add_argument('--jdk-args', type=str, nargs='?', help="Extra OpenJDK command line arguments")
     optional.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
     return parser.parse_args()
 
@@ -55,7 +56,7 @@ def build(profile: str):
     exec(f'make --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', cwd=OPENJDK)
 
 
-def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc2: bool, gdb: bool, threads=Optional[int], mu=Optional[int]):
+def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc2: bool, gdb: bool, threads: Optional[int], mu: Optional[int], jdk_args: Optional[str]):
     # MMTk args
     mmtk_args = f'RUST_BACKTRACE=1 MMTK_PLAN={gc}'
     if threads is not None: mmtk_args += f' MMTK_THREADS={threads}'
@@ -73,8 +74,10 @@ def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc
     # Benchmark args
     bm_args = f''
     if mu is not None: bm_args += f' -t {mu}'
+    # Extra
+    extra_jdk_args = jdk_args if jdk_args is not None else ''
     # Run
-    exec(f'{mmtk_args} {gdb_wrapper} {OPENJDK}/build/linux-x86_64-normal-server-{profile}/jdk/bin/java {heap_args} {compiler_args} {probe_args} Harness -n {iter} -c probe.DacapoChopinCallback {bench} {bm_args}', cwd=MMTK_DEV)
+    exec(f'{mmtk_args} {gdb_wrapper} {OPENJDK}/build/linux-x86_64-normal-server-{profile}/jdk/bin/java {extra_jdk_args} {heap_args} {compiler_args} {probe_args} Harness -n {iter} -c probe.DacapoChopinCallback {bench} {bm_args}', cwd=MMTK_DEV)
 
 
 def bench_copy(profile: str, target: str):
@@ -89,6 +92,6 @@ args = parse_args()
 if args.config: config(profile=args.profile)
 if args.clean: clean(profile=args.profile)
 if args.build: build(profile=args.profile)
-run(profile=args.profile, gc=args.gc, bench=args.bench, heap=args.heap, iter=args.iter, noc1=args.no_c1, noc2=args.no_c2, gdb=args.gdb, threads=args.threads, mu=args.mu)
+run(profile=args.profile, gc=args.gc, bench=args.bench, heap=args.heap, iter=args.iter, noc1=args.no_c1, noc2=args.no_c2, gdb=args.gdb, threads=args.threads, mu=args.mu, jdk_args=args.jdk_args)
 if args.build_id is not None:
     bench_copy(profile=args.profile, target=args.build_id)

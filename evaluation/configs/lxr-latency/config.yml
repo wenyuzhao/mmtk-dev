@@ -126,7 +126,7 @@ plugins:
 remote_host: squirrel.moma
 runtimes:
   jdk-lxr:
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-3bd09473/jdk
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-699438d9/jdk
     release: 11
     type: OpenJDK
 spread_factor: 1
