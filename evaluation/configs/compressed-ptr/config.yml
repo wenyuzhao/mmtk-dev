@@ -1,0 +1,43 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  heap_range: 6
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: immix
+
+runtimes:
+  jdk-mmtk-master:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-master-c5d62c435/jdk-11.0.15
+  jdk-mmtk-compressed-ptr:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compress-ptr-fc9958b3d/jdk-11.0.15
+
+modifiers:
+  compressed_ptr:
+    type: EnvVar
+    var: "MMTK_COMPRESSED_PTRS"
+    val: "1"
+  g1_default:
+    type: JVMArg
+    val: "-XX:+UseG1GC"
+  g1_nocompressoops:
+    type: JVMArg
+    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
+  pgc_default:
+    type: JVMArg
+    val: "-XX:+UseParallelGC"
+  pgc_nocompressoops:
+    type: JVMArg
+    val: "-XX:+UseParallelGC -XX:-UseCompressedOops"
+
+configs:
+  - jdk-mmtk-master|ss|common|tph
+  - jdk-mmtk-compressed-ptr|ss|common|tph
+  - jdk-mmtk-master|ix|common|tph
+  - jdk-mmtk-compressed-ptr|ix|common|tph

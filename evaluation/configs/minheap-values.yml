@@ -1,5 +1,5 @@
 includes:
-  - "/usr/local/lib/python3.6/dist-packages/running/config/base/runbms.yml"
+  - "/usr/local/lib/python3.10/dist-packages/running/config/base/runbms.yml"
 
 overrides:
   suites.dacapochopin-29a657f.minheap_values.g1:
@@ -71,7 +71,7 @@ overrides:
     eclipse: 1054
     fop: 44
     graphchi: 256
-    # h2: 1154 # ???
+    h2: 2892 # ???
     h2o: 1013
     jme: 236
     jython: 112

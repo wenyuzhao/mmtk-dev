@@ -1,0 +1,28 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  heap_range: 6
+  invocations: 20
+  suites.dacapochopin-29a657f.minheap: gencopy
+
+runtimes:
+  jdk-mmtk-master:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-master-d8bcf9099/jdk"
+  jdk-mmtk-barrier-refactor:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-barrier-refactor-4f75de46e/jdk"
+  jdk-mmtk-barrier-refactor-specialized-slow:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-barrier-refactor-specialized-slow-4f75de46e/jdk"
+
+configs:
+  - jdk-mmtk-master|gencopy|common|tph
+  - jdk-mmtk-barrier-refactor|gencopy|common|tph
+  - jdk-mmtk-barrier-refactor-specialized-slow|gencopy|common|tph

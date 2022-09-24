@@ -1,0 +1,25 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common.yml"
+
+overrides:
+  heap_range: 6
+  invocations: 10
+  suites.dacapochopin-29a657f.minheap: immix
+
+runtimes:
+  jdk-mmtk-11116:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-11116/jdk"
+  jdk-mmtk-11158:
+    type: OpenJDK
+    release: 11
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-11158/jdk"
+
+configs:
+  - jdk-mmtk-11116|g1|common|hs
+  - jdk-mmtk-11158|g1|common|hs
+  - jdk-mmtk-11116|ix|common|tph
+  - jdk-mmtk-11158|ix|common|tph

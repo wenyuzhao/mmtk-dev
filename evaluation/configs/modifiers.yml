@@ -100,5 +100,9 @@ modifiers:
     val: "-XX:TLABSize={0} -XX:-ResizeTLAB"
   lxr:
     type: EnvVar
-    val: LXR
     var: MMTK_PLAN
+    val: LXR
+  gencopy:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "GenCopy"
