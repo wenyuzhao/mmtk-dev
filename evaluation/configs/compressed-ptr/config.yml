@@ -16,7 +16,7 @@ runtimes:
   jdk-mmtk-compressed-ptr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compress-ptr-fc9958b3d/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compress-ptr-c13ba8912/jdk-11.0.15
 
 modifiers:
   compressed_ptr:

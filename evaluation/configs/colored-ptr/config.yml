@@ -16,7 +16,7 @@ runtimes:
   jdk-mmtk-colored-ptr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-colored-ptr-3ce8d6411/jdk
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-colored-ptr-3ce8d6411/jdk-11.0.15
 
 configs:
   - jdk-mmtk-master|ss|common|tph

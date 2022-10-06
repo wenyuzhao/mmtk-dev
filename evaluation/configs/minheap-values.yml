@@ -128,3 +128,24 @@ overrides:
     # tradesoap: .inf
     xalan: 58
     zxing: 526
+  suites.dacapochopin-f480064.minheap_values.immix:
+    avrora: 10
+    batik: 457
+    biojava: 194
+    cassandra: 136
+    eclipse: 571
+    fop: 30
+    graphchi: 256
+    h2: 2082
+    h2o: 100
+    jme: 236
+    jython: 71
+    luindex: 28
+    lusearch: 30
+    pmd: 289
+    sunflow: 76
+    tomcat: 71
+    # tradebeans: .inf
+    # tradesoap: .inf
+    xalan: 20
+    zxing: 435
