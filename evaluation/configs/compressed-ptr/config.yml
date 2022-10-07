@@ -6,38 +6,50 @@ includes:
 overrides:
   heap_range: 6
   invocations: 10
-  suites.dacapochopin-29a657f.minheap: immix
+  suites.dacapochopin-f480064.minheap: immix
 
 runtimes:
   jdk-mmtk-master:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-master-c5d62c435/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-master-a117b47ee/jdk-11.0.15
   jdk-mmtk-compressed-ptr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compress-ptr-c13ba8912/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compress-ptr-a117b47ee/jdk-11.0.15
 
 modifiers:
   compressed_ptr:
     type: EnvVar
     var: "MMTK_COMPRESSED_PTRS"
     val: "1"
-  g1_default:
+  hs_gc:
     type: JVMArg
-    val: "-XX:+UseG1GC"
-  g1_nocompressoops:
+    val: -XX:+UnlockExperimentalVMOptions -XX:+Use{0}GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  hs_no_compressed_oops:
     type: JVMArg
-    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
-  pgc_default:
+    val: -XX:-UseCompressedOops -XX:-UseCompressedClassPointers
+  hs_compressed_oops:
     type: JVMArg
-    val: "-XX:+UseParallelGC"
-  pgc_nocompressoops:
-    type: JVMArg
-    val: "-XX:+UseParallelGC -XX:-UseCompressedOops"
+    val: -XX:+UseCompressedOops -XX:+UseCompressedClassPointers
+  _g1:
+    type: ModifierSet
+    val: hs_gc-G1
+  _pgc:
+    type: ModifierSet
+    val: hs_gc-Parallel
 
 configs:
-  - jdk-mmtk-master|ss|common|tph
   - jdk-mmtk-compressed-ptr|ss|common|tph
-  - jdk-mmtk-master|ix|common|tph
+  - jdk-mmtk-compressed-ptr|ss|common|tph|compressed_ptr|hs_compressed_oops
   - jdk-mmtk-compressed-ptr|ix|common|tph
+  - jdk-mmtk-compressed-ptr|ix|common|tph|compressed_ptr|hs_compressed_oops
+  - jdk-mmtk-compressed-ptr|gencp|common|tph
+  - jdk-mmtk-compressed-ptr|gencp|common|tph|compressed_ptr|hs_compressed_oops
+  - jdk-mmtk-compressed-ptr|genix|common|tph
+  - jdk-mmtk-compressed-ptr|genix|common|tph|compressed_ptr|hs_compressed_oops
+  - jdk-mmtk-compressed-ptr|_g1|common|hs|hs_compressed_oops
+  - jdk-mmtk-compressed-ptr|_g1|common|hs|hs_no_compressed_oops
+  - jdk-mmtk-compressed-ptr|_pgc|common|hs|hs_compressed_oops
+  - jdk-mmtk-compressed-ptr|_pgc|common|hs|hs_no_compressed_oops
+

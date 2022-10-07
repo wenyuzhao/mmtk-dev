@@ -77,6 +77,14 @@ modifiers:
     type: EnvVar
     var: "MMTK_PLAN"
     val: "Immix"
+  genix:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "GenImmix"
+  gencp:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "GenCopy"
   epsilon:
     type: ModifierSet
     val: "hotspot_gc-Epsilon"
