@@ -17,8 +17,8 @@ def parse_args():
     required = parser.add_argument_group('required arguments')
     required.add_argument('--gc', type=str, required=True, help="GC plan. e.g. SemiSpace")
     required.add_argument('--bench', type=str, required=True, help="DaCapo benchmark name")
-    required.add_argument('--heap', type=str, required=True, help="Heap size")
     # Optional arguments
+    required.add_argument('--heap', type=str, help="Heap size")
     optional = parser.add_argument_group('optional arguments')
     optional.add_argument('--profile', type=str, default='fastdebug', help="Specify build profile. Default to fastdebug")
     optional.add_argument('--release', action='store_const', const='release', dest='profile', default=False, help="Use release profile. This overrides --profile.")
@@ -62,12 +62,13 @@ def build(profile: str, exploded: bool, bundle: bool):
     exec(f'make --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk {target}', cwd=OPENJDK)
 
 
-def run(profile: str, gc: str, bench: str, heap: str, iter: int, noc1: bool, noc2: bool, gdb: bool, exploded: bool, threads: Optional[int], mu: Optional[int], jdk_args: Optional[str]):
+def run(profile: str, gc: str, bench: str, heap: Optional[str], iter: int, noc1: bool, noc2: bool, gdb: bool, exploded: bool, threads: Optional[int], mu: Optional[int], jdk_args: Optional[str]):
     # MMTk args
     mmtk_args = f'RUST_BACKTRACE=1 MMTK_PLAN={gc}'
     if threads is not None: mmtk_args += f' MMTK_THREADS={threads}'
     # Heap size
-    heap_args = f'-XX:MetaspaceSize=1G -XX:-UseBiasedLocking -Xms{heap} -Xmx{heap} -XX:+UseThirdPartyHeap'
+    heap_size = f'-Xms{heap} -Xmx{heap}' if heap is not None else ''
+    heap_args = f'-XX:MetaspaceSize=1G -XX:-UseBiasedLocking {heap_size} -XX:+UseThirdPartyHeap'
     # Probes args
     probe_args = f'--add-exports java.base/jdk.internal.ref=ALL-UNNAMED -Dprobes=RustMMTk -Djava.library.path={PROBES} -cp {PROBES}:{PROBES}/probes.jar:{DACAPO}'
     # Compiler args
