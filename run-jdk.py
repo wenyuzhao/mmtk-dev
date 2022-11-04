@@ -7,9 +7,12 @@ MMTK_CORE = f'{MMTK_DEV}/mmtk-core'
 MMTK_OPENJDK = f'{MMTK_DEV}/mmtk-openjdk'
 OPENJDK = f'{MMTK_DEV}/openjdk'
 PROBES = f'{MMTK_DEV}/evaluation/probes'
-DACAPO = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-f480064.jar'
+# DACAPO = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-f480064.jar'
+DACAPO = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-6e411f33.jar'
 BENCH_BUILDS = f'{MMTK_DEV}/evaluation/builds'
 
+
+NO_BIASED_LOCKING = True
 
 def parse_args():
     parser = argparse.ArgumentParser(description=f'MMTk-OpenJDK Runner.\n\nExample: ./{os.path.basename(__file__)} --gc=SemiSpace --bench=xalan --heap=100M --build', add_help=False, formatter_class=argparse.RawTextHelpFormatter)
@@ -44,22 +47,24 @@ def exec(cmd: str, cwd: str = MMTK_DEV):
     result = os.system(f'cd {cwd} && {cmd}')
     if result != 0: raise RuntimeError(f'❌ {cmd}')
 
-
 def config(profile: str):
-    exec(f'sh configure --disable-warnings-as-errors --with-debug-level={profile} --with-target-bits=64 --with-native-debug-symbols=zipped --with-jvm-features=shenandoahgc', cwd=OPENJDK)
+    exec(f'sh configure --disable-warnings-as-errors --with-debug-level={profile} --with-target-bits=64 --with-native-debug-symbols=internal --with-jvm-features=shenandoahgc', cwd=OPENJDK)
+    exec(f'make reconfigure CONF=linux-x86_64-normal-server-{profile}', cwd=OPENJDK)
 
 
 def clean(profile: str):
     exec(f'make clean --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', cwd=OPENJDK)
 
 
-def build(profile: str, exploded: bool, bundle: bool):
+def build(profile: str, exploded: bool, bundle: bool, features: Optional[str]):
     if exploded:
         assert not bundle, "cannot bundle an exploded image"
         target = ''
     else:
         target = 'product-bundles' if bundle else 'images'
-    exec(f'make --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk {target}', cwd=OPENJDK)
+        exec(f'rm -f {OPENJDK}/build/linux-x86_64-normal-server-{profile}/bundles/*', cwd=MMTK_DEV)
+    features = f'GC_FEATURES={",".join(features)} 'if features is not None else ''
+    exec(f'make --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk {target} {features}', cwd=OPENJDK)
 
 
 def run(profile: str, gc: str, bench: str, heap: Optional[str], iter: int, noc1: bool, noc2: bool, gdb: bool, exploded: bool, threads: Optional[int], mu: Optional[int], jdk_args: Optional[str]):
@@ -68,7 +73,7 @@ def run(profile: str, gc: str, bench: str, heap: Optional[str], iter: int, noc1:
     if threads is not None: mmtk_args += f' MMTK_THREADS={threads}'
     # Heap size
     heap_size = f'-Xms{heap} -Xmx{heap}' if heap is not None else ''
-    heap_args = f'-XX:MetaspaceSize=1G -XX:-UseBiasedLocking {heap_size} -XX:+UseThirdPartyHeap'
+    heap_args = f'-XX:MetaspaceSize=1G {heap_size} -XX:+UseThirdPartyHeap'
     # Probes args
     probe_args = f'--add-exports java.base/jdk.internal.ref=ALL-UNNAMED -Dprobes=RustMMTk -Djava.library.path={PROBES} -cp {PROBES}:{PROBES}/probes.jar:{DACAPO}'
     # Compiler args
@@ -83,6 +88,8 @@ def run(profile: str, gc: str, bench: str, heap: Optional[str], iter: int, noc1:
     if mu is not None: bm_args += f' -t {mu}'
     # Extra
     extra_jdk_args = jdk_args if jdk_args is not None else ''
+    if NO_BIASED_LOCKING:
+        extra_jdk_args += ' -XX:-UseBiasedLocking'
     # Run
     java = f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}/jdk/bin/java' if exploded else f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}/images/jdk/bin/java'
     exec(f'{mmtk_args} {gdb_wrapper} {java} {extra_jdk_args} {heap_args} {compiler_args} {probe_args} Harness -n {iter} -c probe.DacapoChopinCallback {bench} {bm_args}', cwd=MMTK_DEV)
@@ -116,7 +123,7 @@ args = parse_args()
 if args.kill: kill()
 if args.config: config(profile=args.profile)
 if args.clean: clean(profile=args.profile)
-if args.build: build(profile=args.profile, exploded=args.exploded, bundle=args.build_id is not None)
+if args.build: build(profile=args.profile, exploded=args.exploded, bundle=args.build_id is not None, features=args.features)
 run(profile=args.profile, gc=args.gc, bench=args.bench, heap=args.heap, iter=args.iter, noc1=args.no_c1, noc2=args.no_c2, gdb=args.gdb, exploded=args.exploded, threads=args.threads, mu=args.mu, jdk_args=args.jdk_args)
 if args.build_id is not None:
     bench_copy(profile=args.profile, target=args.build_id)
