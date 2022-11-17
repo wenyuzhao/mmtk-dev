@@ -22,25 +22,28 @@ benchmarks:
     # - jme
     # - tradebeans
     # - tradesoap
-  dacapochopin-f480064:
+  # dacapochopin-f480064:
+  dacapochopin-6e411f33:
     - lusearch
     - h2
     - cassandra
     - tomcat
-    - fop
-    - h2o
-    - avrora
-    - batik
-    - biojava
-    - eclipse
-    - graphchi
-    - jython
-    - luindex
-    - pmd
-    - sunflow
-    - xalan
-    - zxing
+    - tradebeans
+    - tradesoap
+
+    # - fop
+    # - h2o
+    # - avrora
+    # - batik
+    # - biojava
+    # - eclipse
+    # - graphchi
+    # - jython
+    # - luindex
+    # - pmd
+    # - sunflow
+    # - xalan
+    # - zxing
     # - kafka
+
     # - jme
-    # - tradebeans
-    # - tradesoap

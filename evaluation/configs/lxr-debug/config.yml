@@ -7,6 +7,8 @@ overrides:
   heap_range: 3
   invocations: 10
   suites.dacapochopin-6e411f33.minheap: g1
+  benchmarks.dacapochopin-6e411f33:
+    - cassandra
 
 modifiers:
   lxr:
@@ -22,32 +24,16 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-4c3921849/jdk-11.0.15
-  jdk-lxr-alloc-fix:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-alloc-fix-7203b160f/jdk-11.0.15
-  jdk-lxr-zero:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-zero-7203b160f/jdk-11.0.15
-  jdk-lxr-pldi:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-pldi/jdk-11.0.11
-  jdk-lxr-pldi-exploded:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-pldi-2022/jdk
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-ad1f18c88/jdk-11.0.15
 
 configs:
   # - jdk-lxr|g1|common|defeature|hs
 
-  - jdk-lxr|g1|common|defeature2|hs
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-5
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-10
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-30
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-50
+  # - jdk-lxr|g1|common|defeature2|hs
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-5
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-10
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-50
 
   # - jdk-lxr|g1|common|defeature2|hs
   # - jdk-lxr|g1|common|defeature2|hs|no_prefetch

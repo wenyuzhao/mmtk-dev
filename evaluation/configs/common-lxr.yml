@@ -2,15 +2,15 @@ includes:
   - "./common.yml"
 
 modifiers:
-  common:
-    type: ModifierSet
-    val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
-  no_inline_clone:
-    type: JVMArg
-    val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
-  no_weak_and_class_unload:
-    type: JVMArg
-    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  # common:
+  #   type: ModifierSet
+  #   val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
+  # no_inline_clone:
+  #   type: JVMArg
+  #   val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
+  # no_weak_and_class_unload:
+  #   type: JVMArg
+  #   val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
   nb:
     type: EnvVar
     var: "NURSERY_BLOCKS"
@@ -44,21 +44,21 @@ modifiers:
   latency:
     type: ProgramArg
     val: "--dump-latency"
-  g1_default:
-    type: JVMArg
-    val: "-XX:+UseG1GC"
-  g1_2021_11:
-    type: ModifierSet
-    val: "hotspot_gc-G1"
-  g1_nocompressoops:
-    type: JVMArg
-    val: "-XX:+UseG1GC -XX:-UseCompressedOops"
-  g1_noclassunload:
-    type: JVMArg
-    val: "-XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
-  g1_noweakref:
-    type: JVMArg
-    val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  # g1_default:
+  #   type: JVMArg
+  #   val: "-XX:+UseG1GC"
+  # g1_2021_11:
+  #   type: ModifierSet
+  #   val: "hotspot_gc-G1"
+  # g1_nocompressoops:
+  #   type: JVMArg
+  #   val: "-XX:+UseG1GC -XX:-UseCompressedOops"
+  # g1_noclassunload:
+  #   type: JVMArg
+  #   val: "-XX:+UseG1GC -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark"
+  # g1_noweakref:
+  #   type: JVMArg
+  #   val: "-XX:+UseG1GC -XX:-RegisterReferences"
   noweakref:
     type: JVMArg
     val: "-XX:-RegisterReferences"

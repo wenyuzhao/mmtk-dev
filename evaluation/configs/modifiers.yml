@@ -1,13 +1,22 @@
 modifiers:
+  hotspot_gc:
+    type: JVMArg
+    val: -XX:+UnlockExperimentalVMOptions -XX:+Use{0}GC
   c2:
     type: JVMArg
-    val: "-XX:-TieredCompilation -Xcomp"
+    val: "-XX:-TieredCompilation"
     excludes:
       # These two benchmarks exit with code 1
       dacapochopin-69a704e:
         - tradebeans
         - tradesoap
       dacapochopin-29a657f:
+        - tradebeans
+        - tradesoap
+      dacapochopin-f480064:
+        - tradebeans
+        - tradesoap
+      dacapochopin-6e411f33:
         - tradebeans
         - tradesoap
   probes_cp:
@@ -110,7 +119,36 @@ modifiers:
     type: EnvVar
     var: MMTK_PLAN
     val: LXR
+  mmtk_no_weak:
+    type: EnvVar
+    var: MMTK_NO_REFERENCE_TYPES
+    val: "true"
+  mmtk_no_finalizer:
+    type: EnvVar
+    var: MMTK_NO_FINALIZER
+    val: "true"
   gencopy:
     type: EnvVar
     var: "MMTK_PLAN"
     val: "GenCopy"
+  no_inline_clone:
+    type: JVMArg
+    val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
+  no_weak:
+    type: JVMArg
+    val: -XX:-RegisterReferences
+  no_class_unload:
+    type: JVMArg
+    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark
+  no_compressed_oops:
+    type: JVMArg
+    val: -XX:-UseCompressedOops -XX:-UseCompressedClassPointers
+  defeature:
+    type: ModifierSet
+    val: no_inline_clone|no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak|mmtk_no_finalizer
+  defeature2:
+    type: ModifierSet
+    val: no_class_unload|no_compressed_oops
+  no_prefetch:
+    type: JVMArg
+    val: -XX:AllocatePrefetchStyle=0
