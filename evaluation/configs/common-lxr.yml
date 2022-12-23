@@ -169,3 +169,7 @@ modifiers:
     type: EnvVar
     var: "CONCURRENT_GC_THREADS_RATIO"
     val: "{0}"
+  min_reuse_lines:
+    type: EnvVar
+    var: "MIN_REUSE_LINES"
+    val: "{0}"

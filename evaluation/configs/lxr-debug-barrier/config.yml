@@ -1,0 +1,104 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-6e411f33.minheap: g1
+  # benchmarks.dacapochopin-6e411f33:
+  #   # - lusearch
+  #   - h2o
+  #   - h2
+
+modifiers:
+  lxr:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "LXR"
+  lxr_pldi:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-4bdcae634/jdk-11.0.15
+  jdk-lxr-lock8:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-lock8-4bdcae634/jdk-11.0.15
+  jdk-ix-largetlab:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-4bdcae634/jdk-11.0.15
+  # jdk-ix-largetlab-fieldbarrier:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-4bdcae634/jdk-11.0.15
+  jdk-ix-largetlab-fieldbarrier-noload:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-noload-4bdcae634/jdk-11.0.15
+  jdk-ix-largetlab-nobarrier:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-nobarrier-4bdcae634/jdk-11.0.15
+  jdk-ix-largetlab-fieldbarrier-lock8:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-lock8-4bdcae634/jdk-11.0.15
+  # jdk-ix-largetlab-fieldbarrier-lock7:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-lock7-b3787b32f/jdk-11.0.15
+  # jdk-ix-largetlab-fieldbarrier-lock6:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-lock6-b3787b32f/jdk-11.0.15
+  # jdk-ix-largetlab-fieldbarrier-lock5:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-lock5-b3787b32f/jdk-11.0.15
+  # jdk-ix-largetlab-fieldbarrier-lock4:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-lock4-b3787b32f/jdk-11.0.15
+  # jdk-ix-largetlab-fieldbarrier-lock3:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-lock3-b3787b32f/jdk-11.0.15
+  jdk-ix-largetlab-fieldbarrier-noclone:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-noclone-4bdcae634/jdk-11.0.15
+  jdk-ix-largetlab-fieldbarrier-loadfix:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ix-largetlab-fieldbarrier-loadfix-4bdcae634/jdk-11.0.15
+
+configs:
+  - jdk-lxr|g1|common|defeature2|hs
+
+
+  - jdk-ix-largetlab|ix|common|defeature2|tph
+  - jdk-ix-largetlab-nobarrier|ix|common|defeature2|tph
+  - jdk-ix-largetlab-fieldbarrier-loadfix|ix|common|defeature2|tph
+  - jdk-ix-largetlab-fieldbarrier-noclone|ix|common|defeature2|tph
+  - jdk-ix-largetlab-fieldbarrier-noload|ix|common|defeature2|tph
+
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-10
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-30
+  - jdk-lxr-lock8|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-50
+  # - jdk-lxr-lock8|lxr|common|defeature2|tph|trace2-50
+  - jdk-ix-largetlab-fieldbarrier-lock8|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock7|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock6|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock5|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock4|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock3|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-nobarrier|ix|common|defeature2|tph

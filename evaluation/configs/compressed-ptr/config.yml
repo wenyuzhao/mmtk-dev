@@ -5,18 +5,18 @@ includes:
 
 overrides:
   heap_range: 6
-  invocations: 10
+  invocations: 20
   suites.dacapochopin-f480064.minheap: immix
 
 runtimes:
-  jdk-mmtk-master:
+  jdk-mmtk-compressed:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-master-a117b47ee/jdk-11.0.15
-  jdk-mmtk-compressed-ptr:
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compressed-35e2a43b/jdk-11.0.15
+  jdk-mmtk-compressed2:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compress-ptr-a117b47ee/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-compressed2-9ab5146f/jdk-11.0.15
 
 modifiers:
   compressed_ptr:
@@ -40,16 +40,18 @@ modifiers:
     val: hs_gc-Parallel
 
 configs:
-  - jdk-mmtk-compressed-ptr|ss|common|tph
-  - jdk-mmtk-compressed-ptr|ss|common|tph|compressed_ptr|hs_compressed_oops
-  - jdk-mmtk-compressed-ptr|ix|common|tph
-  - jdk-mmtk-compressed-ptr|ix|common|tph|compressed_ptr|hs_compressed_oops
-  - jdk-mmtk-compressed-ptr|gencp|common|tph
-  - jdk-mmtk-compressed-ptr|gencp|common|tph|compressed_ptr|hs_compressed_oops
-  - jdk-mmtk-compressed-ptr|genix|common|tph
-  - jdk-mmtk-compressed-ptr|genix|common|tph|compressed_ptr|hs_compressed_oops
-  - jdk-mmtk-compressed-ptr|_g1|common|hs|hs_compressed_oops
-  - jdk-mmtk-compressed-ptr|_g1|common|hs|hs_no_compressed_oops
-  - jdk-mmtk-compressed-ptr|_pgc|common|hs|hs_compressed_oops
-  - jdk-mmtk-compressed-ptr|_pgc|common|hs|hs_no_compressed_oops
+  # - jdk-mmtk-compressed|ss|common|tph
+  # - jdk-mmtk-compressed|ss|common|tph|compressed_ptr|hs_compressed_oops
+  - jdk-mmtk-compressed|ix|common|tph
+  - jdk-mmtk-compressed2|ix|common|tph
+  - jdk-mmtk-compressed|ix|common|tph|compressed_ptr|hs_compressed_oops
+  - jdk-mmtk-compressed2|ix|common|tph|compressed_ptr|hs_compressed_oops
+  # - jdk-mmtk-compressed-ptr|gencp|common|tph
+  # - jdk-mmtk-compressed-ptr|gencp|common|tph|compressed_ptr|hs_compressed_oops
+  # - jdk-mmtk-compressed-ptr|genix|common|tph
+  # - jdk-mmtk-compressed-ptr|genix|common|tph|compressed_ptr|hs_compressed_oops
+  # - jdk-mmtk-compressed-ptr|_g1|common|hs|hs_compressed_oops
+  # - jdk-mmtk-compressed-ptr|_g1|common|hs|hs_no_compressed_oops
+  # - jdk-mmtk-compressed-ptr|_pgc|common|hs|hs_compressed_oops
+  # - jdk-mmtk-compressed-ptr|_pgc|common|hs|hs_no_compressed_oops
 

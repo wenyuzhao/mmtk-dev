@@ -5,18 +5,18 @@ includes:
 
 overrides:
   heap_range: 6
-  invocations: 10
+  invocations: 20
   suites.dacapochopin-29a657f.minheap: immix
 
 runtimes:
   jdk-mmtk-master:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-f0fed5fc0-master/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-master-a60b7e22e/jdk-11.0.15"
   jdk-mmtk-blockpr:
     type: OpenJDK
     release: 11
-    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-ccd8e3deb-blockpr/jdk"
+    home: "/home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-blockpr-50ec6767f/jdk-11.0.15"
 
 configs:
   - jdk-mmtk-master|ix|common|tph_perf

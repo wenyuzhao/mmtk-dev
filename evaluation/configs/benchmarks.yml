@@ -31,19 +31,19 @@ benchmarks:
     - tradebeans
     - tradesoap
 
-    # - fop
-    # - h2o
-    # - avrora
-    # - batik
-    # - biojava
-    # - eclipse
-    # - graphchi
-    # - jython
-    # - luindex
-    # - pmd
-    # - sunflow
-    # - xalan
-    # - zxing
-    # - kafka
+    - fop
+    - h2o
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - graphchi
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+    - kafka
 
     # - jme

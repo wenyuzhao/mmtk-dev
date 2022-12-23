@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 20
   suites.dacapochopin-6e411f33.minheap: g1
 
 modifiers:
@@ -22,15 +22,11 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-4c3921849/jdk-11.0.15
-  jdk-lxr-alloc-fix:
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-a1fefde42/jdk-11.0.15
+  jdk-lxr-exploded:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-alloc-fix-7203b160f/jdk-11.0.15
-  jdk-lxr-zero:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-zero-7203b160f/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-a1fefde42-exploded/jdk
   jdk-lxr-pldi:
     type: OpenJDK
     release: 11
@@ -43,11 +39,13 @@ runtimes:
 configs:
   # - jdk-lxr|g1|common|defeature|hs
 
-  - jdk-lxr|g1|common|defeature2|hs
+  # - jdk-lxr|g1|common|defeature2|hs
   # - jdk-lxr|lxr|common|defeature2|tph|trace2-5
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-10
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-30
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-50
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-10
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-20
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-40
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-50
 
   # - jdk-lxr|g1|common|defeature2|hs
   # - jdk-lxr|g1|common|defeature2|hs|no_prefetch
@@ -89,7 +87,21 @@ configs:
   # - jdk-lxr|ix|common|defeature2|tph
   # - jdk-lxr-alloc-fix|ix|common|defeature2|tph
 
-  # - jdk-lxr-pldi|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr-pldi-exploded|g1|common|defeature|hs|xcomp
+  - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+
+  - jdk-lxr-pldi|g1|common|defeature|hs|xcomp
+  - jdk-lxr-pldi|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+
+  # - jdk-lxr-pldi-2022|g1|common|defeature|hs|xcomp
+  - jdk-lxr|g1|common|defeature|hs|xcomp
+  - jdk-lxr|g1|common|defeature|hs
+  - jdk-lxr|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+  - jdk-lxr|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
+
+  - jdk-lxr-exploded|g1|common|defeature|hs|xcomp
+  - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+  - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
   # - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
 
   # - jdk-lxr|shenandoah|common|defeature2|hs

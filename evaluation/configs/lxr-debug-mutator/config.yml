@@ -1,0 +1,93 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin-6e411f33.minheap: g1
+  benchmarks.dacapochopin-6e411f33:
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - batik
+    - biojava
+    - pmd
+    - h2o
+    - fop
+
+modifiers:
+  lxr:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "LXR"
+  lxr_pldi:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
+
+runtimes:
+  jdk-lxr-pldi:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-pldi/jdk-11.0.11
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-a1fefde42/jdk-11.0.15
+  jdk-lxr-block128k:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-block128k-a1fefde42/jdk-11.0.15
+  jdk-lxr-block512k:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-block512k-a1fefde42/jdk-11.0.15
+  jdk-lxr-line512b:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-line512b-a1fefde42/jdk-11.0.15
+  jdk-lxr-line1k:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-line1k-a1fefde42/jdk-11.0.15
+  jdk-lxr-noflpr:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-noflpr-340b099d5/jdk-11.0.15
+
+configs:
+  - jdk-lxr-pldi|g1|common|defeature|hs
+  - jdk-lxr-pldi|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
+
+  - jdk-lxr|g1|common|defeature2|hs
+
+
+  # - jdk-ix-largetlab|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-nobarrier|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-loadfix|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-noclone|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-noload|ix|common|defeature2|tph
+
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-10
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-5
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-30
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-30|min_reuse_lines-16
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-30|min_reuse_lines-32
+  - jdk-lxr-block128k|lxr|common|defeature2|tph|trace2-30
+  - jdk-lxr-block512k|lxr|common|defeature2|tph|trace2-30
+  - jdk-lxr-line512b|lxr|common|defeature2|tph|trace2-30
+  - jdk-lxr-line1k|lxr|common|defeature2|tph|trace2-30
+
+  - jdk-lxr-noflpr|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr|lxr|common|defeature2|tph|trace2-50
+  # - jdk-lxr-lock8|lxr|common|defeature2|tph|trace2-50
+  # - jdk-ix-largetlab-fieldbarrier-lock8|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock7|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock6|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock5|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock4|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-fieldbarrier-lock3|ix|common|defeature2|tph
+  # - jdk-ix-largetlab-nobarrier|ix|common|defeature2|tph

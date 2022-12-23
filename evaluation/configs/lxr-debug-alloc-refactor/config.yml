@@ -5,12 +5,11 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 7
+  invocations: 10
   suites.dacapochopin-6e411f33.minheap: g1
-  benchmarks.dacapochopin-6e411f33:
-    - h2o
-    - lusearch
-    - h2
+  # benchmarks.dacapochopin-6e411f33:
+  #   # - lusearch
+  #   - h2
 
 modifiers:
   lxr:
@@ -26,32 +25,55 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-ad1f18c88/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-2ff4ad64e/jdk-11.0.15
+  jdk-lxr2:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-5800de1bc/jdk-11.0.15
+  jdk-lxr3:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-daa415a20/jdk-11.0.15
+  jdk-lxr4:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-fix-2ff4ad64e/jdk-11.0.15
+  jdk-lxr-alloc-refactor:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-alloc-refacor-2ff4ad64e/jdk-11.0.15
   jdk-lxr-pldi:
     type: OpenJDK
     release: 11
     home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-pldi/jdk-11.0.11
-  jdk-lxr-20220925:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-20220925/jdk-11.0.15
-  jdk-lxr-20221031:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-20221031/jdk-11.0.15
+  # jdk-lxr-20220925:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-20220925/jdk-11.0.15
+  # jdk-lxr-20221031:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-20221031/jdk-11.0.15
 
 configs:
   # - jdk-lxr|g1|common|defeature|hs
+  # - jdk-lxr-pldi|ix|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
+  # - jdk-lxr|lxr|common|defeature|tph|trace2-30
 
-  - jdk-lxr-pldi|ix|common|defeature|tph|trace2-5
-  - jdk-lxr|g1|common|defeature|hs
+  - jdk-lxr|g1|common|defeature2|hs
+  - jdk-lxr|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr2|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr3|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr4|lxr|common|defeature2|tph|trace2-30
+  - jdk-lxr-alloc-refactor|lxr|common|defeature2|tph|trace2-30
+  # - jdk-lxr|lxr-alloc-refactor|common|defeature2|tph|trace2-30
   # - jdk-lxr|lxr|common|defeature|tph|trace2-5
   # - jdk-lxr-pldi|lxr|common|defeature|tph|trace2-5
   # - jdk-lxr-20220925|lxr|common|defeature|tph|trace2-5
   # - jdk-lxr-20221031|lxr|common|defeature|tph|trace2-5
-  - jdk-lxr|lxr|common|defeature|tph|trace2-5
-  - jdk-lxr|lxr|common|defeature|tph|trace2-20
-  - jdk-lxr-pldi|ix|common|defeature|tph|trace2-20
+  # - jdk-lxr|lxr|common|defeature|tph|trace2-5
+  # - jdk-lxr|lxr|common|defeature|tph|trace2-20
+  # - jdk-lxr-pldi|ix|common|defeature|tph|trace2-20
   # - jdk-lxr-20220925|lxr|common|defeature|tph|trace2-20
   # - jdk-lxr-20221031|lxr|common|defeature|tph|trace2-20
   # - jdk-lxr|lxr|common|defeature2|tph|trace2-10

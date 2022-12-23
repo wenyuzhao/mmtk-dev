@@ -72,12 +72,18 @@ modifiers:
   ms:
     type: JVMArg
     val: "-XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking"
+  nobl:
+    type: JVMArg
+    val: "-XX:-UseBiasedLocking"
   mn:
     type: JVMArg
     val: "-Xmn{0} -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp"
+  common2:
+    type: ModifierSet
+    val: "nobl|s|c2|probes|probes_cp"
   nogc:
     type: EnvVar
     var: "MMTK_PLAN"
@@ -146,9 +152,18 @@ modifiers:
   defeature:
     type: ModifierSet
     val: no_inline_clone|no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak|mmtk_no_finalizer
+  defeature_with_finalizer:
+    type: ModifierSet
+    val: no_inline_clone|no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak
   defeature2:
     type: ModifierSet
     val: no_class_unload|no_compressed_oops
+  defeature3:
+    type: ModifierSet
+    val: no_compressed_oops
   no_prefetch:
     type: JVMArg
     val: -XX:AllocatePrefetchStyle=0
+  xcomp:
+    type: JVMArg
+    val: -Xcomp

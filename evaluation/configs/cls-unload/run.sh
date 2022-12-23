@@ -9,6 +9,6 @@ pkill -f java -u wenyuz -9
 
 pushd ~/MMTk-Dev
 
-running runbms -p debug-lxr-mu ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/$config/config.yml 12 7 &> ~/_log
+running runbms -p debug-clsunload ./evaluation/results/log ~/MMTk-Dev/evaluation/configs/$config/config.yml 12 7 &> ~/_log
 
 popd
