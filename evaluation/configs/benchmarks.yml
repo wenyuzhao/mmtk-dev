@@ -28,8 +28,8 @@ benchmarks:
     - h2
     - cassandra
     - tomcat
-    - tradebeans
-    - tradesoap
+    # - tradebeans
+    # - tradesoap
 
     - fop
     - h2o

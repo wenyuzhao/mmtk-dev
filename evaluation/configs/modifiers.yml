@@ -72,6 +72,9 @@ modifiers:
   ms:
     type: JVMArg
     val: "-XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking"
+  ms2:
+    type: JVMArg
+    val: "-XX:+DisableExplicitGC -XX:-UseBiasedLocking"
   nobl:
     type: JVMArg
     val: "-XX:-UseBiasedLocking"

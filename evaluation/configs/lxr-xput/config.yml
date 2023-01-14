@@ -22,7 +22,7 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-a1fefde42/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-2af519bd0/jdk-11.0.15
   jdk-lxr-exploded:
     type: OpenJDK
     release: 11
@@ -87,21 +87,23 @@ configs:
   # - jdk-lxr|ix|common|defeature2|tph
   # - jdk-lxr-alloc-fix|ix|common|defeature2|tph
 
-  - jdk-lxr-pldi-exploded|g1|common|defeature|hs|xcomp
-  - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+  # - jdk-lxr-pldi-exploded|g1|common|defeature|hs|xcomp
+  # - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
 
-  - jdk-lxr-pldi|g1|common|defeature|hs|xcomp
-  - jdk-lxr-pldi|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+  # - jdk-lxr-pldi|g1|common|defeature|hs|xcomp
+  # - jdk-lxr-pldi|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
 
   # - jdk-lxr-pldi-2022|g1|common|defeature|hs|xcomp
-  - jdk-lxr|g1|common|defeature|hs|xcomp
-  - jdk-lxr|g1|common|defeature|hs
-  - jdk-lxr|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
-  - jdk-lxr|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
+  # - jdk-lxr|g1|common|defeature|hs|xcomp
+  - jdk-lxr|g1|common2|no_compressed_oops|hs
+  - jdk-lxr|lxr|common2|no_compressed_oops|tph
+  - jdk-lxr|lxr|common2|no_compressed_oops|tph|trace2-5|srv-128|srvw|lfb-32
+  # - jdk-lxr|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+  # - jdk-lxr|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
 
-  - jdk-lxr-exploded|g1|common|defeature|hs|xcomp
-  - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
-  - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
+  # - jdk-lxr-exploded|g1|common|defeature|hs|xcomp
+  # - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
+  # - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
   # - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
 
   # - jdk-lxr|shenandoah|common|defeature2|hs
