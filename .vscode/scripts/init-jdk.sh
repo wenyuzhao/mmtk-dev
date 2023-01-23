@@ -54,3 +54,11 @@ if ((probes)); then
         cd probes
     )
 fi
+
+sudo add-apt-repository -y ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt install -y openjdk-11-jdk
+
+sudo apt-get install -y libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
+sudo apt-get install -y libcups2-dev
+sudo apt-get install -y libasound2-dev
