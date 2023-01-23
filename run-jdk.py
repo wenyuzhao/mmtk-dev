@@ -125,12 +125,15 @@ def build(build_args: BuildArgs):
 
 def run(build_args: BuildArgs, run_args: RunArgs):
     # MMTk or HotSpot GC args
+    mmtk_env_args = f'RUST_BACKTRACE=1'
     if run_args.gc in HOTSPOT_GCS:
-        hs_gc = HOTSPOT_GCS[run_args.gc] + f' -agentpath:{PROBES}/libperf_statistics.so'
-        mmtk_env_args = f'RUST_BACKTRACE=1 LD_PRELOAD={PROBES}/libperf_statistics.so'
+        hs_gc = HOTSPOT_GCS[run_args.gc]
+        if PROBES is not None:
+            hs_gc += f' -agentpath:{PROBES}/libperf_statistics.so'
+            mmtk_env_args += f' LD_PRELOAD={PROBES}/libperf_statistics.so'
     else:
         hs_gc = '-XX:+UseThirdPartyHeap'
-        mmtk_env_args = f'RUST_BACKTRACE=1 MMTK_PLAN={run_args.gc}'
+        mmtk_env_args += f' MMTK_PLAN={run_args.gc}'
     if run_args.threads is not None: mmtk_env_args += f' MMTK_THREADS={run_args.threads}'
     # Heap size
     heap_size = f'-Xms{run_args.heap} -Xmx{run_args.heap}' if run_args.heap is not None else ''
@@ -138,7 +141,12 @@ def run(build_args: BuildArgs, run_args: RunArgs):
     if HUGE_META_SPACE_SIZE or NO_CLASS_UNLOAD:
         heap_args += f' -XX:MetaspaceSize=1G'
     # Probes args
-    probe_args = f'--add-exports java.base/jdk.internal.ref=ALL-UNNAMED -Dprobes=RustMMTk -Djava.library.path={PROBES} -cp {PROBES}:{PROBES}/probes.jar:{DACAPO}'
+    if PROBES is not None:
+        probe_args = f'--add-exports java.base/jdk.internal.ref=ALL-UNNAMED -Dprobes=RustMMTk -Djava.library.path={PROBES} -cp {PROBES}:{PROBES}/probes.jar:{DACAPO}'
+        callback_args = '-c probe.DacapoChopinCallback'
+    else:
+        probe_args = f'--add-exports java.base/jdk.internal.ref=ALL-UNNAMED -cp {DACAPO}'
+        callback_args = ''
     # Compiler args
     compiler_args = ''
     if run_args.noc1 and run_args.noc2: compiler_args += '-Xint'
@@ -167,7 +175,7 @@ def run(build_args: BuildArgs, run_args: RunArgs):
         extra_jdk_args += ' -XX:-UseCompressedOops -XX:-UseCompressedClassPointers'
     # Run
     java = f'{OPENJDK}/build/linux-x86_64-normal-server-{build_args.profile}/jdk/bin/java' if build_args.exploded else f'{OPENJDK}/build/linux-x86_64-normal-server-{build_args.profile}/images/jdk/bin/java'
-    exec(f'{mmtk_env_args} {debugger_wrapper} {java} {extra_jdk_args} {hs_gc} {heap_args} {compiler_args} {probe_args} Harness -n {run_args.iter} -c probe.DacapoChopinCallback {run_args.bench} {bm_args}', cwd=MMTK_DEV)
+    exec(f'{mmtk_env_args} {debugger_wrapper} {java} {extra_jdk_args} {hs_gc} {heap_args} {compiler_args} {probe_args} Harness -n {run_args.iter} {callback_args} {run_args.bench} {bm_args}', cwd=MMTK_DEV)
 
 def bench_copy(profile: str, target: str):
     assert profile == "release", "Please use release build for benchmarking"
