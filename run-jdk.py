@@ -4,13 +4,14 @@ import os
 import subprocess
 from typing import Optional, Tuple
 from dataclasses import dataclass
-
+import os.path
 
 MMTK_DEV = os.path.dirname(os.path.realpath(__file__))
 MMTK_CORE = f'{MMTK_DEV}/mmtk-core'
 MMTK_OPENJDK = f'{MMTK_DEV}/mmtk-openjdk'
 OPENJDK = f'{MMTK_DEV}/openjdk'
 PROBES = f'{MMTK_DEV}/evaluation/probes'
+if not os.path.isfile(PROBES + '/Makefile'): PROBES = None
 # DACAPO = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-f480064.jar'
 DACAPO = '/usr/share/benchmarks/dacapo/dacapo-evaluation-git-6e411f33.jar'
 BENCH_BUILDS = f'{MMTK_DEV}/evaluation/builds'

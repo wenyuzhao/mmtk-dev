@@ -47,6 +47,9 @@ if [ ! -d "openjdk" ]; then
 fi
 pushd openjdk
 git checkout jdk-11.0.15+8-mmtk
+if ((lxr)); then
+    git checkout jdk-11.0.15+8-mmtk-lxr
+fi
 popd
 
 if ((probes)); then
