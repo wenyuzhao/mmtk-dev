@@ -17,7 +17,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# git submodule update --init mmtk-core mmtk-openjdk openjdk # evaluation/probes
+git submodule update --init mmtk-core mmtk-openjdk openjdk # evaluation/probes
 
 if ((lxr)); then
     if [ ! -d "mmtk-core" ]; then
@@ -25,7 +25,7 @@ if ((lxr)); then
         exit -1
     fi
     pushd mmtk-core
-    git remote add wenyu https://github.com/wenyuzhao/mmtk-core
+    git remote add wenyu git@github.com:wenyuzhao/mmtk-core.git
     git fetch wenyu
     git checkout -b lxr wenyu/lxr
     popd
@@ -35,7 +35,7 @@ if ((lxr)); then
         exit -1
     fi
     pushd mmtk-openjdk
-    git remote add wenyu https://github.com/wenyuzhao/mmtk-openjdk
+    git remote add wenyu git@github.com:wenyuzhao/mmtk-openjdk.git
     git fetch wenyu
     git checkout -b lxr wenyu/lxr
     popd
@@ -62,3 +62,19 @@ sudo apt install -y openjdk-11-jdk
 sudo apt-get install -y libx11-dev libxext-dev libxrender-dev libxrandr-dev libxtst-dev libxt-dev
 sudo apt-get install -y libcups2-dev
 sudo apt-get install -y libasound2-dev
+# sudo apt-get install -y rr
+
+sudo mkdir -p /usr/share/benchmarks/dacapo
+pushd /usr/share/benchmarks/dacapo
+sudo wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-b00bfa9.jar
+sudo wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-b00bfa9.zip.aa
+sudo wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-b00bfa9.zip.ab
+sudo wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-b00bfa9.zip.ac
+sudo wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-b00bfa9.zip.ad
+sudo bash -c "cat dacapo-evaluation-git-b00bfa9.zip.* > dacapo-evaluation-git-b00bfa9.zip"
+sudo mkdir dacapo-evaluation-git-b00bfa9
+pushd dacapo-evaluation-git-b00bfa9
+sudo unzip ../dacapo-evaluation-git-b00bfa9.zip
+popd
+sudo rm dacapo-evaluation-git-b00bfa9.zip*
+popd
