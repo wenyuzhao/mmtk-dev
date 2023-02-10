@@ -20,6 +20,7 @@ HOTSPOT_GCS = {
 
 NO_BIASED_LOCKING = True
 NO_CLASS_UNLOAD = False
+NO_SOFT_REFS = False
 HUGE_META_SPACE_SIZE = False
 XCOMP = False
 
@@ -132,6 +133,8 @@ def run(build_args: BuildArgs, run_args: RunArgs):
         hs_gc = '-XX:+UseThirdPartyHeap'
         mmtk_env_args = f'RUST_BACKTRACE=1 MMTK_PLAN={run_args.gc}'
     if run_args.threads is not None: mmtk_env_args += f' MMTK_THREADS={run_args.threads}'
+    if NO_SOFT_REFS:
+        mmtk_env_args+= ' MMTK_NO_REFERENCE_TYPES=true MMTK_NO_FINALIZER=true'
     # Heap size
     heap_size = f'-Xms{run_args.heap} -Xmx{run_args.heap}' if run_args.heap is not None else ''
     heap_args = f'{heap_size}'
