@@ -3,7 +3,7 @@ import argparse
 import os
 import subprocess
 from typing import Optional, Tuple
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import os.path
 
 MMTK_DEV = os.path.dirname(os.path.realpath(__file__))
@@ -27,7 +27,6 @@ NO_SOFT_REFS = False
 HUGE_META_SPACE_SIZE = False
 XCOMP = False
 
-
 @dataclass
 class BuildArgs:
     profile: str
@@ -35,6 +34,7 @@ class BuildArgs:
     bundle: bool
     features: Optional[str]
     build_id: Optional[str]
+    pgo: bool
 
 
 @dataclass
@@ -84,6 +84,8 @@ def parse_args() -> Tuple[Commands, BuildArgs, RunArgs]:
                           default=False, help="Build OpenJDK")
     optional.add_argument('--config', action='store_true',
                           default=False, help="Config OpenJDK")
+    optional.add_argument('--pgo', action='store_true',
+                          default=False, help="Profile-guided Optimization")
     optional.add_argument('-n', '--iter', type=int,
                           default=1, help="Number of iterations")
     optional.add_argument('--no-c1', action='store_true',
@@ -124,7 +126,7 @@ def parse_args() -> Tuple[Commands, BuildArgs, RunArgs]:
         cp_bench=args.build_id is not None,
     )
     build_args = BuildArgs(profile=args.profile, exploded=args.exploded,
-                           bundle=args.build_id is not None, features=args.features, build_id=args.build_id)
+                           bundle=args.build_id is not None, features=args.features, build_id=args.build_id, pgo=args.pgo)
     run_args = RunArgs(gc=args.gc, bench=args.bench, heap=args.heap, iter=args.iter, noc1=args.no_c1, noc2=args.no_c2, gdb=args.gdb,
                        rr=args.rr, exploded=args.exploded, threads=args.threads, mu=args.mu, jdk_args=args.jdk_args, compressed_oops=args.compressed_oops)
     return (commands, build_args, run_args)
@@ -149,7 +151,7 @@ def clean(profile: str):
         f'make clean --no-print-directory CONF=linux-x86_64-normal-server-{profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', cwd=OPENJDK)
 
 
-def build(build_args: BuildArgs):
+def build(build_args: BuildArgs, pgo_gen: bool = False, pgo_use: bool = False):
     if build_args.exploded:
         assert not build_args.bundle, "cannot bundle an exploded image"
         target = ''
@@ -158,8 +160,14 @@ def build(build_args: BuildArgs):
         exec(
             f'rm -f {OPENJDK}/build/linux-x86_64-normal-server-{build_args.profile}/bundles/*', cwd=MMTK_DEV)
     features = f'GC_FEATURES={",".join(build_args.features)} 'if build_args.features is not None else ''
+    pgo_args = ''
+    if pgo_gen:
+        exec(f'rm -rf /tmp/pgo-data', cwd=MMTK_DEV)
+        pgo_args = 'RUSTFLAGS="-Cprofile-generate=/tmp/pgo-data"'
+    if pgo_use:
+        pgo_args = 'RUSTFLAGS="-Cprofile-use=/tmp/pgo-data/merged.profdata"'
     exec(
-        f'make --no-print-directory CONF=linux-x86_64-normal-server-{build_args.profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk {target} {features}', cwd=OPENJDK)
+        f'make --no-print-directory CONF=linux-x86_64-normal-server-{build_args.profile} THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk {pgo_args} {target} {features}', cwd=OPENJDK)
 
 
 def run(build_args: BuildArgs, run_args: RunArgs):
@@ -198,7 +206,7 @@ def run(build_args: BuildArgs, run_args: RunArgs):
         compiler_args += '-XX:TieredStopAtLevel=1'
     # GDB Wrapper
     if run_args.gdb:
-        debugger_wrapper = 'gdb --args'
+        debugger_wrapper = 'rust-gdb --args'
     elif run_args.rr:
         debugger_wrapper = 'rr record'
     else:
@@ -209,7 +217,7 @@ def run(build_args: BuildArgs, run_args: RunArgs):
         bm_args += f' -t {run_args.mu}'
     # Extra
     extra_jdk_args = run_args.jdk_args if run_args.jdk_args is not None else ''
-    extra_jdk_args += ' -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy'
+    extra_jdk_args += ' -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions'
     if NO_BIASED_LOCKING:
         extra_jdk_args += ' -XX:-UseBiasedLocking'
     if NO_CLASS_UNLOAD:
@@ -257,8 +265,22 @@ def main():
         config(profile=build_args.profile)
     if commands.clean:
         clean(profile=build_args.profile)
+    if build_args.pgo:
+        assert build_args.profile == 'release'
+        build(build_args, pgo_gen=True)
+        def run_with_pgo(bench: str, heap: str):
+            ra = replace(run_args)
+            ra.heap = heap
+            ra.bench = bench
+            ra.iter = 5
+            run(build_args, ra)
+        run_with_pgo(bench='lusearch', heap='200M')
+        run_with_pgo(bench='h2', heap='3000M')
+        run_with_pgo(bench='cassandra', heap='800M')
+        run_with_pgo(bench='tomcat', heap='300M')
+        exec('./.vscode/llvm-profdata merge -o /tmp/pgo-data/merged.profdata /tmp/pgo-data')
     if commands.build:
-        build(build_args)
+        build(build_args, pgo_use=build_args.pgo)
     if commands.run:
         run(build_args, run_args)
     if commands.cp_bench:
