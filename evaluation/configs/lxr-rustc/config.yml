@@ -1,0 +1,54 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin-b00bfa9.minheap: g1
+
+modifiers:
+  lxr:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "LXR"
+  lxr_pldi:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
+
+runtimes:
+  jdk-lxr-rs1.67-pragmas:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-pragmas-d0f55af4f/jdk-11.0.15
+  jdk-lxr-rs1.67-pgo:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-pgo-fb251c66a/jdk-11.0.15
+  jdk-lxr-rs1.67:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-fb251c66a/jdk-11.0.15
+  jdk-lxr-rs1.65:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-fb251c66a/jdk-11.0.15
+  jdk-lxr-rs1.63:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-fb251c66a/jdk-11.0.15
+  jdk-lxr-rs1.61:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-fb251c66a/jdk-11.0.15
+
+configs:
+  - jdk-lxr-rs1.61|lxr|common2|tph
+  - jdk-lxr-rs1.63|lxr|common2|tph
+  - jdk-lxr-rs1.65|lxr|common2|tph
+  - jdk-lxr-rs1.67|lxr|common2|tph
+  - jdk-lxr-rs1.67-pragmas|lxr|common2|tph
+  - jdk-lxr-rs1.67-pgo|lxr|common2|tph
+  - jdk-lxr-rs1.67|g1|common2|hs

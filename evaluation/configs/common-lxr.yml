@@ -2,7 +2,7 @@ includes:
   - "./common.yml"
 
 modifiers:
-  # common:
+  # common_legacy:
   #   type: ModifierSet
   #   val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
   # no_inline_clone:
@@ -59,6 +59,9 @@ modifiers:
   # g1_noweakref:
   #   type: JVMArg
   #   val: "-XX:+UseG1GC -XX:-RegisterReferences"
+  # g1_defeatured:
+  #   type: ModifierSet
+  #   val: hotspot_gc-G1|no_weak_and_class_unload
   noweakref:
     type: JVMArg
     val: "-XX:-RegisterReferences"
@@ -173,3 +176,7 @@ modifiers:
     type: EnvVar
     var: "MIN_REUSE_LINES"
     val: "{0}"
+  no_recursive_dec:
+    type: EnvVar
+    var: "NO_RECURSIVE_DEC"
+    val: "true"

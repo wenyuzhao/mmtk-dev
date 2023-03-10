@@ -1,0 +1,38 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "../common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-b00bfa9.minheap: g1
+  benchmarks.dacapochopin-b00bfa9:
+    - zxing
+    - eclipse
+    - pmd
+    - h2o
+    - fop
+    - h2o
+    - cassandra
+    - h2
+    - graphchi
+
+modifiers:
+  lxr:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "LXR"
+  lxr_pldi:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
+
+runtimes:
+  jdk-lxr-rs1.67-pragmas:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-rs1.67-pragmas2-aaef4f8db/jdk-11.0.15
+
+configs:
+  - jdk-lxr-rs1.67-pragmas|lxr|common2|tph
