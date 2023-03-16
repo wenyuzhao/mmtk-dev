@@ -7,3 +7,5 @@ _*
 .gclient_entries
 /*.class
 /*.java
+!__init__.py
+!__main__.py
