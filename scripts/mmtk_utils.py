@@ -1,4 +1,3 @@
-import click
 import subprocess
 import os
 from typing import *
@@ -20,6 +19,7 @@ def argument(*args, **kwargs):
     return typer.Argument(*args, **kwargs)
 
 def ᐅᐳᐳ(cmd: List[str], cwd: str = MMTK_DEV, env: Optional[Dict[str, str]] = None):
+    if env is None: env = {}
     env = ' '.join([ f'{k}={v}' for k, v in env.items() ])
     cmd = ' '.join(cmd)
     print(f'🔵 {env} {cmd}')

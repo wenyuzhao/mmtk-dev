@@ -4,7 +4,16 @@ import os
 
 MMTK_OPENJDK = f'{MMTK_DEV}/mmtk-openjdk'
 OPENJDK = f'{MMTK_DEV}/openjdk'
-DACAPO = '/usr/share/benchmarks/dacapo/dacapo-evaluation-git-b00bfa9.jar'
+
+def find_dacapo():
+    DACAPO_VERSIONS = ['6e411f33', 'b00bfa9']
+    for v in DACAPO_VERSIONS:
+        jar = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-{v}.jar'
+        if os.path.isfile(jar): return jar
+    sys.exit(f'❌ Could not find a dacapo jar file')   
+
+DACAPO = find_dacapo()
+
 HOTSPOT_GCS = {
     'G1': '-XX:+UseG1GC',
 }
@@ -66,7 +75,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     if NO_SOFT_REFS:
         env['MMTK_NO_REFERENCE_TYPES'] = f'true'
         env['MMTK_NO_FINALIZER'] = f'true'
-    heap_args = [ f'-Xms{heap}', f'-Xmx{heap}' ]
+    heap_args += [ f'-Xms{heap}', f'-Xmx{heap}' ]
     if HUGE_META_SPACE_SIZE or NO_CLASS_UNLOAD:
         heap_args.append('-XX:MetaspaceSize=1G')
     # Probes args
@@ -74,7 +83,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     callback_args = []
     if PROBES is not None:
         probe_args += [ '--add-exports', 'java.base/jdk.internal.ref=ALL-UNNAMED', '-Dprobes=RustMMTk', f'-Djava.library.path={PROBES}', '-cp', f'{PROBES}:{PROBES}/probes.jar:{DACAPO}' ]
-        callback_args.append('-c', 'probe.DacapoChopinCallback')
+        callback_args += [ '-c', 'probe.DacapoChopinCallback' ]
     else:
         probe_args += [ '--add-exports', 'java.base/jdk.internal.ref=ALL-UNNAMED', '-cp', DACAPO ]
     # Compiler args
