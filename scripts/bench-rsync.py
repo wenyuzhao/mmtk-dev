@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+from mmtk_utils import *
 import argparse, os
 
 
-MMTK_DEV = os.path.dirname(os.path.realpath(__file__))
+MMTK_DEV = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 LOCAL_USER = os.getlogin()
 
 
@@ -17,21 +18,13 @@ def parse_args():
     optional.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS, help='Show this help message and exit')
     return parser.parse_args()
 
-
-def exec(cmd: str, cwd: str):
-    print(f'🔵 {cmd}')
-    result = os.system(f'cd {cwd} && {cmd}')
-    if result != 0: raise RuntimeError(f'❌ {cmd}')
-
-
 def rsync_files(machine: str, user: str):
-    rsync = lambda src, dst: exec(f'rsync -azR --no-i-r -h --info=progress2 {src} {dst}', cwd=MMTK_DEV)
+    rsync = lambda src, dst: ᐅᐳᐳ(['rsync', '-azR', '--no-i-r', '-h', '--info=progress2', src, dst], cwd=MMTK_DEV)
     dst = f'{machine}:/home/{user}'
     rsync("~/./MMTk-Dev/evaluation/configs", dst)
     rsync("~/./MMTk-Dev/evaluation/advice", dst)
     rsync("~/./MMTk-Dev/evaluation/probes", dst)
     rsync("~/./MMTk-Dev/evaluation/builds", dst)
-
 
 args = parse_args()
 

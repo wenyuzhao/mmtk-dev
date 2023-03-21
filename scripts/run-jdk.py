@@ -1,4 +1,4 @@
-from .mmtk_utils import *
+from mmtk_utils import *
 from enum import Enum
 import os
 
@@ -170,7 +170,7 @@ def main(
             run_with_pgo(bench='h2', heap='3000M')
             run_with_pgo(bench='cassandra', heap='800M')
             run_with_pgo(bench='tomcat', heap='300M')
-            ᐅᐳᐳ(['./.vscode/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
+            ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_use=pgo)
     do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
 
