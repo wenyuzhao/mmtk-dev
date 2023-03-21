@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
 declare -r dacapo_version=b00bfa9
 declare dacapo_path="/usr/share/benchmarks/dacapo"
@@ -15,7 +15,6 @@ while [[ "$#" -gt 0 ]]; do
         *)
             shift
             ;;
-        ;;
     esac
 done
 
@@ -25,7 +24,7 @@ declare -r dacapo_name=dacapo-evaluation-git-$dacapo_version
 
 if [ -d "$dacapo_path/dacapo-evaluation-git-b00bfa9" ]; then
     echo "$dacapo_path/dacapo-evaluation-git-b00bfa9 already exists."
-    exit -1
+    exit 0
 fi
 
 sudo mkdir -p $dacapo_path/$dacapo_name

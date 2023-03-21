@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
-lxr=0
+declare lxr=0
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -29,9 +29,6 @@ if [ ! -f "openjdk/LICENSE" ]; then
         git checkout jdk-11.0.19+1-mmtk
     popd
 fi
-
-sudo apt-get update -y
-sudo apt-get -y install build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev
 
 if ((lxr)); then
     if [ ! -f "mmtk-openjdk/README.md" ]; then

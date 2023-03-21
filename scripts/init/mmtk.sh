@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
-lxr=0
+declare lxr=0
 
 while [[ $# -gt 0 ]]; do
   case $1 in
