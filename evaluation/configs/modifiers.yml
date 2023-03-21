@@ -90,6 +90,9 @@ modifiers:
   common2:
     type: ModifierSet
     val: "nobl|s|c2|probes|probes_cp"
+  common3:
+    type: ModifierSet
+    val: "s|probes|probes_cp"
   nogc:
     type: EnvVar
     var: "MMTK_PLAN"

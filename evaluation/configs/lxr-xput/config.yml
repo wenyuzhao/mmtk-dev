@@ -5,8 +5,10 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 40
   suites.dacapochopin-b00bfa9.minheap: g1
+  benchmarks.dacapochopin-b00bfa9:
+    - h2
 
 modifiers:
   lxr:
@@ -22,7 +24,7 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-f9a1ee30e/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-564cee90e/jdk-11.0.15
   jdk-lxr-exploded:
     type: OpenJDK
     release: 11
@@ -46,8 +48,8 @@ configs:
   # - jdk-lxr-pldi-exploded|g1|common|hs
   # - jdk-lxr-exploded|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
   # - jdk-lxr-exploded|ix|common|tph
-  - jdk-lxr|g1|common2|hs
-  - jdk-lxr|lxr|common2|tph
+  # - jdk-lxr|g1|common2|hs
+  - jdk-lxr|lxr|common3|tph
 
   # - jdk-lxr|g1|common|defeature2|hs
   # - jdk-lxr|lxr|common|defeature2|tph|trace2-5
