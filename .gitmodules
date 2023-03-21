@@ -2,23 +2,29 @@
 	path = mmtk-openjdk
 	url = https://github.com/mmtk/mmtk-openjdk.git
 	branch = master
+	ignore = all
 [submodule "mmtk-core"]
 	path = mmtk-core
 	url = https://github.com/mmtk/mmtk-core.git
 	branch = master
+	ignore = all
 [submodule "mmtk-v8"]
 	path = mmtk-v8
 	url = https://github.com/mmtk/mmtk-v8.git
 	branch = master
+	ignore = all
 [submodule "mmtk-jikesrvm"]
 	path = mmtk-jikesrvm
 	url = https://github.com/mmtk/mmtk-jikesrvm.git
 	branch = master
+	ignore = all
 [submodule "openjdk"]
 	path = openjdk
 	url = https://github.com/mmtk/openjdk.git
 	branch = jdk-11.0.19+1-mmtk
+	ignore = all
 [submodule "jikesrvm"]
 	path = jikesrvm
 	url = https://github.com/mmtk/jikesrvm.git
 	branch = master
+	ignore = all
