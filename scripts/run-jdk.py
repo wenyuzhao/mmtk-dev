@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from mmtk_utils import *
 from enum import Enum
 import os
