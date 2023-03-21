@@ -1,14 +1,12 @@
 # running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
 
 includes:
-  - "../common-lxr.yml"
+  - "./commona/common-lxr.yml"
 
 overrides:
   heap_range: 3
   invocations: 40
   suites.dacapochopin-b00bfa9.minheap: g1
-  benchmarks.dacapochopin-b00bfa9:
-    - h2
 
 modifiers:
   lxr:
