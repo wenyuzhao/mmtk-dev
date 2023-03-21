@@ -10,7 +10,7 @@ MMTK_DEV = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 MMTK_CORE = f'{MMTK_DEV}/mmtk-core'
 BENCH_BUILDS = f'{MMTK_DEV}/evaluation/builds'
 PROBES = f'{MMTK_DEV}/evaluation/probes'
-if not os.path.isfile(PROBES + '/Makefile'): PROBES = None
+if not os.path.isfile(PROBES + '/probes.jar'): PROBES = None
 
 def option(*args, **kwargs):
     return typer.Option(*args, **kwargs)

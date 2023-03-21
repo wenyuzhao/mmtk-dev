@@ -1,4 +1,4 @@
-from .mmtk_utils import *
+from mmtk_utils import *
 from enum import Enum
 import os
 
@@ -148,6 +148,7 @@ def main(
     bench: str = option(..., help='DaCapo benchmark name'),
     # Optional build and run args
     profile: Profile = option(Profile.fastdebug, help='Specify build profile. Default to fastdebug'),
+    release: bool = option(False, '--release', help='Overwrite --profile and force release build'),
     exploded: bool = option(False, '--exploded', help='Build or run the exploded image'),
     # Optional build args
     build: bool = option(False, '--build', help='Build OpenJDK'),
@@ -169,8 +170,10 @@ def main(
     compressed_oops: bool = option(True, help=f'UseCompressedOops'),
 ):
     '''
-        Example: ./run-jdk --gc=LXR --bench=lusearch --heap=100M --exploded --profile=release -n 5 --build
+        Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
     '''
+    if release:
+        profile = Profile.release
     if kill: do_kill()
     if config: do_config(profile=profile)
     if clean: do_clean(profile=profile)
@@ -184,7 +187,7 @@ def main(
             run_with_pgo(bench='h2', heap='3000M')
             run_with_pgo(bench='cassandra', heap='800M')
             run_with_pgo(bench='tomcat', heap='300M')
-            ᐅᐳᐳ(['./.vscode/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
+            ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_use=pgo)
     do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
     if cp_bench is not None:
