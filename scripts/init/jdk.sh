@@ -3,7 +3,6 @@
 set -ex
 
 lxr=0
-probes=0
 
 while [[ $# -gt 0 ]]; do
   case $1 in
