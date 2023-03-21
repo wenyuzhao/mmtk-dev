@@ -59,7 +59,7 @@ def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool
         env['RUSTFLAGS'] = '-Cprofile-use=/tmp/pgo-data/merged.profdata'
     ᐅᐳᐳ(['make', f'CONF=linux-x86_64-normal-server-{profile}', f'THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', *target], env=env, cwd=OPENJDK)
 
-def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool):
+def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int):
     env = {}
     # MMTk or HotSpot GC args
     env['RUST_BACKTRACE'] = '1'
@@ -80,6 +80,8 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     heap_args += [ f'-Xms{heap}', f'-Xmx{heap}' ]
     if HUGE_META_SPACE_SIZE or NO_CLASS_UNLOAD:
         heap_args.append('-XX:MetaspaceSize=1G')
+    if verbose != 0:
+        env['MMTK_VERBOSE'] = f'{verbose}'
     # Probes args
     probe_args = []
     callback_args = []
@@ -170,6 +172,7 @@ def main(
     kill: bool = option(False, '--kill', help='Kill all existing java processes'),
     jvm_args: Optional[List[str]] = option(None, help=f'Extra OpenJDK command line arguments'),
     compressed_oops: bool = option(True, help=f'UseCompressedOops'),
+    verbose: int = option(0, '--verbose', '-v', help=f'mmtk verbosity'),
 ):
     '''
         Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
@@ -191,7 +194,7 @@ def main(
             run_with_pgo(bench='tomcat', heap='300M')
             ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_use=pgo)
-    do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
+    do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose)
     if cp_bench is not None:
         do_cp_bench(profile=profile, target=cp_bench)
 
