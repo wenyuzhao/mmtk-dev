@@ -1,7 +1,5 @@
-# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
-
 includes:
-  - "../common-lxr.yml"
+  - "./common/common-lxr.yml"
 
 overrides:
   heap_range: 3
@@ -22,15 +20,15 @@ runtimes:
   jdk-lxr-freelist:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-freelist-89d5ff450/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-freelist-b8df92158/jdk-11.0.19
   jdk-lxr-prioritized:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-prioritized-89d5ff450/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-prioritized-b8df92158/jdk-11.0.19
   jdk-lxr-unprioritized:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-unprioritized-89d5ff450/jdk-11.0.15
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-unprioritized-b8df92158/jdk-11.0.19
 
 configs:
   - jdk-lxr-freelist|lxr|common3|tph

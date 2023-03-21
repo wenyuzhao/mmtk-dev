@@ -1,5 +1,5 @@
 includes:
-  - "/usr/local/lib/python3.10/dist-packages/running/config/base/runbms.yml"
+  - "$RUNNING_NG_PACKAGE_DATA/base/runbms.yml"
 
 overrides:
   suites.dacapochopin-6e411f33:

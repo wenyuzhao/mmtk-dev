@@ -1,7 +1,7 @@
 # Min-heap measurement
 
 includes:
-  - "../running-ng/config/base/minheap.yml"
+  - "$RUNNING_NG_PACKAGE_DATA/minheap.yml"
   - "./modifiers.yml"
 
 overrides:
