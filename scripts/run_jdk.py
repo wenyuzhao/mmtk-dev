@@ -25,9 +25,9 @@ HUGE_META_SPACE_SIZE = False
 XCOMP = False
 
 class Profile(str, Enum):
-    release = "release"
-    fastdebug = "fastdebug"
-    slowdebug = "slowdebug"
+    release = 'release'
+    fastdebug = 'fastdebug'
+    slowdebug = 'slowdebug'
 
 def do_kill():
     user = os.getlogin()
@@ -42,7 +42,7 @@ def do_clean(profile: str):
 
 def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool, pgo_gen: bool = False, pgo_use: bool = False):
     if exploded:
-        assert not bundle, "cannot bundle an exploded image"
+        assert not bundle, 'cannot bundle an exploded image'
         target = []
     else:
         target = ['product-bundles'] if bundle else ['images']
@@ -124,6 +124,23 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         env=env
     )
 
+def do_cp_bench(profile: str, target: str):
+    assert profile == 'release', 'Please use release build for benchmarking'
+    # Get mmtk-core commit hash
+    commit = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=MMTK_CORE).decode('utf-8').strip()
+    ᐅᐳᐳ(['mkdir', '-p', BENCH_BUILDS], cwd=MMTK_DEV)
+    # Get bundle file
+    bundle = subprocess.check_output(['bash', '-c', f'ls {OPENJDK}/build/linux-x86_64-normal-server-{profile}/bundles/*.tar.gz | grep -v -e symbols -e demos'], cwd=MMTK_DEV).decode('utf-8').strip()
+    # Delete previous builds
+    ᐅᐳᐳ(['rm', '-rf', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['rm', '-f', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz'], cwd=MMTK_DEV)
+    # Copy bundle file
+    ᐅᐳᐳ(['cp', bundle, f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz'], cwd=MMTK_DEV)
+    # Extract and remove bundle file
+    ᐅᐳᐳ(['mkdir', '-p', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['tar', '-xf', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz', '-C', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['rm', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz'], cwd=MMTK_DEV)
+
 @app.command()
 def main(
     gc: str = option(..., help='GC plan. e.g. SemiSpace'),
@@ -159,7 +176,7 @@ def main(
     if clean: do_clean(profile=profile)
     if build: 
         if pgo:
-            assert build_args.profile == 'release'
+            assert profile == 'release'
             do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_gen=True)
             def run_with_pgo(bench: str, heap: str):
                 do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
@@ -170,6 +187,8 @@ def main(
             ᐅᐳᐳ(['./.vscode/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_use=pgo)
     do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
+    if cp_bench is not None:
+        do_cp_bench(profile=profile, target=cp_bench)
 
 
 # @app.command()
@@ -177,4 +196,4 @@ def main(
 #     print('test')
 
 if __name__ == '__main__':
-    app(prog_name="run-jdk")
+    app(prog_name='run-jdk')
