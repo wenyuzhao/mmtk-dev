@@ -1,21 +1,27 @@
 [submodule "mmtk-openjdk"]
 	path = mmtk-openjdk
 	url = https://github.com/mmtk/mmtk-openjdk.git
+	branch = master
 [submodule "mmtk-core"]
 	path = mmtk-core
 	url = https://github.com/mmtk/mmtk-core.git
+	branch = master
 [submodule "mmtk-v8"]
 	path = mmtk-v8
 	url = https://github.com/mmtk/mmtk-v8.git
+	branch = master
 [submodule "mmtk-jikesrvm"]
 	path = mmtk-jikesrvm
 	url = https://github.com/mmtk/mmtk-jikesrvm.git
+	branch = master
 [submodule "probes"]
 	path = evaluation/probes
 	url = https://github.com/anupli/probes.git
 [submodule "openjdk"]
 	path = openjdk
 	url = https://github.com/mmtk/openjdk.git
+	branch = jdk-11.0.19+1-mmtk
 [submodule "jikesrvm"]
 	path = jikesrvm
 	url = https://github.com/mmtk/jikesrvm.git
+	branch = master
