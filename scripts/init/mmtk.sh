@@ -19,7 +19,7 @@ done
 
 
 if [ ! -f "mmtk-core/Cargo.toml" ]; then
-    git submodule update --init mmtk-core
+    git submodule update --init --remote mmtk-core
     pushd mmtk-core
         git checkout master
     popd

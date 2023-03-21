@@ -18,14 +18,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ ! -f "mmtk-openjdk/README.md" ]; then
-    git submodule update --init mmtk-openjdk
+    git submodule update --init --remote mmtk-openjdk
     pushd  mmtk-openjdk
         git checkout master
     popd
 fi
 
 if [ ! -f "openjdk/LICENSE" ]; then
-    git submodule update --init openjdk
+    git submodule update --init --remote openjdk
     pushd openjdk
         git checkout jdk-11.0.19+1-mmtk
     popd
