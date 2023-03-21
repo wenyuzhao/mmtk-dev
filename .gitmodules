@@ -14,9 +14,6 @@
 	path = mmtk-jikesrvm
 	url = https://github.com/mmtk/mmtk-jikesrvm.git
 	branch = master
-[submodule "probes"]
-	path = evaluation/probes
-	url = https://github.com/anupli/probes.git
 [submodule "openjdk"]
 	path = openjdk
 	url = https://github.com/mmtk/openjdk.git
