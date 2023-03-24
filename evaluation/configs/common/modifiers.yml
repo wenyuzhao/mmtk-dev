@@ -134,6 +134,10 @@ modifiers:
     type: EnvVar
     var: MMTK_PLAN
     val: LXR
+  lxr_pldi:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "Immix"
   mmtk_no_weak:
     type: EnvVar
     var: MMTK_NO_REFERENCE_TYPES

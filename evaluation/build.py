@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+
+import os
+import os.path
+from typing import *
+import subprocess
+import typer
+import sys
+import yaml
+import re
+
+
+
+USERNAME = os.getlogin()
+EVALUATION_DIR = os.path.dirname(os.path.realpath(__file__))
+MMTK_DEV = os.path.dirname(EVALUATION_DIR)
+os.environ['BUILDS'] = f'{EVALUATION_DIR}/builds'
+
+app = typer.Typer()
+
+def find_config_file(config: str):
+    # Find config file
+    if os.path.isfile(f'{EVALUATION_DIR}/configs/{config}/config.yml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}/config.yml'
+    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}/config.yaml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}/config.yaml'
+    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}.yml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}.yml'
+    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}.yaml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}.yaml'
+    if config_file is None:
+        sys.exit(f'❌ Config `{config}` not found!')
+    return config_file
+
+def build_one(runtime_name: str, name: str, features: Optional[str], gc: str):
+    features_flag = ''
+    if features is not None:
+        features_flag = f'--features="{features}"'
+    print(f'🔵 run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag}')
+    ret = os.system(f'{MMTK_DEV}/run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag}')
+    if ret != 0:
+        sys.exit(f'❌ Failed to build `runtimes.{runtime_name}`!')
+
+def checkout(name: str, repo: str, commit: str):
+    if os.system(f'cd {repo} && git checkout {commit}') != 0:
+        sys.exit(f'❌ Failed to checkout {commit} for repo {name}')
+
+def get_current_commits():
+    mmtk_core_commit = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=f'{MMTK_DEV}/mmtk-core').decode('utf-8').strip()
+    mmtk_openjdk_commit = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=f'{MMTK_DEV}/mmtk-openjdk').decode('utf-8').strip()
+    openjdk_commit = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=f'{MMTK_DEV}/openjdk').decode('utf-8').strip()
+    return (mmtk_core_commit, mmtk_openjdk_commit, openjdk_commit)
+
+def is_at_commit(repo: str, commit: str) -> bool:
+    return os.system(f'cd {repo} && git diff --quiet {commit}') == 0
+
+def validate_config(config_file: str):
+    with open(config_file, 'r') as file:
+        doc = yaml.safe_load(file)
+        # validate
+        missing_commits = False
+        for runtime_name in doc['runtimes']:
+            commits = doc['runtimes'][runtime_name].get('commits', {})
+            if commits is None or ('mmtk-core' not in commits) or ('mmtk-openjdk' not in commits) or ('openjdk' not in commits):
+                if 'mmtk-core' not in commits: print(f'❌ runtimes.{runtime_name} has no `mmtk-core` commit specified!')
+                if 'mmtk-openjdk' not in commits: print(f'❌ runtimes.{runtime_name} has no `mmtk-openjdk` commit specified!')
+                if 'openjdk' not in commits: print(f'❌ runtimes.{runtime_name} has no `openjdk` commit specified!')
+                missing_commits = True
+        if missing_commits:
+            (mmtk_core_commit, mmtk_openjdk_commit, openjdk_commit) = get_current_commits()
+            print('Current commits:')
+            print(f'    mmtk-core: {mmtk_core_commit}')
+            print(f'    mmtk-openjdk: {mmtk_openjdk_commit}')
+            print(f'    openjdk: {openjdk_commit}')
+            sys.exit(-1)
+
+def validate_repos():
+    # if os.system(f'cd {MMTK_DEV} && git diff --quiet') != 0:
+    #     sys.exit(f'❌ Current mmtk-dev workspace is dirty!')
+    if os.system(f'cd {MMTK_DEV}/mmtk-core && git diff --quiet') != 0:
+        sys.exit(f'❌ Current mmtk-core repo is dirty!')
+    if os.system(f'cd {MMTK_DEV}/mmtk-openjdk && git diff --quiet') != 0:
+        sys.exit(f'❌ Current mmtk-openjdk repo is dirty!')
+    if os.system(f'cd {MMTK_DEV}/openjdk && git diff --quiet') != 0:
+        sys.exit(f'❌ Current openjdk repo is dirty!')
+    
+@app.command()
+def main(
+    config: str = typer.Option(..., help='Running config name'),
+    gc: str = typer.Option('Immix', help='GC to test the build'),
+):
+    '''
+        Example: ./evaluation/build.py --config=lxr-xput
+    '''
+    validate_repos()
+    # Parse config file, find and compile each build
+    config_file = find_config_file(config)
+    validate_config(config_file)
+    with open(config_file, 'r') as file:
+        doc = yaml.safe_load(file)
+        for runtime_name in doc['runtimes']:
+            commits = doc['runtimes'][runtime_name]['commits']
+            features = doc['runtimes'][runtime_name].get('features')
+            # checkout commits
+            print(f"🟢 [{runtime_name}]: mmtk-core@{commits['mmtk-core']} mmtk-openjdk@{commits['mmtk-openjdk']} openjdk@{commits['openjdk']} features={features}")
+            if not is_at_commit(f'{MMTK_DEV}/mmtk-core', commits['mmtk-core']):
+                checkout('mmtk-core', f'{MMTK_DEV}/mmtk-core', commits['mmtk-core'])
+            if not is_at_commit(f'{MMTK_DEV}/mmtk-openjdk', commits['mmtk-openjdk']):
+                checkout('mmtk-openjdk', f'{MMTK_DEV}/mmtk-openjdk', commits['mmtk-openjdk'])
+            if not is_at_commit(f'{MMTK_DEV}/openjdk', commits['openjdk']):
+                checkout('openjdk', f'{MMTK_DEV}/openjdk', commits['openjdk'])
+            # build and copy target
+            features = doc['runtimes'][runtime_name].get('features')
+            home: str = os.path.expandvars(doc['runtimes'][runtime_name]['home'])
+            if home.endswith('/'): home = home[:-1]
+            name = re.sub(r'^jdk\-mmtk\-', '', os.path.split(os.path.split(home)[0])[1])
+            build_one(runtime_name, name, features, gc)
+            assert os.path.isfile(f'{home}/release'), f'❌ Failed to build `runtimes.{runtime_name}`'
+            print(f"✅ [{runtime_name}]: Build successful")
+            print()
+            print()
+            print()
+
+if __name__ == '__main__':
+    app(prog_name='evaluation/build.py')

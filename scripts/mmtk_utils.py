@@ -22,7 +22,10 @@ def ᐅᐳᐳ(cmd: List[str], cwd: str = MMTK_DEV, env: Optional[Dict[str, str]]
     if env is None: env = {}
     env = ' '.join([ f'{k}={v}' for k, v in env.items() ])
     cmd = ' '.join(cmd)
-    print(f'🔵 {env} {cmd}')
+    msg = ''
+    if env != '': msg += f'{env} '
+    msg += cmd
+    print(f'🔵 {msg}')
     result = os.system(f'cd {cwd} && {env} {cmd}')
     if result != 0:
         sys.exit(f'❌ {cmd}')   

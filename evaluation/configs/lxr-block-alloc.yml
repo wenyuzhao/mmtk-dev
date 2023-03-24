@@ -1,49 +1,33 @@
 includes:
-  - "./common/common-lxr.yml"
+  - ./common/common-lxr.yml
 
 overrides:
   heap_range: 3
   invocations: 40
   suites.dacapochopin-b00bfa9.minheap: g1
 
-modifiers:
-  lxr:
-    type: EnvVar
-    var: "MMTK_PLAN"
-    val: "LXR"
-  lxr_pldi:
-    type: EnvVar
-    var: "MMTK_PLAN"
-    val: "Immix"
+
 
 runtimes:
-  jdk-lxr-freelist:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-freelist-b8df92158/jdk-11.0.19
-  jdk-lxr-prioritized:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-prioritized-c6feab92c/jdk-11.0.19
-  jdk-lxr-unprioritized:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-unprioritized-c6feab92c/jdk-11.0.19
   jdk-lxr-bat:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-bat-1a9ba6090/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    commits:
+      mmtk-core: 1a9ba6090
+      mmtk-openjdk: c681325
+      openjdk: 91259ca9d60
+    features: mmtk/lxr_line_256b
   jdk-lxr-no-bat:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-no-bat-0febe9915/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-bat/jdk-11.0.19
+    commits:
+      mmtk-core: 0febe9915
+      mmtk-openjdk: c681325
+      openjdk: 91259ca9d60
 
 configs:
-  # - jdk-lxr-freelist|lxr|common3|tph
-  # - jdk-lxr-prioritized|lxr|common3|tph
-  # - jdk-lxr-unprioritized|lxr|common3|tph
-  # - jdk-lxr-prioritized|lxr|common3|tph|no_compressed_oops
-  # - jdk-lxr-unprioritized|lxr|common3|tph|no_compressed_oops
   - jdk-lxr-bat|lxr|common3|tph
   - jdk-lxr-no-bat|lxr|common3|tph
   

@@ -59,10 +59,12 @@ def main(
     os.system(f'pkill -f java -u {USERNAME} -9')
 
     cmd = ['running', 'runbms', '-p', config, './evaluation/results/log', config_file, *hfac_args]
+    env = { 'BUILDS': f'{EVALUATION_DIR}/builds' }
     print(f'🔵 RUN: {" ".join(cmd)}')
     print(f'🔵 LOG: {log}')
+    print(f'🔵 BUILDS: {env["builds"]}')
     with open(log, 'w') as log:
-        subprocess.check_call(cmd, stdout=log, stderr=log, cwd=MMTK_DEV)
+        subprocess.check_call(cmd, stdout=log, stderr=log, cwd=MMTK_DEV, env=env)
 
 if __name__ == '__main__':
     app(prog_name='evaluation/run.py')

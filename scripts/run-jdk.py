@@ -128,22 +128,23 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         env=env
     )
 
-def do_cp_bench(profile: str, target: str):
+def do_cp_bench(profile: str, target: str, no_commit_hash: bool):
     assert profile == 'release', 'Please use release build for benchmarking'
     # Get mmtk-core commit hash
     commit = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=MMTK_CORE).decode('utf-8').strip()
+    name = f'jdk-mmtk-{target}' if no_commit_hash else f'jdk-mmtk-{target}-{commit}'
     ᐅᐳᐳ(['mkdir', '-p', BENCH_BUILDS], cwd=MMTK_DEV)
     # Get bundle file
     bundle = subprocess.check_output(['bash', '-c', f'ls {OPENJDK}/build/linux-x86_64-normal-server-{profile}/bundles/*.tar.gz | grep -v -e symbols -e demos'], cwd=MMTK_DEV).decode('utf-8').strip()
     # Delete previous builds
-    ᐅᐳᐳ(['rm', '-rf', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}'], cwd=MMTK_DEV)
-    ᐅᐳᐳ(['rm', '-f', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['rm', '-rf', f'{BENCH_BUILDS}/{name}'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['rm', '-f', f'{BENCH_BUILDS}/{name}.tar.gz'], cwd=MMTK_DEV)
     # Copy bundle file
-    ᐅᐳᐳ(['cp', bundle, f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['cp', bundle, f'{BENCH_BUILDS}/{name}.tar.gz'], cwd=MMTK_DEV)
     # Extract and remove bundle file
-    ᐅᐳᐳ(['mkdir', '-p', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}'], cwd=MMTK_DEV)
-    ᐅᐳᐳ(['tar', '-xf', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz', '-C', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}'], cwd=MMTK_DEV)
-    ᐅᐳᐳ(['rm', f'{BENCH_BUILDS}/jdk-mmtk-{target}-{commit}.tar.gz'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['mkdir', '-p', f'{BENCH_BUILDS}/{name}'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['tar', '-xf', f'{BENCH_BUILDS}/{name}.tar.gz', '-C', f'{BENCH_BUILDS}/{name}'], cwd=MMTK_DEV)
+    ᐅᐳᐳ(['rm', f'{BENCH_BUILDS}/{name}.tar.gz'], cwd=MMTK_DEV)
 
 @app.command()
 def main(
@@ -160,6 +161,7 @@ def main(
     features: Optional[str] = option(None, help='Cargo features'),
     pgo: bool = option(False, '--pgo', help='Profile-guided Optimization'),
     cp_bench: Optional[str] = option(None, help=f'Copy build to mmtk-dev/evaluation/builds/jdk-mmtk-<BUILD_ID>-<commit>'),
+    cp_bench_no_commit_hash: bool = option(False, '--cp-bench-no-commit-hash', help=f'Don\'t put commit hash as part of the build folder name'),
     # Optional run args
     iter: int = option(1, '--iter', '-n', help='Number of iterations'),
     no_c1: bool = option(False, '--no-c1', help='Disable C1 compiler'),
@@ -173,6 +175,7 @@ def main(
     jvm_args: Optional[List[str]] = option(None, help=f'Extra OpenJDK command line arguments'),
     compressed_oops: bool = option(True, help=f'UseCompressedOops'),
     verbose: int = option(0, '--verbose', '-v', help=f'mmtk verbosity'),
+    no_run: bool = option(False, '--no-run', help=f'Don\'t run any java program'),
 ):
     '''
         Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
@@ -194,9 +197,10 @@ def main(
             run_with_pgo(bench='tomcat', heap='300M')
             ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_use=pgo)
-    do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose)
+    if not no_run:
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose)
     if cp_bench is not None:
-        do_cp_bench(profile=profile, target=cp_bench)
+        do_cp_bench(profile=profile, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
 
 # @app.command()
