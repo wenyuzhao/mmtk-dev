@@ -29,11 +29,21 @@ runtimes:
     type: OpenJDK
     release: 11
     home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-unprioritized-c6feab92c/jdk-11.0.19
+  jdk-lxr-bat:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-bat-1a9ba6090/jdk-11.0.19
+  jdk-lxr-no-bat:
+    type: OpenJDK
+    release: 11
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-no-bat-0febe9915/jdk-11.0.19
 
 configs:
   # - jdk-lxr-freelist|lxr|common3|tph
-  - jdk-lxr-prioritized|lxr|common3|tph
-  - jdk-lxr-unprioritized|lxr|common3|tph
-  - jdk-lxr-prioritized|lxr|common3|tph|no_compressed_oops
-  - jdk-lxr-unprioritized|lxr|common3|tph|no_compressed_oops
+  # - jdk-lxr-prioritized|lxr|common3|tph
+  # - jdk-lxr-unprioritized|lxr|common3|tph
+  # - jdk-lxr-prioritized|lxr|common3|tph|no_compressed_oops
+  # - jdk-lxr-unprioritized|lxr|common3|tph|no_compressed_oops
+  - jdk-lxr-bat|lxr|common3|tph
+  - jdk-lxr-no-bat|lxr|common3|tph
   
