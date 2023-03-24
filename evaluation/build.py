@@ -75,8 +75,8 @@ def validate_config(config_file: str):
             sys.exit(-1)
 
 def validate_repos():
-    # if os.system(f'cd {MMTK_DEV} && git diff --quiet') != 0:
-    #     sys.exit(f'❌ Current mmtk-dev workspace is dirty!')
+    if os.system(f'cd {MMTK_DEV} && git diff --quiet') != 0:
+        sys.exit(f'❌ Current mmtk-dev workspace is dirty!')
     if os.system(f'cd {MMTK_DEV}/mmtk-core && git diff --quiet') != 0:
         sys.exit(f'❌ Current mmtk-core repo is dirty!')
     if os.system(f'cd {MMTK_DEV}/mmtk-openjdk && git diff --quiet') != 0:
