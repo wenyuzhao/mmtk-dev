@@ -14,9 +14,21 @@ import re
 USERNAME = os.getlogin()
 EVALUATION_DIR = os.path.dirname(os.path.realpath(__file__))
 MMTK_DEV = os.path.dirname(EVALUATION_DIR)
+
+
 os.environ['BUILDS'] = f'{EVALUATION_DIR}/builds'
 
 app = typer.Typer()
+
+
+
+def rsync(src: str, dst: str):
+    cmd = ['rsync', '-azR', '--no-i-r', '-h', '--info=progress2', src, dst]
+    print(f'🔵 {" ".join(cmd)}')
+    try:
+        subprocess.check_call(cmd, cwd=MMTK_DEV)
+    except subprocess.CalledProcessError:
+        sys.exit(f'❌ {" ".join(cmd)}')
 
 def find_config_file(config: str):
     # Find config file
@@ -85,12 +97,12 @@ def validate_repos():
         sys.exit(f'❌ Current openjdk repo is dirty!')
     
 @app.command()
-def main(
+def build(
     config: str = typer.Option(..., help='Running config name'),
     gc: str = typer.Option('Immix', help='GC to test the build'),
 ):
     '''
-        Example: ./evaluation/build.py --config=lxr-xput
+        Example: ./evaluation/manager.py build --config=lxr-xput
     '''
     validate_repos()
     # Parse config file, find and compile each build
@@ -121,5 +133,73 @@ def main(
             print()
             print()
 
+
+@app.command()
+def rsync(
+    remote: str = typer.Option(..., help='Remote machine name'),
+    remote_user: str = typer.Option(USERNAME, help='Remote user name'),
+):
+    '''
+        Example: ./evaluation/manager.py rsync --remote boar.moma
+    '''
+    dst = f'{remote}:/home/{remote_user}'
+    MMTK_DEV_REL = MMTK_DEV.replace(os.path.expanduser('~') + '/', '')
+    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/configs', dst)
+    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/advice', dst)
+    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/probes', dst)
+    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/builds', dst)
+    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager.py', dst)
+
+@app.command()
+def run(
+    config: str = typer.Option(..., help='Running config name'),
+    hfac: str = typer.Option(..., help='Heap factor. e.g. 2x or "12 1 3 4"'),
+    config_file: Optional[str] = typer.Option(None, help='Path to running config file'),
+    log: str = typer.Option(f'{MMTK_DEV}/running.log', help='STDOUT file'),
+):
+    '''
+        Example: ./evaluation/manager.py run --config=lxr-xput --hfac=2x
+    '''
+    # Find config file
+    print(f'{EVALUATION_DIR}/configs/{config}.yml')
+    if os.path.isfile(f'{EVALUATION_DIR}/configs/{config}/config.yml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}/config.yml'
+    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}/config.yaml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}/config.yaml'
+    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}.yml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}.yml'
+    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}.yaml'):
+        config_file = f'{EVALUATION_DIR}/configs/{config}.yaml'
+    if config_file is None:
+        sys.exit(f'❌ Config `{config}` not found!')
+
+    # Get heap args
+    hfac = hfac.strip().lower()
+    hfac_args = []
+    if hfac == '1x':
+        hfac_args = ['12', '0']
+    elif hfac == '2x':
+        hfac_args = ['12', '7']
+    elif hfac == '3x':
+        hfac_args = ['12', '12']
+    elif ' ' in hfac:
+        try:
+            hfac_args = [ f'{int(x)}' for x in hfac.split(' ')]
+        except ValueError:
+            sys.exit(f'❌ Invalid hfac args `{hfac}`')
+    else:
+        sys.exit(f'❌ Invalid hfac args `{hfac}`')
+    
+    # Run
+    os.system(f'pkill -f java -u {USERNAME} -9')
+
+    cmd = ['running', 'runbms', '-p', config, './evaluation/results/log', config_file, *hfac_args]
+    env = { 'BUILDS': f'{EVALUATION_DIR}/builds', 'PATH': os.environ['PATH'] }
+    print(f'🔵 RUN: {" ".join(cmd)}')
+    print(f'🔵 LOG: {log}')
+    print(f'🔵 BUILDS: {env["BUILDS"]}')
+    with open(log, 'w') as log:
+        subprocess.check_call(cmd, stdout=log, stderr=log, cwd=MMTK_DEV, env=env)
+
 if __name__ == '__main__':
-    app(prog_name='evaluation/build.py')
+    app(prog_name='evaluation/manager.py')
