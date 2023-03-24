@@ -3,7 +3,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 20
+  invocations: 40
   suites.dacapochopin-b00bfa9.minheap: g1
 
 modifiers:
@@ -24,14 +24,16 @@ runtimes:
   jdk-lxr-prioritized:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-prioritized-b8df92158/jdk-11.0.19
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-prioritized-c6feab92c/jdk-11.0.19
   jdk-lxr-unprioritized:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-unprioritized-b8df92158/jdk-11.0.19
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-unprioritized-c6feab92c/jdk-11.0.19
 
 configs:
-  - jdk-lxr-freelist|lxr|common3|tph
+  # - jdk-lxr-freelist|lxr|common3|tph
   - jdk-lxr-prioritized|lxr|common3|tph
   - jdk-lxr-unprioritized|lxr|common3|tph
+  - jdk-lxr-prioritized|lxr|common3|tph|no_compressed_oops
+  - jdk-lxr-unprioritized|lxr|common3|tph|no_compressed_oops
   
