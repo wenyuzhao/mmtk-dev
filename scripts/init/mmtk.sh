@@ -35,3 +35,8 @@ if ((lxr)); then
         git checkout -b lxr wenyu/lxr
     popd
 fi
+
+declare -r script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+pushd $script_dir/../..
+  pip3 install -r requirements.txt --user
+popd
