@@ -161,17 +161,7 @@ def run(
         Example: ./evaluation/manager.py run --config=lxr-xput --hfac=2x
     '''
     # Find config file
-    print(f'{EVALUATION_DIR}/configs/{config}.yml')
-    if os.path.isfile(f'{EVALUATION_DIR}/configs/{config}/config.yml'):
-        config_file = f'{EVALUATION_DIR}/configs/{config}/config.yml'
-    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}/config.yaml'):
-        config_file = f'{EVALUATION_DIR}/configs/{config}/config.yaml'
-    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}.yml'):
-        config_file = f'{EVALUATION_DIR}/configs/{config}.yml'
-    elif os.path.isfile(f'{EVALUATION_DIR}/configs/{config}.yaml'):
-        config_file = f'{EVALUATION_DIR}/configs/{config}.yaml'
-    if config_file is None:
-        sys.exit(f'❌ Config `{config}` not found!')
+    config_file = find_config_file(config)
 
     # Get heap args
     hfac = hfac.strip().lower()
