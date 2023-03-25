@@ -23,7 +23,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-bat/jdk-11.0.19
     commits:
-      mmtk-core: 0febe9915
+      mmtk-core: 32afcb69d
       mmtk-openjdk: c681325
       openjdk: 91259ca9d60
 
