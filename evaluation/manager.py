@@ -22,7 +22,7 @@ app = typer.Typer()
 
 
 
-def rsync(src: str, dst: str):
+def do_rsync(src: str, dst: str):
     cmd = ['rsync', '-azR', '--no-i-r', '-h', '--info=progress2', src, dst]
     print(f'🔵 {" ".join(cmd)}')
     try:
@@ -144,11 +144,11 @@ def rsync(
     '''
     dst = f'{remote}:/home/{remote_user}'
     MMTK_DEV_REL = MMTK_DEV.replace(os.path.expanduser('~') + '/', '')
-    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/configs', dst)
-    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/advice', dst)
-    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/probes', dst)
-    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/builds', dst)
-    rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager.py', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/configs', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/advice', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/probes', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/builds', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager.py', dst)
 
 @app.command()
 def run(
