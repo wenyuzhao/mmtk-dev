@@ -35,14 +35,15 @@ def do_kill():
     user = os.getlogin()
     ᐅᐳᐳ(['pkill', '-f', 'java', '-u', user, '-9'])
 
-def do_config(profile: str):
-    ᐅᐳᐳ(['sh', 'configure', '--disable-zip-debug-info', '--disable-warnings-as-errors', f'--with-debug-level={profile}', '--with-target-bits=64', '--with-jvm-features=shenandoahgc'], cwd=OPENJDK)
+def do_config(profile: str, enable_asan: bool):
+    asan_flags = ['--enable-asan'] if enable_asan else []
+    ᐅᐳᐳ(['sh', 'configure', '--disable-zip-debug-info', '--disable-warnings-as-errors', f'--with-debug-level={profile}', '--with-target-bits=64', '--with-jvm-features=shenandoahgc', *asan_flags], cwd=OPENJDK)
     ᐅᐳᐳ(['make', 'reconfigure', f'CONF=linux-x86_64-normal-server-{profile}'], cwd=OPENJDK)
 
 def do_clean(profile: str):
     ᐅᐳᐳ(['make', 'clean', f'CONF=linux-x86_64-normal-server-{profile}', f'THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk'], cwd=OPENJDK)
 
-def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool, pgo_gen: bool = False, pgo_use: bool = False):
+def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool, enable_asan: bool, pgo_gen: bool = False, pgo_use: bool = False):
     if exploded:
         assert not bundle, 'cannot bundle an exploded image'
         target = []
@@ -57,9 +58,11 @@ def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool
         env['RUSTFLAGS'] = '-Cprofile-generate=/tmp/pgo-data'
     if pgo_use:
         env['RUSTFLAGS'] = '-Cprofile-use=/tmp/pgo-data/merged.profdata'
+    if enable_asan:
+        env['RUSTFLAGS'] = '-Zsanitizer=address'
     ᐅᐳᐳ(['make', f'CONF=linux-x86_64-normal-server-{profile}', f'THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', *target], env=env, cwd=OPENJDK)
 
-def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int):
+def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int, enable_asan: bool):
     env = {}
     # MMTk or HotSpot GC args
     env['RUST_BACKTRACE'] = '1'
@@ -119,6 +122,8 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         extra_jvm_args.append('-Xcomp')
     if not compressed_oops:
         extra_jvm_args += [ '-XX:-UseCompressedOops', '-XX:-UseCompressedClassPointers' ]
+    if enable_asan:
+        env['ASAN_OPTIONS'] = 'handle_segv=0'
     # Run
     jdk_build_dir = f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}'
     java = f'{jdk_build_dir}/jdk/bin/java' if exploded else f'{jdk_build_dir}/images/jdk/bin/java'
@@ -176,6 +181,7 @@ def main(
     compressed_oops: bool = option(True, help=f'UseCompressedOops'),
     verbose: int = option(0, '--verbose', '-v', help=f'mmtk verbosity'),
     no_run: bool = option(False, '--no-run', help=f'Don\'t run any java program'),
+    enable_asan: bool = option(False, '--enable-asan', help=f'Enable address sanitizer'),
 ):
     '''
         Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
@@ -183,12 +189,13 @@ def main(
     if release:
         profile = Profile.release
     if kill: do_kill()
-    if config: do_config(profile=profile)
+    if config: do_config(profile=profile, enable_asan=enable_asan)
     if clean: do_clean(profile=profile)
     if build: 
         if pgo:
             assert profile == 'release'
-            do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_gen=True)
+            assert not enable_asan
+            do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=False, pgo_gen=True)
             def run_with_pgo(bench: str, heap: str):
                 do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
             run_with_pgo(bench='lusearch', heap='200M')
@@ -196,9 +203,9 @@ def main(
             run_with_pgo(bench='cassandra', heap='800M')
             run_with_pgo(bench='tomcat', heap='300M')
             ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
-        do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, pgo_use=pgo)
+        do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:
-        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose)
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan)
     if cp_bench is not None:
         do_cp_bench(profile=profile, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
