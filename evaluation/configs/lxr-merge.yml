@@ -1,0 +1,30 @@
+includes:
+  - ./common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin-6e411f33.minheap: g1
+
+runtimes:
+  jdk-lxr-16:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-16/jdk-11.0.19
+    commits:
+      mmtk-core: bf67a54
+      mmtk-openjdk: 956fb12
+      openjdk: 91259ca
+  jdk-lxr-17:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-17/jdk-11.0.19
+    commits:
+      mmtk-core: 81cf9f1
+      mmtk-openjdk: cd28e44
+      openjdk: 91259ca
+
+configs:
+  - jdk-lxr-16|lxr|common3|tph
+  - jdk-lxr-17|lxr|common3|tph
+  
