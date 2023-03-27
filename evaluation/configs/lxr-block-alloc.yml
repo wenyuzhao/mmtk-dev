@@ -6,26 +6,23 @@ overrides:
   invocations: 40
   suites.dacapochopin-b00bfa9.minheap: g1
 
-
-
 runtimes:
   jdk-lxr-bat:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
     commits:
-      mmtk-core: 1a9ba6090
+      mmtk-core: a33041b
       mmtk-openjdk: c681325
-      openjdk: 91259ca9d60
-    features: mmtk/lxr_line_256b
+      openjdk: 91259ca
   jdk-lxr-no-bat:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-bat/jdk-11.0.19
     commits:
-      mmtk-core: 32afcb69d
+      mmtk-core: a40d7a4
       mmtk-openjdk: c681325
-      openjdk: 91259ca9d60
+      openjdk: 91259ca
 
 configs:
   - jdk-lxr-bat|lxr|common3|tph
