@@ -16,4 +16,5 @@ pushd $script_dir/../../evaluation/probes
     wget https://github.com/anupli/probes/releases/download/20230127-snapshot/librust_mmtk_probe_32.so
     wget https://github.com/anupli/probes/releases/download/20230127-snapshot/probes-java6.jar
     wget https://github.com/anupli/probes/releases/download/20230127-snapshot/probes.jar
+    wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/libperf_statistics.so
 popd
