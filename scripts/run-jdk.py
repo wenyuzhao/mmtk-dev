@@ -8,7 +8,7 @@ MMTK_OPENJDK = f'{MMTK_DEV}/mmtk-openjdk'
 OPENJDK = f'{MMTK_DEV}/openjdk'
 
 def find_dacapo():
-    DACAPO_VERSIONS = ['6e411f33', 'b00bfa9']
+    DACAPO_VERSIONS = ['04132797', '6e411f33', 'b00bfa9']
     for v in DACAPO_VERSIONS:
         jar = f'/usr/share/benchmarks/dacapo/dacapo-evaluation-git-{v}.jar'
         if os.path.isfile(jar): return jar
