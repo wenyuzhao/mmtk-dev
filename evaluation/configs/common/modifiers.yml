@@ -22,6 +22,9 @@ modifiers:
       dacapochopin-b00bfa9:
         - tradebeans
         - tradesoap
+      dacapochopin-0d047f55:
+        - tradebeans
+        - tradesoap
   probes_cp:
     type: JVMClasspath
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"

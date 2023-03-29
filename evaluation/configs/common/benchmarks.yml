@@ -24,7 +24,8 @@ benchmarks:
     # - tradesoap
   # dacapochopin-f480064:
   # dacapochopin-6e411f33:
-  dacapochopin-b00bfa9:
+  # dacapochopin-b00bfa9:
+  dacapochopin-0d047f55:
     - lusearch
     - h2
     - cassandra
