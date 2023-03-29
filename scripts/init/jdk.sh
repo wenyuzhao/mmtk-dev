@@ -41,7 +41,7 @@ if ((lxr)); then
     fi
 
     pushd mmtk-openjdk
-        git remote add wenyu git@github.com:wenyuzhao/mmtk-openjdk.git
+        git remote add wenyu https://github.com/wenyuzhao/mmtk-openjdk.git
         git fetch wenyu
         git checkout -b lxr wenyu/lxr
     popd

@@ -30,7 +30,7 @@ if ((lxr)); then
         exit -1
     fi
     pushd mmtk-core
-        git remote add wenyu git@github.com:wenyuzhao/mmtk-core.git
+        git remote add wenyu https://github.com/wenyuzhao/mmtk-core.git
         git fetch wenyu
         git checkout -b lxr wenyu/lxr
     popd
