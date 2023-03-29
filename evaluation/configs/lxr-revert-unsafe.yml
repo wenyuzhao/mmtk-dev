@@ -14,7 +14,7 @@ runtimes:
     commits:
       mmtk-core: c3c84a2
       mmtk-openjdk: 8432f53
-      openjdk: 91259ca
+      openjdk: 91259ca9
   jdk-lxr-unsafe:
     type: OpenJDK
     release: 11
@@ -22,7 +22,7 @@ runtimes:
     commits:
       mmtk-core: 37259d1
       mmtk-openjdk: 8432f53
-      openjdk: 91259ca
+      openjdk: 91259ca9
 
 configs:
   - jdk-lxr|lxr|common3|tph
