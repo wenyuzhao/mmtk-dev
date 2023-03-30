@@ -3,8 +3,10 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 30
+  invocations: 40
   suites.dacapochopin-0d047f55.minheap: g1
+  benchmarks.dacapochopin-0d047f55:
+    - lusearch
 
 runtimes:
   jdk-lxr:
@@ -12,19 +14,19 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: c3c84a2
-      mmtk-openjdk: 8432f53
+      mmtk-core: 3ee6f84
+      mmtk-openjdk: 23a727a
       openjdk: 91259ca9
-  jdk-lxr-unsafe:
+  jdk-lxr-revert:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-unsafe/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
     commits:
-      mmtk-core: 37259d1
-      mmtk-openjdk: 8432f53
+      mmtk-core: bcdcbfe
+      mmtk-openjdk: 23a727a
       openjdk: 91259ca9
 
 configs:
   - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-unsafe|lxr|common3|tph
+  - jdk-lxr-revert|lxr|common3|tph
   
