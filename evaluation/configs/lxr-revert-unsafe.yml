@@ -12,12 +12,20 @@ overrides:
     - batik
 
 runtimes:
-  jdk-lxr:
+  # jdk-lxr:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 3ee6f84
+  #     mmtk-openjdk: 23a727a
+  #     openjdk: 91259ca9
+  jdk-lxr-base:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-base/jdk-11.0.19
     commits:
-      mmtk-core: 3ee6f84
+      mmtk-core: bf7b53d
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
   jdk-lxr-revert:
@@ -25,11 +33,11 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
     commits:
-      mmtk-core: bcdcbfe
+      mmtk-core: e081f73
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
 
 configs:
-  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-base|lxr|common3|tph
   - jdk-lxr-revert|lxr|common3|tph
   
