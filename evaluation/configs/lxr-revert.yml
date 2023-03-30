@@ -33,7 +33,8 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
     commits:
-      mmtk-core: 298df8b
+      # 298df8b: Occasional huge time.mu
+      mmtk-core: e4c476f
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
 
