@@ -33,7 +33,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
     commits:
-      mmtk-core: 2af6ecf
+      mmtk-core: 298df8b
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
 
