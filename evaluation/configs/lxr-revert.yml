@@ -40,7 +40,7 @@ runtimes:
   jdk-lxr-unsafe:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-unsafe/jdk-11.0.19
     commits:
       # 298df8b: Occasional huge time.mu
       mmtk-core: 1e26d89
@@ -52,4 +52,6 @@ runtimes:
 configs:
   - jdk-lxr-base|lxr|common3|tph
   - jdk-lxr-revert|lxr|common3|tph
+  - jdk-lxr-unsafe|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph
   
