@@ -12,14 +12,14 @@ overrides:
     - biojava
 
 runtimes:
-  # jdk-lxr:
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: 3ee6f84
-  #     mmtk-openjdk: 23a727a
-  #     openjdk: 91259ca9
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 3ee6f84
+      mmtk-openjdk: 23a727a
+      openjdk: 91259ca9
   jdk-lxr-base:
     type: OpenJDK
     release: 11
@@ -37,6 +37,17 @@ runtimes:
       mmtk-core: e4c476f
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
+  jdk-lxr-unsafe:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
+    commits:
+      # 298df8b: Occasional huge time.mu
+      mmtk-core: 1e26d89
+      mmtk-openjdk: 23a727a
+      openjdk: 91259ca9
+
+
 
 configs:
   - jdk-lxr-base|lxr|common3|tph
