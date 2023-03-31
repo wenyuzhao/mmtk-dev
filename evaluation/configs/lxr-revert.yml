@@ -33,25 +33,32 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-revert/jdk-11.0.19
     commits:
-      # 298df8b: Occasional huge time.mu
       mmtk-core: e4c476f
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
-  jdk-lxr-unsafe:
+  jdk-lxr-revert-2:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-unsafe/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-revert-2/jdk-11.0.19
     commits:
-      # 298df8b: Occasional huge time.mu
-      mmtk-core: 1e26d89
+      mmtk-core: 298df8b # Occasional huge time.mu
       mmtk-openjdk: 23a727a
       openjdk: 91259ca9
+  # jdk-lxr-unsafe:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-unsafe/jdk-11.0.19
+  #   commits:
+  #     # 298df8b: Occasional huge time.mu
+  #     mmtk-core: 1e26d89
+  #     mmtk-openjdk: 23a727a
+  #     openjdk: 91259ca9
 
 
 
 configs:
   - jdk-lxr-base|lxr|common3|tph
   - jdk-lxr-revert|lxr|common3|tph
-  - jdk-lxr-unsafe|lxr|common3|tph
+  - jdk-lxr-revert-2|lxr|common3|tph
   - jdk-lxr|lxr|common3|tph
   
