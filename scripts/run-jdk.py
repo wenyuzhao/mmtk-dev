@@ -62,7 +62,7 @@ def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool
         env['RUSTFLAGS'] = '-Zsanitizer=address'
     ᐅᐳᐳ(['make', f'CONF=linux-x86_64-normal-server-{profile}', f'THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', *target], env=env, cwd=OPENJDK)
 
-def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int, enable_asan: bool):
+def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int, enable_asan: bool, time_v: bool):
     env = {}
     # MMTk or HotSpot GC args
     env['RUST_BACKTRACE'] = '1'
@@ -124,11 +124,12 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         extra_jvm_args += [ '-XX:-UseCompressedOops', '-XX:-UseCompressedClassPointers' ]
     if enable_asan:
         env['ASAN_OPTIONS'] = 'handle_segv=0'
+    time_v_wrapper = ['/bin/time', '-v'] if time_v else []
     # Run
     jdk_build_dir = f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}'
     java = f'{jdk_build_dir}/jdk/bin/java' if exploded else f'{jdk_build_dir}/images/jdk/bin/java'
     ᐅᐳᐳ(
-        [*debugger_wrapper, java, *extra_jvm_args, *heap_args, *compiler_args, *probe_args, 'Harness', '-n', f'{iter}', *callback_args, bench, *bm_args],
+        [*debugger_wrapper, *time_v_wrapper, java, *extra_jvm_args, *heap_args, *compiler_args, *probe_args, 'Harness', '-n', f'{iter}', *callback_args, bench, *bm_args],
         cwd=MMTK_DEV,
         env=env
     )
@@ -182,6 +183,7 @@ def main(
     verbose: int = option(0, '--verbose', '-v', help=f'mmtk verbosity'),
     no_run: bool = option(False, '--no-run', help=f'Don\'t run any java program'),
     enable_asan: bool = option(False, '--enable-asan', help=f'Enable address sanitizer'),
+    time_v: bool = option(False, '--time-v', help=f'/bin/time -v wrapper')
 ):
     '''
         Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
@@ -205,7 +207,7 @@ def main(
             ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:
-        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan)
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v)
     if cp_bench is not None:
         do_cp_bench(profile=profile, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
