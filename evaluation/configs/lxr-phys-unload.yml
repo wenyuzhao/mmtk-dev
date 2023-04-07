@@ -1,0 +1,51 @@
+includes:
+  - ./common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-0d047f55.minheap: g1
+
+runtimes:
+  jdk-lxr-no-unload:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    commits:
+      mmtk-core: aabe4a8
+      mmtk-openjdk: 1d5dfc9
+      openjdk: 91259ca
+  jdk-lxr-munmap:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    commits:
+      mmtk-core: aabe4a8
+      mmtk-openjdk: 1d5dfc9
+      openjdk: 91259ca
+    features: mmtk/munmap
+  jdk-lxr-madv:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    commits:
+      mmtk-core: aabe4a8
+      mmtk-openjdk: 1d5dfc9
+      openjdk: 91259ca
+    features: mmtk/madv_dontneed
+  jdk-lxr-virt-limit:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    commits:
+      mmtk-core: aabe4a8
+      mmtk-openjdk: 1d5dfc9
+      openjdk: 91259ca
+    features: mmtk/virt_constraint
+
+configs:
+  - jdk-lxr-no-unload|g1|common3|hs
+  - jdk-lxr-munmap|lxr|common3|tph
+  - jdk-lxr-madv|lxr|common3|tph
+  - jdk-lxr-virt-limit|lxr|common3|tph
+  
