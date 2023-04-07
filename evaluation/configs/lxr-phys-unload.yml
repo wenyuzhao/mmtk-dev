@@ -10,7 +10,7 @@ runtimes:
   jdk-lxr-no-unload:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-unload/jdk-11.0.19
     commits:
       mmtk-core: aabe4a8
       mmtk-openjdk: 1d5dfc9
@@ -18,7 +18,7 @@ runtimes:
   jdk-lxr-munmap:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-munmap/jdk-11.0.19
     commits:
       mmtk-core: aabe4a8
       mmtk-openjdk: 1d5dfc9
@@ -27,7 +27,7 @@ runtimes:
   jdk-lxr-madv:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-madv/jdk-11.0.19
     commits:
       mmtk-core: aabe4a8
       mmtk-openjdk: 1d5dfc9
@@ -36,7 +36,7 @@ runtimes:
   jdk-lxr-virt-limit:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-bat/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-virt-limit/jdk-11.0.19
     commits:
       mmtk-core: aabe4a8
       mmtk-openjdk: 1d5dfc9
@@ -45,6 +45,7 @@ runtimes:
 
 configs:
   - jdk-lxr-no-unload|g1|common3|hs
+  - jdk-lxr-no-unload|lxr|common3|tph
   - jdk-lxr-munmap|lxr|common3|tph
   - jdk-lxr-madv|lxr|common3|tph
   - jdk-lxr-virt-limit|lxr|common3|tph
