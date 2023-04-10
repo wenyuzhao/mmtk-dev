@@ -3,7 +3,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 40
+  invocations: 80
   suites.dacapochopin-0d047f55.minheap: g1
   benchmarks.dacapochopin-0d047f55:
     - zxing
