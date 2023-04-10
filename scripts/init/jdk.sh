@@ -47,6 +47,6 @@ if ((lxr)); then
     popd
 
     pushd openjdk
-        git checkout jdk-11.0.15+8-mmtk-lxr
+        git checkout jdk-11.0.19+1-mmtk-lxr
     popd
 fi
