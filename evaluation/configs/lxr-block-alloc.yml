@@ -44,7 +44,7 @@ runtimes:
 
 configs:
   - jdk-lxr-bat|lxr|common3|tph
-  # - jdk-lxr-no-bat|lxr|common3|tph
-  - jdk-lxr-no-bat2|lxr|common3|tph
+  - jdk-lxr-no-bat|lxr|common3|tph
+  # - jdk-lxr-no-bat2|lxr|common3|tph
   - jdk-lxr-no-bat3|lxr|common3|tph
   
