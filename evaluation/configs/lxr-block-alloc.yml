@@ -17,34 +17,34 @@ runtimes:
       mmtk-core: 40fadbb
       mmtk-openjdk: 1d5dfc9
       openjdk: 91259ca
-  jdk-lxr-no-bat: # bring BAT back, mmap in space on page granularity, no overhead
+  jdk-lxr-no-bat: # with BAT, mmap in space on page granularity
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-bat/jdk-11.0.19
     commits:
-      mmtk-core: 8f2d810
+      mmtk-core: 5e0a2b5
       mmtk-openjdk: 1d5dfc9
       openjdk: 91259ca
-  # jdk-lxr-no-bat2: # mmap in space on chunk granularity, no overhead
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-lxr-no-bat2/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: 7be2a73
-  #     mmtk-openjdk: 1d5dfc9
-  #     openjdk: 91259ca
-  jdk-lxr-no-bat3: # remove BAT, mmap in space on page granularity
+  jdk-lxr-no-bat2: # without BAT, mmap in space on page granularity
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-bat2/jdk-11.0.19
+    commits:
+      mmtk-core: 3c4645a
+      mmtk-openjdk: 1d5dfc9
+      openjdk: 91259ca
+  jdk-lxr-no-bat3: # remove BAT, mmap in space on chunk granularity
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-bat3/jdk-11.0.19
     commits:
-      mmtk-core: 3c4645a
+      mmtk-core: 8c712e2
       mmtk-openjdk: 1d5dfc9
       openjdk: 91259ca
 
 configs:
   - jdk-lxr-bat|lxr|common3|tph
   - jdk-lxr-no-bat|lxr|common3|tph
-  # - jdk-lxr-no-bat2|lxr|common3|tph
+  - jdk-lxr-no-bat2|lxr|common3|tph
   - jdk-lxr-no-bat3|lxr|common3|tph
   
