@@ -28,6 +28,6 @@ configs:
   - jdk-lxr|g1|common3|hs
   - jdk-lxr|lxr|common3|tph
   - jdk-lxr-no-bat|lxr|common3|tph
-  - jdk-lxr|g1|common3|hs
+  - jdk-lxr|g1|common3|hs|no_compressed_oops
   - jdk-lxr|lxr|common3|tph|no_compressed_oops
   - jdk-lxr-no-bat|lxr|common3|tph|no_compressed_oops
