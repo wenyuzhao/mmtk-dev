@@ -1,40 +1,22 @@
 # running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
 
 includes:
-  - "./commona/common-lxr.yml"
+  - "./common/common-lxr.yml"
 
 overrides:
   heap_range: 3
-  invocations: 40
-  suites.dacapochopin-b00bfa9.minheap: g1
-
-modifiers:
-  lxr:
-    type: EnvVar
-    var: "MMTK_PLAN"
-    val: "LXR"
-  lxr_pldi:
-    type: EnvVar
-    var: "MMTK_PLAN"
-    val: "Immix"
+  invocations: 20
+  suites.dacapochopin-0d047f55.minheap: g1
 
 runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-564cee90e/jdk-11.0.15
-  jdk-lxr-exploded:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-exploded-bfdb3482/jdk
-  jdk-lxr-pldi:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr-pldi/jdk-11.0.11
-  jdk-lxr-pldi-exploded:
-    type: OpenJDK
-    release: 11
-    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-pldi-2022/jdk
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: e329615
+      mmtk-openjdk: 86a5cd2
+      openjdk: 91259ca
 
 configs:
   # - jdk-lxr-pldi-exploded|g1|common|defeature|hs
@@ -46,7 +28,7 @@ configs:
   # - jdk-lxr-pldi-exploded|g1|common|hs
   # - jdk-lxr-exploded|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
   # - jdk-lxr-exploded|ix|common|tph
-  # - jdk-lxr|g1|common2|hs
+  - jdk-lxr|g1|common3|hs
   - jdk-lxr|lxr|common3|tph
 
   # - jdk-lxr|g1|common|defeature2|hs
