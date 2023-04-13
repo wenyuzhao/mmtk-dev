@@ -62,7 +62,7 @@ def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool
         env['RUSTFLAGS'] = '-Zsanitizer=address'
     ᐅᐳᐳ(['make', f'CONF=linux-x86_64-normal-server-{profile}', f'THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk', *target], env=env, cwd=OPENJDK)
 
-def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int, enable_asan: bool, time_v: bool):
+def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: int, no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int, enable_asan: bool, time_v: bool, jdk: Optional[str]):
     env = {}
     # MMTk or HotSpot GC args
     env['RUST_BACKTRACE'] = '1'
@@ -128,6 +128,8 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     # Run
     jdk_build_dir = f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}'
     java = f'{jdk_build_dir}/jdk/bin/java' if exploded else f'{jdk_build_dir}/images/jdk/bin/java'
+    if jdk is not None:
+        java = f'{jdk}/bin/java'
     ᐅᐳᐳ(
         [*debugger_wrapper, *time_v_wrapper, java, *extra_jvm_args, *heap_args, *compiler_args, *probe_args, 'Harness', '-n', f'{iter}', *callback_args, bench, *bm_args],
         cwd=MMTK_DEV,
@@ -162,7 +164,7 @@ def main(
     release: bool = option(False, '--release', help='Overwrite --profile and force release build'),
     exploded: bool = option(False, '--exploded', help='Build or run the exploded image'),
     # Optional build args
-    build: bool = option(False, '--build', help='Build OpenJDK'),
+    build: bool = option(False, '--build', '-b', help='Build OpenJDK'),
     config: bool = option(False, '--config', help='Config OpenJDK'),
     features: Optional[str] = option(None, help='Cargo features'),
     pgo: bool = option(False, '--pgo', help='Profile-guided Optimization'),
@@ -178,6 +180,7 @@ def main(
     rr: bool = option(False, '--rr', help='Launch with rr record'),
     clean: bool = option(False, '--clean', help='`make clean` before build'),
     kill: bool = option(False, '--kill', help='Kill all existing java processes'),
+    jdk: Optional[str] = option(None, help=f'Use a different pre-built JDK'),
     jvm_args: Optional[List[str]] = option(None, help=f'Extra OpenJDK command line arguments'),
     compressed_oops: bool = option(True, help=f'UseCompressedOops'),
     verbose: int = option(0, '--verbose', '-v', help=f'mmtk verbosity'),
@@ -194,6 +197,7 @@ def main(
     if config: do_config(profile=profile, enable_asan=enable_asan)
     if clean: do_clean(profile=profile)
     if build: 
+        assert jdk is None
         if pgo:
             assert profile == 'release'
             assert not enable_asan
@@ -207,7 +211,7 @@ def main(
             ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
         do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:
-        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v)
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk)
     if cp_bench is not None:
         do_cp_bench(profile=profile, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
