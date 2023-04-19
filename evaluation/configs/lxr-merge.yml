@@ -7,24 +7,26 @@ overrides:
   suites.dacapochopin-6e411f33.minheap: g1
 
 runtimes:
-  jdk-lxr-16:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-16/jdk-11.0.19
-    commits:
-      mmtk-core: bf67a54
-      mmtk-openjdk: 956fb12
-      openjdk: 91259ca
   jdk-lxr-17:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-17/jdk-11.0.19
     commits:
-      mmtk-core: 81cf9f1
-      mmtk-openjdk: cd28e44
+      mmtk-core: cb06e90
+      mmtk-openjdk: c991bc4
+      openjdk: 91259ca
+  jdk-lxr-18:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-18/jdk-11.0.19
+    commits:
+      mmtk-core: ab5d1a9
+      mmtk-openjdk: bde4b05
       openjdk: 91259ca
 
 configs:
-  - jdk-lxr-16|lxr|common3|tph
+  - jdk-lxr-18|g1|common3|hs
   - jdk-lxr-17|lxr|common3|tph
+  - jdk-lxr-18|lxr|common3|tph
+  
   
