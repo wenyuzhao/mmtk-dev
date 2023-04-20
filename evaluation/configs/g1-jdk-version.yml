@@ -14,7 +14,7 @@ runtimes:
   jdk-lxr-11-15:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-11-15/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-11-15/jdk-11.0.15
     commits:
       mmtk-core: cb06e90
       mmtk-openjdk: e2bbaeb
