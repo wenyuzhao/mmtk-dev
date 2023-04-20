@@ -4,7 +4,7 @@ includes:
 overrides:
   heap_range: 3
   invocations: 40
-  # suites.dacapochopin-0d047f55.minheap: g1
+  suites.dacapochopin-0d047f55.minheap: g1
   benchmarks.dacapochopin-0d047f55:
     - fop
     - h2o
