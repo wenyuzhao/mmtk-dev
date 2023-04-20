@@ -125,7 +125,7 @@ def build(
                 checkout('mmtk-openjdk', f'{MMTK_DEV}/mmtk-openjdk', commits['mmtk-openjdk'])
             if not is_at_commit(f'{MMTK_DEV}/openjdk', commits['openjdk']):
                 checkout('openjdk', f'{MMTK_DEV}/openjdk', commits['openjdk'])
-            reconfig_jdk = doc['runtimes'].get('reconfig-jdk', False)
+            reconfig_jdk = doc['runtimes'][runtime_name].get('reconfig-jdk', False)
             # build and copy target
             features = doc['runtimes'][runtime_name].get('features')
             home: str = os.path.expandvars(doc['runtimes'][runtime_name]['home'])
