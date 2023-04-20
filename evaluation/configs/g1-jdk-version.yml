@@ -1,0 +1,38 @@
+includes:
+  - ./common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin-6e411f33.minheap: g1
+  benchmarks.dacapochopin-6e411f33:
+    - fop
+    - h2o
+
+
+runtimes:
+  jdk-lxr-11-15:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-11-15/jdk-11.0.19
+    commits:
+      mmtk-core: cb06e90
+      mmtk-openjdk: e2bbaeb
+      openjdk: b8c9ccc
+    reconfig-jdk: true
+  jdk-lxr-11-19:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-11-19/jdk-11.0.19
+    commits:
+      mmtk-core: cb06e90
+      mmtk-openjdk: e2bbaeb
+      openjdk: 91259ca
+    reconfig-jdk: true
+
+configs:
+  - jdk-lxr-11-15|g1|common3|hs
+  - jdk-lxr-11-19|g1|common3|hs
+  - jdk-lxr-11-19|lxr|common3|tph
+  
+  

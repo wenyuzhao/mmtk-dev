@@ -44,12 +44,16 @@ def find_config_file(config: str):
         sys.exit(f'❌ Config `{config}` not found!')
     return config_file
 
-def build_one(runtime_name: str, name: str, features: Optional[str], gc: str):
+def build_one(runtime_name: str, name: str, features: Optional[str], gc: str, config: bool):
     features_flag = ''
     if features is not None:
         features_flag = f'--features="{features}"'
-    print(f'🔵 run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag}')
-    ret = os.system(f'{MMTK_DEV}/run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag}')
+    config_flag = ''
+    if config:
+        config_flag = '--config'
+
+    print(f'🔵 run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag} {config_flag}')
+    ret = os.system(f'{MMTK_DEV}/run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag} {config_flag}')
     if ret != 0:
         sys.exit(f'❌ Failed to build `runtimes.{runtime_name}`!')
 
@@ -121,12 +125,13 @@ def build(
                 checkout('mmtk-openjdk', f'{MMTK_DEV}/mmtk-openjdk', commits['mmtk-openjdk'])
             if not is_at_commit(f'{MMTK_DEV}/openjdk', commits['openjdk']):
                 checkout('openjdk', f'{MMTK_DEV}/openjdk', commits['openjdk'])
+            reconfig_jdk = doc['runtimes'].get('reconfig-jdk', False)
             # build and copy target
             features = doc['runtimes'][runtime_name].get('features')
             home: str = os.path.expandvars(doc['runtimes'][runtime_name]['home'])
             if home.endswith('/'): home = home[:-1]
             name = re.sub(r'^jdk\-mmtk\-', '', os.path.split(os.path.split(home)[0])[1])
-            build_one(runtime_name, name, features, gc)
+            build_one(runtime_name, name, features, gc, config=reconfig_jdk)
             assert os.path.isfile(f'{home}/release'), f'❌ Failed to build `runtimes.{runtime_name}`'
             print(f"✅ [{runtime_name}]: Build successful")
             print()
