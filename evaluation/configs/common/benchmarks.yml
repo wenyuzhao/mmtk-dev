@@ -25,7 +25,8 @@ benchmarks:
   # dacapochopin-f480064:
   # dacapochopin-6e411f33:
   # dacapochopin-b00bfa9:
-  dacapochopin-0d047f55:
+  # dacapochopin-0d047f55:
+  dacapochopin-04132797:
     - lusearch
     - h2
     - cassandra

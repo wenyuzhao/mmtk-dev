@@ -17,6 +17,9 @@ overrides:
   # suites.dacapochopin-b00bfa9.timing_iteration: 5
   # suites.dacapochopin-b00bfa9.callback: probe.DacapoChopinCallback
   # suites.dacapochopin-b00bfa9.timeout: 600
-  suites.dacapochopin-0d047f55.timing_iteration: 5
-  suites.dacapochopin-0d047f55.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-0d047f55.timeout: 600
+  # suites.dacapochopin-0d047f55.timing_iteration: 5
+  # suites.dacapochopin-0d047f55.callback: probe.DacapoChopinCallback
+  # suites.dacapochopin-0d047f55.timeout: 600
+  suites.dacapochopin-04132797.timing_iteration: 5
+  suites.dacapochopin-04132797.callback: probe.DacapoChopinCallback
+  suites.dacapochopin-04132797.timeout: 600
