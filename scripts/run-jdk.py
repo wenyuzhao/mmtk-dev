@@ -23,7 +23,7 @@ HOTSPOT_GCS = {
 NO_BIASED_LOCKING = True
 NO_CLASS_UNLOAD = False
 NO_SOFT_REFS = False
-HUGE_META_SPACE_SIZE = False
+HUGE_META_SPACE_SIZE = True
 XCOMP = False
 
 class Profile(str, Enum):
@@ -83,8 +83,6 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     heap_args += [ f'-Xms{heap}', f'-Xmx{heap}' ]
     if HUGE_META_SPACE_SIZE or NO_CLASS_UNLOAD:
         heap_args.append('-XX:MetaspaceSize=1G')
-    if verbose != 0:
-        env['MMTK_VERBOSE'] = f'{verbose}'
     # Probes args
     probe_args = []
     callback_args = []
@@ -124,6 +122,12 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         extra_jvm_args += [ '-XX:-UseCompressedOops', '-XX:-UseCompressedClassPointers' ]
     if enable_asan:
         env['ASAN_OPTIONS'] = 'handle_segv=0'
+    if verbose != 0:
+        env['MMTK_VERBOSE'] = f'{verbose}'
+        if verbose >= 3:
+            extra_jvm_args += [ '-Xlog:gc*,gc+phases=debug' ]
+        elif verbose >= 2:
+            extra_jvm_args += [ '-Xlog:gc' ]
     time_v_wrapper = ['/bin/time', '-v'] if time_v else []
     # Run
     jdk_build_dir = f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}'
