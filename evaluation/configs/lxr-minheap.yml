@@ -1,0 +1,17 @@
+includes:
+  - ./common/minheap.yml
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: b4001dd
+      mmtk-openjdk: d048758
+      openjdk: 91259ca
+
+configs:
+  - jdk-lxr|lxr|common3|tph
+  
+  

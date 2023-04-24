@@ -5,13 +5,10 @@ includes:
   - "./modifiers.yml"
 
 overrides:
-  suites.dacapochopin-69a704e.timing_iteration: 5
-  suites.dacapochopin-69a704e.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-69a704e.timeout: 600
-  suites.dacapochopin-29a657f.timing_iteration: 5
-  suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-29a657f.timeout: 600
-  maxheap: 16384
+  suites.dacapochopin-04132797.timing_iteration: 5
+  suites.dacapochopin-04132797.callback: probe.DacapoChopinCallback
+  suites.dacapochopin-04132797.timeout: 600
+  maxheap: 4096
 
 benchmarks:
   dacapochopin-69a704e:
@@ -38,6 +35,29 @@ benchmarks:
     - xalan
     - zxing
   dacapochopin-29a657f:
+    - avrora
+    - batik
+    - biojava
+    - cassandra
+    - eclipse
+    - fop
+    - graphchi
+    - h2
+    - h2o
+    - jme
+    - jython
+    # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
+    # - kafka
+    - luindex
+    - lusearch
+    - pmd
+    - sunflow
+    - tradebeans
+    - tradesoap
+    - tomcat
+    - xalan
+    - zxing
+  dacapochopin-04132797:
     - avrora
     - batik
     - biojava
