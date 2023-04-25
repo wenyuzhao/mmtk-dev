@@ -1,4 +1,6 @@
+from math import ceil
 import re 
+
 
 def pase_file(bm):
     values = []
@@ -8,7 +10,7 @@ def pase_file(bm):
                 match = re.search(r'- live size: (\d+)', line)
                 if match:
                     values.append(int(match.groups()[0]))
-    return max(values)
+    return ceil(float(max(values) / 1024 / 1024))
 
 BMS_AND_HEAPS = {
     'avrora': '10M',

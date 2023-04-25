@@ -12,6 +12,7 @@ runtimes:
       openjdk: 91259ca
 
 configs:
-  - jdk-lxr|lxr|common3|tph
+  # - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|g1|common3|hs
   
   
