@@ -2,9 +2,9 @@ includes:
   - ./common/common-lxr.yml
 
 overrides:
-  heap_range: 3
+  heap_range: 8
   invocations: 40
-  benchmarks.dacapochopin-0d047f55:
+  benchmarks.dacapochopin-04132797:
     - lusearch
     - cassandra
     - h2
@@ -20,7 +20,21 @@ runtimes:
       mmtk-openjdk: 2822c9ce
       openjdk: 91259ca
 
+modifiers:
+  perf:
+    type: EnvVar
+    var: "PERF_EVENTS"
+    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS"
+  hs_perf:
+    type: ModifierSet
+    val: "jvmti|jvmti_env|perf"
+  mmtk_perf:
+    type: EnvVar
+    var: "MMTK_PHASE_PERF_EVENTS"
+    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1"
+
 configs:
-  - jdk-lxr|g1|common3|hs
-  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|g1|common3|hs|hs_perf
+  - jdk-lxr|lxr|common3|tph|mmtk_perf
+  - jdk-lxr|ss|common3|tph|mmtk_perf
   
