@@ -1,0 +1,26 @@
+includes:
+  - ./common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  benchmarks.dacapochopin-0d047f55:
+    - lusearch
+    - cassandra
+    - h2
+    - tomcat
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 60de1423
+      mmtk-openjdk: 2822c9ce
+      openjdk: 91259ca
+
+configs:
+  - jdk-lxr|g1|common3|hs
+  - jdk-lxr|lxr|common3|tph
+  
