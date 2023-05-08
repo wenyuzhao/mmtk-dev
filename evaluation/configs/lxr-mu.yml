@@ -2,13 +2,13 @@ includes:
   - ./common/common-lxr.yml
 
 overrides:
-  heap_range: 8
-  invocations: 40
-  benchmarks.dacapochopin-04132797:
-    - lusearch
-    - cassandra
-    - h2
-    - tomcat
+  heap_range: 3
+  invocations: 20
+  # benchmarks.dacapochopin-04132797:
+  #   - lusearch
+  #   - cassandra
+  #   - h2
+  #   - tomcat
 
 runtimes:
   jdk-lxr:
@@ -16,9 +16,27 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: d665fb8b
+      mmtk-core: 39cfd51b
       mmtk-openjdk: 2822c9ce
       openjdk: 91259ca
+  jdk-lxr-single-queue:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-single-queue/jdk-11.0.19
+    commits:
+      mmtk-core: 39cfd51b
+      mmtk-openjdk: 2822c9ce
+      openjdk: 91259ca
+    features: mmtk/bpr_seg_queue
+  jdk-lxr-single-queue-bulk-discontig:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-single-queue-bulk-discontig/jdk-11.0.19
+    commits:
+      mmtk-core: 39cfd51b
+      mmtk-openjdk: 2822c9ce
+      openjdk: 91259ca
+    features: mmtk/bpr_seg_queue,mmtk/bpr_block_ops_high_granularity
 
 modifiers:
   perf:
@@ -36,5 +54,6 @@ modifiers:
 configs:
   - jdk-lxr|g1|common3|hs|hs_perf
   - jdk-lxr|lxr|common3|tph|mmtk_perf
-  - jdk-lxr|ss|common3|tph|mmtk_perf
+  - jdk-lxr-single-queue|lxr|common3|tph|mmtk_perf
+  - jdk-lxr-single-queue-bulk-discontig|lxr|common3|tph|mmtk_perf
   
