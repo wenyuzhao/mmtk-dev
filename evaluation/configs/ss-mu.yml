@@ -24,6 +24,14 @@ runtimes:
       mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
     features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_2m
+  jdk-mmtk-c4m-tlab32k:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c4m-tlab32k/jdk-11.0.19
+    commits:
+      mmtk-core: 522b1ab9
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
 
 modifiers:
   perf:
@@ -42,4 +50,5 @@ configs:
   - jdk-mmtk-c32m-tlab4k|g1|common3|hs|hs_perf
   - jdk-mmtk-c32m-tlab4k|ss|common3|tph|mmtk_perf
   - jdk-mmtk-c32m-tlab2m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c4m-tlab32k|ss|common3|tph|mmtk_perf
   
