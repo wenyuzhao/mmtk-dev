@@ -3,7 +3,7 @@ includes:
 
 overrides:
   heap_range: 8
-  invocations: 20
+  invocations: 10
 
 runtimes:
   jdk-mmtk-c32m-tlab4k:
@@ -35,7 +35,7 @@ runtimes:
   jdk-mmtk-c32m-tlab32k:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-c4m-tlab32k/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-c32m-tlab32k/jdk-11.0.19
     commits:
       mmtk-core: 522b1ab9
       mmtk-openjdk: cf9cb8a61
@@ -57,8 +57,8 @@ modifiers:
 
 configs:
   - jdk-mmtk-c32m-tlab4k|g1|common3|hs|hs_perf
-  # - jdk-mmtk-c32m-tlab4k|ss|common3|tph|mmtk_perf
-  # - jdk-mmtk-c32m-tlab2m|ss|common3|tph|mmtk_perf
-  # - jdk-mmtk-c4m-tlab32k|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab4k|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab2m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c4m-tlab32k|ss|common3|tph|mmtk_perf
   - jdk-mmtk-c32m-tlab32k|ss|common3|tph|mmtk_perf
   
