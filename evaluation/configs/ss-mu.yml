@@ -11,63 +11,91 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-c32m-tlab4k-los16m/jdk-11.0.19
     commits:
-      mmtk-core: 522b1ab9
+      mmtk-core: e65c824a
       mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
     features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_4k
+  jdk-mmtk-c32m-tlab8k-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab8k-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_8k
+  jdk-mmtk-c32m-tlab16k-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab16k-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_16k
   jdk-mmtk-c32m-tlab32k-los16m:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-c32m-tlab32k-los16m/jdk-11.0.19
     commits:
-      mmtk-core: 522b1ab9
+      mmtk-core: e65c824a
       mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
-    features: mmtk/chunk_32m,mmtk/ss_los_16m
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_32k
+  jdk-mmtk-c32m-tlab64k-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab64k-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_64k
+  jdk-mmtk-c32m-tlab128k-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab128k-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_128k
+  jdk-mmtk-c32m-tlab256k-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab256k-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_256k
+  jdk-mmtk-c32m-tlab512k-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab512k-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_512k
+  jdk-mmtk-c32m-tlab1m-los16m:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-c32m-tlab1m-los16m/jdk-11.0.19
+    commits:
+      mmtk-core: e65c824a
+      mmtk-openjdk: cf9cb8a61
+      openjdk: 91259ca
+    features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_1m
   jdk-mmtk-c32m-tlab2m-los16m:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-c32m-tlab2m-los16m/jdk-11.0.19
     commits:
-      mmtk-core: 522b1ab9
+      mmtk-core: e65c824a
       mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
     features: mmtk/chunk_32m,mmtk/ss_los_16m,mmtk/ss_tlab_2m
-  jdk-mmtk-c32m-tlab4k-los64k:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-c32m-tlab4k-los64k/jdk-11.0.19
-    commits:
-      mmtk-core: 522b1ab9
-      mmtk-openjdk: cf9cb8a61
-      openjdk: 91259ca
-    features: mmtk/chunk_32m,mmtk/ss_tlab_4k
-  jdk-mmtk-c32m-tlab32k-los64k:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-c32m-tlab32k-los64k/jdk-11.0.19
-    commits:
-      mmtk-core: 522b1ab9
-      mmtk-openjdk: cf9cb8a61
-      openjdk: 91259ca
-    features: mmtk/chunk_32m
-  jdk-mmtk-c32m-tlab2m-los64k:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-c32m-tlab2m-los64k/jdk-11.0.19
-    commits:
-      mmtk-core: 522b1ab9
-      mmtk-openjdk: cf9cb8a61
-      openjdk: 91259ca
-    features: mmtk/chunk_32m,mmtk/ss_tlab_2m
-  # jdk-mmtk-c4m-tlab32k:
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-c4m-tlab32k/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: 522b1ab9
-  #     mmtk-openjdk: cf9cb8a61
-  #     openjdk: 91259ca
 
 modifiers:
   perf:
@@ -83,13 +111,16 @@ modifiers:
     val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
 
 configs:
-  - jdk-mmtk-c32m-tlab4k|g1|common3|hs|hs_perf
-  - jdk-mmtk-c32m-tlab4k-los64k|ss|common3|tph|mmtk_perf
-  - jdk-mmtk-c32m-tlab32k-los64k|ss|common3|tph|mmtk_perf
-  - jdk-mmtk-c32m-tlab2m-los64k|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab4k-los16m|g1|common3|hs|hs_perf
   - jdk-mmtk-c32m-tlab4k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab8k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab16k-los16m|ss|common3|tph|mmtk_perf
   - jdk-mmtk-c32m-tlab32k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab64k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab128k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab256k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab512k-los16m|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c32m-tlab1m-los16m|ss|common3|tph|mmtk_perf
   - jdk-mmtk-c32m-tlab2m-los16m|ss|common3|tph|mmtk_perf
-  # - jdk-mmtk-c4m-tlab32k|ss|common3|tph|mmtk_perf
   
   
