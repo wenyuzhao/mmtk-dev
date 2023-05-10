@@ -9,7 +9,7 @@ runtimes:
   jdk-mmtk-c4m-tlab32k-los64k:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-c32m-tlab4k-los16m/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-c4m-tlab32k-los64k/jdk-11.0.19
     commits:
       mmtk-core: c3d9e4b2
       mmtk-openjdk: cf9cb8a61
@@ -18,7 +18,7 @@ runtimes:
   jdk-mmtk-c4m-tlab64k-los64k:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-c32m-tlab4k-los16m/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-c4m-tlab64k-los64k/jdk-11.0.19
     commits:
       mmtk-core: c3d9e4b2
       mmtk-openjdk: cf9cb8a61
