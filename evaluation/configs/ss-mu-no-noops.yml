@@ -39,6 +39,6 @@ modifiers:
     val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
 
 configs:
-  - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf
-  - jdk-mmtk-c4m-tlab32k-los64k|ss|common3|tph|mmtk_perf
-  - jdk-mmtk-c4m-tlab64k-los64k|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf|no_compressed_oops
+  - jdk-mmtk-c4m-tlab32k-los64k|ss|common3|tph|mmtk_perf|no_compressed_oops
+  - jdk-mmtk-c4m-tlab64k-los64k|ss|common3|tph|mmtk_perf|no_compressed_oops
