@@ -51,9 +51,9 @@ def build_one(runtime_name: str, name: str, features: Optional[str], gc: str, co
     config_flag = ''
     if config:
         config_flag = '--config'
-
-    print(f'🔵 run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag} {config_flag}')
-    ret = os.system(f'{MMTK_DEV}/run-jdk --gc={gc} --bench=fop --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag} {config_flag}')
+    bench = 'fop'
+    print(f'🔵 run-jdk --gc={gc} --bench={bench} --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag} {config_flag}')
+    ret = os.system(f'{MMTK_DEV}/run-jdk --gc={gc} --bench={bench} --heap=500M --build --release --cp-bench={name} --cp-bench-no-commit-hash {features_flag} {config_flag}')
     if ret != 0:
         sys.exit(f'❌ Failed to build `runtimes.{runtime_name}`!')
 
