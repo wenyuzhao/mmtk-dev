@@ -3,9 +3,15 @@ includes:
 
 overrides:
   heap_range: 8
-  invocations: 10
+  invocations: 20
   benchmarks.dacapochopin-0d047f55:
     - batik
+    - avrora
+    - cassandra
+    - kafka
+    - luindex
+    - tomcat
+    - zxing
 
 runtimes:
   jdk-mmtk-c4m-tlab32k-los64k:
@@ -61,4 +67,4 @@ configs:
   - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf|taskset1
   - jdk-mmtk-c4m-tlab32k-los64k|ss|common3|tph|mmtk_perf|taskset1
   # Eager mmap experiment
-  - jdk-mmtk-c4m-tlab32k-los64k-eager-mmap|ss|common3|tph|mmtk_perf
+  - jdk-mmtk-c4m-tlab32k-los64k-eager-mmap|ss|common3|tph|mmtk_perf|no_compressed_oops
