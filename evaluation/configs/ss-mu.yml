@@ -4,7 +4,7 @@ includes:
 overrides:
   heap_range: 8
   invocations: 20
-  benchmarks.dacapochopin-0d047f55:
+  benchmarks.dacapochopin-04132797:
     - batik
     - avrora
     - cassandra

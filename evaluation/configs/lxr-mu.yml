@@ -2,58 +2,59 @@ includes:
   - ./common/common-lxr.yml
 
 overrides:
-  heap_range: 3
+  heap_range: 8
   invocations: 20
-  # benchmarks.dacapochopin-04132797:
-  #   - lusearch
-  #   - cassandra
-  #   - h2
-  #   - tomcat
+  benchmarks.dacapochopin-04132797:
+    - batik
+    - avrora
+    - cassandra
+    - kafka
+    - luindex
+    - tomcat
+    - zxing
 
 runtimes:
-  jdk-lxr:
+  jdk-mmtk-c4m-tlab32k-los64k:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-c4m-tlab32k-los64k/jdk-11.0.19
     commits:
-      mmtk-core: 39cfd51b
-      mmtk-openjdk: 2822c9ce
+      mmtk-core: c3d9e4b2
+      mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
-  jdk-lxr-single-queue:
+    features: mmtk/ss_tlab_32k
+  jdk-mmtk-b256k:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-single-queue/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-b256k/jdk-11.0.19
     commits:
-      mmtk-core: 39cfd51b
-      mmtk-openjdk: 2822c9ce
+      mmtk-core: c3d9e4b2
+      mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
-    features: mmtk/bpr_seg_queue
-  jdk-lxr-single-queue-bulk-discontig:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-single-queue-bulk-discontig/jdk-11.0.19
-    commits:
-      mmtk-core: 39cfd51b
-      mmtk-openjdk: 2822c9ce
-      openjdk: 91259ca
-    features: mmtk/bpr_seg_queue,mmtk/bpr_block_ops_high_granularity
+    features: mmtk/lxr_block_256k
 
 modifiers:
   perf:
     type: EnvVar
     var: "PERF_EVENTS"
-    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS"
+    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
   hs_perf:
     type: ModifierSet
     val: "jvmti|jvmti_env|perf"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
-    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1"
+    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  taskset1:
+    type: Wrapper
+    val: taskset --cpu-list 0
 
 configs:
-  - jdk-lxr|g1|common3|hs|hs_perf
-  - jdk-lxr|lxr|common3|tph|mmtk_perf
-  - jdk-lxr-single-queue|lxr|common3|tph|mmtk_perf
-  - jdk-lxr-single-queue-bulk-discontig|lxr|common3|tph|mmtk_perf
-  
+  # Chunk size experiment
+  - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf
+  - jdk-mmtk-c4m-tlab32k-los64k|lxr|common3|tph|mmtk_perf
+  - jdk-mmtk-b256k|lxr|common3|tph|mmtk_perf
+  # Single core experiment
+  - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf|taskset1
+  - jdk-mmtk-c4m-tlab32k-los64k|lxr|common3|tph|mmtk_perf|taskset1
+  - jdk-mmtk-b256k|lxr|common3|tph|mmtk_perf|taskset1
