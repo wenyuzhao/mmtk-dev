@@ -19,7 +19,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-c4m-tlab32k-los64k/jdk-11.0.19
     commits:
-      mmtk-core: c3d9e4b2
+      mmtk-core: 87d20ddd
       mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
     features: mmtk/ss_tlab_32k
@@ -28,7 +28,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-b256k/jdk-11.0.19
     commits:
-      mmtk-core: c3d9e4b2
+      mmtk-core: 87d20ddd
       mmtk-openjdk: cf9cb8a61
       openjdk: 91259ca
     features: mmtk/lxr_block_256k
