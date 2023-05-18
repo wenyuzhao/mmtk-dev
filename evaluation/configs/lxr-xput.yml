@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 20
+  invocations: 40
   suites.dacapochopin-0d047f55.minheap: g1
 
 runtimes:
@@ -14,88 +14,10 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: e329615
-      mmtk-openjdk: 86a5cd2
+      mmtk-core: 6d99fdb7
+      mmtk-openjdk: 39cb2d67
       openjdk: 91259ca
 
 configs:
-  # - jdk-lxr-pldi-exploded|g1|common|defeature|hs
-  # - jdk-lxr-exploded|g1|common|defeature|hs
-  # - jdk-lxr-pldi-exploded|ix|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
-  # - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
-  # - jdk-lxr-exploded|lxr|common|defeature|tph
-
-  # - jdk-lxr-pldi-exploded|g1|common|hs
-  # - jdk-lxr-exploded|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
-  # - jdk-lxr-exploded|ix|common|tph
   - jdk-lxr|g1|common3|hs
   - jdk-lxr|lxr|common3|tph
-
-  # - jdk-lxr|g1|common|defeature2|hs
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-5
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-10
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-20
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-30
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-40
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-50
-
-  # - jdk-lxr|g1|common|defeature2|hs
-  # - jdk-lxr|g1|common|defeature2|hs|no_prefetch
-
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-20|no_prefetch           # Baseline (Prefetch)
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-20                       # No Prefetch
-  # - jdk-lxr-zero|lxr|common|defeature2|tph|trace2-20                  # Zeroing
-  # - jdk-lxr-alloc-fix|lxr|common|defeature2|tph|trace2-20             # Large TLAB
-
-  # - jdk-lxr|ix|common|defeature2|tph|trace2-20|no_prefetch           # Baseline (Prefetch)
-  # - jdk-lxr|ix|common|defeature2|tph|trace2-20                       # No Prefetch
-  # - jdk-lxr-zero|ix|common|defeature2|tph|trace2-20                  # Zeroing
-  # - jdk-lxr-alloc-fix|ix|common|defeature2|tph|trace2-20             # Large TLAB
-
-  # - jdk-lxr|ss|common|defeature2|tph|trace2-20|no_prefetch           # Baseline (Prefetch)
-  # - jdk-lxr|ss|common|defeature2|tph|trace2-20                       # No Prefetch
-  # - jdk-lxr-zero|ss|common|defeature2|tph|trace2-20                  # Zeroing
-
-  # - jdk-lxr-alloc-fix|ss|common|defeature2|tph|trace2-20             # Large TLAB
-
-
-  # - jdk-lxr|ix|common|defeature2|tph|trace2-20
-  # - jdk-lxr|ix|common|defeature2|tph|trace2-20|no_prefetch
-  # - jdk-lxr-alloc-fix|ix|common|defeature2|tph|trace2-20
-
-  # - jdk-lxr|ss|common|defeature2|tph|trace2-20
-  # - jdk-lxr|ss|common|defeature2|tph|trace2-20|no_prefetch
-  # - jdk-lxr-alloc-fix|ss|common|defeature2|tph|trace2-20
-
-  # - jdk-lxr|lxr|common|defeature|tph
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-5
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-20
-  # - jdk-lxr-alloc-fix|lxr|common|defeature2|tph|trace2-20
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-20
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-30
-  # - jdk-lxr|ss|common|defeature2|tph
-  # - jdk-lxr-alloc-fix|ss|common|defeature2|tph
-
-  # - jdk-lxr|ix|common|defeature2|tph
-  # - jdk-lxr-alloc-fix|ix|common|defeature2|tph
-
-  # - jdk-lxr-pldi-exploded|g1|common|defeature|hs|xcomp
-  # - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
-
-  # - jdk-lxr-pldi|g1|common|defeature|hs|xcomp
-  # - jdk-lxr-pldi|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
-
-  # - jdk-lxr-pldi-2022|g1|common|defeature|hs|xcomp
-  # - jdk-lxr|g1|common|defeature|hs|xcomp
-  # - jdk-lxr|g1|common2|no_compressed_oops|hs
-  # - jdk-lxr|lxr|common2|no_compressed_oops|tph|trace2-5|srv-128|srvw|lfb-32
-  # - jdk-lxr|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
-  # - jdk-lxr|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
-
-  # - jdk-lxr-exploded|g1|common|defeature|hs|xcomp
-  # - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
-  # - jdk-lxr-exploded|lxr|common|defeature|tph|trace2-30|srv-128|srvw|lfb-32|xcomp
-  # - jdk-lxr-pldi-exploded|lxr_pldi|common|defeature|tph|trace2-5|srv-128|srvw|lfb-32
-
-  # - jdk-lxr|shenandoah|common|defeature2|hs
-  # - jdk-lxr|z|common|defeature2|hs
