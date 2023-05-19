@@ -17,7 +17,34 @@ runtimes:
       mmtk-core: 6d99fdb7
       mmtk-openjdk: 39cb2d67
       openjdk: 91259ca
+  jdk-lxr-no-fix:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-fix/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-no-bpr-and-root-fix
+      mmtk-openjdk: lxr-no-bpr-and-root-fix
+      openjdk: 91259ca
+  jdk-lxr-with-bpr-fix:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-with-bpr-fix/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-with-bpr-fix
+      mmtk-openjdk: lxr-with-bpr-fix
+      openjdk: 91259ca
+  jdk-lxr-with-root-fix:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-with-root-fix/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-with-root-fix
+      mmtk-openjdk: lxr-with-root-fix
+      openjdk: 91259ca
 
 configs:
   - jdk-lxr|g1|common3|hs
   - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-no-fix|lxr|common3|tph
+  - jdk-lxr-with-bpr-fix|lxr|common3|tph
+  - jdk-lxr-with-root-fix|lxr|common3|tph
