@@ -14,7 +14,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 6d9d9161
+      mmtk-core: d916168dad95
       mmtk-openjdk: cb69c9df
       openjdk: 91259ca
   jdk-lxr-no-fix:
@@ -30,7 +30,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-with-bpr-fix/jdk-11.0.19
     commits:
-      mmtk-core: 6d9d9161
+      mmtk-core: d916168dad95
       mmtk-openjdk: lxr-no-root-fix
       openjdk: 91259ca
   jdk-lxr-with-root-fix:
