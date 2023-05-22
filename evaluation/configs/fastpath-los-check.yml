@@ -1,0 +1,33 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin-0d047f55.minheap: g1
+
+runtimes:
+  jdk-mmtk:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk/jdk-11.0.19
+    commits:
+      mmtk-core: d916168dad95
+      mmtk-openjdk: cb69c9df
+      openjdk: 91259ca
+  jdk-mmtk-no-los-check:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-no-los-check/jdk-11.0.19
+    commits:
+      mmtk-core: d916168dad95
+      mmtk-openjdk: 1ae658675
+      openjdk: 91259ca
+
+configs:
+  - jdk-mmtk|ss|common3|tph
+  - jdk-mmtk|ix|common3|tph
+  - jdk-mmtk-no-los-check|ss|common3|tph
+  - jdk-mmtk-no-los-check|ix|common3|tph
