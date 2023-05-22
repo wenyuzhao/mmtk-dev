@@ -9,10 +9,10 @@ overrides:
   suites.dacapochopin-0d047f55.minheap: g1
 
 runtimes:
-  jdk-mmtk:
+  jdk-mmtk-los-check:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-los-check/jdk-11.0.19
     commits:
       mmtk-core: d916168dad95
       mmtk-openjdk: cb69c9df
@@ -27,7 +27,7 @@ runtimes:
       openjdk: 91259ca
 
 configs:
-  - jdk-mmtk|ss|common3|tph
-  - jdk-mmtk|ix|common3|tph
+  - jdk-mmtk-los-check|ss|common3|tph
+  - jdk-mmtk-los-check|ix|common3|tph
   - jdk-mmtk-no-los-check|ss|common3|tph
   - jdk-mmtk-no-los-check|ix|common3|tph
