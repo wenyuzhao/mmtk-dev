@@ -23,7 +23,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-no-los-check/jdk-11.0.19
     commits:
       mmtk-core: d916168dad95
-      mmtk-openjdk: 1ae658675
+      mmtk-openjdk: 19b4489e
       openjdk: 91259ca
 
 configs:
