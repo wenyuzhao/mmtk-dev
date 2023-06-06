@@ -4,6 +4,11 @@ from mmtk_utils import *
 from enum import Enum
 import os
 
+# os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS'
+# os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+# os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CACHE_DTLB:MISS'
+# os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+
 MMTK_OPENJDK = f'{MMTK_DEV}/mmtk-openjdk'
 OPENJDK = f'{MMTK_DEV}/openjdk'
 
@@ -130,7 +135,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
             extra_jvm_args += [ '-Xlog:gc' ]
     time_v_wrapper = ['/bin/time', '-v'] if time_v else []
     # Run
-    jdk_build_dir = f'{OPENJDK}/build/linux-x86_64-normal-server-{profile}'
+    jdk_build_dir = f'{OPENJDK}/build/linux-x86_64-normal-server-{str(profile)}'
     java = f'{jdk_build_dir}/jdk/bin/java' if exploded else f'{jdk_build_dir}/images/jdk/bin/java'
     if jdk is not None:
         java = f'{jdk}/bin/java'
@@ -197,27 +202,28 @@ def main(
     '''
     if release:
         profile = Profile.release
+    profile_v = str(profile.value)
     if kill: do_kill()
-    if config: do_config(profile=profile, enable_asan=enable_asan)
-    if clean: do_clean(profile=profile)
+    if config: do_config(profile=profile_v, enable_asan=enable_asan)
+    if clean: do_clean(profile=profile_v)
     if build: 
         assert jdk is None
         if pgo:
-            assert profile == 'release'
+            assert profile_v == 'release'
             assert not enable_asan
-            do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=False, pgo_gen=True)
+            do_build(profile=profile_v, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=False, pgo_gen=True)
             def run_with_pgo(bench: str, heap: str):
-                do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
+                do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
             run_with_pgo(bench='lusearch', heap='200M')
             run_with_pgo(bench='h2', heap='3000M')
             run_with_pgo(bench='cassandra', heap='800M')
             run_with_pgo(bench='tomcat', heap='300M')
             ᐅᐳᐳ(['./scripts/llvm-profdata', 'merge', '-o', '/tmp/pgo-data/merged.profdata', '/tmp/pgo-data'])
-        do_build(profile=profile, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
+        do_build(profile=profile_v, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:
-        do_run(gc=gc, bench=bench, heap=heap, profile=profile, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk)
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk)
     if cp_bench is not None:
-        do_cp_bench(profile=profile, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
+        do_cp_bench(profile=profile_v, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
 
 # @app.command()

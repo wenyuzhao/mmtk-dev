@@ -9,4 +9,9 @@
         "initializer_list": "cpp",
         "utility": "cpp"
     },
+    "rust-analyzer.linkedProjects": [
+        "mmtk-core/Cargo.toml",
+        "mmtk-openjdk/mmtk/Cargo.toml",
+    ],
+    "rust-analyzer.cargo.target": "x86_64-unknown-linux-gnu",
 }

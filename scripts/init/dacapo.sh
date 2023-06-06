@@ -2,7 +2,7 @@
 
 set -e
 
-declare -r dacapo_version=b00bfa9
+declare -r dacapo_version=04132797
 declare dacapo_path="/usr/share/benchmarks/dacapo"
 
 while [[ "$#" -gt 0 ]]; do
@@ -22,10 +22,10 @@ done
 declare -r download_url_base=https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_
 declare -r dacapo_name=dacapo-evaluation-git-$dacapo_version
 
-if [ -d "$dacapo_path" ]; then
-    echo "$dacapo_path already exists."
-    exit 0
-fi
+# if [ -d "$dacapo_path" ]; then
+#     echo "$dacapo_path already exists."
+#     exit 0
+# fi
 
 sudo mkdir -p $dacapo_path/$dacapo_name
 
