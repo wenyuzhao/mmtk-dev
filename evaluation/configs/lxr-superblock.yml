@@ -1,0 +1,52 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-04132797.minheap: g1
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 34c643a5
+      mmtk-openjdk: 3d96ce63
+      openjdk: 91259ca
+  jdk-lxr-superblock:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-superblock/jdk-11.0.19
+    commits:
+      mmtk-core: 7f6c3e96
+      mmtk-openjdk: 0db0485a
+      openjdk: 91259ca
+  jdk-lxr-stw:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-stw/jdk-11.0.19
+    commits:
+      mmtk-core: 34c643a5
+      mmtk-openjdk: 3d96ce63
+      openjdk: 91259ca
+    features: mmtk/lxr_no_cm,mmtk/lxr_no_lazy
+  jdk-lxr-superblock-stw:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-superblock-stw/jdk-11.0.19
+    commits:
+      mmtk-core: 7f6c3e96
+      mmtk-openjdk: 0db0485a
+      openjdk: 91259ca
+    features: mmtk/lxr_no_cm,mmtk/lxr_no_lazy
+
+configs:
+  - jdk-lxr|g1|common3|hs_perf
+  - jdk-lxr|lxr|common3|tph_perf
+  - jdk-lxr-superblock|lxr|common3|tph_perf
+  - jdk-lxr-stw|lxr|common3|tph_perf
+  - jdk-lxr-superblock-stw|lxr|common3|tph_perf
