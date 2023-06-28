@@ -19,7 +19,7 @@ runtimes:
   jdk-lxr-sanity:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-sanity/jdk-11.0.19
     commits:
       mmtk-core: 43a0632ce
       mmtk-openjdk: 848974d7f
