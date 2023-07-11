@@ -220,6 +220,29 @@ overrides:
         tradesoap: 103
         xalan: 7
         zxing: 101
+      G1:
+        avrora: 5
+        batik: 196
+        biojava: 97
+        cassandra: 117
+        eclipse: 348
+        fop: 15
+        graphchi: 183
+        h2: 745
+        h2o: 123
+        jme: 29
+        jython: 29
+        kafka: 205
+        luindex: 45
+        lusearch: 21
+        pmd: 196
+        spring: 55
+        sunflow: 38
+        tomcat: 23
+        tradebeans: 135
+        tradesoap: 109
+        xalan: 15
+        zxing: 162
     timing_iteration: 3
     timeout: 120
 

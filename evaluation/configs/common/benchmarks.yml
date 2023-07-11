@@ -31,22 +31,22 @@ benchmarks:
     - h2
     - cassandra
     - tomcat
-    # - tradebeans
-    # - tradesoap
+    - spring
+    - tradebeans
+    - tradesoap
 
-    - fop
-    - h2o
     - avrora
     - batik
     - biojava
     - eclipse
+    - fop
     - graphchi
+    - h2o
+    - jme
     - jython
+    - kafka
     - luindex
     - pmd
     - sunflow
     - xalan
     - zxing
-    - kafka
-
-    # - jme
