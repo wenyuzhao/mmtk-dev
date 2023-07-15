@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mmtk-dev"
+version = "0.1.0"
+description = ""
+authors = ["Wenyu Zhao <wenyu.zhao@anu.edu.au>"]
+readme = "README.md"
+packages = [{include = "mmtk_dev"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = {extras = ["all"], version = "^0.9.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
