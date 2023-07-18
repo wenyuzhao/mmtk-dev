@@ -14,4 +14,11 @@
         "mmtk-openjdk/mmtk/Cargo.toml",
     ],
     "rust-analyzer.cargo.target": "x86_64-unknown-linux-gnu",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+    },
+    "black-formatter.args": [
+        "--line-length",
+        "10000"
+    ]
 }
