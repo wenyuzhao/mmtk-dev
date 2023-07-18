@@ -10,3 +10,4 @@ _*
 !__init__.py
 !__main__.py
 /builds
+/dacapo-evaluation-git-*

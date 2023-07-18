@@ -1,8 +1,9 @@
 
 # Getting Started
 
-1. `git clone https://github.com/wenyuzhao/MMTk-Dev.git`
-2. Run `./scripts/init-mmtk-jdk.sh` once to initialize the repo.
+1. `git clone https://github.com/wenyuzhao/mmtk-dev.git`
+2. Run `make init-jdk` once to initialize the repo and download dacapo benchmark suite.
+   * For LXR developemnt, run `make init-jdk lxr=1`
 
 ## Further Instructions
 
@@ -14,7 +15,7 @@
 # OpenJDK Development
 
 ```
-./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build 
+./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build
 ```
 
 Please run `./run-jdk --help` for all the available arguments
