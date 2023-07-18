@@ -28,22 +28,25 @@ ifeq ($(lxr),1)
 	cd openjdk && git checkout jdk-11.0.19+1-mmtk-lxr
 endif
 
-init-dacapo: $(dacapo_dir)/dacapo-evaluation-git-$(dacapo).jar $(dacapo_dir)/dacapo-evaluation-git-$(dacapo).zip
+init-dacapo: $(dacapo_dir)/dacapo-evaluation-git-$(dacapo).jar $(dacapo_dir)/dacapo-evaluation-git-$(dacapo)
 
 $(dacapo_dir)/dacapo-evaluation-git-$(dacapo).jar:
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).jar
 	sudo mkdir -p $(dacapo_dir)
 	sudo mv dacapo-evaluation-git-$(dacapo).jar $@
 
-$(dacapo_dir)/dacapo-evaluation-git-$(dacapo).zip:
+$(dacapo_dir)/dacapo-evaluation-git-$(dacapo):
+	rm -rf dacapo-evaluation-git-$(dacapo)
 	rm dacapo-evaluation-git-$(dacapo).zip*
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.aa
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ab
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ac
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ad
-	sudo mkdir -p $(dacapo_dir)
 	cat dacapo-evaluation-git-$(dacapo).zip.* > dacapo-evaluation-git-$(dacapo).zip
-	sudo mv dacapo-evaluation-git-$(dacapo).zip $@
+	unzip dacapo-evaluation-git-$(dacapo).zip
+	sudo mkdir -p $(dacapo_dir)
+	sudo rm -rf $(dacapo_dir)/dacapo-evaluation-git-$(dacapo)
+	sudo mv dacapo-evaluation-git-$(dacapo) $@
 	rm dacapo-evaluation-git-$(dacapo).zip*
 
 python-packages:
@@ -52,4 +55,4 @@ python-packages:
 
 debian-packages:
 	sudo apt-get update -y
-	sudo apt-get install -y python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev
+	sudo apt-get install -y python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev unzip
