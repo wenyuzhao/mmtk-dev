@@ -3,7 +3,7 @@ lxr=0
 dacapo=04132797
 dacapo_dir=/usr/share/benchmarks/dacapo
 
-init-jdk: debian-packages python-packages init-mmtk-core init-mmtk-openjdk init-openjdk init-dacapo
+init-jdk: debian-packages python-packages init-mmtk-core init-mmtk-openjdk init-openjdk init-dacapo probes
 
 init-mmtk-core:
 	git submodule update --init --remote mmtk-core
@@ -48,6 +48,16 @@ $(dacapo_dir)/dacapo-evaluation-git-$(dacapo):
 	sudo rm -rf $(dacapo_dir)/dacapo-evaluation-git-$(dacapo)
 	sudo mv dacapo-evaluation-git-$(dacapo) $@
 	rm dacapo-evaluation-git-$(dacapo).zip*
+
+probes: evaluation/probes/librust_mmtk_probe.so evaluation/probes/librust_mmtk_probe_32.so evaluation/probes/probes-java6.jar evaluation/probes/probes.jar evaluation/probes/libperf_statistics.so
+
+evaluation/probes/libperf_statistics.so:
+	mkdir -p evaluation/probes
+	cd evaluation/probes && wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/$(@F)
+
+evaluation/probes/%:
+	mkdir -p evaluation/probes
+	cd evaluation/probes && wget https://github.com/anupli/probes/releases/download/20230127-snapshot/$(@F)
 
 python-packages:
 	poetry install --no-root
