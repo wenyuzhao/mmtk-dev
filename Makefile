@@ -37,7 +37,7 @@ $(dacapo_dir)/dacapo-evaluation-git-$(dacapo).jar:
 
 $(dacapo_dir)/dacapo-evaluation-git-$(dacapo):
 	rm -rf dacapo-evaluation-git-$(dacapo)
-	rm dacapo-evaluation-git-$(dacapo).zip*
+	rm -f dacapo-evaluation-git-$(dacapo).zip*
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.aa
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ab
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ac
