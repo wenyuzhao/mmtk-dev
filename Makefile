@@ -55,4 +55,4 @@ python-packages:
 
 debian-packages:
 	sudo apt-get update -y
-	sudo apt-get install -y python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev unzip
+	sudo apt-get install -y clang python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev unzip
