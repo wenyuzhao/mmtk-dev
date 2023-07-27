@@ -3,7 +3,7 @@ lxr=0
 dacapo=04132797
 dacapo_dir=/usr/share/benchmarks/dacapo
 
-init-jdk: debian-packages python-packages init-mmtk-core init-mmtk-openjdk init-openjdk init-dacapo
+init-jdk: debian-packages python-packages init-mmtk-core init-mmtk-openjdk init-openjdk init-dacapo probes
 
 init-mmtk-core:
 	git submodule update --init --remote mmtk-core
@@ -37,7 +37,7 @@ $(dacapo_dir)/dacapo-evaluation-git-$(dacapo).jar:
 
 $(dacapo_dir)/dacapo-evaluation-git-$(dacapo):
 	rm -rf dacapo-evaluation-git-$(dacapo)
-	rm dacapo-evaluation-git-$(dacapo).zip*
+	rm -f dacapo-evaluation-git-$(dacapo).zip*
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.aa
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ab
 	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-evaluation-git-$(dacapo).zip.ac
@@ -49,10 +49,20 @@ $(dacapo_dir)/dacapo-evaluation-git-$(dacapo):
 	sudo mv dacapo-evaluation-git-$(dacapo) $@
 	rm dacapo-evaluation-git-$(dacapo).zip*
 
+probes: evaluation/probes/librust_mmtk_probe.so evaluation/probes/librust_mmtk_probe_32.so evaluation/probes/probes-java6.jar evaluation/probes/probes.jar evaluation/probes/libperf_statistics.so
+
+evaluation/probes/libperf_statistics.so:
+	mkdir -p evaluation/probes
+	cd evaluation/probes && wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/$(@F)
+
+evaluation/probes/%:
+	mkdir -p evaluation/probes
+	cd evaluation/probes && wget https://github.com/anupli/probes/releases/download/20230127-snapshot/$(@F)
+
 python-packages:
 	poetry install --no-root
 	pipx install running-ng
 
 debian-packages:
 	sudo apt-get update -y
-	sudo apt-get install -y python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev unzip
+	sudo apt-get install -y clang python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev unzip
