@@ -57,6 +57,22 @@ runtimes:
       mmtk-core: lxr-merge-debug-3-fix
       mmtk-openjdk: lxr-merge-debug-vo
       openjdk: 7caf8f7d
+  jdk-lxr-3-fix-2:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-3-fix-2/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-merge-debug-3-fix-2
+      mmtk-openjdk: lxr-merge-debug-vo
+      openjdk: 7caf8f7d
+  jdk-lxr-3-fix-revert:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-3-fix-revert/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-merge-debug-3-fix-revert
+      mmtk-openjdk: lxr-merge-debug-vo
+      openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|lxr|common3|tph
@@ -64,3 +80,5 @@ configs:
   - jdk-lxr-2|lxr|common3|tph
   - jdk-lxr-3|lxr|common3|tph
   - jdk-lxr-3-fix|lxr|common3|tph
+  - jdk-lxr-3-fix-2|lxr|common3|tph
+  - jdk-lxr-3-fix-revert|lxr|common3|tph
