@@ -68,9 +68,9 @@ runtimes:
   jdk-lxr-3-fix-revert:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-3-fix-revert/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-3-revert/jdk-11.0.19
     commits:
-      mmtk-core: lxr-merge-debug-3-fix-revert
+      mmtk-core: lxr-merge-debug-3-revert
       mmtk-openjdk: lxr-merge-debug-vo
       openjdk: 7caf8f7d
 
