@@ -62,7 +62,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-3-fix-2/jdk-11.0.19
     commits:
-      mmtk-core: lxr-merge-debug-3-fix-2
+      mmtk-core: lxr-merge-debug-fix-2
       mmtk-openjdk: lxr-merge-debug-vo
       openjdk: 7caf8f7d
   jdk-lxr-3-fix-revert:
