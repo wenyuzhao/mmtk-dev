@@ -1,32 +1,31 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
 includes:
-  - ./common/common-lxr.yml
+  - "./common/common-lxr.yml"
 
 overrides:
   heap_range: 3
-  invocations: 40
-  suites.dacapochopin-6e411f33.minheap: g1
+  invocations: 20
+  suites.dacapochopin-04132797.minheap: G1
 
 runtimes:
-  jdk-lxr-17:
+  jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-17/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: cb06e90
-      mmtk-openjdk: c991bc4
-      openjdk: 91259ca
-  jdk-lxr-18:
+      mmtk-core: 333ffb8
+      mmtk-openjdk: 98eb6f9
+      openjdk: 7caf8f7d
+  jdk-lxr-merge:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-18/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-merge/jdk-11.0.19
     commits:
-      mmtk-core: ab5d1a9
-      mmtk-openjdk: bde4b05
-      openjdk: 91259ca
+      mmtk-core: c8bfe4d
+      mmtk-openjdk: 9e6214a
+      openjdk: 7caf8f7d
 
 configs:
-  - jdk-lxr-18|g1|common3|hs
-  - jdk-lxr-17|lxr|common3|tph
-  - jdk-lxr-18|lxr|common3|tph
-  
-  
+  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-merge|lxr|common3|tph
