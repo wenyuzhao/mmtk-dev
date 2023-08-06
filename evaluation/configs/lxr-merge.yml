@@ -25,7 +25,16 @@ runtimes:
       mmtk-core: 1fad03d2
       mmtk-openjdk: 9e6214a
       openjdk: 7caf8f7d
+  jdk-lxr-merge-revert:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-merge-revert/jdk-11.0.19
+    commits:
+      mmtk-core: 8228e5e5
+      mmtk-openjdk: 9e6214a
+      openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|lxr|common3|tph
   - jdk-lxr-merge|lxr|common3|tph
+  - jdk-lxr-merge-revert|lxr|common3|tph
