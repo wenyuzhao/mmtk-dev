@@ -1,0 +1,9 @@
+version: "3"
+services:
+  mmtk-dev:
+    image: mmtk-dev
+    build: .
+    volumes:
+      - .:/root/mmtk-dev
+      - .docker/root/.cargo/git:/root/.cargo/git
+      - .docker/root/.cargo/registry:/root/.cargo/registry

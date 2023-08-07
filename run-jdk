@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
+set -ex
+# Use docker if the `mmtk-dev` image exists.
+if [[ -z "$MMTK_NO_DOCKER" ]] && [[ -n "$(docker images -q mmtk-dev 2> /dev/null)" ]]; then
+    docker_prefix="docker compose run mmtk-dev"
+    echo "🐳 Use mmtk-dev with docker"
+else
+    docker_prefix=""
+fi
 
-poetry run ./scripts/run-jdk.py $@
+$docker_prefix poetry run ./scripts/run-jdk.py $@

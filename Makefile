@@ -3,7 +3,12 @@ lxr=0
 dacapo=04132797
 dacapo_dir=/usr/share/benchmarks/dacapo
 
-init-jdk: debian-packages python-packages init-mmtk-core init-mmtk-openjdk init-openjdk init-dacapo probes
+init-jdk: debian-packages python-packages init-jdk-repos init-dacapo probes
+
+init-jdk-repos: init-mmtk-core init-mmtk-openjdk init-openjdk probes
+
+init-jdk-docker: init-jdk-repos
+	sudo docker compose build
 
 init-mmtk-core:
 	git submodule update --init --remote mmtk-core

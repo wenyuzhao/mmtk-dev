@@ -1,0 +1,45 @@
+FROM ubuntu:22.04
+
+ARG DEBIAN_FRONTEND="noninteractive"
+ENV TZ="Australia/Sydney"
+
+RUN apt-get update -y && apt-get upgrade -y
+
+RUN apt-get install locales -y
+RUN rm -rf /var/lib/apt/lists/*
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+ENV LANG en_US.utf8
+
+RUN apt-get update -y
+
+# Install packages
+RUN apt-get install -y wget curl git python3 openjdk-8-jdk openjdk-11-jdk ant autoconf bison pkg-config zip unzip build-essential gettext gcc-multilib libx11-dev libxext-dev libxrandr-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libfontconfig1-dev libtool sudo vim
+RUN apt-get clean
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN /bin/sh -c ". /root/.cargo/env"
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install DaCapo Benchmarks
+RUN mkdir /tmp/init-dacapo
+COPY ./Makefile /tmp/init-dacapo/Makefile
+WORKDIR /tmp/init-dacapo
+RUN make init-dacapo
+
+# Install poetry
+WORKDIR /root/mmtk-dev
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
+COPY ./pyproject.toml ./poetry.lock /root/mmtk-dev/
+RUN poetry install --no-root
+
+ENV HOME /root
+WORKDIR /root/mmtk-dev
+
+# Pre-install rust toolchains
+RUN rustup toolchain install 1.66.1 1.70.0
+RUN apt-get install -y clang
+
+CMD ["bash", "--login"]

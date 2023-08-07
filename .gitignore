@@ -11,3 +11,4 @@ _*
 !__main__.py
 /builds
 /dacapo-evaluation-git-*
+/.docker
