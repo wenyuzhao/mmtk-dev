@@ -14,7 +14,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 6686566b
+      mmtk-core: 0486439
       mmtk-openjdk: f1b16c9f
       openjdk: 7caf8f7d
   jdk-lxr-no-meta-accounting:
@@ -22,7 +22,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 6686566b
+      mmtk-core: 0486439
       mmtk-openjdk: f1b16c9f
       openjdk: 7caf8f7d
     features: mmtk/no_meta_counting
