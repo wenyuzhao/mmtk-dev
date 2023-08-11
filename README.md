@@ -7,6 +7,7 @@
    * For LXR developemnt, run `make init-jdk lxr=1`
    * Windiws or macOS users: Use docker by running `make init-jdk-docker` instead of `make init-jdk`.
      * Then just use the `./run-jdk` script as usual. It will build and run everything inside the docker container automatically.
+     * This is optional but still working for Linux usres. You can skip running `make install-debian-packages`.
 
 ## Further Instructions
 

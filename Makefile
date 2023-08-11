@@ -8,7 +8,7 @@ init-jdk: python-packages init-jdk-repos init-dacapo probes
 init-jdk-repos: init-mmtk-core init-mmtk-openjdk init-openjdk probes
 
 init-jdk-docker: init-jdk-repos
-	sudo docker compose build
+	docker compose build
 
 init-mmtk-core:
 	git submodule update --init --remote mmtk-core
