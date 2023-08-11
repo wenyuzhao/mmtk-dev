@@ -206,8 +206,8 @@ def main(
     bench: str = option(..., help="DaCapo benchmark name"),
     # Optional build and run args
     profile: Profile = option(Profile.fastdebug, help="Specify build profile. Default to fastdebug"),
-    release: bool = option(False, "--release", help="Overwrite --profile and force release build"),
-    exploded: bool = option(False, "--exploded", help="Build or run the exploded image"),
+    release: bool = option(False, "--release", "-r", help="Overwrite --profile and force release build"),
+    exploded: bool = option(False, "--exploded", "-x", help="Build or run the exploded image"),
     # Optional build args
     build: bool = option(False, "--build", "-b", help="Build OpenJDK"),
     config: bool = option(False, "--config", help="Config OpenJDK"),
