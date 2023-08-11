@@ -3,7 +3,7 @@ lxr=0
 dacapo=04132797
 dacapo_dir=/usr/share/benchmarks/dacapo
 
-init-jdk: debian-packages python-packages init-jdk-repos init-dacapo probes
+init-jdk: python-packages init-jdk-repos init-dacapo probes
 
 init-jdk-repos: init-mmtk-core init-mmtk-openjdk init-openjdk probes
 
@@ -68,6 +68,5 @@ python-packages:
 	poetry install --no-root
 	pipx install running-ng
 
-debian-packages:
-	sudo apt-get update -y
-	sudo apt-get install -y clang python3-full python3-pip pipx default-jdk openjdk-11-jdk build-essential git autoconf libfontconfig1-dev dos2unix build-essential libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev libxrandr-dev unzip
+install-debian-packages:
+	cd scripts/debs && make install

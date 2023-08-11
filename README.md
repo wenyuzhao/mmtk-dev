@@ -3,6 +3,7 @@
 
 1. `git clone https://github.com/wenyuzhao/mmtk-dev.git`
 2. Run `make init-jdk` once to initialize the repo and download dacapo benchmark suite.
+   * Note: You may want to run `make install-debian-packages` first.
    * For LXR developemnt, run `make init-jdk lxr=1`
    * Windiws or macOS users: Use docker by running `make init-jdk-docker` instead of `make init-jdk`.
      * Then just use the `./run-jdk` script as usual. It will build and run everything inside the docker container automatically.
