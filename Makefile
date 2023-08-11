@@ -65,8 +65,9 @@ evaluation/probes/%:
 	cd evaluation/probes && wget https://github.com/anupli/probes/releases/download/20230127-snapshot/$(@F)
 
 python-packages:
-	poetry install --no-root
 	pipx install running-ng
+	pipx install poetry
+	poetry install --no-root
 
 install-debian-packages:
 	cd scripts/debs && make install
