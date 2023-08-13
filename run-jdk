@@ -2,7 +2,7 @@
 set -ex
 # Use docker if the `mmtk-dev` image exists.
 if [[ -z "$MMTK_NO_DOCKER" ]] && [[ -n "$(docker images -q mmtk-dev 2> /dev/null)" ]]; then
-    docker_prefix="docker compose run mmtk-dev"
+    docker_prefix="docker compose run mmtk-dev-jdk"
     echo "🐳 Use mmtk-dev with docker"
 else
     docker_prefix=""

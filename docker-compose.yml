@@ -1,8 +1,18 @@
 version: "3"
 services:
-  mmtk-dev:
-    image: mmtk-dev
+  mmtk-dev-jdk:
+    image: mmtk-dev-jdk
     build: .
+    volumes:
+      - .:/root/mmtk-dev
+      - .docker/root/.cargo/git:/root/.cargo/git
+      - .docker/root/.cargo/registry:/root/.cargo/registry
+    profiles:
+      - jdk
+  mmtk-dev-v8:
+    image: mmtk-dev-v8
+    build:
+      dockerfile: Dockerfile.v8
     volumes:
       - .:/root/mmtk-dev
       - .docker/root/.cargo/git:/root/.cargo/git

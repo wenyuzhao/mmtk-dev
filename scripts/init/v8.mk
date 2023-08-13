@@ -17,6 +17,10 @@ init-v8: init-depot-tools
 
 init-v8-repos: init-mmtk-core init-mmtk-v8 init-depot-tools init-v8
 
+build-v8:
+	cd mmtk-v8/mmtk && cargo build --features nogc
+	PATH=${mmtk_dev_dir}/depot_tools:${PATH} cd v8 && ./tools/dev/gm.py x64.optdebug-mmtk
+
 check-v8:
-	cd mmtk-v8/mmtk && cargo build
+	cd mmtk-v8/mmtk && cargo build --features nogc
 	PATH=${mmtk_dev_dir}/depot_tools:${PATH} cd v8 && ./tools/dev/gm.py x64.optdebug-mmtk.checkall

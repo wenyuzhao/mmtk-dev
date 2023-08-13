@@ -1,0 +1,61 @@
+FROM ubuntu:20.04
+
+
+ARG DEBIAN_FRONTEND="noninteractive"
+ENV TZ="Australia/Sydney"
+
+RUN apt-get update -y && apt-get upgrade -y
+
+RUN apt-get install locales -y
+RUN rm -rf /var/lib/apt/lists/*
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+ENV LANG en_US.utf8
+
+RUN apt-get update -y
+
+# Install packages
+RUN apt-get install -y build-essential curl git python2 python3 pkg-config sudo vim clang
+RUN apt-get clean
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN /bin/sh -c ". /root/.cargo/env"
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install poetry
+WORKDIR /root/mmtk-dev
+# RUN curl -sSL https://install.python-poetry.org | python3 -
+# ENV PATH="/root/.local/bin:$PATH"
+# COPY ./pyproject.toml ./poetry.lock /root/mmtk-dev/
+# RUN poetry install --no-root
+
+ENV HOME /root
+WORKDIR /root/mmtk-dev
+
+# Pre-install rust toolchains
+RUN rustup toolchain install 1.66.1 1.70.0
+
+CMD ["bash", "--login"]
+
+# Fetch source
+# RUN mkdir /root/mmtk-v8-workspace
+# WORKDIR /root/mmtk-v8-workspace
+# # Fetch V8
+# RUN git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+# ENV PATH="/root/mmtk-v8-workspace/depot_tools:${PATH}"
+# RUN gclient
+# RUN fetch v8
+# # Clone MMTk
+# RUN git clone https://github.com/mmtk/mmtk-v8.git
+
+# Checkout a working V8 revision.
+# TODO: Use latest v8.
+# RUN git -C v8 checkout 191b637f28c0e2c6ca5f2d6ac89377039a754337
+# RUN gclient sync
+
+# WORKDIR /root/mmtk-v8-workspace
+# COPY ./args-debug.gn ./v8/out/x64.debug-mmtk/args.gn
+# COPY ./args-optdebug.gn ./v8/out/x64.optdebug-mmtk/args.gn
+# COPY ./Makefile ./Makefile
+# CMD make check

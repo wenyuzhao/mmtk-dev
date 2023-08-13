@@ -7,9 +7,12 @@ mmtk_dev_dir:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 init-jdk: python-packages init-dacapo init-jdk-repos probes
 
 init-jdk-docker: init-jdk-repos probes
-	docker compose build
+	docker compose --profile jdk build
 
 init-v8: python-packages init-v8-repos
+
+init-v8-docker: init-v8-repos
+	docker compose --profile v8 build
 
 python-packages:
 	pipx install running-ng
