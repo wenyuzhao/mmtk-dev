@@ -1,5 +1,5 @@
 
-# Getting Started
+# Getting Started (OpenJDK)
 
 1. `git clone https://github.com/wenyuzhao/mmtk-dev.git`
 2. Run `make init-jdk` once to initialize the repo and download dacapo benchmark suite.
@@ -8,31 +8,18 @@
    * Windiws or macOS users: Use docker by running `make init-jdk-docker` instead of `make init-jdk`.
      * Then just use the `./run-jdk` script as usual. It will build and run everything inside the docker container automatically.
      * This is optional but still working for Linux usres. You can skip running `make install-debian-packages`.
+3. Build and run OpenJDK with MMTk: `./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build`
+   * Please run `./run-jdk --help` for all the available arguments.
 
-## Further Instructions
+# Getting Started (V8)
 
-* [OpenJDK Development](#openjdk-development)
-* [JikesRVM Development](#jikesrvm-development)
-* [V8 Development](#v8-development)
-* [Benchmarking](#benchmarking)
+1. `git clone https://github.com/wenyuzhao/mmtk-dev.git`
+2. Run `make init-v8` once to initialize the repo.
+   * Note: You may want to run `make install-debian-packages` first.
+3. Run `./run-v8 --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build`
+   * Please run `./run-v8 --help` for all the available arguments.
 
-# OpenJDK Development
-
-```
-./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build
-```
-
-Please run `./run-jdk --help` for all the available arguments
-
-# JikesRVM Development
-
-...WIP
-
-# V8 Development
-
-...WIP
-
-# Benchmarking
+# Benchmarking (OpenJDK)
 
 1. Create the following config file as `./evaluation/configs/test.yml`. Please fix the commits and features fields in the file.
 ```yml

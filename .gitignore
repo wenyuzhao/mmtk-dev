@@ -3,8 +3,9 @@ _*
 *.log
 /.cipd
 /v8
-.gclient
-.gclient_entries
+/.gclient
+/.gclient_entries
+/.gclient_previous_sync_commits
 /*.class
 /*.java
 !__init__.py
@@ -12,3 +13,4 @@ _*
 /builds
 /dacapo-evaluation-git-*
 /.docker
+/depot_tools

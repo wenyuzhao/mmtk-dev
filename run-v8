@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -ex
+
+poetry run ./scripts/run-v8.py $@
