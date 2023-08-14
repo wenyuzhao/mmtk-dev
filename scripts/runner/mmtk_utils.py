@@ -5,7 +5,7 @@ import sys
 
 app = typer.Typer()
 
-MMTK_DEV = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+MMTK_DEV = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 MMTK_CORE = f"{MMTK_DEV}/mmtk-core"
 BENCH_BUILDS = f"{MMTK_DEV}/evaluation/builds"
 PROBES = f"{MMTK_DEV}/evaluation/probes" if os.path.isfile(f"{MMTK_DEV}/evaluation/probes/probes.jar") else None

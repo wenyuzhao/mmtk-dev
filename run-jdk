@@ -8,4 +8,4 @@ else
     docker_prefix=""
 fi
 
-$docker_prefix poetry run ./scripts/run-jdk.py $@
+$docker_prefix poetry run ./scripts/runner/run-jdk.py $@
