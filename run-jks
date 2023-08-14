@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -ex
+
+echo "🐳 Use mmtk-dev with docker"
+docker_prefix="docker compose run mmtk-dev-jks"
+
+$docker_prefix poetry run ./scripts/runner/run-jks.py $@

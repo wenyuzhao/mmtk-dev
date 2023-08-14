@@ -19,6 +19,13 @@
 3. Run `./run-v8 --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build`
    * Please run `./run-v8 --help` for all the available arguments.
 
+# Getting Started (JikesRVM)
+
+1. `git clone https://github.com/wenyuzhao/mmtk-dev.git`
+2. Run `make init-jks-docker` once to initialize the repo.
+3. Run `./run-jks --target=RBaseBaseSemiSpace --bench=lusearch --heap=500M -n 5 --build`
+   * Please run `./run-jks --help` for all the available arguments.
+
 # Benchmarking (OpenJDK)
 
 1. Create the following config file as `./evaluation/configs/test.yml`. Please fix the commits and features fields in the file.
