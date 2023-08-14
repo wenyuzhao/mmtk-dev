@@ -8,6 +8,7 @@ services:
       - .:/root/mmtk-dev
       - .docker/root/.cargo/git:/root/.cargo/git
       - .docker/root/.cargo/registry:/root/.cargo/registry
+      - /usr/share/benchmarks/dacapo:/usr/share/benchmarks/dacapo
     profiles:
       - jdk
   mmtk-dev-v8:
@@ -28,5 +29,6 @@ services:
       - .:/root/mmtk-dev
       - .docker/root/.cargo/git:/root/.cargo/git
       - .docker/root/.cargo/registry:/root/.cargo/registry
+      - /usr/share/benchmarks/dacapo:/usr/share/benchmarks/dacapo
     profiles:
       - jks
