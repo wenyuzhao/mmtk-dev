@@ -14,6 +14,9 @@ init-v8: python-packages init-v8-repos
 init-v8-docker: init-v8-repos
 	docker compose --profile v8 build
 
+init-jks-docker: init-jks-repos
+	docker compose --profile jks build
+
 python-packages:
 	pipx install running-ng
 	pipx install poetry
@@ -25,5 +28,6 @@ install-debian-packages:
 include scripts/init/mmtk.mk
 include scripts/init/jdk.mk
 include scripts/init/v8.mk
+include scripts/init/jks.mk
 include scripts/init/dacapo.mk
 include scripts/init/probes.mk

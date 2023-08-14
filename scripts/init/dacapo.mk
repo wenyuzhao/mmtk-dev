@@ -18,3 +18,11 @@ $(dacapo_dir)/dacapo-evaluation-git-$(dacapo):
 	sudo rm -rf $(dacapo_dir)/dacapo-evaluation-git-$(dacapo)
 	sudo mv dacapo-evaluation-git-$(dacapo) $@
 	rm dacapo-evaluation-git-$(dacapo).zip*
+
+init-dacapo-9.12: $(dacapo_dir)/dacapo-9.12-bach.jar
+
+$(dacapo_dir)/dacapo-9.12-bach.jar:
+	wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/dacapo-9.12-bach.jar
+	sudo mkdir -p $(dacapo_dir)
+	sudo rm -rf $@
+	sudo mv dacapo-9.12-bach.jar $@

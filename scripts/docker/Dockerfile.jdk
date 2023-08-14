@@ -25,6 +25,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 # Install DaCapo Benchmarks
 RUN mkdir /tmp/init-dacapo
 COPY ./Makefile /tmp/init-dacapo/Makefile
+COPY ./scripts /tmp/init-dacapo/scripts
 WORKDIR /tmp/init-dacapo
 RUN make init-dacapo
 

@@ -2,7 +2,8 @@ version: "3"
 services:
   mmtk-dev-jdk:
     image: mmtk-dev-jdk
-    build: .
+    build:
+      dockerfile: ./scripts/docker/Dockerfile.jdk
     volumes:
       - .:/root/mmtk-dev
       - .docker/root/.cargo/git:/root/.cargo/git
@@ -12,8 +13,20 @@ services:
   mmtk-dev-v8:
     image: mmtk-dev-v8
     build:
-      dockerfile: Dockerfile.v8
+      dockerfile: ./scripts/docker/Dockerfile.v8
     volumes:
       - .:/root/mmtk-dev
       - .docker/root/.cargo/git:/root/.cargo/git
       - .docker/root/.cargo/registry:/root/.cargo/registry
+    profiles:
+      - v8
+  mmtk-dev-jks:
+    image: mmtk-dev-jks
+    build:
+      dockerfile: ./scripts/docker/Dockerfile.jks
+    volumes:
+      - .:/root/mmtk-dev
+      - .docker/root/.cargo/git:/root/.cargo/git
+      - .docker/root/.cargo/registry:/root/.cargo/registry
+    profiles:
+      - jks
