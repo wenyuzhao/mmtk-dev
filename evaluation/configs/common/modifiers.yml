@@ -115,6 +115,10 @@ modifiers:
     type: EnvVar
     var: "MMTK_PLAN"
     val: "GenCopy"
+  ss:
+    type: EnvVar
+    var: "MMTK_PLAN"
+    val: "SemiSpace"
   epsilon:
     type: ModifierSet
     val: "hotspot_gc-Epsilon"
@@ -170,10 +174,10 @@ modifiers:
     val: -XX:-UseCompressedOops -XX:-UseCompressedClassPointers
   defeature:
     type: ModifierSet
-    val: no_inline_clone|no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak|mmtk_no_finalizer
+    val: no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak|mmtk_no_finalizer
   defeature_with_finalizer:
     type: ModifierSet
-    val: no_inline_clone|no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak
+    val: no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak
   defeature2:
     type: ModifierSet
     val: no_class_unload|no_compressed_oops
