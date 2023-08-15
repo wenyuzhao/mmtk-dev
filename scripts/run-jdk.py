@@ -177,7 +177,7 @@ def do_cp_bench(profile: str, target: str, no_commit_hash: bool):
     assert profile == "release", "Please use release build for benchmarking"
     # Get mmtk-core commit hash
     commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=MMTK_CORE).decode("utf-8").strip()
-    name = f"jdk-mmtk-{target}" if no_commit_hash else f"jdk-mmtk-{target}-{commit}"
+    name = f"{target}" if no_commit_hash else f"{target}-{commit}"
     ᐅᐳᐳ(["mkdir", "-p", BENCH_BUILDS], cwd=MMTK_DEV)
     # Get bundle file
     bundle = (
@@ -213,7 +213,7 @@ def main(
     config: bool = option(False, "--config", help="Config OpenJDK"),
     features: Optional[str] = option(None, help="Cargo features"),
     pgo: bool = option(False, "--pgo", help="Profile-guided Optimization"),
-    cp_bench: Optional[str] = option(None, help=f"Copy build to mmtk-dev/evaluation/builds/jdk-mmtk-<BUILD_ID>-<commit>"),
+    cp_bench: Optional[str] = option(None, help=f"Copy build to mmtk-dev/evaluation/builds/<cp_bench>-<commit>"),
     cp_bench_no_commit_hash: bool = option(False, "--cp-bench-no-commit-hash", help=f"Don't put commit hash as part of the build folder name"),
     # Optional run args
     iter: int = option(1, "--iter", "-n", help="Number of iterations"),
