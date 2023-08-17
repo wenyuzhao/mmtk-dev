@@ -192,4 +192,4 @@ modifiers:
     val: -Xcomp
   taskset:
     type: Wrapper
-    val: taskset --cpu-list {0}
+    val: taskset --cpu-list {0}-{1}
