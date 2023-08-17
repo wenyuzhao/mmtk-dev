@@ -15,7 +15,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
       mmtk-core: 0486439b2c
-      mmtk-openjdk: cb69c9df
+      mmtk-openjdk: f1b16c9ff
       openjdk: 91259ca
   jdk-lxr-cm-fix:
     type: OpenJDK
@@ -23,7 +23,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
       mmtk-core: 633cb3c62bf
-      mmtk-openjdk: cb69c9df
+      mmtk-openjdk: f1b16c9ff
       openjdk: 91259ca
 
 configs:
