@@ -1,0 +1,37 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-04132797.minheap: G1
+
+runtimes:
+  jdk-mmtk:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk/jdk-11.0.19
+    commits:
+      mmtk-core: 4873b4ab
+      mmtk-openjdk: 48a82770
+      openjdk: 7caf8f7d
+
+configs:
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-1
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-1
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-3
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-3
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-7
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-7
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-15
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-15
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-31
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-31
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-63
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-63
+  - jdk-mmtk|g1|common3|hs|defeature|taskset-0-127
+  - jdk-mmtk|ix|common3|tph|defeature|taskset-0-127

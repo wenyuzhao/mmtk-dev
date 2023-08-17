@@ -190,3 +190,6 @@ modifiers:
   xcomp:
     type: JVMArg
     val: -Xcomp
+  taskset:
+    type: Wrapper
+    val: taskset --cpu-list {0}
