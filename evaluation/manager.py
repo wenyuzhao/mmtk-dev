@@ -153,7 +153,10 @@ def rsync(
     do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/advice', dst)
     do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/probes', dst)
     do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/builds', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager', dst)
     do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager.py', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/poetry.lock', dst)
+    do_rsync(f'/home/{USERNAME}/./{MMTK_DEV_REL}/pyproject.toml', dst)
 
 @app.command()
 def run(
