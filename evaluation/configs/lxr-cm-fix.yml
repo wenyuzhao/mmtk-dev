@@ -6,7 +6,7 @@ includes:
 overrides:
   heap_range: 3
   invocations: 20
-  suites.dacapochopin-0d047f55.minheap: G1
+  suites.dacapochopin-04132797.minheap: G1
 
 runtimes:
   jdk-lxr:
