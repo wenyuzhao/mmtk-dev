@@ -16,7 +16,7 @@ runtimes:
     commits:
       mmtk-core: 0486439b2c
       mmtk-openjdk: f1b16c9ff
-      openjdk: 91259ca
+      openjdk: 7caf8f7d
   jdk-lxr-cm-fix:
     type: OpenJDK
     release: 11
@@ -24,7 +24,7 @@ runtimes:
     commits:
       mmtk-core: 633cb3c62bf
       mmtk-openjdk: f1b16c9ff
-      openjdk: 91259ca
+      openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|lxr|common3|tph
