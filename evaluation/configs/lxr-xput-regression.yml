@@ -14,10 +14,19 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
+      mmtk-core: 72aad37
+      mmtk-openjdk: d382526
+      openjdk: 7caf8f7d
+  jdk-lxr-20230806:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-20230806/jdk-11.0.19
+    commits:
       mmtk-core: 8228e5e5
       mmtk-openjdk: e461a614
       openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|g1|common3|hs
+  - jdk-lxr-20230806|lxr|common3|tph
   - jdk-lxr|lxr|common3|tph
