@@ -33,10 +33,18 @@ configs:
   - jdk-mmtk-comp|ix|common3|tph|defeature
   # comp-branch, comp
   - jdk-mmtk-comp|ix|common3|tph|defeature_with_comp
+
   # master-branch, no comp
   - jdk-mmtk|genix|common3|tph|defeature
   # comp-branch, no comp
   - jdk-mmtk-comp|genix|common3|tph|defeature
   # comp-branch, comp
   - jdk-mmtk-comp|genix|common3|tph|defeature_with_comp
+
+  # master-branch, no comp
+  - jdk-mmtk|ss|common3|tph|defeature
+  # comp-branch, no comp
+  - jdk-mmtk-comp|ss|common3|tph|defeature
+  # comp-branch, comp
+  - jdk-mmtk-comp|ss|common3|tph|defeature_with_comp
   
