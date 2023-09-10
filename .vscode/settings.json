@@ -11,6 +11,7 @@
     },
     "rust-analyzer.linkedProjects": [
         "mmtk-core/Cargo.toml",
+        // "mmtk-core/vmbindings/dummyvm/Cargo.toml",
         "mmtk-openjdk/mmtk/Cargo.toml",
         // "mmtk-v8/mmtk/Cargo.toml",
     ],
