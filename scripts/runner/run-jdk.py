@@ -16,6 +16,12 @@ OPENJDK = f"{MMTK_DEV}/openjdk"
 
 
 def find_dacapo():
+    # Find /usr/share/benchmarks/dacapo/dacapo-23.9-RC*.chopin.jar
+    for v in reversed(range(1, 10)):
+        jar = f"/usr/share/benchmarks/dacapo/dacapo-23.9-RC{v}-chopin.jar"
+        if os.path.isfile(jar):
+            return jar
+    # Find /usr/share/benchmarks/dacapo/dacapo-evaluation-git-*.jar
     DACAPO_VERSIONS = ["04132797", "6e411f33", "b00bfa9"]
     for v in DACAPO_VERSIONS:
         jar = f"/usr/share/benchmarks/dacapo/dacapo-evaluation-git-{v}.jar"
@@ -105,6 +111,9 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
             heap_args.append(f"-agentpath:{PROBES}/libperf_statistics.so")
             env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics.so"
     else:
+        # if PROBES is not None:
+        #     heap_args.append(f"-agentpath:{PROBES}/libperf_statistics.so")
+        #     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics.so"
         heap_args.append("-XX:+UseThirdPartyHeap")
         env["MMTK_PLAN"] = gc
     if threads is not None:
