@@ -175,6 +175,9 @@ modifiers:
   defeature:
     type: ModifierSet
     val: no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak|mmtk_no_finalizer
+  defeature_with_comp:
+    type: ModifierSet
+    val: no_weak|no_class_unload|mmtk_no_weak|mmtk_no_finalizer
   defeature_with_finalizer:
     type: ModifierSet
     val: no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak
