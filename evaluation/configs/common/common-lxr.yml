@@ -93,9 +93,9 @@ modifiers:
     type: EnvVar
     var: "TRACE_THRESHOLD3"
     val: "{0}"
-  maxcp:
+  max_nevac:
     type: EnvVar
-    var: "MAX_COPY_SIZE"
+    var: "MAX_YOUNG_EVAC_SIZE"
     val: "{0}"
   g1_old:
     type: ModifierSet

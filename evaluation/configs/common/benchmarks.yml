@@ -1,32 +1,6 @@
 
 benchmarks:
-  # dacapochopin-29a657f:
-  #   - lusearch
-  #   - h2
-  #   - cassandra
-  #   - tomcat
-  #   - fop
-  #   - h2o
-  #   - avrora
-  #   - batik
-  #   - biojava
-  #   - eclipse
-  #   - graphchi
-  #   - jython
-  #   - luindex
-  #   - pmd
-  #   - sunflow
-  #   - xalan
-  #   - zxing
-    # - kafka
-    # - jme
-    # - tradebeans
-    # - tradesoap
-  # dacapochopin-f480064:
-  # dacapochopin-6e411f33:
-  # dacapochopin-b00bfa9:
-  # dacapochopin-0d047f55:
-  dacapochopin-04132797:
+  dacapochopin-rc3:
     - lusearch
     - h2
     - cassandra

@@ -5,21 +5,6 @@ includes:
 
 overrides:
   invocations: 20
-  # suites.dacapochopin-29a657f.timing_iteration: 5
-  # suites.dacapochopin-29a657f.callback: probe.DacapoChopinCallback
-  # suites.dacapochopin-29a657f.timeout: 600
-  # suites.dacapochopin-f480064.timing_iteration: 5
-  # suites.dacapochopin-f480064.callback: probe.DacapoChopinCallback
-  # suites.dacapochopin-f480064.timeout: 600
-  # suites.dacapochopin-6e411f33.timing_iteration: 5
-  # suites.dacapochopin-6e411f33.callback: probe.DacapoChopinCallback
-  # suites.dacapochopin-6e411f33.timeout: 600
-  # suites.dacapochopin-b00bfa9.timing_iteration: 5
-  # suites.dacapochopin-b00bfa9.callback: probe.DacapoChopinCallback
-  # suites.dacapochopin-b00bfa9.timeout: 600
-  # suites.dacapochopin-0d047f55.timing_iteration: 5
-  # suites.dacapochopin-0d047f55.callback: probe.DacapoChopinCallback
-  # suites.dacapochopin-0d047f55.timeout: 600
-  suites.dacapochopin-04132797.timing_iteration: 5
-  suites.dacapochopin-04132797.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-04132797.timeout: 600
+  suites.dacapochopin-rc3.timing_iteration: 5
+  suites.dacapochopin-rc3.callback: probe.DacapoChopinCallback
+  suites.dacapochopin-rc3.timeout: 600

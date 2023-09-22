@@ -118,6 +118,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         env["MMTK_PLAN"] = gc
     if threads is not None:
         env["MMTK_THREADS"] = f"{threads}"
+        heap_args.append(f"-XX:ParallelGCThreads={threads}")
     if NO_SOFT_REFS:
         env["MMTK_NO_REFERENCE_TYPES"] = f"true"
         env["MMTK_NO_FINALIZER"] = f"true"
