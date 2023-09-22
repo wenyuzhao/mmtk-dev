@@ -6,7 +6,7 @@ includes:
 overrides:
   heap_range: 3
   invocations: 40
-  suites.dacapochopin-04132797.minheap: G1
+  suites.dacapochopin-rc3.minheap: G1
 
 runtimes:
   jdk-lxr:
@@ -14,19 +14,32 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 72aad37
-      mmtk-openjdk: d382526
+      mmtk-core: 50fbb1a9
+      mmtk-openjdk: 08218fcc
       openjdk: 7caf8f7d
-  jdk-lxr-20230806:
+  jdk-lxr-no-meta:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-20230806/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
-      mmtk-core: 8228e5e5
-      mmtk-openjdk: e461a614
+      mmtk-core: 50fbb1a9
+      mmtk-openjdk: 08218fcc
       openjdk: 7caf8f7d
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-srv-reserve:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-srv-reserve/jdk-11.0.19
+    commits:
+      mmtk-core: 50fbb1a9
+      mmtk-openjdk: 08218fcc
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_no_srv_copy_reserve
 
 configs:
   - jdk-lxr|g1|common3|hs
-  - jdk-lxr-20230806|lxr|common3|tph
   - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph|max_nevac-1000000
+  - jdk-lxr|lxr|common3|tph|trace-30
+  - jdk-lxr-no-meta|lxr|common3|tph
+  - jdk-lxr-no-srv-reserve|lxr|common3|tph
