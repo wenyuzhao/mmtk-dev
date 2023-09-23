@@ -55,27 +55,27 @@ overrides:
         xalan: 7
         zxing: 101
       G1:
-        avrora: 5
-        batik: 196
+        avrora: 7
+        batik: 193
         biojava: 97
-        cassandra: 117
-        eclipse: 348
+        cassandra: 129
+        eclipse: 137
         fop: 15
-        graphchi: 183
-        h2: 745
-        h2o: 123
+        graphchi: 184
+        h2: 1363
+        h2o: 255
         jme: 29
         jython: 29
-        kafka: 205
-        luindex: 45
-        lusearch: 21
-        pmd: 196
-        spring: 55
-        sunflow: 38
+        kafka: 198
+        luindex: 41
+        lusearch: 25
+        pmd: 202
+        spring: 64
+        sunflow: 31
         tomcat: 23
         tradebeans: 135
-        tradesoap: 109
-        xalan: 15
-        zxing: 162
+        tradesoap: 91
+        xalan: 17
+        zxing: 147
     timing_iteration: 3
     timeout: 120
