@@ -153,7 +153,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         bm_args += ["-t", f"{mu}"]
     # Extra
     extra_jvm_args = jvm_args or []
-    extra_jvm_args += ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions"]
+    extra_jvm_args += ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError"]
     if NO_BIASED_LOCKING:
         extra_jvm_args.append("-XX:-UseBiasedLocking")
     if NO_CLASS_UNLOAD:
