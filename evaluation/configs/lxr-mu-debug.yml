@@ -56,8 +56,6 @@ configs:
   - jdk-lxr-no-meta|lxr|common3|tph
   - jdk-lxr-no-meta|lxr|no_compressed_oops|common3|tph
   # SS (master)
-  - jdk-master-no-meta|ss|common3|tph
   - jdk-master-no-meta|ss|no_compressed_oops|common3|tph
   # IX (master)
-  - jdk-master-no-meta|ix|common3|tph
   - jdk-master-no-meta|ix|no_compressed_oops|common3|tph
