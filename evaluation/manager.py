@@ -99,7 +99,7 @@ def validate_repos():
         sys.exit(f'❌ Current mmtk-openjdk repo is dirty!')
     if os.system(f'cd {MMTK_DEV}/openjdk && git diff --quiet') != 0:
         sys.exit(f'❌ Current openjdk repo is dirty!')
-    
+
 @app.command()
 def build(
     config: str = typer.Option(..., help='Running config name'),
@@ -180,14 +180,14 @@ def run(
         hfac_args = ['12', '7']
     elif hfac == '3x':
         hfac_args = ['12', '12']
-    elif ' ' in hfac:
+    elif '-' in hfac:
         try:
-            hfac_args = [ f'{int(x)}' for x in hfac.split(' ')]
+            hfac_args = [ f'{int(x)}' for x in hfac.split('-')]
         except ValueError:
             sys.exit(f'❌ Invalid hfac args `{hfac}`')
     else:
         sys.exit(f'❌ Invalid hfac args `{hfac}`')
-    
+
     # Run
     os.system(f'pkill -f java -u {USERNAME} -9')
 
