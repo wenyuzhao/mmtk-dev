@@ -13,10 +13,19 @@ overrides:
     - lusearch
 
 runtimes:
-  jdk-lxr-defeatured-no-meta:
+  jdk-lxr-no-meta:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    commits:
+      mmtk-core: 317b6993
+      mmtk-openjdk: 297a9d1d
+      openjdk: 7caf8f7d
+    features: mmtk/no_meta_counting
+  jdk-lxr-defeatured-no-meta:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-defeatured-no-meta/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
       mmtk-openjdk: 297a9d1d
@@ -25,7 +34,7 @@ runtimes:
   jdk-master-no-meta:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-master-no-meta/jdk-11.0.19
     commits:
       mmtk-core: master-debug
       mmtk-openjdk: 267d480
@@ -44,6 +53,8 @@ configs:
   # LXR (lxr)
   - jdk-lxr-defeatured-no-meta|lxr|common3|tph
   - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph
+  - jdk-lxr-no-meta|lxr|common3|tph
+  - jdk-lxr-no-meta|lxr|no_compressed_oops|common3|tph
   # SS (master)
   - jdk-master-no-meta|ss|common3|tph
   - jdk-master-no-meta|ss|no_compressed_oops|common3|tph
