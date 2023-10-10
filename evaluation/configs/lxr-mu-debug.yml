@@ -1,0 +1,49 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-rc3.minheap: G1
+
+runtimes:
+  jdk-lxr-defeatured-no-meta:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    commits:
+      mmtk-core: 317b6993
+      mmtk-openjdk: 297a9d1d
+      openjdk: 7caf8f7d
+    features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy
+  jdk-master-no-meta:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    commits:
+      mmtk-core: 039055a
+      mmtk-openjdk: 267d480
+      openjdk: 7caf8f7d
+    features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy
+
+configs:
+  # G1
+  - jdk-lxr-defeatured-no-meta|g1|common3|hs|hs_perf
+  - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs|hs_perf
+  # SS (lxr)
+  - jdk-lxr-defeatured-no-meta|ss|common3|tph|tph_perf
+  - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph|tph_perf
+  # IX (lxr)
+  - jdk-lxr-defeatured-no-meta|ix|common3|tph|tph_perf
+  - jdk-lxr-defeatured-no-meta|ix|no_compressed_oops|common3|tph|tph_perf
+  # LXR (lxr)
+  - jdk-lxr-defeatured-no-meta|lxr|common3|tph|tph_perf
+  - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph|tph_perf
+  # SS (master)
+  - jdk-master-no-meta|ss|common3|tph|tph_perf
+  - jdk-master-no-meta|ss|no_compressed_oops|common3|tph|tph_perf
+  # IX (master)
+  - jdk-master-no-meta|ix|common3|tph|tph_perf
+  - jdk-master-no-meta|ix|no_compressed_oops|common3|tph|tph_perf
