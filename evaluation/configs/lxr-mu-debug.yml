@@ -7,6 +7,10 @@ overrides:
   heap_range: 3
   invocations: 20
   suites.dacapochopin-rc3.minheap: G1
+  benchmarks.dacapochopin-rc3:
+    - spring
+    - h2
+    - lusearch
 
 runtimes:
   jdk-lxr-defeatured-no-meta:
@@ -29,20 +33,20 @@ runtimes:
 
 configs:
   # G1
-  - jdk-lxr-defeatured-no-meta|g1|common3|hs|hs_perf
-  - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs|hs_perf
+  - jdk-lxr-defeatured-no-meta|g1|common3|hs
+  - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs
   # SS (lxr)
-  - jdk-lxr-defeatured-no-meta|ss|common3|tph|tph_perf
-  - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph|tph_perf
+  - jdk-lxr-defeatured-no-meta|ss|common3|tph
+  - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph
   # IX (lxr)
-  - jdk-lxr-defeatured-no-meta|ix|common3|tph|tph_perf
-  - jdk-lxr-defeatured-no-meta|ix|no_compressed_oops|common3|tph|tph_perf
+  - jdk-lxr-defeatured-no-meta|ix|common3|tph
+  - jdk-lxr-defeatured-no-meta|ix|no_compressed_oops|common3|tph
   # LXR (lxr)
-  - jdk-lxr-defeatured-no-meta|lxr|common3|tph|tph_perf
-  - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph|tph_perf
+  - jdk-lxr-defeatured-no-meta|lxr|common3|tph
+  - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph
   # SS (master)
-  - jdk-master-no-meta|ss|common3|tph|tph_perf
-  - jdk-master-no-meta|ss|no_compressed_oops|common3|tph|tph_perf
+  - jdk-master-no-meta|ss|common3|tph
+  - jdk-master-no-meta|ss|no_compressed_oops|common3|tph
   # IX (master)
-  - jdk-master-no-meta|ix|common3|tph|tph_perf
-  - jdk-master-no-meta|ix|no_compressed_oops|common3|tph|tph_perf
+  - jdk-master-no-meta|ix|common3|tph
+  - jdk-master-no-meta|ix|no_compressed_oops|common3|tph
