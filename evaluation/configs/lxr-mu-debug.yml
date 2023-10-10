@@ -23,10 +23,9 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
-      mmtk-core: 039055a
+      mmtk-core: master-debug
       mmtk-openjdk: 267d480
       openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy
 
 configs:
   # G1
