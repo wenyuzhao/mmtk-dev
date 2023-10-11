@@ -9,8 +9,8 @@ overrides:
   suites.dacapochopin-rc3.minheap: G1
   benchmarks.dacapochopin-rc3:
     - h2
-    - spring
-    - lusearch
+    # - spring
+    # - lusearch
 
 runtimes:
   jdk-lxr-no-meta:
@@ -19,7 +19,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: 351f8e2dd
+      mmtk-openjdk: 366f12ab9
       openjdk: 7caf8f7d
     features: mmtk/no_meta_counting
   jdk-lxr-defeatured-no-meta:
@@ -28,7 +28,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-defeatured-no-meta/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: 351f8e2dd
+      mmtk-openjdk: 366f12ab9
       openjdk: 7caf8f7d
     features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy
   jdk-lxr-defeatured-no-meta-discontig:
@@ -37,7 +37,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-defeatured-no-meta-discontig/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: 351f8e2dd
+      mmtk-openjdk: 366f12ab9
       openjdk: 7caf8f7d
     features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy,discontig_space
   # jdk-master-no-meta:
