@@ -19,7 +19,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: c5dfe0627
+      mmtk-openjdk: 61f3be58
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting
   jdk-lxr-no-meta-noop-32bit:
@@ -28,7 +28,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-32bit/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: c5dfe0627
+      mmtk-openjdk: 61f3be58
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,narrow_oop_mode_32bit
   jdk-lxr-no-meta-noop-shift:
@@ -37,7 +37,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-shift/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: c5dfe0627
+      mmtk-openjdk: 61f3be58
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,narrow_oop_mode_shift
   jdk-lxr-no-meta-noop-base-and-shift:
@@ -46,7 +46,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-base-and-shift/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: c5dfe0627
+      mmtk-openjdk: 61f3be58
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,narrow_oop_mode_base_and_shift
 
