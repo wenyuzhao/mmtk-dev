@@ -60,6 +60,7 @@ configs:
   # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
   # IX (lxr)
   - jdk-lxr-no-meta|ix|common3|tph_perf
+  - jdk-lxr-no-meta|ss|common3|tph_perf
   # - jdk-lxr-no-meta-noop-32bit|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-shift|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-base-and-shift|ix|common3|tph_perf
