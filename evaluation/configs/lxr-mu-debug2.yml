@@ -19,51 +19,52 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: 366f12ab9
-      openjdk: 7caf8f7d
+      mmtk-openjdk: c5dfe0627
+      openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting
-  jdk-lxr-defeatured-no-meta:
+  jdk-lxr-no-meta-noop-32bit:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-defeatured-no-meta/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-32bit/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: 366f12ab9
-      openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy
-  jdk-lxr-defeatured-no-meta-discontig:
+      mmtk-openjdk: c5dfe0627
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,narrow_oop_mode_32bit
+  jdk-lxr-no-meta-noop-shift:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-defeatured-no-meta-discontig/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-shift/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
-      mmtk-openjdk: 366f12ab9
-      openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting,mmtk/lxr_no_cm,mmtk/lxr_no_lazy,discontig_space
-  # jdk-master-no-meta:
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-master-no-meta/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: master-debug
-  #     mmtk-openjdk: 267d480
-  #     openjdk: 7caf8f7d
+      mmtk-openjdk: c5dfe0627
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,narrow_oop_mode_shift
+  jdk-lxr-no-meta-noop-base-and-shift:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-base-and-shift/jdk-11.0.19
+    commits:
+      mmtk-core: 317b6993
+      mmtk-openjdk: c5dfe0627
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,narrow_oop_mode_base_and_shift
 
 configs:
   # G1
-  - jdk-lxr-defeatured-no-meta|g1|common3|hs
-  - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs
+  - jdk-lxr-no-meta|g1|common3|hs
+  # - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs
   # SS (lxr)
-  - jdk-lxr-defeatured-no-meta|ss|common3|tph
-  - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph
-  - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
+  # - jdk-lxr-defeatured-no-meta|ss|common3|tph
+  # - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph
+  # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
   # IX (lxr)
-  - jdk-lxr-defeatured-no-meta|ix|common3|tph
-  - jdk-lxr-defeatured-no-meta|ix|no_compressed_oops|common3|tph
-  - jdk-lxr-defeatured-no-meta-discontig|ix|no_compressed_oops|common3|tph
+  - jdk-lxr-no-meta-noop-32bit|ix|common3|tph
+  - jdk-lxr-no-meta-noop-shift|ix|common3|tph
+  - jdk-lxr-no-meta-noop-base-and-shift|ix|common3|tph
   # LXR (lxr)
-  - jdk-lxr-defeatured-no-meta|lxr|common3|tph
-  - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph
-  - jdk-lxr-defeatured-no-meta-discontig|lxr|no_compressed_oops|common3|tph
-  - jdk-lxr-no-meta|lxr|common3|tph
-  - jdk-lxr-no-meta|lxr|no_compressed_oops|common3|tph
+  # - jdk-lxr-defeatured-no-meta|lxr|common3|tph
+  # - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph
+  # - jdk-lxr-defeatured-no-meta-discontig|lxr|no_compressed_oops|common3|tph
+  # - jdk-lxr-no-meta|lxr|common3|tph
+  # - jdk-lxr-no-meta|lxr|no_compressed_oops|common3|tph
