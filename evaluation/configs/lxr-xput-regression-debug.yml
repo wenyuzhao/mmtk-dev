@@ -5,80 +5,56 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 40
-  suites.dacapochopin-04132797.minheap: G1
-  benchmarks.dacapochopin-04132797:
-    - lusearch
-    - cassandra
+  invocations: 20
+  suites.dacapochopin-rc3.minheap: G1
+  benchmarks.dacapochopin-rc3:
     - h2
-    - tomcat
     - spring
-    - tradesoup
-    - tradebeans
+    - lusearch
 
 runtimes:
-  jdk-lxr:
+  jdk-lxr-no-meta:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
-      mmtk-core: lxr
-      mmtk-openjdk: lxr
+      mmtk-core: 44080b6ee
+      mmtk-openjdk: 73e22d395
       openjdk: 7caf8f7d
-  # jdk-lxr-1:
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-lxr-1/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: lxr-merge-debug
-  #     mmtk-openjdk: lxr
-  #     openjdk: 7caf8f7d
-  # jdk-lxr-2:
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-lxr-2/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: lxr-merge-debug-2
-  #     mmtk-openjdk: lxr-merge-debug-vo
-  #     openjdk: 7caf8f7d
-  jdk-lxr-3:
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-meta-defeatured:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-3/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-defeatured/jdk-11.0.19
     commits:
-      mmtk-core: lxr-merge-debug-3
-      mmtk-openjdk: lxr-merge-debug-vo
+      mmtk-core: 44080b6ee
+      mmtk-openjdk: 73e22d395
       openjdk: 7caf8f7d
-  jdk-lxr-3-fix:
+    features: mmtk/no_meta_counting,mmtk/lxr_no_lazy,mmtk/lxr_no_cm
+  jdk-lxr-no-meta-block-state-fix:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-3-fix/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-block-state-fix/jdk-11.0.19
     commits:
-      mmtk-core: lxr-merge-debug-3-fix
-      mmtk-openjdk: lxr-merge-debug-vo
+      mmtk-core: f4779cb46
+      mmtk-openjdk: 73e22d395
       openjdk: 7caf8f7d
-  jdk-lxr-3-fix-2:
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-meta-defeatured-block-state-fix:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-3-fix-2/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-defeatured-block-state-fix/jdk-11.0.19
     commits:
-      mmtk-core: lxr-merge-debug-fix-2
-      mmtk-openjdk: lxr-merge-debug-vo
+      mmtk-core: f4779cb46
+      mmtk-openjdk: 73e22d395
       openjdk: 7caf8f7d
-  jdk-lxr-3-fix-revert:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-3-revert/jdk-11.0.19
-    commits:
-      mmtk-core: lxr-merge-debug-3-revert
-      mmtk-openjdk: lxr-merge-debug-vo
-      openjdk: 7caf8f7d
+    features: mmtk/no_meta_counting,mmtk/lxr_no_lazy,mmtk/lxr_no_cm
 
 configs:
-  - jdk-lxr|lxr|common3|tph
-  # - jdk-lxr-1|lxr|common3|tph
-  # - jdk-lxr-2|lxr|common3|tph
-  - jdk-lxr-3|lxr|common3|tph
-  - jdk-lxr-3-fix|lxr|common3|tph
-  - jdk-lxr-3-fix-2|lxr|common3|tph
-  - jdk-lxr-3-fix-revert|lxr|common3|tph
+  # G1
+  - jdk-lxr-no-meta|g1|common3|hs_perf
+  # LXR (lxr)
+  - jdk-lxr-no-meta|lxr|common3|tph
+  - jdk-lxr-no-meta-defeatured|lxr|common3|tph
+  - jdk-lxr-no-meta-block-state-fix|lxr|common3|tph
+  - jdk-lxr-no-meta-defeatured-block-state-fix|lxr|common3|tph
