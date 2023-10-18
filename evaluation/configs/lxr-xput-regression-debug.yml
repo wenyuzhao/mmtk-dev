@@ -54,7 +54,7 @@ configs:
   # G1
   - jdk-lxr-no-meta|g1|common3|hs_perf
   # LXR (lxr)
-  - jdk-lxr-no-meta|lxr|common3|tph
-  - jdk-lxr-no-meta-defeatured|lxr|common3|tph
-  - jdk-lxr-no-meta-block-state-fix|lxr|common3|tph
-  - jdk-lxr-no-meta-defeatured-block-state-fix|lxr|common3|tph
+  - jdk-lxr-no-meta|lxr|common3|tph_perf
+  - jdk-lxr-no-meta-defeatured|lxr|common3|tph_perf
+  - jdk-lxr-no-meta-block-state-fix|lxr|common3|tph_perf
+  - jdk-lxr-no-meta-defeatured-block-state-fix|lxr|common3|tph_perf
