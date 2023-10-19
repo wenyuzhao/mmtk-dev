@@ -9,8 +9,8 @@ overrides:
   suites.dacapochopin-rc3.minheap: G1
   benchmarks.dacapochopin-rc3:
     - h2
-    # - spring
-    # - lusearch
+    - spring
+    - lusearch
 
 runtimes:
   jdk-lxr-no-meta:
@@ -18,37 +18,28 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
-      mmtk-core: 317b6993
-      mmtk-openjdk: 61f3be58
+      mmtk-core: 8d90f4b06
+      mmtk-openjdk: 73e22d39
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting
-  jdk-lxr-no-meta-noop-32bit:
+  jdk-lxr-no-meta-retry-alloc-all:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-32bit/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-all/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
       mmtk-openjdk: 61f3be58
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,narrow_oop_mode_32bit
-  jdk-lxr-no-meta-noop-shift:
+    features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc
+  jdk-lxr-no-meta-retry-alloc-small:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-shift/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-small/jdk-11.0.19
     commits:
       mmtk-core: 317b6993
       mmtk-openjdk: 61f3be58
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,narrow_oop_mode_shift
-  jdk-lxr-no-meta-noop-base-and-shift:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-noop-base-and-shift/jdk-11.0.19
-    commits:
-      mmtk-core: 317b6993
-      mmtk-openjdk: 61f3be58
-      openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,narrow_oop_mode_base_and_shift
+    features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc,mmtk/ix_retry_small_object_alloc_small_only
 
 configs:
   # G1
@@ -60,6 +51,8 @@ configs:
   # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
   # IX (lxr)
   - jdk-lxr-no-meta|ix|common3|tph_perf
+  - jdk-lxr-no-meta-retry-alloc-all|ix|common3|tph_perf
+  - jdk-lxr-no-meta-retry-alloc-small|ix|common3|tph_perf
   - jdk-lxr-no-meta|ss|common3|tph_perf
   # - jdk-lxr-no-meta-noop-32bit|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-shift|ix|common3|tph_perf
