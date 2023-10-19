@@ -18,28 +18,55 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
-      mmtk-core: fc69ae30
+      mmtk-core: dc27d8f72
       mmtk-openjdk: 73e22d39
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting
-  jdk-lxr-no-meta-retry-alloc-all:
+  jdk-lxr-no-meta-ordered:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-all/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-ordered/jdk-11.0.19
     commits:
-      mmtk-core: fc69ae30
+      mmtk-core: dc27d8f72
       mmtk-openjdk: 73e22d39
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc
-  jdk-lxr-no-meta-retry-alloc-small:
+    features: mmtk/no_meta_counting,mmtk/block_alloc_order_1
+  jdk-lxr-no-meta-prefetch:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-small/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-prefetch/jdk-11.0.19
     commits:
-      mmtk-core: fc69ae30
+      mmtk-core: dc27d8f72
       mmtk-openjdk: 73e22d39
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc,mmtk/ix_retry_small_object_alloc_small_only
+    features: mmtk/no_meta_counting,mmtk/prefetch
+  jdk-lxr-no-meta-prefetch1k:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-prefetch1k/jdk-11.0.19
+    commits:
+      mmtk-core: dc27d8f72
+      mmtk-openjdk: 73e22d39
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/prefetch_1k
+  # jdk-lxr-no-meta-retry-alloc-all:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-all/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: fc69ae30
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc
+  # jdk-lxr-no-meta-retry-alloc-small:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-small/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: fc69ae30
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc,mmtk/ix_retry_small_object_alloc_small_only
 
 configs:
   # G1
@@ -51,8 +78,10 @@ configs:
   # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
   # IX (lxr)
   - jdk-lxr-no-meta|ix|common3|tph_perf
-  - jdk-lxr-no-meta-retry-alloc-all|ix|common3|tph_perf
-  - jdk-lxr-no-meta-retry-alloc-small|ix|common3|tph_perf
+  # - jdk-lxr-no-meta|ix|common3|tph_perf|threads-1
+  - jdk-lxr-no-meta-ordered|ix|common3|tph_perf
+  - jdk-lxr-no-meta-prefetch|ix|common3|tph_perf
+  - jdk-lxr-no-meta-prefetch1k|ix|common3|tph_perf
   - jdk-lxr-no-meta|ss|common3|tph_perf
   # - jdk-lxr-no-meta-noop-32bit|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-shift|ix|common3|tph_perf
