@@ -51,6 +51,11 @@ modifiers:
     val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
     # Intel
     # val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+  perf_llc:
+    type: EnvVar
+    var: "PERF_EVENTS"
+    # AMD
+    val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
@@ -60,6 +65,9 @@ modifiers:
   hs_perf:
     type: ModifierSet
     val: "jvmti|jvmti_env|perf"
+  hs_perf_llc:
+    type: ModifierSet
+    val: "jvmti|jvmti_env|perf_llc"
   hs:
     type: ModifierSet
     val: "jvmti|jvmti_env"
@@ -70,6 +78,10 @@ modifiers:
     val: "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
     # Intel
     # val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  mmtk_perf_llc:
+    type: EnvVar
+    var: "MMTK_PHASE_PERF_EVENTS"
+    val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
   hugetlb:
     type: JVMArg
     val: "-XX:+UseTransparentHugePages"
