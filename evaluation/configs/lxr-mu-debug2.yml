@@ -87,9 +87,9 @@ configs:
   # - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph
   # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
   # IX (lxr)
-  - jdk-lxr-no-meta|ix|common3|tph_perf
-  - jdk-lxr-no-meta|ix|common3|tph_perf|no_line_reuse
-  - jdk-lxr-no-meta|ix|common3|tph_perf|no_mu_line_reuse
+  - jdk-lxr-no-meta|lxr|common3|tph_perf
+  # - jdk-lxr-no-meta|lxr|common3|tph_perf|no_line_reuse
+  - jdk-lxr-no-meta|lxr|common3|tph_perf|no_mu_line_reuse
   # - jdk-lxr-no-meta|ix|common3|tph_perf|threads-1
   # - jdk-lxr-no-meta-ordered|ix|common3|tph_perf
   # - jdk-lxr-no-meta-prefetch|ix|common3|tph_perf
