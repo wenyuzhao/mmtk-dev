@@ -62,6 +62,9 @@ modifiers:
   tph_perf:
     type: ModifierSet
     val: "tph|mmtk_perf"
+  tph_perf_llc:
+    type: ModifierSet
+    val: "tph|mmtk_perf_llc"
   hs_perf:
     type: ModifierSet
     val: "jvmti|jvmti_env|perf"
