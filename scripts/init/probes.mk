@@ -1,7 +1,15 @@
 
-probes: evaluation/probes/librust_mmtk_probe.so evaluation/probes/librust_mmtk_probe_32.so evaluation/probes/probes-java6.jar evaluation/probes/probes.jar evaluation/probes/libperf_statistics.so
+probes: evaluation/probes/librust_mmtk_probe.so evaluation/probes/librust_mmtk_probe_32.so evaluation/probes/probes-java6.jar evaluation/probes/probes.jar evaluation/probes/libperf_statistics_pfm0.so evaluation/probes/libperf_statistics_pfm3.so
 
 evaluation/probes/libperf_statistics.so:
+	mkdir -p evaluation/probes
+	cd evaluation/probes && wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/$(@F)
+
+evaluation/probes/libperf_statistics_pfm0.so:
+	mkdir -p evaluation/probes
+	cd evaluation/probes && wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/$(@F)
+
+evaluation/probes/libperf_statistics_pfm3.so:
 	mkdir -p evaluation/probes
 	cd evaluation/probes && wget https://github.com/wenyuzhao/lxr-pldi-2022-artifact/releases/download/_/$(@F)
 

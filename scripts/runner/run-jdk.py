@@ -108,12 +108,12 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     if gc in HOTSPOT_GCS:
         heap_args.append(HOTSPOT_GCS[gc])
         if PROBES is not None:
-            heap_args.append(f"-agentpath:{PROBES}/libperf_statistics.so")
-            env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics.so"
+            heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
+            env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
     else:
         # if PROBES is not None:
-        #     heap_args.append(f"-agentpath:{PROBES}/libperf_statistics.so")
-        #     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics.so"
+        #     heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
+        #     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
         heap_args.append("-XX:+UseThirdPartyHeap")
         env["MMTK_PLAN"] = gc
     if threads is not None:

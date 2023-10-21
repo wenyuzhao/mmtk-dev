@@ -37,13 +37,20 @@ modifiers:
   probes:
     type: JVMArg
     val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
-  jvmti:
+  jvmti0:
     type: JVMArg
-    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
-  jvmti_env:
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so"
+  jvmti_env0:
     type: EnvVar
     var: "LD_PRELOAD"
-    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so"
+  jvmti3:
+    type: JVMArg
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm3.so"
+  jvmti_env3:
+    type: EnvVar
+    var: "LD_PRELOAD"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm3.so"
   perf:
     type: EnvVar
     var: "PERF_EVENTS"
@@ -59,21 +66,24 @@ modifiers:
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
-  tph_perf:
+  hs0:
     type: ModifierSet
-    val: "tph|mmtk_perf"
-  tph_perf_llc:
-    type: ModifierSet
-    val: "tph|mmtk_perf_llc"
-  hs_perf:
-    type: ModifierSet
-    val: "jvmti|jvmti_env|perf"
-  hs_perf_llc:
-    type: ModifierSet
-    val: "jvmti|jvmti_env|perf_llc"
+    val: "jvmti0|jvmti_env0"
   hs:
     type: ModifierSet
-    val: "jvmti|jvmti_env"
+    val: "jvmti3|jvmti_env3"
+  hs_perf0:
+    type: ModifierSet
+    val: "hs0|perf"
+  hs_perf:
+    type: ModifierSet
+    val: "hs3|perf"
+  hs_perf0_llc:
+    type: ModifierSet
+    val: "hs0|perf_llc"
+  hs_perf_llc:
+    type: ModifierSet
+    val: "hs3|perf_llc"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
@@ -85,6 +95,12 @@ modifiers:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
     val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  tph_perf:
+    type: ModifierSet
+    val: "tph|mmtk_perf"
+  tph_perf_llc:
+    type: ModifierSet
+    val: "tph|mmtk_perf_llc"
   hugetlb:
     type: JVMArg
     val: "-XX:+UseTransparentHugePages"
