@@ -77,13 +77,13 @@ modifiers:
     val: "hs0|perf"
   hs_perf:
     type: ModifierSet
-    val: "hs3|perf"
+    val: "hs|perf"
   hs_perf0_llc:
     type: ModifierSet
     val: "hs0|perf_llc"
   hs_perf_llc:
     type: ModifierSet
-    val: "hs3|perf_llc"
+    val: "hs|perf_llc"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
