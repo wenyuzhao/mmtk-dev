@@ -33,7 +33,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw
   jdk-lxr-no-meta-no_weak_ref_barrier:
@@ -42,7 +42,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-no_weak_ref_barrier/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw,no_weak_ref_barrier
   jdk-lxr-no-meta-two_level_barrier:
@@ -51,7 +51,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-two_level_barrier/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw,two_level_barrier
   # jdk-lxr-no-meta-no_barrier_workaround:
@@ -69,7 +69,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_const_null/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null
   jdk-lxr-no-meta-barrier_skip_null:
@@ -78,7 +78,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_null/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null
   jdk-lxr-no-meta-barrier_skip_const_null-two_level_barrier:
@@ -87,7 +87,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_const_null-two_level_barrier/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null,two_level_barrier
   jdk-lxr-no-meta-barrier_skip_null-two_level_barrier:
@@ -96,7 +96,7 @@ runtimes:
     home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_null-two_level_barrier/jdk-11.0.19
     commits:
       mmtk-core: c0f11ec4d8
-      mmtk-openjdk: bae90018978
+      mmtk-openjdk: 2ac04591
       openjdk: narrow-oop-debug
     features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null,two_level_barrier
   # jdk-lxr-no-meta-ordered:
