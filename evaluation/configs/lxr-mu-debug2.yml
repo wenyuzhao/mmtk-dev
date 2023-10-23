@@ -35,7 +35,7 @@ runtimes:
       mmtk-core: b457f5661
       mmtk-openjdk: cd32e81291
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/lxr_stw
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,mmtk/perf_counter_plm0
   # jdk-lxr-no-meta-no_weak_ref_barrier:
   #   type: OpenJDK
   #   release: 11
@@ -53,7 +53,7 @@ runtimes:
       mmtk-core: b457f5661
       mmtk-openjdk: cd32e81291
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,two_level_barrier
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,two_level_barrier,mmtk/perf_counter_plm0
   # jdk-lxr-no-meta-no_barrier_workaround:
   #   type: OpenJDK
   #   release: 11
@@ -71,7 +71,7 @@ runtimes:
       mmtk-core: b457f5661
       mmtk-openjdk: cd32e81291
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null,mmtk/perf_counter_plm0
   jdk-lxr-no-meta-barrier_skip_null:
     type: OpenJDK
     release: 11
@@ -80,7 +80,7 @@ runtimes:
       mmtk-core: b457f5661
       mmtk-openjdk: cd32e81291
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null,mmtk/perf_counter_plm0
   jdk-lxr-no-meta-barrier_skip_const_null-two_level_barrier:
     type: OpenJDK
     release: 11
@@ -89,7 +89,7 @@ runtimes:
       mmtk-core: b457f5661
       mmtk-openjdk: cd32e81291
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null,two_level_barrier
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null,two_level_barrier,mmtk/perf_counter_plm0
   jdk-lxr-no-meta-barrier_skip_null-two_level_barrier:
     type: OpenJDK
     release: 11
@@ -98,7 +98,7 @@ runtimes:
       mmtk-core: b457f5661
       mmtk-openjdk: cd32e81291
       openjdk: narrow-oop-debug
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null,two_level_barrier
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null,two_level_barrier,mmtk/perf_counter_plm0
   # jdk-lxr-no-meta-ordered:
   #   type: OpenJDK
   #   release: 11
@@ -147,7 +147,7 @@ runtimes:
 
 configs:
   # G1
-  - jdk-lxr-no-meta|g1|common3|hs_perf
+  - jdk-lxr-no-meta|g1|common3|hs_perf0
   # - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs
   # SS (lxr)
   # - jdk-lxr-defeatured-no-meta|ss|common3|tph
