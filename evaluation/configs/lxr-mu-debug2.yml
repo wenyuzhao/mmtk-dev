@@ -155,7 +155,7 @@ configs:
   # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
   # IX (lxr)
   - jdk-lxr-no-meta|lxr|lxr_stw|common3|tph_perf
-  - jdk-lxr-no-meta-no_weak_ref_barrier|lxr|lxr_stw|common3|tph_perf
+  # - jdk-lxr-no-meta-no_weak_ref_barrier|lxr|lxr_stw|common3|tph_perf
   - jdk-lxr-no-meta-two_level_barrier|lxr|lxr_stw|common3|tph_perf
   # - jdk-lxr-no-meta-no_barrier_workaround|lxr|lxr_stw|common3|tph_perf
   - jdk-lxr-no-meta-barrier_skip_const_null|lxr|lxr_stw|common3|tph_perf
@@ -167,6 +167,7 @@ configs:
   # - jdk-lxr-no-meta-prefetch|ix|common3|tph_perf
   # - jdk-lxr-no-meta-prefetch1k|ix|common3|tph_perf
   - jdk-lxr-no-meta|ss|common3|tph_perf
+  - jdk-lxr-no-meta|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-32bit|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-shift|ix|common3|tph_perf
   # - jdk-lxr-no-meta-noop-base-and-shift|ix|common3|tph_perf
