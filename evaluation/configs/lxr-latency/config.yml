@@ -81,10 +81,10 @@ modifiers:
     val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
   jvmti:
     type: JVMArg
-    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+    val: -agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so
   jvmti_env:
     type: EnvVar
-    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so
+    val: /home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so
     var: LD_PRELOAD
   latency:
     type: ProgramArg
