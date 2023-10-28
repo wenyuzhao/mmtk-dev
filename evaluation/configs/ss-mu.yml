@@ -16,7 +16,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-pfm-fix/jdk-11.0.19
     commits:
-      mmtk-core: 677fe4a8dd
+      mmtk-core: 760f081b5
       mmtk-openjdk: 60a8357182
       openjdk: 28e56ee325
 
@@ -31,7 +31,7 @@ modifiers:
     val: "true"
 
 configs:
-  - jdk-mmtk-pfm-fix|g1|ms|common3|tph|hs_perf
-  - jdk-mmtk-pfm-fix|g1|ms|common3|tph|hs_perf0
+  - jdk-mmtk-pfm-fix|g1|ms|common3|hs_perf
+  - jdk-mmtk-pfm-fix|g1|ms|common3|hs_perf0
   - jdk-mmtk-pfm-fix|ss|ms|common3|tph|mmtk_perf
   - jdk-mmtk-pfm-fix|ss|ms|common3|tph|mmtk_perf|exclude_kernel
