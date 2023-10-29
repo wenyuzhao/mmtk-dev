@@ -40,7 +40,7 @@ def do_run(target: str, bench: str, heap: str, iter: str):
     dacapo_args = [ "-jar", "/usr/share/benchmarks/dacapo/dacapo-9.12-bach.jar", bench, "-n", f"{iter}" ]
 
     ᐅᐳᐳ(
-        ["dist/RBaseBaseSemiSpace_x86_64_m32-linux/rvm", *heap_args, *dacapo_args],
+        [f"dist/{target}_x86_64_m32-linux/rvm", *heap_args, *dacapo_args],
         env=env,
         cwd=JIKESRVM,
     )
