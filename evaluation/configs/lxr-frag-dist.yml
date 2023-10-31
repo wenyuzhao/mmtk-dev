@@ -17,7 +17,7 @@ runtimes:
       mmtk-core: e63b0116
       mmtk-openjdk: 2ac04591
       openjdk: 7caf8f7d
-    features: mmtk/fragmentation_analysis
+    features: mmtk/fragmentation_analysis,mmtk/lxr_no_survival_trigger
 
 configs:
   - jdk-lxr|lxr|common3|tph
