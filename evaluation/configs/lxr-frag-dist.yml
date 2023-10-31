@@ -14,7 +14,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 5a96b187c
+      mmtk-core: e63b0116
       mmtk-openjdk: 2ac04591
       openjdk: 7caf8f7d
     features: mmtk/fragmentation_analysis
