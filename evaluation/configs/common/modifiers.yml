@@ -28,19 +28,29 @@ modifiers:
       dacapochopin-04132797:
         - tradebeans
         - tradesoap
+      dacapochopin-rc3:
+        - tradebeans
+        - tradesoap
   probes_cp:
     type: JVMClasspath
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
   probes:
     type: JVMArg
     val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
-  jvmti:
+  jvmti0:
     type: JVMArg
-    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
-  jvmti_env:
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so"
+  jvmti_env0:
     type: EnvVar
     var: "LD_PRELOAD"
-    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics.so"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so"
+  jvmti3:
+    type: JVMArg
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm3.so"
+  jvmti_env3:
+    type: EnvVar
+    var: "LD_PRELOAD"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm3.so"
   perf:
     type: EnvVar
     var: "PERF_EVENTS"
@@ -48,25 +58,49 @@ modifiers:
     val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
     # Intel
     # val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+  perf_llc:
+    type: EnvVar
+    var: "PERF_EVENTS"
+    # AMD
+    val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
-  tph_perf:
+  hs0:
     type: ModifierSet
-    val: "tph|mmtk_perf"
-  hs_perf:
-    type: ModifierSet
-    val: "jvmti|jvmti_env|perf"
+    val: "jvmti0|jvmti_env0"
   hs:
     type: ModifierSet
-    val: "jvmti|jvmti_env"
+    val: "jvmti3|jvmti_env3"
+  hs_perf0:
+    type: ModifierSet
+    val: "hs0|perf"
+  hs_perf:
+    type: ModifierSet
+    val: "hs|perf"
+  hs_perf0_llc:
+    type: ModifierSet
+    val: "hs0|perf_llc"
+  hs_perf_llc:
+    type: ModifierSet
+    val: "hs|perf_llc"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
     # AMD
-    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+    val: "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
     # Intel
     # val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  mmtk_perf_llc:
+    type: EnvVar
+    var: "MMTK_PHASE_PERF_EVENTS"
+    val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  tph_perf:
+    type: ModifierSet
+    val: "tph|mmtk_perf"
+  tph_perf_llc:
+    type: ModifierSet
+    val: "tph|mmtk_perf_llc"
   hugetlb:
     type: JVMArg
     val: "-XX:+UseTransparentHugePages"
@@ -90,15 +124,18 @@ modifiers:
   mn:
     type: JVMArg
     val: "-Xmn{0} -XX:SurvivorRatio=32 -XX:-UseAdaptiveSizePolicy"
+  exit_on_oom:
+    type: JVMArg
+    val: "-XX:+ExitOnOutOfMemoryError"
   common:
     type: ModifierSet
-    val: "ms|s|c2|probes|probes_cp"
+    val: "ms|s|c2|probes|probes_cp|exit_on_oom"
   common2:
     type: ModifierSet
-    val: "nobl|s|c2|probes|probes_cp"
+    val: "nobl|s|c2|probes|probes_cp|exit_on_oom"
   common3:
     type: ModifierSet
-    val: "s|probes|probes_cp"
+    val: "s|probes|probes_cp|exit_on_oom"
   nogc:
     type: EnvVar
     var: "MMTK_PLAN"

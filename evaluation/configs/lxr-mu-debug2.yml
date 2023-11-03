@@ -1,0 +1,179 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-rc3.minheap: G1
+  benchmarks.dacapochopin-rc3:
+    - h2
+    - spring
+    - lusearch
+
+modifiers:
+  no_line_reuse:
+    type: EnvVar
+    var: "NO_LINE_RECYCLING"
+    val: "true"
+  no_mu_line_reuse:
+    type: EnvVar
+    var: "NO_MUTATOR_LINE_RECYCLING"
+    val: "true"
+  lxr_stw:
+    type: EnvVar
+    var: "lxr_stw"
+    val: "true"
+
+runtimes:
+  jdk-lxr-no-meta:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    commits:
+      mmtk-core: b457f5661
+      mmtk-openjdk: cd32e81291
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,mmtk/perf_counter_plm0
+  # jdk-lxr-no-meta-no_weak_ref_barrier:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-no_weak_ref_barrier/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: b457f5661
+  #     mmtk-openjdk: cd32e81291
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/lxr_stw,no_weak_ref_barrier
+  jdk-lxr-no-meta-two_level_barrier:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-two_level_barrier/jdk-11.0.19
+    commits:
+      mmtk-core: b457f5661
+      mmtk-openjdk: cd32e81291
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,two_level_barrier,mmtk/perf_counter_plm0
+  # jdk-lxr-no-meta-no_barrier_workaround:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-no_barrier_workaround/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: b457f5661
+  #     mmtk-openjdk: bae90018978
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/lxr_stw,no_barrier_workaround
+  jdk-lxr-no-meta-barrier_skip_const_null:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_const_null/jdk-11.0.19
+    commits:
+      mmtk-core: b457f5661
+      mmtk-openjdk: cd32e81291
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null,mmtk/perf_counter_plm0
+  jdk-lxr-no-meta-barrier_skip_null:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_null/jdk-11.0.19
+    commits:
+      mmtk-core: b457f5661
+      mmtk-openjdk: cd32e81291
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null,mmtk/perf_counter_plm0
+  jdk-lxr-no-meta-barrier_skip_const_null-two_level_barrier:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_const_null-two_level_barrier/jdk-11.0.19
+    commits:
+      mmtk-core: b457f5661
+      mmtk-openjdk: cd32e81291
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_const_null,two_level_barrier,mmtk/perf_counter_plm0
+  jdk-lxr-no-meta-barrier_skip_null-two_level_barrier:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-barrier_skip_null-two_level_barrier/jdk-11.0.19
+    commits:
+      mmtk-core: b457f5661
+      mmtk-openjdk: cd32e81291
+      openjdk: narrow-oop-debug
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,barrier_skip_null,two_level_barrier,mmtk/perf_counter_plm0
+  # jdk-lxr-no-meta-ordered:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-ordered/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: dc27d8f72
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/block_alloc_order_1
+  # jdk-lxr-no-meta-prefetch:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-prefetch/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: dc27d8f72
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/prefetch
+  # jdk-lxr-no-meta-prefetch1k:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-prefetch1k/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: dc27d8f72
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/prefetch_1k
+  # jdk-lxr-no-meta-retry-alloc-all:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-all/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: fc69ae30
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc
+  # jdk-lxr-no-meta-retry-alloc-small:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-meta-retry-alloc-small/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: fc69ae30
+  #     mmtk-openjdk: 73e22d39
+  #     openjdk: narrow-oop-debug
+  #   features: mmtk/no_meta_counting,mmtk/ix_retry_small_object_alloc,mmtk/ix_retry_small_object_alloc_small_only
+
+configs:
+  # G1
+  - jdk-lxr-no-meta|g1|common3|hs_perf0
+  # - jdk-lxr-defeatured-no-meta|g1|no_compressed_oops|common3|hs
+  # SS (lxr)
+  # - jdk-lxr-defeatured-no-meta|ss|common3|tph
+  # - jdk-lxr-defeatured-no-meta|ss|no_compressed_oops|common3|tph
+  # - jdk-lxr-defeatured-no-meta-discontig|ss|no_compressed_oops|common3|tph
+  # IX (lxr)
+  - jdk-lxr-no-meta|lxr|lxr_stw|common3|tph_perf
+  # - jdk-lxr-no-meta-no_weak_ref_barrier|lxr|lxr_stw|common3|tph_perf
+  - jdk-lxr-no-meta-two_level_barrier|lxr|lxr_stw|common3|tph_perf
+  # - jdk-lxr-no-meta-no_barrier_workaround|lxr|lxr_stw|common3|tph_perf
+  - jdk-lxr-no-meta-barrier_skip_const_null|lxr|lxr_stw|common3|tph_perf
+  - jdk-lxr-no-meta-barrier_skip_null|lxr|lxr_stw|common3|tph_perf
+  - jdk-lxr-no-meta-barrier_skip_const_null-two_level_barrier|lxr|lxr_stw|common3|tph_perf
+  - jdk-lxr-no-meta-barrier_skip_null-two_level_barrier|lxr|lxr_stw|common3|tph_perf
+  # - jdk-lxr-no-meta|ix|common3|tph_perf|threads-1
+  # - jdk-lxr-no-meta-ordered|ix|common3|tph_perf
+  # - jdk-lxr-no-meta-prefetch|ix|common3|tph_perf
+  # - jdk-lxr-no-meta-prefetch1k|ix|common3|tph_perf
+  - jdk-lxr-no-meta|ss|common3|tph_perf
+  - jdk-lxr-no-meta|ix|common3|tph_perf
+  # - jdk-lxr-no-meta-noop-32bit|ix|common3|tph_perf
+  # - jdk-lxr-no-meta-noop-shift|ix|common3|tph_perf
+  # - jdk-lxr-no-meta-noop-base-and-shift|ix|common3|tph_perf
+  # LXR (lxr)
+  # - jdk-lxr-defeatured-no-meta|lxr|common3|tph
+  # - jdk-lxr-defeatured-no-meta|lxr|no_compressed_oops|common3|tph
+  # - jdk-lxr-defeatured-no-meta-discontig|lxr|no_compressed_oops|common3|tph
+  # - jdk-lxr-no-meta|lxr|common3|tph
+  # - jdk-lxr-no-meta|lxr|no_compressed_oops|common3|tph

@@ -1,0 +1,55 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-rc3.minheap: G1
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: ad2ea0f31
+      mmtk-openjdk: 2ac045919
+      openjdk: 7caf8f7d19
+  jdk-lxr-no-meta:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    commits:
+      mmtk-core: ad2ea0f31
+      mmtk-openjdk: 2ac045919
+      openjdk: 7caf8f7d19
+    features: mmtk/no_meta_counting
+  jdk-lxr-with-block-state-bug:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-with-block-state-bug/jdk-11.0.19
+    commits:
+      mmtk-core: ad2ea0f31
+      mmtk-openjdk: 2ac045919
+      openjdk: 7caf8f7d19
+    features: mmtk/block_state_reset_bug
+  jdk-lxr-no-meta-with-block-state-bug:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-meta-with-block-state-bug/jdk-11.0.19
+    commits:
+      mmtk-core: ad2ea0f31
+      mmtk-openjdk: 2ac045919
+      openjdk: 7caf8f7d19
+    features: mmtk/no_meta_counting,mmtk/block_state_reset_bug
+
+configs:
+  # G1
+  - jdk-lxr|g1|common3|hs_perf
+  # LXR
+  - jdk-lxr|lxr|common3|tph_perf
+  - jdk-lxr-no-meta|lxr|common3|tph_perf
+  - jdk-lxr-with-block-state-bug|lxr|common3|tph_perf
+  - jdk-lxr-no-meta-with-block-state-bug|lxr|common3|tph_perf

@@ -6,8 +6,8 @@ import os
 import subprocess
 from typing import Any, Optional, List
 
-# os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS'
-# os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS'
+os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
 # os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CACHE_DTLB:MISS'
 # os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
 
@@ -108,16 +108,17 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     if gc in HOTSPOT_GCS:
         heap_args.append(HOTSPOT_GCS[gc])
         if PROBES is not None:
-            heap_args.append(f"-agentpath:{PROBES}/libperf_statistics.so")
-            env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics.so"
+            heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
+            env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
     else:
         # if PROBES is not None:
-        #     heap_args.append(f"-agentpath:{PROBES}/libperf_statistics.so")
-        #     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics.so"
+        #     heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
+        #     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
         heap_args.append("-XX:+UseThirdPartyHeap")
         env["MMTK_PLAN"] = gc
     if threads is not None:
         env["MMTK_THREADS"] = f"{threads}"
+        heap_args.append(f"-XX:ParallelGCThreads={threads}")
     if NO_SOFT_REFS:
         env["MMTK_NO_REFERENCE_TYPES"] = f"true"
         env["MMTK_NO_FINALIZER"] = f"true"
@@ -152,7 +153,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         bm_args += ["-t", f"{mu}"]
     # Extra
     extra_jvm_args = jvm_args or []
-    extra_jvm_args += ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions"]
+    extra_jvm_args += ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError"]
     if NO_BIASED_LOCKING:
         extra_jvm_args.append("-XX:-UseBiasedLocking")
     if NO_CLASS_UNLOAD:
@@ -264,10 +265,10 @@ def main(
             def run_with_pgo(bench: str, heap: str):
                 do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops)
 
-            run_with_pgo(bench="lusearch", heap="200M")
-            run_with_pgo(bench="h2", heap="3000M")
-            run_with_pgo(bench="cassandra", heap="800M")
-            run_with_pgo(bench="tomcat", heap="300M")
+            # run_with_pgo(bench="lusearch", heap="200M")
+            run_with_pgo(bench="h2", heap="1200M")
+            # run_with_pgo(bench="cassandra", heap="800M")
+            # run_with_pgo(bench="tomcat", heap="300M")
             ᐅᐳᐳ(["./scripts/llvm-profdata", "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data"])
         do_build(profile=profile_v, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:

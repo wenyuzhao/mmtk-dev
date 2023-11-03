@@ -4,67 +4,34 @@ includes:
 overrides:
   heap_range: 8
   invocations: 20
-  benchmarks.dacapochopin-04132797:
-    - batik
-    - avrora
-    - cassandra
-    - kafka
-    - luindex
-    - tomcat
-    - zxing
+  suites.dacapochopin-rc3.minheap: G1
+  benchmarks.dacapochopin-rc3:
+    - spring
+    - h2
+    - lusearch
 
 runtimes:
-  jdk-mmtk-c4m-tlab32k-los64k:
+  jdk-mmtk-pfm-fix:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-c4m-tlab32k-los64k/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-pfm-fix/jdk-11.0.19
     commits:
-      mmtk-core: c3d9e4b2
-      mmtk-openjdk: cf9cb8a61
-      openjdk: 91259ca
-    features: mmtk/ss_tlab_32k
-  jdk-mmtk-c32m-tlab32k-los64k:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-c32m-tlab32k-los64k/jdk-11.0.19
-    commits:
-      mmtk-core: c3d9e4b2
-      mmtk-openjdk: cf9cb8a61
-      openjdk: 91259ca
-    features: mmtk/ss_tlab_32k,mmtk/chunk_32m
-  jdk-mmtk-c4m-tlab32k-los64k-eager-mmap:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-c4m-tlab32k-los64k-eager-mmap/jdk-11.0.19
-    commits:
-      mmtk-core: 4c7b03de
-      mmtk-openjdk: cf9cb8a61
-      openjdk: 91259ca
-    features: mmtk/ss_tlab_32k
+      mmtk-core: 760f081b5
+      mmtk-openjdk: 60a8357182
+      openjdk: 28e56ee325
 
 modifiers:
-  perf:
-    type: EnvVar
-    var: "PERF_EVENTS"
-    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
-  hs_perf:
-    type: ModifierSet
-    val: "jvmti|jvmti_env|perf"
   mmtk_perf:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
-    val: "PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
-  taskset1:
-    type: Wrapper
-    val: taskset --cpu-list 0
+    val: "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+  exclude_kernel:
+    type: EnvVar
+    var: "MMTK_PERF_EXCLUDE_KERNEL"
+    val: "true"
 
 configs:
-  # Chunk size experiment
-  - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf
-  - jdk-mmtk-c4m-tlab32k-los64k|ss|common3|tph|mmtk_perf
-  - jdk-mmtk-c32m-tlab32k-los64k|ss|common3|tph|mmtk_perf
-  # Single core experiment
-  - jdk-mmtk-c4m-tlab32k-los64k|g1|common3|hs|hs_perf|taskset1
-  - jdk-mmtk-c4m-tlab32k-los64k|ss|common3|tph|mmtk_perf|taskset1
-  # Eager mmap experiment
-  - jdk-mmtk-c4m-tlab32k-los64k-eager-mmap|ss|common3|tph|mmtk_perf|no_compressed_oops
+  - jdk-mmtk-pfm-fix|g1|ms|common3|hs_perf
+  - jdk-mmtk-pfm-fix|g1|ms|common3|hs_perf0
+  - jdk-mmtk-pfm-fix|ss|ms|common3|tph|mmtk_perf
+  - jdk-mmtk-pfm-fix|ss|ms|common3|tph|mmtk_perf|exclude_kernel

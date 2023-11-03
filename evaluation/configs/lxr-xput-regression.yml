@@ -6,27 +6,27 @@ includes:
 overrides:
   heap_range: 3
   invocations: 40
-  suites.dacapochopin-04132797.minheap: G1
+  suites.dacapochopin-rc3.minheap: G1
 
 runtimes:
-  jdk-lxr:
+  jdk-lxr-v019:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-v019/jdk-11.0.19
     commits:
-      mmtk-core: 72aad37
-      mmtk-openjdk: d382526
+      mmtk-core: 317b6993
+      mmtk-openjdk: 366f12ab9
       openjdk: 7caf8f7d
-  jdk-lxr-20230806:
+  jdk-lxr-v020:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-20230806/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-v020/jdk-11.0.19
     commits:
-      mmtk-core: 8228e5e5
-      mmtk-openjdk: e461a614
+      mmtk-core: edfca0ef
+      mmtk-openjdk: 8fa93ebc
       openjdk: 7caf8f7d
 
 configs:
-  - jdk-lxr|g1|common3|hs
-  - jdk-lxr-20230806|lxr|common3|tph
-  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-v020|g1|common3|hs
+  - jdk-lxr-v020|lxr|common3|tph
+  - jdk-lxr-v019|lxr|common3|tph
