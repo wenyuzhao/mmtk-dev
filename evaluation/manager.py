@@ -11,7 +11,10 @@ import re
 
 
 
-USERNAME = os.getlogin()
+try:
+    USERNAME = os.getlogin()
+except BaseException:
+    USERNAME = os.environ['USER']
 EVALUATION_DIR = os.path.dirname(os.path.realpath(__file__))
 MMTK_DEV = os.path.dirname(EVALUATION_DIR)
 
