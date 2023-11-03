@@ -28,7 +28,7 @@ runtimes:
   jdk-lxr-no-sweep:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-sweep/jdk-11.0.19
     commits:
       mmtk-core: bc9844a027
       mmtk-openjdk: 2124a4792
