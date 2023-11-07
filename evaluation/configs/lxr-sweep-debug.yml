@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 20
+  invocations: 20W
   suites.dacapochopin-rc3.minheap: G1
   benchmarks.dacapochopin-rc3:
     - lusearch
@@ -28,7 +28,7 @@ runtimes:
   jdk-lxr-no-sweep:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr-no-sweep/jdk-11.0.19
     commits:
       mmtk-core: 627a68d206
       mmtk-openjdk: a6e80ca37
