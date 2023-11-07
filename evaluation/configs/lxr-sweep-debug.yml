@@ -25,16 +25,25 @@ runtimes:
       mmtk-core: acbc53c43
       mmtk-openjdk: 2124a4792
       openjdk: 7caf8f7d
+  jdk-lxr-no-sweep-clean-only:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-no-sweep-clean-only/jdk-11.0.19
+    commits:
+      mmtk-core: 627a68d206
+      mmtk-openjdk: a6e80ca37
+      openjdk: 7caf8f7d
   jdk-lxr-no-sweep:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-sweep/jdk-11.0.19
     commits:
-      mmtk-core: 627a68d206
+      mmtk-core: f024a4a07f
       mmtk-openjdk: a6e80ca37
       openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|g1|common3|hs_perf
   - jdk-lxr|lxr|common3|tph_perf
+  - jdk-lxr-no-sweep-clean-only|lxr|common3|tph_perf
   - jdk-lxr-no-sweep|lxr|common3|tph_perf
