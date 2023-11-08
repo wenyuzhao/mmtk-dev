@@ -7,14 +7,14 @@ overrides:
   heap_range: 3
   invocations: 20
   suites.dacapochopin-rc3.minheap: G1
-  benchmarks.dacapochopin-rc3:
-    - lusearch
-    - cassandra
-    - h2
-    - tomcat
-    - spring
-    - tradesoup
-    - tradebeans
+  # benchmarks.dacapochopin-rc3:
+  #   - lusearch
+  #   - cassandra
+  #   - h2
+  #   - tomcat
+  #   - spring
+  #   - tradesoup
+  #   - tradebeans
 
 runtimes:
   jdk-lxr:
@@ -30,20 +30,20 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-sweep-clean-only/jdk-11.0.19
     commits:
-      mmtk-core: 627a68d206
-      mmtk-openjdk: a6e80ca37
+      mmtk-core: a51b41b0a
+      mmtk-openjdk: 0d43896f3
       openjdk: 7caf8f7d
-  jdk-lxr-no-sweep:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-sweep/jdk-11.0.19
-    commits:
-      mmtk-core: f024a4a07f
-      mmtk-openjdk: a6e80ca37
-      openjdk: 7caf8f7d
+  # jdk-lxr-no-sweep:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-lxr-no-sweep/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: f024a4a07f
+  #     mmtk-openjdk: a6e80ca37
+  #     openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|g1|common3|hs_perf
   - jdk-lxr|lxr|common3|tph_perf
   - jdk-lxr-no-sweep-clean-only|lxr|common3|tph_perf
-  - jdk-lxr-no-sweep|lxr|common3|tph_perf
+  # - jdk-lxr-no-sweep|lxr|common3|tph_perf
