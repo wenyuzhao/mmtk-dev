@@ -30,8 +30,8 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-sweep-clean-only/jdk-11.0.19
     commits:
-      mmtk-core: 610c8977aa
-      mmtk-openjdk: 0d43896f3
+      mmtk-core: 23c7fb398
+      mmtk-openjdk: 07ea963241 
       openjdk: 7caf8f7d
   # jdk-lxr-no-sweep:
   #   type: OpenJDK
