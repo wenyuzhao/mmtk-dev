@@ -6,8 +6,10 @@ import os
 import subprocess
 from typing import Any, Optional, List
 
-os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS'
-os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+FORCE_USE_JVMTI_HOOK = True
+
+os.environ["PERF_EVENTS"] = "PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+os.environ["MMTK_PHASE_PERF_EVENTS"] = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
 # os.environ['PERF_EVENTS'] = 'PERF_COUNT_HW_CACHE_DTLB:MISS'
 # os.environ['MMTK_PHASE_PERF_EVENTS'] = "PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
 
@@ -105,15 +107,10 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     # MMTk or HotSpot GC args
     env["RUST_BACKTRACE"] = "1"
     heap_args: List[Any] = []
+    # Enable a GC
     if gc in HOTSPOT_GCS:
         heap_args.append(HOTSPOT_GCS[gc])
-        if PROBES is not None:
-            heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
-            env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
     else:
-        # if PROBES is not None:
-        #     heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
-        #     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
         heap_args.append("-XX:+UseThirdPartyHeap")
         env["MMTK_PLAN"] = gc
     if threads is not None:
@@ -128,6 +125,10 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     # Probes args
     probe_args: List[Any] = []
     callback_args: List[Any] = []
+    if gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
+        if PROBES is not None:
+            heap_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
+            env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
     if PROBES is not None:
         probe_args += ["--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-Dprobes=RustMMTk", f"-Djava.library.path={PROBES}", "-cp", f"{PROBES}:{PROBES}/probes.jar:{DACAPO}"]
         callback_args += ["-c", "probe.DacapoChopinCallback"]
