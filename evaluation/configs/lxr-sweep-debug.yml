@@ -30,7 +30,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-sweep-clean-only/jdk-11.0.19
     commits:
-      mmtk-core: 50b68a527e
+      mmtk-core: 483ca4f0a
       mmtk-openjdk: 07ea963241
       openjdk: 7caf8f7d
   jdk-lxr-no-sweep:
@@ -54,6 +54,6 @@ runtimes:
 configs:
   - jdk-lxr|g1|common3|hs_perf
   - jdk-lxr|lxr|common3|tph_perf
-  - jdk-lxr-no-sweep-clean-only|lxr|common3|tph_perf
+  - jdk-lxr-no-sweep-clean-only|lxr|common3|tph_perf|full_threshold-15
   - jdk-lxr-no-sweep|lxr|common3|tph_perf
   - jdk-lxr-no-sweep-no-meta|lxr|common3|tph_perf
