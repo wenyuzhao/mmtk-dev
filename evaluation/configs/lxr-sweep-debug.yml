@@ -38,7 +38,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-sweep/jdk-11.0.19
     commits:
-      mmtk-core: bad7b8cdb
+      mmtk-core: cbcfbb2e1
       mmtk-openjdk: 4bbae7ad9
       openjdk: 7caf8f7d
   jdk-lxr-no-sweep-no-meta:
@@ -46,7 +46,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-no-sweep-no-meta/jdk-11.0.19
     commits:
-      mmtk-core: bad7b8cdb
+      mmtk-core: cbcfbb2e1
       mmtk-openjdk: 4bbae7ad9
       openjdk: 7caf8f7d
     features: mmtk/no_meta_counting
