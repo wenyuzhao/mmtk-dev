@@ -168,7 +168,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     if verbose != 0:
         env["MMTK_VERBOSE"] = f"{verbose}"
         if verbose >= 3:
-            extra_jvm_args += ["-Xlog:gc*,gc+phases=debug"]
+            extra_jvm_args += ["-Xlog:gc*"]
         elif verbose >= 2:
             extra_jvm_args += ["-Xlog:gc"]
     time_v_wrapper = ["/bin/time", "-v"] if time_v else []
