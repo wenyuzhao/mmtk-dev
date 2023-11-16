@@ -1,0 +1,28 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-rc3.minheap: G1
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 6f3907de2d5
+      mmtk-openjdk: 4bbae7ad910
+      openjdk: 7caf8f7d
+
+configs:
+  - jdk-lxr|g1|common3|hs_perf
+  - jdk-lxr|lxr|common3|tph_perf|full_threshold-5
+  - jdk-lxr|lxr|common3|tph_perf|full_threshold-7
+  - jdk-lxr|lxr|common3|tph_perf|full_threshold-9
+  - jdk-lxr|lxr|common3|tph_perf|full_threshold-11
+  - jdk-lxr|lxr|common3|tph_perf|full_threshold-13
+  - jdk-lxr|lxr|common3|tph_perf|full_threshold-15
