@@ -5,6 +5,6 @@ includes:
 
 overrides:
   invocations: 20
-  suites.dacapochopin-rc3.timing_iteration: 5
-  suites.dacapochopin-rc3.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-rc3.timeout: 600
+  suites.dacapochopin.timing_iteration: 5
+  suites.dacapochopin.callback: probe.DacapoChopinCallback
+  suites.dacapochopin.timeout: 600

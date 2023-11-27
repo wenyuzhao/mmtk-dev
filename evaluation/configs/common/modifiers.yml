@@ -31,6 +31,9 @@ modifiers:
       dacapochopin-rc3:
         - tradebeans
         - tradesoap
+      dacapochopin:
+        - tradebeans
+        - tradesoap
   probes_cp:
     type: JVMClasspath
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"

@@ -2,6 +2,37 @@ includes:
   - "$RUNNING_NG_PACKAGE_DATA/base/runbms-anu.yml"
 
 overrides:
+  suites.dacapochopin:
+    type: DaCapo
+    release: evaluation
+    path: /usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar
+    minheap: G1
+    minheap_values:
+      G1:
+        avrora: 5
+        batik: 181
+        biojava: 95
+        cassandra: 115
+        eclipse: 133
+        fop: 13
+        graphchi: 180
+        h2: 677
+        h2o: 66
+        jme: 29
+        jython: 27
+        kafka: 201
+        luindex: 38
+        lusearch: 17
+        pmd: 187
+        spring: 45
+        sunflow: 29
+        tomcat: 21
+        tradebeans: 105
+        tradesoap: 85
+        xalan: 13
+        zxing: 99
+    timing_iteration: 3
+    timeout: 120
   suites.dacapochopin-rc3:
     type: DaCapo
     release: evaluation
