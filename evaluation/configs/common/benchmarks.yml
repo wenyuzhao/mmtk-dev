@@ -1,6 +1,6 @@
 
 benchmarks:
-  dacapochopin-rc3:
+  dacapochopin:
     - lusearch
     - h2
     - cassandra
