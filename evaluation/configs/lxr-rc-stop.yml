@@ -14,15 +14,23 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 6f3907de2d5
+      mmtk-core: c1eda8edea8
       mmtk-openjdk: 4bbae7ad910
       openjdk: 7caf8f7d
+  jdk-lxr-plm0:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr-plm0/jdk-11.0.19
+    commits:
+      mmtk-core: c1eda8edea8
+      mmtk-openjdk: 4bbae7ad910
+      openjdk: 7caf8f7d
+    features: mmtk/perf_counter_plm0
 
 configs:
   - jdk-lxr|g1|common3|hs_perf
-  - jdk-lxr|lxr|common3|tph_perf|full_threshold-5
-  - jdk-lxr|lxr|common3|tph_perf|full_threshold-7
-  - jdk-lxr|lxr|common3|tph_perf|full_threshold-9
-  - jdk-lxr|lxr|common3|tph_perf|full_threshold-11
-  - jdk-lxr|lxr|common3|tph_perf|full_threshold-13
-  - jdk-lxr|lxr|common3|tph_perf|full_threshold-15
+  - jdk-lxr|lxr|common3|tph_perf
+  - jdk-lxr|lxr|common3|tph_perf|threads-6
+  - jdk-lxr-plm0|g1|common3|hs_perf0
+  - jdk-lxr-plm0|lxr|common3|tph_perf
+  - jdk-lxr-plm0|lxr|common3|tph_perf|threads-6
