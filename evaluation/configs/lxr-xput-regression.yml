@@ -9,24 +9,15 @@ overrides:
   suites.dacapochopin-rc3.minheap: G1
 
 runtimes:
-  jdk-lxr-v019:
+  jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-v019/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 317b6993
-      mmtk-openjdk: 366f12ab9
-      openjdk: 7caf8f7d
-  jdk-lxr-v020:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-v020/jdk-11.0.19
-    commits:
-      mmtk-core: edfca0ef
-      mmtk-openjdk: 8fa93ebc
+      mmtk-core: 597effae29
+      mmtk-openjdk: 986904832d
       openjdk: 7caf8f7d
 
 configs:
-  - jdk-lxr-v020|g1|common3|hs
-  - jdk-lxr-v020|lxr|common3|tph
-  - jdk-lxr-v019|lxr|common3|tph
+  - jdk-lxr|g1|common3|hs
+  - jdk-lxr|lxr|common3|tph
