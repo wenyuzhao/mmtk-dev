@@ -1,7 +1,6 @@
 
 lxr=0
-dacapo_chopin=RC3
-dacapo_commit=04132797 # Legacy
+dacapo_chopin=dacapo-23.11-chopin
 dacapo_dir=/usr/share/benchmarks/dacapo
 mmtk_dev_dir:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 

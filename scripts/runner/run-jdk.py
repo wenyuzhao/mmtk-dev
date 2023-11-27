@@ -18,7 +18,11 @@ OPENJDK = f"{MMTK_DEV}/openjdk"
 
 
 def find_dacapo():
-    # Find /usr/share/benchmarks/dacapo/dacapo-23.9-RC*.chopin.jar
+    # Find /usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar
+    jar = f"/usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar"
+    if os.path.isfile(jar):
+        return jar
+    # Find /usr/share/benchmarks/dacapo/dacapo-23.9-RC*-chopin.jar
     for v in reversed(range(1, 10)):
         jar = f"/usr/share/benchmarks/dacapo/dacapo-23.9-RC{v}-chopin.jar"
         if os.path.isfile(jar):
