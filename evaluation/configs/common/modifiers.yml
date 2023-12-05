@@ -69,6 +69,9 @@ modifiers:
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
+  add_exports:
+    type: JVMArg
+    val: "--add-exports java.base/jdk.internal.ref=ALL-UNNAMED"
   hs0:
     type: ModifierSet
     val: "jvmti0|jvmti_env0"
@@ -132,13 +135,13 @@ modifiers:
     val: "-XX:+ExitOnOutOfMemoryError"
   common:
     type: ModifierSet
-    val: "ms|s|c2|probes|probes_cp|exit_on_oom"
+    val: "ms|s|c2|probes|probes_cp|exit_on_oom|add_exports"
   common2:
     type: ModifierSet
-    val: "nobl|s|c2|probes|probes_cp|exit_on_oom"
+    val: "nobl|s|c2|probes|probes_cp|exit_on_oom|add_exports"
   common3:
     type: ModifierSet
-    val: "s|probes|probes_cp|exit_on_oom"
+    val: "s|probes|probes_cp|exit_on_oom|add_exports"
   nogc:
     type: EnvVar
     var: "MMTK_PLAN"
