@@ -106,7 +106,7 @@ def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool
     )
 
 
-def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: Optional[int], no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int = 0, enable_asan: bool = False, time_v: bool = False, jdk: Optional[str] = None):
+def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: Optional[int], no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int = 0, enable_asan: bool = False, time_v: bool = False, jdk: Optional[str] = None, size: Optional[str] = None):
     env = {}
     # MMTk or HotSpot GC args
     env["RUST_BACKTRACE"] = "1"
@@ -156,6 +156,8 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     bm_args: List[Any] = []
     if mu is not None:
         bm_args += ["-t", f"{mu}"]
+    if size is not None:
+        bm_args += ["-s", size]
     # Extra
     extra_jvm_args = jvm_args or []
     extra_jvm_args += ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError"]
@@ -247,6 +249,7 @@ def main(
     no_run: bool = option(False, "--no-run", help=f"Don't run any java program"),
     enable_asan: bool = option(False, "--enable-asan", help=f"Enable address sanitizer"),
     time_v: bool = option(False, "--time-v", help=f"/bin/time -v wrapper"),
+    size: Optional[str] = option(None, '--size', '-s', help="Benchmark size"),
 ):
     """
     Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
@@ -277,7 +280,7 @@ def main(
             ᐅᐳᐳ(["./scripts/llvm-profdata", "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data"])
         do_build(profile=profile_v, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:
-        do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk)
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk, size=size)
     if cp_bench is not None:
         do_cp_bench(profile=profile_v, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
