@@ -7,6 +7,7 @@ import subprocess
 from typing import Any, Optional, List
 
 FORCE_USE_JVMTI_HOOK = False
+MAX_CORES = 32 # None
 
 os.environ["PERF_EVENTS"] = "PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS"
 os.environ["MMTK_PHASE_PERF_EVENTS"] = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
@@ -106,7 +107,7 @@ def do_build(profile: str, features: Optional[str], exploded: bool, bundle: bool
     )
 
 
-def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: Optional[int], no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int = 0, enable_asan: bool = False, time_v: bool = False, jdk: Optional[str] = None, size: Optional[str] = None):
+def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads: Optional[int], no_c1: bool, no_c2: bool, gdb: bool, rr: bool, mu: Optional[int], iter: int, jvm_args: Optional[List[str]], compressed_oops: bool, verbose: int = 0, enable_asan: bool = False, time_v: bool = False, jdk: Optional[str] = None, size: Optional[str] = None, taskset: Optional[str] = None):
     env = {}
     # MMTk or HotSpot GC args
     env["RUST_BACKTRACE"] = "1"
@@ -152,6 +153,17 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         debugger_wrapper += ["rust-gdb", "--args"]
     elif rr:
         debugger_wrapper += ["rr", "record"]
+    # taskset wrapper
+    taskset_wrapper: List[Any] = []
+    if taskset is not None:
+        taskset_wrapper += ["taskset", "-c"]
+        if taskset.isnumeric():
+            taskset_wrapper += [f"0-{int(taskset) - 1}"]
+        else:
+            taskset_wrapper += [f"{taskset}"]
+    elif MAX_CORES is not None:
+        cores = min(os.cpu_count(), MAX_CORES)
+        taskset_wrapper += ["taskset", "-c", f"0-{cores - 1}"]
     # Benchmark args
     bm_args: List[Any] = []
     if mu is not None:
@@ -184,7 +196,7 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
     if jdk is not None:
         java = f"{jdk}/bin/java"
     ᐅᐳᐳ(
-        [*debugger_wrapper, *time_v_wrapper, java, *extra_jvm_args, *heap_args, *compiler_args, *probe_args, "Harness", "-n", f"{iter}", *callback_args, bench, *bm_args],
+        [*taskset_wrapper, *debugger_wrapper, *time_v_wrapper, java, *extra_jvm_args, *heap_args, *compiler_args, *probe_args, "Harness", "-n", f"{iter}", *callback_args, bench, *bm_args],
         cwd=MMTK_DEV,
         env=env,
     )
@@ -250,6 +262,7 @@ def main(
     enable_asan: bool = option(False, "--enable-asan", help=f"Enable address sanitizer"),
     time_v: bool = option(False, "--time-v", help=f"/bin/time -v wrapper"),
     size: Optional[str] = option(None, '--size', '-s', help="Benchmark size"),
+    taskset: Optional[str] = option(None, '--taskset', '--ts', help="`taskset -c` argument as a string, or the number of cores to use"),
 ):
     """
     Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build
@@ -280,7 +293,7 @@ def main(
             ᐅᐳᐳ(["./scripts/llvm-profdata", "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data"])
         do_build(profile=profile_v, features=features, exploded=exploded, bundle=cp_bench is not None, enable_asan=enable_asan, pgo_use=pgo)
     if not no_run:
-        do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk, size=size)
+        do_run(gc=gc, bench=bench, heap=heap, profile=profile_v, exploded=exploded, threads=threads, no_c1=no_c1, no_c2=no_c2, gdb=gdb, rr=rr, mu=mu, iter=iter, jvm_args=jvm_args, compressed_oops=compressed_oops, verbose=verbose, enable_asan=enable_asan, time_v=time_v, jdk=jdk, size=size, taskset=taskset)
     if cp_bench is not None:
         do_cp_bench(profile=profile_v, target=cp_bench, no_commit_hash=cp_bench_no_commit_hash)
 
