@@ -14,9 +14,10 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 597effae29
-      mmtk-openjdk: 986904832d
+      mmtk-core: 7502428403b
+      mmtk-openjdk: cdbc8decffa
       openjdk: 7caf8f7d
+    features: mmtk/opt
 
 configs:
   - jdk-lxr|g1|common3|hs
