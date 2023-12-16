@@ -24,7 +24,7 @@ runtimes:
     commits:
       mmtk-core: 597effa
       mmtk-openjdk: '9869048'
-      openjdk: 7caf8f7dsss
+      openjdk: 7caf8f7d
 
 configs:
   - jdk-lxr|g1|common3|hs
