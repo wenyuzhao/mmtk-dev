@@ -17,13 +17,13 @@ runtimes:
       mmtk-core: edfca0e
       mmtk-openjdk: 8fa93eb
       openjdk: 7caf8f7d
-  jdk-lx-ba:
+  jdk-lxr-ba:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr-ba/jdk-11.0.19
     commits:
       mmtk-core: 597effa
-      mmtk-openjdk: '9869048'
+      mmtk-openjdk: "9869048"
       openjdk: 7caf8f7d
 
 configs:
