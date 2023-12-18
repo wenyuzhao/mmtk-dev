@@ -1,9 +1,10 @@
 import re
-import sys
 
 
 def parse_log(file):
     record = False
+    cm_time = None
+    cm_objs = None
     cm_rate = []
     with open(file) as f:
         for line in f:
@@ -17,16 +18,19 @@ def parse_log(file):
                 continue
             if not record:
                 continue
-            match = re.search(r"STW_CM_PACKETS_TIME=(\d+)ms .* STW_SCAN_NON_NULL_SLOTS=(\d+)", line)
+            match = re.search(r"STW_CM_PACKETS_TIME=(\d+)ms", line)
             if match:
                 cm_time = float(match.groups()[0])
-                cm_objs = float(match.groups()[1])
-                if cm_time > 0 and cm_objs > 0:
+            match = re.search(r"STW_SCAN_NON_NULL_SLOTS=(\d+)", line)
+            if match:
+                cm_objs = float(match.groups()[0])
+                print(cm_objs, cm_time)
+                assert cm_time is not None
+                if cm_time != 0 and cm_objs != 0:
                     cm_rate.append((cm_time, cm_objs, cm_objs / cm_time))
-    # print(cm_rate)
-    for v in cm_rate:
-        print(f"{v[2]:.1f}")
+                cm_time = None
+    print(cm_rate)
+    print("\n".join([f"{x[2]:.1f}" for x in cm_rate]))
 
 
-logfile = sys.argv[1] if len(sys.argv) > 1 else "x.log"
-parse_log(logfile)
+parse_log("x.log")
