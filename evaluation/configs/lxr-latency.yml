@@ -1,0 +1,41 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 32 7 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin.minheap: G1
+  benchmarks.dacapochopin:
+    - lusearch
+    - cassandra
+    - h2
+    - tomcat
+    - kafka
+    - spring
+    - tradebeans
+    - tradesoap
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: c62b108159c
+      mmtk-openjdk: f1014a69df3
+      openjdk: 7caf8f7d
+    features: mmtk/opt
+
+configs:
+  - jdk-lxr|g1|common3|hs|latency
+  - jdk-lxr|lxr|common3|tph|latency
+  - jdk-lxr|shenandoah|common3|tph|latency
+  - jdk-lxr|z|common3|tph|latency
+
+plugins:
+  dacapo-latency:
+    patterns:
+      - scratch/dacapo-latency-*.csv
+    type: CopyFile
