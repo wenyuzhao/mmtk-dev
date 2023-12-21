@@ -31,11 +31,12 @@ runtimes:
 configs:
   - jdk-lxr|g1|common3|hs|latency
   - jdk-lxr|lxr|common3|tph|latency
-  - jdk-lxr|shenandoah|common3|tph|latency
-  - jdk-lxr|z|common3|tph|latency
+  - jdk-lxr|shenandoah|common3|hs|latency
+  - jdk-lxr|z|common3|hs|latency
 
 plugins:
   dacapo-latency:
     patterns:
       - scratch/dacapo-latency-*.csv
+      - scratch/dacapo-latency-*.hdr
     type: CopyFile

@@ -43,7 +43,7 @@ modifiers:
     val: "-t {0}"
   latency:
     type: ProgramArg
-    val: "--dump-latency"
+    val: "--latency-hdr"
   # g1_default:
   #   type: JVMArg
   #   val: "-XX:+UseG1GC"
