@@ -4,13 +4,18 @@ version = "0.1.0"
 description = ""
 authors = ["Wenyu Zhao <wenyu.zhao@anu.edu.au>"]
 readme = "README.md"
-packages = [{include = "mmtk_dev"}]
+packages = [{ include = "mmtk_dev" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-typer = {extras = ["all"], version = "^0.9.0"}
+typer = { extras = ["all"], version = "^0.9.0" }
 pyaml = "^23.7.0"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.27.1"
+hdrhistogram = "^0.10.3"
+seaborn = "^0.13.0"
 
 [build-system]
 requires = ["poetry-core"]
