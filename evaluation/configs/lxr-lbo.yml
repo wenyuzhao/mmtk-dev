@@ -1,9 +1,5 @@
 # running runbms ./evaluation/results/log ./evaluation/configs/lxr-lbo.yml 32 5 9 16 22 27 32 > _log
-
-# 1     2
-# 1208, 1430, 1666, 1916, 2180, 2458, 2750, 3055, 3375, 3708, 4055, 4416, 4791, 5180, 5583, 6000
-
-# 32 2 3 4 8 11 14 16
+# ./evaluation/manager run --config lxr-lbo --hfac '32 5 9 16 22 27 32'
 
 includes:
   - "./common/common-lxr.yml"
