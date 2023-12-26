@@ -177,6 +177,9 @@ modifiers:
   parallel:
     type: ModifierSet
     val: "hotspot_gc-Parallel"
+  serial:
+    type: ModifierSet
+    val: "hotspot_gc-Serial"
   g1r:
     type: JVMArg
     val: "-XX:G1HeapRegionSize={0}"
