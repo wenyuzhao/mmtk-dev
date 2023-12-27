@@ -6,17 +6,17 @@ includes:
 
 overrides:
   heap_range: 6
-  invocations: 3
+  invocations: 20
   suites.dacapochopin.minheap: G1
-  benchmarks.dacapochopin:
-    - lusearch
-    - cassandra
-    - h2
-    - tomcat
-    # - kafka
-    # - spring
-    # - tradebeans
-    # - tradesoap
+  # benchmarks.dacapochopin:
+  #   - lusearch
+  #   - cassandra
+  #   - h2
+  #   - tomcat
+  # - kafka
+  # - spring
+  # - tradebeans
+  # - tradesoap
 
 runtimes:
   jdk-lxr:
