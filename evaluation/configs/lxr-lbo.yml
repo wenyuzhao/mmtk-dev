@@ -30,9 +30,9 @@ runtimes:
     features: mmtk/opt
 
 configs:
-  - jdk-lxr|g1|common3|hs
-  - jdk-lxr|lxr|common3|tph
-  - jdk-lxr|shenandoah|common3|hs
-  - jdk-lxr|z|common3|hs
-  - jdk-lxr|parallel|common3|hs
-  - jdk-lxr|serial|common3|hs
+  - jdk-lxr|g1|common3|hs_perf
+  - jdk-lxr|lxr|common3|tph_perf
+  - jdk-lxr|shenandoah|common3|hs_perf
+  - jdk-lxr|z|common3|hs_perf
+  - jdk-lxr|parallel|common3|hs_perf
+  - jdk-lxr|serial|common3|hs_perf
