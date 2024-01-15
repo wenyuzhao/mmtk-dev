@@ -1,0 +1,25 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-lbo.yml 32 5 9 16 22 27 32 > _log
+# ./evaluation/manager run --config lxr-lbo --hfac '32-5-9-16-22-27-32'
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 6
+  invocations: 3
+  suites.dacapochopin.minheap: G1
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: c62b108159c
+      mmtk-openjdk: f1014a69df3
+      openjdk: 7caf8f7d
+    features: mmtk/opt
+
+configs:
+  - jdk-lxr|g1|common3|hs
+  - jdk-lxr|lxr|common3|tph

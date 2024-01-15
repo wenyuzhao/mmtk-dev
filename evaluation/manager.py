@@ -192,7 +192,7 @@ def run(
     if hfac == "1x":
         hfac_args = ["12", "0"]
     elif hfac == "1.3x":
-        hfac_args = ["32", "7"]
+        hfac_args = ["32", "3"]
     elif hfac == "1.4x":
         hfac_args = ["12", "3"]
     elif hfac == "2x":
