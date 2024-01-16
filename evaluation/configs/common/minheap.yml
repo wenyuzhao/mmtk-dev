@@ -2,41 +2,42 @@
 
 includes:
   - "$RUNNING_NG_PACKAGE_DATA/base/minheap.yml"
-  - "./modifiers.yml"
+  - "./common-lxr.yml"
 
 overrides:
-  suites.dacapochopin-04132797:
-    type: DaCapo
-    release: evaluation
-    path: /usr/share/benchmarks/dacapo/dacapo-evaluation-git-04132797.jar
-    timing_iteration: 5
-    timeout: 120
-  suites.dacapochopin-04132797.timing_iteration: 5
-  suites.dacapochopin-04132797.callback: probe.DacapoChopinCallback
-  suites.dacapochopin-04132797.timeout: 600
+  # suites.dacapochopin:
+  #   type: DaCapo
+  #   release: evaluation
+  #   path: /usr/share/benchmarks/dacapo/dacapo-evaluation-git-04132797.jar
+  #   timing_iteration: 5
+  #   timeout: 120
+  suites.dacapochopin.timing_iteration: 5
+  suites.dacapochopin.callback: probe.DacapoChopinCallback
+  suites.dacapochopin.timeout: 600
   maxheap: 2048
 
 benchmarks:
-  dacapochopin-04132797:
+  dacapochopin:
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - tradebeans
+    - tradesoap
+
     - avrora
     - batik
     - biojava
-    - cassandra
     - eclipse
     - fop
     - graphchi
-    - h2
     - h2o
-    # - jme
+    - jme
     - jython
-    # Java version '15.0.2' is incompatable with kafka: Kafka currently requires Java 8 due to 'java.lang.NoClassDefFoundError: javax/activation/DataSource' error for more recent Java releases.
-    # - kafka
+    - kafka
     - luindex
-    - lusearch
-    # - pmd
+    - pmd
     - sunflow
-    # - tradebeans
-    # - tradesoap
-    - tomcat
     - xalan
     - zxing

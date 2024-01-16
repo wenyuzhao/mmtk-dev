@@ -1,3 +1,5 @@
+# running minheap -a 5 ./evaluation/configs/lxr-minheap.yml ./minheap.yml &> ./minheap.log
+
 includes:
   - ./common/minheap.yml
 
@@ -5,14 +7,12 @@ runtimes:
   jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    home: /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: b4001dd
-      mmtk-openjdk: d048758
-      openjdk: 91259ca
+      mmtk-core: c62b108159c
+      mmtk-openjdk: f1014a69df3
+      openjdk: 7caf8f7d
 
 configs:
-  # - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph
   - jdk-lxr|g1|common3|hs
-  
-  
