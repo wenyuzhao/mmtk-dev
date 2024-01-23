@@ -27,7 +27,6 @@ runtimes:
       mmtk-core: 2dd7e41d6d0
       mmtk-openjdk: 73d7b9637
       openjdk: 7caf8f7d
-    features: mmtk/opt
 
 configs:
   - jdk-lxr|g1|common3|hs_perf
