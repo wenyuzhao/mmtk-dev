@@ -6,7 +6,7 @@ includes:
 
 overrides:
   heap_range: 6
-  invocations: 20
+  invocations: 10
   suites.dacapochopin.minheap: LXR
   # benchmarks.dacapochopin:
   #   - lusearch
