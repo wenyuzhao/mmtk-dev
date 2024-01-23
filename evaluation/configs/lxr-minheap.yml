@@ -15,4 +15,4 @@ runtimes:
 
 configs:
   - jdk-lxr|lxr|common3|tph
-  - jdk-lxr|g1|common3|hs
+  # - jdk-lxr|g1|common3|hs
