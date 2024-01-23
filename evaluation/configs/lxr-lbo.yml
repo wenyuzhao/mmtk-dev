@@ -1,5 +1,5 @@
-# running runbms ./evaluation/results/log ./evaluation/configs/lxr-lbo.yml 32 5 9 16 22 27 32 > _log
-# ./evaluation/manager run --config lxr-lbo --hfac '32-5-9-16-22-27-32'
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-lbo.yml 32 3 9 16 22 27 32 > _log
+# ./evaluation/manager run --config lxr-lbo --hfac '32-3-9-16-22-27-32'
 
 includes:
   - "./common/common-lxr.yml"
