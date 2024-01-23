@@ -7,7 +7,7 @@ includes:
 overrides:
   heap_range: 6
   invocations: 20
-  suites.dacapochopin.minheap: G1
+  suites.dacapochopin.minheap: LXR
   # benchmarks.dacapochopin:
   #   - lusearch
   #   - cassandra
@@ -24,8 +24,8 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: c62b108159c
-      mmtk-openjdk: f1014a69df3
+      mmtk-core: 2dd7e41d6d0
+      mmtk-openjdk: 73d7b9637
       openjdk: 7caf8f7d
     features: mmtk/opt
 
