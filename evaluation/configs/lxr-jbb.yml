@@ -16,6 +16,12 @@ overrides:
     specjbb2015:
       - composite
 
+# plugins:
+#   specjbb-output:
+#     type: CopyFile
+#     patterns:
+#       - *.gz
+
 runtimes:
   jdk-lxr:
     type: OpenJDK
