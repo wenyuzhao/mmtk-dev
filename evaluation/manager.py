@@ -179,6 +179,7 @@ def run(
     hfac: str = typer.Option(..., help='Heap factor. e.g. 2x or "12 1 3 4"'),
     config_file: Optional[str] = typer.Option(None, help="Path to running config file"),
     log: str = typer.Option(f"{MMTK_DEV}/running.log", help="STDOUT file"),
+    workdir: Optional[str] = typer.Option(None, help="workdir"),
 ):
     """
     Example: ./evaluation/manager.py run --config=lxr-xput --hfac=2x
@@ -210,7 +211,8 @@ def run(
     # Run
     os.system(f"pkill -f java -u {USERNAME} -9")
 
-    cmd = ["running", "runbms", "-p", config, "./evaluation/results/log", config_file, *hfac_args]
+    workdir_args = [] if workdir is None else ["--workdir", workdir]
+    cmd = ["running", "runbms", *workdir_args, "-p", config, "./evaluation/results/log", config_file, *hfac_args]
     env = {"BUILDS": f"{EVALUATION_DIR}/builds", "PATH": os.environ["PATH"]}
     print(f'🔵 RUN: {" ".join(cmd)}')
     print(f"🔵 LOG: {log}")

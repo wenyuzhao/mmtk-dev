@@ -1,0 +1,8 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-jbb-huge.yml 32 32 > _log
+# ./evaluation/manager run --config lxr-jbb-huge --hfac '32-32' --workdir /home/wenyuz/specjbb-out
+
+includes:
+  - "./lxr-jbb.yml"
+
+overrides:
+  heap_range: 100

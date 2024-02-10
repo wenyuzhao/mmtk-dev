@@ -31,19 +31,10 @@ runtimes:
       mmtk-core: 1665a55
       mmtk-openjdk: 2cf7c70
       openjdk: 7caf8f7d
-  jdk-lxr-stw:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-stw/jdk-11.0.19
-    commits:
-      mmtk-core: 1665a55
-      mmtk-openjdk: 2cf7c70
-      openjdk: 7caf8f7d
     features: mmtk/lxr_no_decs,mmtk/lxr_no_cm
 
 configs:
-  - jdk-lxr|g1|common3|hs
+  # - jdk-lxr|g1|common3|hs
   - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-stw|lxr|common3|tph
-  - jdk-lxr|shenandoah|common3|hs
-  - jdk-lxr|z|common3|hs
+  # - jdk-lxr|shenandoah|common3|hs
+  # - jdk-lxr|z|common3|hs
