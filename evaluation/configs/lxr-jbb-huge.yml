@@ -6,3 +6,9 @@ includes:
 
 overrides:
   heap_range: 100
+  configs:
+    - jdk-lxr|g1|common3|hs|taskset-0-31
+    - jdk-lxr|lxr|common3|tph|taskset-0-31
+    - jdk-lxr-stw|lxr|common3|tph|taskset-0-31
+    - jdk-lxr|shenandoah|common3|hs|taskset-0-31
+    - jdk-lxr|z|common3|hs|taskset-0-31
