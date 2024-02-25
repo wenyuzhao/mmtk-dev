@@ -40,10 +40,10 @@ runtimes:
       mmtk-openjdk: 2cf7c70
       openjdk: 7caf8f7d
     features: mmtk/lxr_no_decs,mmtk/lxr_no_cm
+  jdk-lxr-20220925:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-20220925
 
 configs:
-  - jdk-lxr|g1|common3|hs
-  - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-stw|lxr|common3|tph
-  - jdk-lxr|shenandoah|common3|hs
-  - jdk-lxr|z|common3|hs
+  - jdk-lxr-20220925|lxr|common|tph
