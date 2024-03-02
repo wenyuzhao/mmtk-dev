@@ -7,7 +7,7 @@ import subprocess
 from typing import Any, Optional, List
 
 FORCE_USE_JVMTI_HOOK = False
-MAX_CORES = 32 # None
+MAX_CORES = 32  # None
 
 os.environ["PERF_EVENTS"] = "PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_DTLB:MISS"
 os.environ["MMTK_PHASE_PERF_EVENTS"] = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
@@ -162,7 +162,9 @@ def do_run(gc: str, bench: str, heap: str, profile: str, exploded: bool, threads
         else:
             taskset_wrapper += [f"{taskset}"]
     elif MAX_CORES is not None:
-        cores = min(os.cpu_count(), MAX_CORES)
+        cpu_count = os.cpu_count()
+        assert cpu_count is not None
+        cores = min(cpu_count, MAX_CORES)
         taskset_wrapper += ["taskset", "-c", f"0-{cores - 1}"]
     # Benchmark args
     bm_args: List[Any] = []
@@ -261,8 +263,8 @@ def main(
     no_run: bool = option(False, "--no-run", help=f"Don't run any java program"),
     enable_asan: bool = option(False, "--enable-asan", help=f"Enable address sanitizer"),
     time_v: bool = option(False, "--time-v", help=f"/bin/time -v wrapper"),
-    size: Optional[str] = option(None, '--size', '-s', help="Benchmark size"),
-    taskset: Optional[str] = option(None, '--taskset', '--ts', help="`taskset -c` argument as a string, or the number of cores to use"),
+    size: Optional[str] = option(None, "--size", "-s", help="Benchmark size"),
+    taskset: Optional[str] = option(None, "--taskset", "--ts", help="`taskset -c` argument as a string, or the number of cores to use"),
 ):
     """
     Example: ./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --profile=release -n 5 --build

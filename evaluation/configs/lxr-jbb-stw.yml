@@ -1,0 +1,40 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-jbb.yml 32 3 9 16 22 27 32 > _log
+# ./evaluation/manager run --config lxr-jbb --hfac '32-9-16-22-27-32-3' --workdir /home/wenyuz/specjbb-out
+#   ^ 2x, 3x, 4x, 5x, 6x, 1.3x
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 6
+  invocations: 1
+  suites.specjbb2015.minheap_values:
+    default:
+      composite: 3
+  suites.specjbb2015.minheap: default
+  benchmarks:
+    specjbb2015:
+      - composite
+
+# plugins:
+#   specjbb-output:
+#     type: CopyFile
+#     patterns:
+#       - *.gz
+
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 1665a55
+      mmtk-openjdk: 2cf7c70
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_no_decs,mmtk/lxr_no_cm
+
+configs:
+  # - jdk-lxr|g1|common3|hs
+  - jdk-lxr|lxr|common3|tph
+  # - jdk-lxr|shenandoah|common3|hs
+  # - jdk-lxr|z|common3|hs

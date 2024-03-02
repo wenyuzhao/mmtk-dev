@@ -1,0 +1,14 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-jbb-huge.yml 32 32 > _log
+# ./evaluation/manager run --config lxr-jbb-huge --hfac '32-32' --workdir /home/wenyuz/specjbb-out
+
+includes:
+  - "./lxr-jbb.yml"
+
+overrides:
+  heap_range: 100
+  configs:
+    - jdk-lxr|g1|common3|hs|taskset-0-31
+    - jdk-lxr|lxr|common3|tph|taskset-0-31
+    - jdk-lxr-stw|lxr|common3|tph|taskset-0-31
+    - jdk-lxr|shenandoah|common3|hs|taskset-0-31
+    - jdk-lxr|z|common3|hs|taskset-0-31
