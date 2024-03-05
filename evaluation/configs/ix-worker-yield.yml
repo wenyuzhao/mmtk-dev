@@ -14,9 +14,19 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk/jdk-11.0.19
     commits:
-      mmtk-core: c13599ecb
-      mmtk-openjdk: 244def9ef
+      mmtk-core: e229a51e2
+      mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
+  jdk-mmtk-opt:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-opt/jdk-11.0.19
+    commits:
+      mmtk-core: e229a51e2
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/flush_opt
 
 configs:
   - jdk-mmtk|ix|common3|ms|tph
+  - jdk-mmtk-opt|ix|common3|ms|tph
