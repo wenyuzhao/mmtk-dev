@@ -31,7 +31,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
   jdk-mmtk-e-4096:
@@ -39,7 +39,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-4096/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_4096
@@ -48,7 +48,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-2048/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_2048
@@ -57,7 +57,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-1024/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_1024
@@ -66,7 +66,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-512/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_512
@@ -75,7 +75,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-256/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_256
@@ -84,7 +84,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-128/jdk-11.0.19
     commits:
-      mmtk-core: 4220b56eb8
+      mmtk-core: 9c79e112f
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_128
@@ -93,7 +93,7 @@ runtimes:
   #   release: 11
   #   home: /$BUILDS/jdk-mmtk-opt/jdk-11.0.19
   #   commits:
-  #     mmtk-core: 4220b56eb8
+  #     mmtk-core: 9c79e112f
   #     mmtk-openjdk: e8cf5aaa08
   #     openjdk: 7caf8f7d
   #   features: mmtk/flush_opt
