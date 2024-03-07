@@ -7,6 +7,23 @@ overrides:
   heap_range: 3
   invocations: 10
   suites.dacapochopin.minheap: G1
+  benchmarks.dacapochopin:
+    - lusearch
+    - cassandra
+    - h2
+    - spring
+    - tradebeans
+    - tradesoap
+    - avrora
+    - biojava
+    - eclipse
+    - graphchi
+    - h2o
+    - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
 
 runtimes:
   jdk-mmtk:
@@ -17,16 +34,76 @@ runtimes:
       mmtk-core: 4220b56eb8
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
-  jdk-mmtk-opt:
+  jdk-mmtk-e-4096:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-opt/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-e-4096/jdk-11.0.19
     commits:
       mmtk-core: 4220b56eb8
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
-    features: mmtk/flush_opt
+    features: mmtk/buf_4096
+  jdk-mmtk-e-2048:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-2048/jdk-11.0.19
+    commits:
+      mmtk-core: 4220b56eb8
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_2048
+  jdk-mmtk-e-1024:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-1024/jdk-11.0.19
+    commits:
+      mmtk-core: 4220b56eb8
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_1024
+  jdk-mmtk-e-512:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-512/jdk-11.0.19
+    commits:
+      mmtk-core: 4220b56eb8
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_512
+  jdk-mmtk-e-256:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-256/jdk-11.0.19
+    commits:
+      mmtk-core: 4220b56eb8
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_256
+  jdk-mmtk-e-128:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-128/jdk-11.0.19
+    commits:
+      mmtk-core: 4220b56eb8
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_128
+  # jdk-mmtk-opt:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-opt/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 4220b56eb8
+  #     mmtk-openjdk: e8cf5aaa08
+  #     openjdk: 7caf8f7d
+  #   features: mmtk/flush_opt
 
 configs:
   - jdk-mmtk|ix|common3|ms|tph
-  - jdk-mmtk-opt|ix|common3|ms|tph
+  - jdk-mmtk-e-128|ix|common3|ms|tph
+  - jdk-mmtk-e-256|ix|common3|ms|tph
+  - jdk-mmtk-e-512|ix|common3|ms|tph
+  - jdk-mmtk-e-1024|ix|common3|ms|tph
+  - jdk-mmtk-e-2048|ix|common3|ms|tph
+  - jdk-mmtk-e-4096|ix|common3|ms|tph
+  # - jdk-mmtk-opt|ix|common3|ms|tph
