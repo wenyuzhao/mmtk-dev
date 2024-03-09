@@ -61,7 +61,7 @@ runtimes:
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_1024
-  jdk-mmtk-e-512:
+  jdk-mmtk-e-0512:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-e-512/jdk-11.0.19
@@ -70,7 +70,7 @@ runtimes:
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_512
-  jdk-mmtk-e-256:
+  jdk-mmtk-e-0256:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-e-256/jdk-11.0.19
@@ -79,7 +79,7 @@ runtimes:
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_256
-  jdk-mmtk-e-128:
+  jdk-mmtk-e-0128:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-e-128/jdk-11.0.19
