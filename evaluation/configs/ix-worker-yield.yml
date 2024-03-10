@@ -26,94 +26,75 @@ overrides:
     - xalan
 
 runtimes:
-  jdk-mmtk-e-dual:
+  jdk-mmtk-e-dual-4096:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-ed-4096/jdk-11.0.19
     commits:
-      mmtk-core: b517e1ecf2
+      mmtk-core: 2218fb3094
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
+    features: mmtk/buf_4096
+  jdk-mmtk-e-dual-2048:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-ed-2048/jdk-11.0.19
+    commits:
+      mmtk-core: 2218fb3094
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_2048
+  jdk-mmtk-e-dual-1024:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-ed-1024/jdk-11.0.19
+    commits:
+      mmtk-core: 2218fb3094
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_1024
   jdk-mmtk-e-4096:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-e-4096/jdk-11.0.19
     commits:
-      mmtk-core: b517e1ecf2
+      mmtk-core: 2218fb3094
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
-    features: mmtk/buf_4096
+    features: mmtk/edge_enqueuing,mmtk/buf_4096
   jdk-mmtk-e-2048:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-e-2048/jdk-11.0.19
     commits:
-      mmtk-core: b517e1ecf2
+      mmtk-core: 2218fb3094
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
-    features: mmtk/buf_2048
+    features: mmtk/edge_enqueuing,mmtk/buf_2048
   jdk-mmtk-e-1024:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-e-1024/jdk-11.0.19
     commits:
-      mmtk-core: b517e1ecf2
+      mmtk-core: 2218fb3094
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
-    features: mmtk/buf_1024
-  jdk-mmtk-e-0512:
+    features: mmtk/edge_enqueuing,mmtk/buf_1024
+  jdk-mmtk-e-4096-opt:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-e-512/jdk-11.0.19
+    home: /$BUILDS/jdk-mmtk-e-4096-opt/jdk-11.0.19
     commits:
-      mmtk-core: b517e1ecf2
+      mmtk-core: 2218fb3094
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
-    features: mmtk/buf_512
-  jdk-mmtk-e-0256:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-e-256/jdk-11.0.19
-    commits:
-      mmtk-core: b517e1ecf2
-      mmtk-openjdk: e8cf5aaa08
-      openjdk: 7caf8f7d
-    features: mmtk/buf_256
-  jdk-mmtk-e-0128:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-e-128/jdk-11.0.19
-    commits:
-      mmtk-core: b517e1ecf2
-      mmtk-openjdk: e8cf5aaa08
-      openjdk: 7caf8f7d
-    features: mmtk/buf_128
-  jdk-mmtk-e-4096-null-filter:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-e-4096/jdk-11.0.19
-    commits:
-      mmtk-core: b517e1ecf2
-      mmtk-openjdk: e8cf5aaa08
-      openjdk: 7caf8f7d
-    features: mmtk/buf_4096,mmtk/null_filter
-  # jdk-mmtk-opt:
-  #   type: OpenJDK
-  #   release: 11
-  #   home: /$BUILDS/jdk-mmtk-opt/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: b517e1ecf2
-  #     mmtk-openjdk: e8cf5aaa08
-  #     openjdk: 7caf8f7d
-  #   features: mmtk/flush_opt
+    features: mmtk/edge_enqueuing,mmtk/buf_4096,mmtk/flush_opt
 
 configs:
-  - jdk-mmtk-e-dual|ix|common3|ms|tph
-  - jdk-mmtk-e-0128|ix|common3|ms|tph
-  - jdk-mmtk-e-0256|ix|common3|ms|tph
-  - jdk-mmtk-e-0512|ix|common3|ms|tph
+  - jdk-mmtk-e-dual-4096|ix|common3|ms|tph
+  - jdk-mmtk-e-dual-2048|ix|common3|ms|tph
+  - jdk-mmtk-e-dual-1024|ix|common3|ms|tph
   - jdk-mmtk-e-1024|ix|common3|ms|tph
   - jdk-mmtk-e-2048|ix|common3|ms|tph
   - jdk-mmtk-e-4096|ix|common3|ms|tph
-  - jdk-mmtk-e-4096-null-filter|ix|common3|ms|tph
-  # - jdk-mmtk-opt|ix|common3|ms|tph
+  - jdk-mmtk-e-4096-opt|ix|common3|ms|tph
