@@ -31,7 +31,7 @@ runtimes:
   #   release: 11
   #   home: /$BUILDS/jdk-mmtk-ed-4096/jdk-11.0.19
   #   commits:
-  #     mmtk-core: 6bea1790fc5
+  #     mmtk-core: 728c21c1ce3
   #     mmtk-openjdk: e8cf5aaa08
   #     openjdk: 7caf8f7d
   #   features: mmtk/buf_4096
@@ -40,7 +40,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-ed-2048/jdk-11.0.19
     commits:
-      mmtk-core: 6bea1790fc5
+      mmtk-core: 728c21c1ce3
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/buf_2048
@@ -49,7 +49,7 @@ runtimes:
   #   release: 11
   #   home: /$BUILDS/jdk-mmtk-ed-1024/jdk-11.0.19
   #   commits:
-  #     mmtk-core: 6bea1790fc5
+  #     mmtk-core: 728c21c1ce3
   #     mmtk-openjdk: e8cf5aaa08
   #     openjdk: 7caf8f7d
   #   features: mmtk/buf_1024
@@ -58,7 +58,7 @@ runtimes:
   #   release: 11
   #   home: /$BUILDS/jdk-mmtk-e-4096/jdk-11.0.19
   #   commits:
-  #     mmtk-core: 6bea1790fc5
+  #     mmtk-core: 728c21c1ce3
   #     mmtk-openjdk: e8cf5aaa08
   #     openjdk: 7caf8f7d
   #   features: mmtk/edge_enqueuing,mmtk/buf_4096
@@ -67,7 +67,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-2048/jdk-11.0.19
     commits:
-      mmtk-core: 6bea1790fc5
+      mmtk-core: 728c21c1ce3
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/edge_enqueuing,mmtk/buf_2048
@@ -76,7 +76,7 @@ runtimes:
   #   release: 11
   #   home: /$BUILDS/jdk-mmtk-e-1024/jdk-11.0.19
   #   commits:
-  #     mmtk-core: 6bea1790fc5
+  #     mmtk-core: 728c21c1ce3
   #     mmtk-openjdk: e8cf5aaa08
   #     openjdk: 7caf8f7d
   #   features: mmtk/edge_enqueuing,mmtk/buf_1024
@@ -85,7 +85,7 @@ runtimes:
   #   release: 11
   #   home: /$BUILDS/jdk-mmtk-e-4096-opt/jdk-11.0.19
   #   commits:
-  #     mmtk-core: 6bea1790fc5
+  #     mmtk-core: 728c21c1ce3
   #     mmtk-openjdk: e8cf5aaa08
   #     openjdk: 7caf8f7d
   #   features: mmtk/edge_enqueuing,mmtk/buf_4096,mmtk/flush_opt
@@ -94,7 +94,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk-e-2048-opt/jdk-11.0.19
     commits:
-      mmtk-core: 6bea1790fc5
+      mmtk-core: 728c21c1ce3
       mmtk-openjdk: e8cf5aaa08
       openjdk: 7caf8f7d
     features: mmtk/edge_enqueuing,mmtk/buf_2048,mmtk/flush_opt
@@ -112,9 +112,6 @@ configs:
   # - jdk-mmtk-e-1024|ix|common3|ms|tph
   - jdk-mmtk-e-2048|ix|common3|ms|tph
   - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-1
-  - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-16
-  - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-32
-  - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-64
   - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-128
   - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-256
   - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-512
