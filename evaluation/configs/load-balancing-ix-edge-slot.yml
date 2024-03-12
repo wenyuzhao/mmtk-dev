@@ -1,0 +1,145 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1
+  benchmarks.dacapochopin:
+    - lusearch
+    - cassandra
+    - h2
+    - spring
+    - tradebeans
+    - tradesoap
+    - avrora
+    - biojava
+    - eclipse
+    - graphchi
+    - h2o
+    - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+
+runtimes:
+  jdk-mmtk-e-dual-4096:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-ed-4096/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_4096
+  jdk-mmtk-e-dual-2048:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-ed-2048/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_2048
+  jdk-mmtk-e-dual-1024:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-ed-1024/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_1024
+  jdk-mmtk-e-dual-512:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-ed-512/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/buf_512
+  jdk-mmtk-e-4096:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-4096/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/edge_enqueuing,mmtk/buf_4096
+  jdk-mmtk-e-2048:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-2048/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/edge_enqueuing,mmtk/buf_2048
+  jdk-mmtk-e-1024:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-1024/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/edge_enqueuing,mmtk/buf_1024
+  jdk-mmtk-e-512:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-e-512/jdk-11.0.19
+    commits:
+      mmtk-core: 728c21c1ce3
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: 7caf8f7d
+    features: mmtk/edge_enqueuing,mmtk/buf_512
+  # jdk-mmtk-e-4096-opt:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-e-4096-opt/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 728c21c1ce3
+  #     mmtk-openjdk: e8cf5aaa08
+  #     openjdk: 7caf8f7d
+  #   features: mmtk/edge_enqueuing,mmtk/buf_4096,mmtk/flush_opt
+  # jdk-mmtk-e-2048-opt:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-mmtk-e-2048-opt/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 728c21c1ce3
+  #     mmtk-openjdk: e8cf5aaa08
+  #     openjdk: 7caf8f7d
+  #   features: mmtk/edge_enqueuing,mmtk/buf_2048,mmtk/flush_opt
+
+modifiers:
+  flush:
+    type: EnvVar
+    var: FLUSH_OPT_THRESHOLD
+    val: "{0}"
+
+configs:
+  - jdk-mmtk-e-dual-4096|ix|common3|ms|tph
+  - jdk-mmtk-e-dual-2048|ix|common3|ms|tph
+  - jdk-mmtk-e-dual-1024|ix|common3|ms|tph
+  - jdk-mmtk-e-dual-512|ix|common3|ms|tph
+
+  - jdk-mmtk-e-4096|ix|common3|ms|tph
+  - jdk-mmtk-e-2048|ix|common3|ms|tph
+  - jdk-mmtk-e-1024|ix|common3|ms|tph
+  - jdk-mmtk-e-512|ix|common3|ms|tph
+
+  # - jdk-mmtk-e-1024|ix|common3|ms|tph
+  # - jdk-mmtk-e-2048|ix|common3|ms|tph
+  # - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-1
+  # - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-128
+  # - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-256
+  # - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-512
+  # - jdk-mmtk-e-2048-opt|ix|common3|ms|tph|flush-1024
+  # - jdk-mmtk-e-4096|ix|common3|ms|tph
+  # - jdk-mmtk-e-4096-opt|ix|common3|ms|tph
