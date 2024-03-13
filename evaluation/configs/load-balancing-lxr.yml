@@ -1,0 +1,67 @@
+# ./evaluation/manager run --config load-balancing-lxr --hfac 2x
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1
+runtimes:
+  jdk-lxr-4096:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-4096/jdk-11.0.19
+    commits:
+      mmtk-core: 722bfe5aaa
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+  jdk-lxr-2048:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-2048/jdk-11.0.19
+    commits:
+      mmtk-core: 722bfe5aaa
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_2048
+  jdk-lxr-1024:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-1024/jdk-11.0.19
+    commits:
+      mmtk-core: 722bfe5aaa
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_1024
+  jdk-lxr-0512:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0512/jdk-11.0.19
+    commits:
+      mmtk-core: 722bfe5aaa
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_512
+  jdk-lxr-0256:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0256/jdk-11.0.19
+    commits:
+      mmtk-core: 722bfe5aaa
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_256
+
+modifiers:
+  flush:
+    type: EnvVar
+    var: FLUSH_OPT_THRESHOLD
+    val: "{0}"
+
+configs:
+  - jdk-lxr-4096|lxr|common3|tph
+  - jdk-lxr-2048|lxr|common3|tph
+  - jdk-lxr-1024|lxr|common3|tph
+  - jdk-lxr-0512|lxr|common3|tph
+  - jdk-lxr-0256|lxr|common3|tph
