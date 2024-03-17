@@ -13,7 +13,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-4096/jdk-11.0.19
     commits:
-      mmtk-core: 722bfe5aaa
+      mmtk-core: acbf17e504
       mmtk-openjdk: 2cf7c70a63
       openjdk: 7caf8f7d
   jdk-lxr-2048:
@@ -21,7 +21,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-2048/jdk-11.0.19
     commits:
-      mmtk-core: 722bfe5aaa
+      mmtk-core: acbf17e504
       mmtk-openjdk: 2cf7c70a63
       openjdk: 7caf8f7d
     features: mmtk/lxr_buf_2048
@@ -30,7 +30,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-1024/jdk-11.0.19
     commits:
-      mmtk-core: 722bfe5aaa
+      mmtk-core: acbf17e504
       mmtk-openjdk: 2cf7c70a63
       openjdk: 7caf8f7d
     features: mmtk/lxr_buf_1024
@@ -39,7 +39,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0512/jdk-11.0.19
     commits:
-      mmtk-core: 722bfe5aaa
+      mmtk-core: acbf17e504
       mmtk-openjdk: 2cf7c70a63
       openjdk: 7caf8f7d
     features: mmtk/lxr_buf_512
@@ -48,10 +48,55 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0256/jdk-11.0.19
     commits:
-      mmtk-core: 722bfe5aaa
+      mmtk-core: acbf17e504
       mmtk-openjdk: 2cf7c70a63
       openjdk: 7caf8f7d
     features: mmtk/lxr_buf_256
+  jdk-lxr-0128:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0128/jdk-11.0.19
+    commits:
+      mmtk-core: acbf17e504
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_128
+  jdk-lxr-0064:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0064/jdk-11.0.19
+    commits:
+      mmtk-core: acbf17e504
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_64
+  jdk-lxr-0032:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0032/jdk-11.0.19
+    commits:
+      mmtk-core: acbf17e504
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_32
+  jdk-lxr-0016:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0016/jdk-11.0.19
+    commits:
+      mmtk-core: acbf17e504
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_16
+  jdk-lxr-0008:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-0008/jdk-11.0.19
+    commits:
+      mmtk-core: acbf17e504
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/lxr_buf_8
 
 modifiers:
   flush:
@@ -65,3 +110,8 @@ configs:
   - jdk-lxr-1024|lxr|common3|tph
   - jdk-lxr-0512|lxr|common3|tph
   - jdk-lxr-0256|lxr|common3|tph
+  - jdk-lxr-0128|lxr|common3|tph
+  - jdk-lxr-0064|lxr|common3|tph
+  - jdk-lxr-0032|lxr|common3|tph
+  - jdk-lxr-0016|lxr|common3|tph
+  - jdk-lxr-0008|lxr|common3|tph
