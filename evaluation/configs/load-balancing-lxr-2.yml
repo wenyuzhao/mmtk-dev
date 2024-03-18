@@ -13,98 +13,98 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-4096/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
   jdk-lxr-barrier-4096-fix:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-4096-fix/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/local_packet_flush_fix
   jdk-lxr-barrier-2048:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-2048/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_2048
   jdk-lxr-barrier-1024:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-1024/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_1024
   jdk-lxr-barrier-0512:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0512/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_512
   jdk-lxr-barrier-0256:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0256/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_256
   jdk-lxr-barrier-0128:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0128/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_128
   jdk-lxr-barrier-0064:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0064/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_64
   jdk-lxr-barrier-0032:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0032/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_32
   jdk-lxr-barrier-0016:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0016/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_16
   jdk-lxr-barrier-0008:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-lxr-0008/jdk-11.0.19
     commits:
-      mmtk-core: acbf17e504
+      mmtk-core: c73276d1e11
       mmtk-openjdk: 2cf7c70a63
-      openjdk: 7caf8f7d
+      openjdk: bc9669aaed
     features: mmtk/lxr_barrier_buf_8
 
 modifiers:
