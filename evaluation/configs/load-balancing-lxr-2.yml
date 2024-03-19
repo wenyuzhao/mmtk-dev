@@ -117,7 +117,6 @@ configs:
   - jdk-lxr-barrier-4096|lxr|common3|tph
   - jdk-lxr-barrier-4096-fix|lxr|common3|tph
   - jdk-lxr-barrier-2048|lxr|common3|tph
-  - jdk-lxr-barrier-2048|lxr|common3|tph
   - jdk-lxr-barrier-1024|lxr|common3|tph
   - jdk-lxr-barrier-0512|lxr|common3|tph
   - jdk-lxr-barrier-0256|lxr|common3|tph
