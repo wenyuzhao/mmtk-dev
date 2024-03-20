@@ -1,0 +1,77 @@
+# ./evaluation/manager run --config load-balancing-lxr-decay --hfac 2x
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1
+runtimes:
+  jdk-lxr-1024:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-1024/jdk-11.0.19
+    commits:
+      mmtk-core: fa5ce3f7d
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+  jdk-lxr-256-fix:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-256-fix/jdk-11.0.19
+    commits:
+      mmtk-core: fa5ce3f7d
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix
+  jdk-lxr-256-fix-decay-1-2:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-256-fix-decay-1-2/jdk-11.0.19
+    commits:
+      mmtk-core: fa5ce3f7d
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix,mmtk/lxr_buf_decay_1_2
+  jdk-lxr-256-fix-decay-2-3:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-256-fix-decay-2-3/jdk-11.0.19
+    commits:
+      mmtk-core: fa5ce3f7d
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix,mmtk/lxr_buf_decay_2_3
+  jdk-lxr-256-fix-decay-3-4:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-256-fix-decay-3-4/jdk-11.0.19
+    commits:
+      mmtk-core: fa5ce3f7d
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix,mmtk/lxr_buf_decay_3_4
+  jdk-lxr-256-fix-decay-4-5:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-256-fix-decay-4-5/jdk-11.0.19
+    commits:
+      mmtk-core: fa5ce3f7d
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix,mmtk/lxr_buf_decay_4_5
+
+modifiers:
+  flush:
+    type: EnvVar
+    var: FLUSH_OPT_THRESHOLD
+    val: "{0}"
+
+configs:
+  - jdk-lxr-1024|lxr|common3|tph
+  - jdk-lxr-256-fix|lxr|common3|tph
+  - jdk-lxr-256-fix-decay-1-2|lxr|common3|tph
+  - jdk-lxr-256-fix-decay-2-3|lxr|common3|tph
+  - jdk-lxr-256-fix-decay-3-4|lxr|common3|tph
+  - jdk-lxr-256-fix-decay-4-5|lxr|common3|tph
