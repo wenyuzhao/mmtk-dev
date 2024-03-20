@@ -13,7 +13,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-1024-fix/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/local_packet_flush_fix
@@ -22,7 +22,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-2048/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_2048
@@ -31,7 +31,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-1024/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_1024
@@ -40,7 +40,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0512/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_512
@@ -49,7 +49,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0256/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_256
@@ -58,7 +58,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0128/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_128
@@ -67,7 +67,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0064/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_64
@@ -76,7 +76,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0032/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_32
@@ -85,7 +85,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0016/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_16
@@ -94,7 +94,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-0008/jdk-11.0.19
     commits:
-      mmtk-core: c73276d1e11
+      mmtk-core: fa5ce3f7d
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
     features: mmtk/lxr_root_buf_8
