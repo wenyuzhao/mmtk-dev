@@ -25,7 +25,7 @@ runtimes:
       mmtk-core: 880d1b523a
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
-    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix
+    features: mmtk/lxr_buf_256
 
 configs:
   # G1
