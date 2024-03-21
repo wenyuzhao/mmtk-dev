@@ -6,55 +6,30 @@ includes:
 overrides:
   heap_range: 3
   invocations: 20
-  suites.dacapochopin-rc3.minheap: G1
-  benchmarks.dacapochopin-rc3:
-    - h2
-    - spring
-    - lusearch
+  suites.dacapochopin.minheap: G1
 
 runtimes:
-  jdk-lxr-no-meta:
+  jdk-lxr:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta/jdk-11.0.19
+    home: /$BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 44080b6ee
+      mmtk-core: 1665a55288
       mmtk-openjdk: 73e22d395
       openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting
-  jdk-lxr-no-meta-defeatured:
+  jdk-lxr-2:
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-defeatured/jdk-11.0.19
+    home: /$BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: 44080b6ee
-      mmtk-openjdk: 73e22d395
-      openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting,mmtk/lxr_no_lazy,mmtk/lxr_no_cm
-  jdk-lxr-no-meta-block-state-fix:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-block-state-fix/jdk-11.0.19
-    commits:
-      mmtk-core: f4779cb46
-      mmtk-openjdk: 73e22d395
-      openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting
-  jdk-lxr-no-meta-defeatured-block-state-fix:
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-mmtk-lxr-no-meta-defeatured-block-state-fix/jdk-11.0.19
-    commits:
-      mmtk-core: f4779cb46
-      mmtk-openjdk: 73e22d395
-      openjdk: 7caf8f7d
-    features: mmtk/no_meta_counting,mmtk/lxr_no_lazy,mmtk/lxr_no_cm
+      mmtk-core: 880d1b523a
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+    features: mmtk/lxr_buf_256,mmtk/local_packet_flush_fix
 
 configs:
   # G1
-  - jdk-lxr-no-meta|g1|common3|hs_perf
-  # LXR (lxr)
-  - jdk-lxr-no-meta|lxr|common3|tph_perf
-  - jdk-lxr-no-meta-defeatured|lxr|common3|tph_perf
-  - jdk-lxr-no-meta-block-state-fix|lxr|common3|tph_perf
-  - jdk-lxr-no-meta-defeatured-block-state-fix|lxr|common3|tph_perf
+  - jdk-lxr|g1|common3|hs
+  # LXR
+  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-2|lxr|common3|tph
