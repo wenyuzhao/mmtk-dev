@@ -8,7 +8,7 @@ uprobe:/home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/jd
 }
 
 // tracepoint:sched:sched_switch
-// {   
+// {
 //     if (@is_gc_thread[args->prev_pid]) {
 //         if (@enable_print) {
 //           printf("SCHED,E,%d,%lu\n", args->prev_pid, nsecs);
@@ -69,8 +69,20 @@ usdt:/home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/jdk/
     // } else {
     //     @enable_print = 0;
     // }
+    // @enable_print = 1;
+}
+
+usdt:/home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/jdk/lib/server/libmmtk_openjdk.so:mmtk:harness_begin {
+    //begin collecting data at harness_begin (start of final iteration)
     @enable_print = 1;
 }
+
+usdt:/home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/jdk/lib/server/libmmtk_openjdk.so:mmtk:harness_end {
+    //end data at harness_end (end of final iteration)
+    @enable_print = 0;
+    exit();
+}
+
 
 usdt:/home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/jdk/lib/server/libmmtk_openjdk.so:mmtk:gc_end {
     printf("GC,E,%d,%lu\n", tid, nsecs);
