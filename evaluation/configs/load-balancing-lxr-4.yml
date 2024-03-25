@@ -1,0 +1,32 @@
+# ./evaluation/manager run --config load-balancing-lxr --hfac 2x
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+runtimes:
+  jdk-lxr:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: c21f29fe8f89
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/local_packet_flush_fix
+  jdk-lxr-2:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-2/jdk-11.0.19
+    commits:
+      mmtk-core: 55b6535943e
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: 7caf8f7d
+    features: mmtk/local_packet_flush_fix
+
+configs:
+  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-2|lxr|common3|tph
