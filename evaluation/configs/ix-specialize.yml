@@ -1,0 +1,49 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin.minheap: G1
+  benchmarks.dacapochopin:
+    - lusearch
+    - cassandra
+    - h2
+    - spring
+    - tradebeans
+    - tradesoap
+    - avrora
+    - biojava
+    - eclipse
+    - graphchi
+    - h2o
+    - kafka
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+
+runtimes:
+  jdk-mmtk:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk/jdk-11.0.19
+    commits:
+      mmtk-core: b1efdeb8c
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+  jdk-mmtk-s:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-s/jdk-11.0.19
+    commits:
+      mmtk-core: b1efdeb8c
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/specialize
+
+configs:
+  - jdk-mmtk|ix|common3|ms|tph_perf
+  - jdk-mmtk-s|ix|common3|ms|tph_perf
