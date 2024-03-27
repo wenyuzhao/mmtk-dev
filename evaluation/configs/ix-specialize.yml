@@ -34,6 +34,7 @@ runtimes:
       mmtk-core: 76b018562
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
+    features: mmtk/perf_counter
   jdk-mmtk-s:
     type: OpenJDK
     release: 11
@@ -42,7 +43,7 @@ runtimes:
       mmtk-core: 76b018562
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
-    features: mmtk/specialize
+    features: mmtk/perf_counter,mmtk/specialize
 
 configs:
   - jdk-mmtk|ix|common3|ms|tph_perf
