@@ -26,25 +26,45 @@ overrides:
     - xalan
 
 runtimes:
-  jdk-mmtk:
+  jdk-mmtk-global-fifo:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk/jdk-11.0.19
     commits:
-      mmtk-core: 2161f8894
+      mmtk-core: d36d3611f
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
     features: mmtk/perf_counter
-  jdk-mmtk-lifo:
+  jdk-mmtk-global-lifo:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-lifo/jdk-11.0.19
     commits:
-      mmtk-core: 2161f8894
+      mmtk-core: d36d3611f
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
     features: mmtk/perf_counter,mmtk/lifo
+  jdk-mmtk-local-fifo:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-local-fifo/jdk-11.0.19
+    commits:
+      mmtk-core: d36d3611f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/local
+  jdk-mmtk-local-lifo:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-local-lifo/jdk-11.0.19
+    commits:
+      mmtk-core: d36d3611f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/local,mmtk/lifo
 
 configs:
-  - jdk-mmtk|ix|common3|ms|tph_perf
-  - jdk-mmtk-lifo|ix|common3|ms|tph_perf
+  - jdk-mmtk-global-fifo|ix|common3|ms|tph_perf
+  - jdk-mmtk-global-lifo|ix|common3|ms|tph_perf
+  - jdk-mmtk-local-fifo|ix|common3|ms|tph_perf
+  - jdk-mmtk-local-lifo|ix|common3|ms|tph_perf
