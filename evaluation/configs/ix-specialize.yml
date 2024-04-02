@@ -34,7 +34,7 @@ runtimes:
       mmtk-core: 168c630024
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
-    features: mmtk/perf_counter,mmtk/inline
+    features: mmtk/perf_counter
   jdk-mmtk-s:
     type: OpenJDK
     release: 11
@@ -43,7 +43,7 @@ runtimes:
       mmtk-core: 168c630024
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
-    features: mmtk/perf_counter,mmtk/specialize,mmtk/inline
+    features: mmtk/perf_counter,mmtk/specialize
 
 configs:
   - jdk-mmtk|ix|common3|ms|tph_perf
