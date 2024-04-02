@@ -31,19 +31,19 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk/jdk-11.0.19
     commits:
-      mmtk-core: 76b018562
+      mmtk-core: 168c630024
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
-    features: mmtk/perf_counter
+    features: mmtk/perf_counter,mmtk/inline
   jdk-mmtk-s:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-s/jdk-11.0.19
     commits:
-      mmtk-core: 76b018562
+      mmtk-core: 168c630024
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
-    features: mmtk/perf_counter,mmtk/specialize
+    features: mmtk/perf_counter,mmtk/specialize,mmtk/inline
 
 configs:
   - jdk-mmtk|ix|common3|ms|tph_perf
