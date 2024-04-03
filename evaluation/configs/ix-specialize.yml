@@ -31,20 +31,70 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-mmtk/jdk-11.0.19
     commits:
-      mmtk-core: 76b018562
+      mmtk-core: d3e15e476f
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
     features: mmtk/perf_counter
+  jdk-mmtk-fast-space-check:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-2/jdk-11.0.19
+    commits:
+      mmtk-core: d3e15e476f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/fast_space_check
+  jdk-mmtk-fast-mark:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-3/jdk-11.0.19
+    commits:
+      mmtk-core: d3e15e476f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/fast_mark
+  jdk-mmtk-fast:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-4/jdk-11.0.19
+    commits:
+      mmtk-core: d3e15e476f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/fast_mark,mmtk/fast_space_check
   jdk-mmtk-s:
     type: OpenJDK
     release: 11
     home: /$BUILDS/jdk-mmtk-s/jdk-11.0.19
     commits:
-      mmtk-core: 76b018562
+      mmtk-core: d3e15e476f
       mmtk-openjdk: e8cf5aaa08
       openjdk: bc9669aaed
     features: mmtk/perf_counter,mmtk/specialize
+  jdk-mmtk-s-fast-enqueue:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-s2/jdk-11.0.19
+    commits:
+      mmtk-core: d3e15e476f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/specialize,mmtk/fast_enqueuing
+  jdk-mmtk-s-fast:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-mmtk-s3/jdk-11.0.19
+    commits:
+      mmtk-core: d3e15e476f
+      mmtk-openjdk: e8cf5aaa08
+      openjdk: bc9669aaed
+    features: mmtk/perf_counter,mmtk/specialize,mmtk/fast_enqueuing,mmtk/fast_mark,mmtk/fast_space_check
 
 configs:
   - jdk-mmtk|ix|common3|ms|tph_perf
+  - jdk-mmtk-fast-space-check|ix|common3|ms|tph_perf
+  - jdk-mmtk-fast-mark|ix|common3|ms|tph_perf
+  - jdk-mmtk-fast|ix|common3|ms|tph_perf
   - jdk-mmtk-s|ix|common3|ms|tph_perf
+  - jdk-mmtk-s-fast-enqueue|ix|common3|ms|tph_perf
+  - jdk-mmtk-s-fast|ix|common3|ms|tph_perf
