@@ -48,7 +48,7 @@ def find_config_file(config: str):
     return config_file
 
 
-def build_one(runtime_name: str, build_name: str, features: Optional[str], gc: str, config: bool):
+def build_one(runtime_name: str, build_name: str, features: Optional[str], gc: str, config: bool, nuke: bool):
     features_flag = ""
     if features is not None:
         features_flag = f'--features="{features}"'
@@ -56,8 +56,11 @@ def build_one(runtime_name: str, build_name: str, features: Optional[str], gc: s
     if config:
         config_flag = "--config"
     bench = "fop"
-    print(f"🔵 run-jdk --gc={gc} --bench={bench} --heap=500M --build --release --cp-bench={build_name} --cp-bench-no-commit-hash {features_flag} {config_flag}")
-    ret = os.system(f"{MMTK_DEV}/run-jdk --gc={gc} --bench={bench} --heap=500M --build --release --cp-bench={build_name} --cp-bench-no-commit-hash {features_flag} {config_flag}")
+    if nuke:
+        os.system(f"rm -rf {MMTK_DEV}/openjdk/build/linux-x86_64-normal-server-release")
+        os.system(f"rm -rf {MMTK_DEV}/mmtk-openjdk/mmtk/target")
+    print(f"🔵 run-jdk --gc={gc} --bench={bench} --heap=500M --build --release --cp-bench={build_name} --cp-bench-no-commit-hash {features_flag} {config_flag} {'--config' if nuke else ''}")
+    ret = os.system(f"{MMTK_DEV}/run-jdk --gc={gc} --bench={bench} --heap=500M --build --release --cp-bench={build_name} --cp-bench-no-commit-hash {features_flag} {config_flag} {'--config' if nuke else ''}")
     if ret != 0:
         sys.exit(f"❌ Failed to build `runtimes.{runtime_name}`!")
 
@@ -117,6 +120,7 @@ def validate_repos():
 def build(
     config: str = typer.Option(..., help="Running config name"),
     gc: str = typer.Option("Immix", help="GC to test the build"),
+    nuke: bool = typer.Option(False, help="Nuke the build directory"),
 ):
     """
     Example: ./evaluation/manager.py build --config=lxr-xput
@@ -145,7 +149,7 @@ def build(
             if home.endswith("/"):
                 home = home[:-1]
             build_name = os.path.split(os.path.split(home)[0])[1]
-            build_one(runtime_name, build_name, features, gc, config=reconfig_jdk)
+            build_one(runtime_name, build_name, features, gc, config=reconfig_jdk, nuke=nuke)
             assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`"
             print(f"✅ [{runtime_name}]: Build successful")
             print()
