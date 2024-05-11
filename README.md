@@ -8,8 +8,8 @@
    * Windiws or macOS users: Use docker by running `make init-jdk-docker` instead of `make init-jdk`.
      * Then just use the `./run-jdk` script as usual. It will build and run everything inside the docker container automatically.
      * This is optional but still working for Linux usres. You can skip running `make install-debian-packages`.
-3. Build and run OpenJDK with MMTk: `./run-jdk --gc=SemiSpace --bench=lusearch --heap=500M --exploded --release -n 5 --build`
-   * Please run `./run-jdk --help` for all the available arguments.
+3. Run `poetry shell` to launch the dev environment
+3. Build and run OpenJDK with MMTk: `mmtk-jdk r --gc Immix --bench lusearch --heap 500M --exploded --release -n 5 --build`
 
 # Getting Started (V8)
 
