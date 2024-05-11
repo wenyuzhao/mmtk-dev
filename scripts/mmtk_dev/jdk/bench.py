@@ -10,7 +10,7 @@ from mmtk_dev.utils import ᐅᐳᐳ
 from .run import Run as RunJDK
 
 
-def __find_config_file(config: str):
+def _find_config_file(config: str):
     # Find config file
     configs_dir = EVALUATION_DIR / "configs"
     possible_paths = [
@@ -99,7 +99,7 @@ class Build:
 
     def run(self):
         self.__validate_repos()
-        config_file = __find_config_file(self.config)
+        config_file = _find_config_file(self.config)
         with open(config_file, "r") as file:
             doc = yaml.safe_load(file)
             for runtime_name in doc["runtimes"]:
@@ -189,7 +189,7 @@ class Run:
 
     def run(self):
         # Find config file
-        config_file = self.config if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else __find_config_file(self.config)
+        config_file = self.config if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
         # Get heap args
         hfac = self.hfac.strip().lower()
         if hfac == "1x":
