@@ -7,6 +7,7 @@ from mmtk_dev.constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
 from dataclasses import dataclass
 from simple_parsing import field
 from mmtk_dev.utils import ᐅᐳᐳ
+from .main import Run as RunJDK
 
 
 def __find_config_file(config: str):
@@ -67,8 +68,6 @@ class Build:
             sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
 
     def __build_one(self, runtime_name: str, build_name: str, features: str | None, config: bool):
-        from .main import Run as RunJDK
-
         try:
             run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=config or self.clean, clean=self.clean)
             run.run()
