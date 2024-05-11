@@ -7,7 +7,7 @@ from mmtk_dev.constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
 from dataclasses import dataclass
 from simple_parsing import field
 from mmtk_dev.utils import ᐅᐳᐳ
-from .main import Run as RunJDK
+from .run import Run as RunJDK
 
 
 def __find_config_file(config: str):

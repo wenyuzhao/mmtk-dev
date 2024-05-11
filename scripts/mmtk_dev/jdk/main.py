@@ -4,10 +4,10 @@ import sys
 from typing import Any
 from simple_parsing.helpers.fields import subparsers
 from dataclasses import dataclass
-from simple_parsing import ArgumentParser
+from simple_parsing import ArgumentGenerationMode, ArgumentParser, NestedMode
 from simple_parsing.wrappers.field_wrapper import DashVariant
-from .bench import Bench
 from .run import Build, Run, Clean
+from .bench import Bench
 
 
 @dataclass
@@ -52,7 +52,7 @@ class _ArgumentParser(ArgumentParser):
         caller = inspect.stack()[1]
         caller_path = pathlib.Path(caller.filename)
         if caller_path.match("*lib/**/argparse.py"):
-            super().__init__(*args, **_FIRST_KWARGS)
+            super().__init__(*args, **_FIRST_KWARGS, **kwargs)
         else:
             super().__init__(*args, **kwargs)
 
@@ -73,7 +73,11 @@ class _ArgumentParser(ArgumentParser):
 
 
 def main():
-    parser = _ArgumentParser(add_option_string_dash_variants=DashVariant.DASH)
+    parser = _ArgumentParser(
+        add_option_string_dash_variants=DashVariant.DASH,
+        # argument_generation_mode=ArgumentGenerationMode.BOTH,
+        # nested_mode=NestedMode.WITHOUT_ROOT,
+    )
     parser.add_arguments(Command, dest="command")
     args = parser.parse_args(args=_ArgumentParser.fix_args(sys.argv[1:], "rbx"))
     args.command.run()

@@ -6,7 +6,7 @@ from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, P
 from mmtk_dev.utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import choice
 from dataclasses import dataclass
-from simple_parsing import field
+from simple_parsing import field, subgroups
 
 FORCE_USE_JVMTI_HOOK = False
 MAX_CORES = 32  # None
@@ -115,8 +115,9 @@ class Build:
 
 @dataclass
 class Threads:
-    mu: int | None = None
-    gc: int | None = None
+    threads_mu: int | None = None
+    threads_gc: int | None = None
+    threads_conc_gc: int | None = None
 
 
 @dataclass
@@ -142,7 +143,7 @@ class JVMArgs:
     biased_locking: bool = field(default=True, negative_prefix="--no-")
     """Enable biased locking"""
 
-    args: list[str] = field(default_factory=list)
+    jvm_args: list[str] = field(default_factory=list)
     """Extra JVM args"""
 
     def get_args(self):
@@ -154,9 +155,6 @@ class JVMArgs:
             args.append("-XX:-TieredCompilation")
         elif not self.c2:
             args.append("-XX:TieredStopAtLevel=1")
-        # Benchmark args
-        if self.threads.mu is not None:
-            args += ["-t", f"{self.threads.mu}"]
         # Biased locking
         if not self.biased_locking:
             args.append("-XX:-UseBiasedLocking")
@@ -170,7 +168,7 @@ class JVMArgs:
         if not self.compressed_oops:
             args += ["-XX:-UseCompressedOops", "-XX:-UseCompressedClassPointers"]
         # Extra
-        args += self.args
+        args += self.jvm_args
         # Dedup
         args = [a for a in args if a.strip() != ""]
         args = list(dict.fromkeys(args))
@@ -231,11 +229,11 @@ class Run:
     jdk: Path | None = None
     """Use a different pre-built JDK"""
 
-    jvm: JVMArgs = JVMArgs()
+    jvm: JVMArgs = field(default_factory=JVMArgs)
     """JVM Args"""
 
     verbose: int = choice(0, 1, 2, 3, alias="v", default=0)
-    """Enable +XX:+UseCompressedOops"""
+    """Set verbosity level"""
 
     asan: bool = field(default=False, negative_prefix="--no-")
     """Enable address sanitizer"""
@@ -303,9 +301,12 @@ class Run:
         if self.gc not in HOTSPOT_GCS:
             env["MMTK_PLAN"] = self.gc
         # Set GC threads
-        if self.jvm.threads.gc is not None:
-            env["MMTK_THREADS"] = f"{self.jvm.threads.gc}"
-            heap_args.append(f"-XX:ParallelGCThreads={self.jvm.threads.gc}")
+        if self.jvm.threads.threads_gc is not None:
+            env["MMTK_THREADS"] = f"{self.jvm.threads.threads_gc}"
+            heap_args.append(f"-XX:ParallelGCThreads={self.jvm.threads.threads_gc}")
+        if self.jvm.threads.threads_conc_gc is not None:
+            env["MMTK_CONC_THREADS"] = f"{self.jvm.threads.threads_conc_gc}"
+            heap_args.append(f"-XX:ConcurrentGCThreads={self.jvm.threads.threads_conc_gc}")
         # Heap size
         heap = heap or self.heap
         heap_args += [f"-Xms{heap}", f"-Xmx{heap}"]
@@ -327,8 +328,8 @@ class Run:
         else:
             jvm_args += ["--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-cp", DACAPO_CHOPIN]
         # Benchmark args
-        if self.jvm.threads.mu is not None:
-            bm_args += ["-t", f"{self.jvm.threads.mu}"]
+        if self.jvm.threads.threads_mu is not None:
+            bm_args += ["-t", f"{self.jvm.threads.threads_mu}"]
         if self.size is not None:
             bm_args += ["-s", self.size]
         # Extra
