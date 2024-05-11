@@ -1,0 +1,58 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin.minheap: G1
+
+runtimes:
+  jdk-lxr-no-opt: &base-cfg
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-no-opt/jdk-11.0.19
+    commits:
+      mmtk-core: 59c5d6fa7
+      mmtk-openjdk: 2cf7c70a63
+      openjdk: bc9669aaed
+  jdk-lxr-opt-mark:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-opt-mark/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/opt_attempt_mark
+  jdk-lxr-opt-space-check:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-opt-space-check/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/opt_space_check
+  jdk-lxr-no-dyn-dispatch:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-no-dyn-dispatch/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/no_dyn_dispatch
+  jdk-lxr-opt-rc-check:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-opt-rc-check/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/fast_rc_check
+  jdk-lxr-skip-marked:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-skip-marked/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/satb_skip_marked_objs
+  jdk-lxr-edge-enqueuing:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-edge-enqueuing/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/edge_enqueuing
+  jdk-lxr-opt:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-opt/jdk-11.0.19
+    features: mmtk/measure_trace_rate,mmtk/opt
+
+configs:
+  # LXR
+  - jdk-lxr-no-opt|lxr|common3|tph
+  - jdk-lxr-opt-mark|lxr|common3|tph
+  - jdk-lxr-opt-space-check|lxr|common3|tph
+  - jdk-lxr-no-dyn-dispatch|lxr|common3|tph
+  - jdk-lxr-opt-rc-check|lxr|common3|tph
+  - jdk-lxr-skip-marked|lxr|common3|tph
+  - jdk-lxr-edge-enqueuing|lxr|common3|tph
+  - jdk-lxr-opt|lxr|common3|tph
