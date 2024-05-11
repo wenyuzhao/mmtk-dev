@@ -98,6 +98,7 @@ class Build:
         ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz", cwd=MMTK_DEV)
 
     def run(self):
+        os.environ["BUILDS"] = f"{EVALUATION_DIR}/builds"
         self.__validate_repos()
         config_file = _find_config_file(self.config)
         with open(config_file, "r") as file:
@@ -118,7 +119,7 @@ class Build:
                     home = home[:-1]
                 build_name = os.path.split(os.path.split(home)[0])[1]
                 self.__build_one(runtime_name=runtime_name, build_name=build_name, features=features, config=reconfig_jdk)
-                assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`"
+                assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`: {home}/release does not exist"
                 print(f"✅ [{runtime_name}]: Build successful\n\n\n")
 
 
