@@ -250,6 +250,9 @@ class Run:
     taskset: int | str | None = None
     """`taskset -c` argument as a string, or the number of cores to use"""
 
+    bundle: bool = field(default=False, negative_prefix="--no-")
+    """Create product bundles"""
+
     def build_jdk(self, pgo_step: Literal["gen", "use"] | None):
         build = Build(
             profile=self.profile,
@@ -262,6 +265,7 @@ class Run:
             pgo_gen=pgo_step == "gen",
             pgo_use=pgo_step == "use",
             clean=self.clean,
+            bundle=self.bundle,
         )
         build.run()
 

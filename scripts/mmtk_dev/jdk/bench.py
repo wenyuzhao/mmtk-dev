@@ -47,7 +47,7 @@ class Build:
 
     def __validate_repos(self):
         def err(s: str):
-            sys.exit("❌ " + s) if self.allow_dirty else print("🚨 " + s)
+            sys.exit("❌ " + s) if not self.allow_dirty else print("🚨 " + s)
 
         if os.system(f"cd {MMTK_DEV} && git diff --quiet") != 0:
             err("Current mmtk-dev workspace is dirty!")
@@ -69,7 +69,7 @@ class Build:
 
     def __build_one(self, runtime_name: str, build_name: str, features: str | None, config: bool):
         try:
-            run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=config or self.clean, clean=self.clean)
+            run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=config or self.clean, clean=self.clean, bundle=True)
             run.run()
             self.__copy_jdk_bundle(build_name)
         except BaseException as e:
