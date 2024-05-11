@@ -17,6 +17,7 @@ runtimes:
       mmtk-core: 59c5d6fa7
       mmtk-openjdk: 2cf7c70a63
       openjdk: bc9669aaed
+    features: mmtk/measure_trace_rate
   jdk-lxr-opt-mark:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-opt-mark/jdk-11.0.19
