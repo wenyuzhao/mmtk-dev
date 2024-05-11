@@ -147,7 +147,7 @@ class Rsync:
 
     def __run_poetry_install(self):
         MMTK_DEV_REL = str(MMTK_DEV).replace(os.path.expanduser("~") + "/", "")
-        cmd = ["ssh", f"{self.remote_user}@{self.remote}", f"cd {MMTK_DEV_REL} && poetry install"]
+        cmd = ["ssh", f"{self.remote_user}@{self.remote}", f"cd {MMTK_DEV_REL} && ~/.local/bin/poetry install"]
         print(f'🔵 {" ".join(cmd)}')
         try:
             subprocess.check_call(cmd, cwd=MMTK_DEV)
@@ -166,6 +166,7 @@ class Rsync:
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/poetry.lock", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/pyproject.toml", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/scripts/mmtk_dev", dst)
+        self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/README.md", dst)
         self.__run_poetry_install()
 
 
