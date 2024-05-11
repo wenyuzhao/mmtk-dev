@@ -1,18 +1,28 @@
 from enum import Enum
+import inspect
 import os
-from typing import Literal
+from pathlib import Path
+import pathlib
+from typing import Any, Literal
 from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
 from mmtk_dev.utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import subparsers, choice
 from dataclasses import dataclass
 from simple_parsing import ArgumentParser, field, parse
 from simple_parsing.wrappers.field_wrapper import DashVariant
+from .bench import Bench
 
 FORCE_USE_JVMTI_HOOK = False
 MAX_CORES = 32  # None
 
 HOTSPOT_GCS = {
     "G1": "-XX:+UseG1GC",
+    "Parallel": "-XX:+UseParallelGC",
+    "Serial": "-XX:+UseSerialGC",
+    "Z": "-XX:+UseZGC",
+    "ZGC": "-XX:+UseZGCGC",
+    "Shen": "-XX:+UseShenandoahGC",
+    "Shenandoah": "-XX:+UseShenandoahGC",
 }
 
 
@@ -24,24 +34,32 @@ class Profile(str, Enum):
 
 @dataclass
 class Clean:
-    """Clean all build outputs"""
+    """
+    Clean all build outputs
+
+    Example: mmtk-jdk clean
+    """
 
     profile: Profile = Profile.fastdebug
     """The profile to clean"""
 
     def run(self):
-        ᐅᐳᐳ("rm", "-rf", "./target", cwd=MMTK_OPENJDK / "mmtk")
-        ᐅᐳᐳ("make", "clean", f"CONF=linux-x86_64-normal-server-{self.profile.value}", f"THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk", cwd=OPENJDK)
+        ᐅᐳᐳ("rm", "-rf", MMTK_OPENJDK / "mmtk" / "target")
+        ᐅᐳᐳ("rm", "-rf", MMTK_OPENJDK / "build" / f"linux-x86_64-normal-server-{self.profile.value}")
 
 
 @dataclass
 class Build:
-    """Build openjdk"""
+    """
+    Build openjdk
+
+    Example: mmtk-jdk build
+    """
 
     profile: Profile = Profile.fastdebug
     """The profile to build"""
 
-    release: bool = field(default=False, negative_prefix="--no-")
+    release: bool = field(alias="r", default=False, negative_prefix="--no-")
     """Overwrite --profile and force release build"""
 
     features: str | None = None
@@ -165,7 +183,11 @@ class JVMArgs:
 
 @dataclass
 class Run:
-    """Run openjdk"""
+    """
+    Run openjdk
+
+    Example: mmtk-jdk r --gc LXR --heap 100M --bench lusearch --build
+    """
 
     gc: str
     """GC plan. e.g. SemiSpace"""
@@ -179,7 +201,7 @@ class Run:
     profile: Profile = Profile.fastdebug
     """The profile to build"""
 
-    release: bool = field(default=False, negative_prefix="--no-")
+    release: bool = field(alias="r", default=False, negative_prefix="--no-")
     """Overwrite --profile and force release build"""
 
     iter: int = field(alias="n", default=1)
@@ -210,7 +232,7 @@ class Run:
     rr: bool = field(default=False, negative_prefix="--no-")
     """Launch with rr record"""
 
-    jdk: str | None = None
+    jdk: Path | None = None
     """Use a different pre-built JDK"""
 
     jvm: JVMArgs = JVMArgs()
@@ -358,15 +380,48 @@ class Command:
     Commands for build and run OpenJDK with MMTk
 
     Example: mmtk-jdk r --gc LXR --heap 100M --bench lusearch --build
+
+    Sub-commands:
+      build,b     build OpenJDK with MMTk
+      run,r       run OpenJDK with MMTk
+      bench       benchmark tools
     """
 
-    command: Run = subparsers({"build": Build, "b": Build, "run": Run, "r": Run})
+    command: Run = subparsers(
+        {
+            "build": Build,
+            "b": Build,
+            "run": Run,
+            "r": Run,
+            "bench": Bench,
+        }
+    )
     """Sub-commands"""
 
     def run(self):
         self.command.run()
 
 
+_FIRST_KWARGS: Any = None
+
+
+class _ArgumentParser(ArgumentParser):
+    def __init__(self, *args, **kwargs):
+        global _FIRST_KWARGS
+        if _FIRST_KWARGS is None:
+            _FIRST_KWARGS = kwargs
+
+        # only enforce FIRST_KWARGS when called by argparse
+        caller = inspect.stack()[1]
+        caller_path = pathlib.Path(caller.filename)
+        if caller_path.match("*lib/**/argparse.py"):
+            super().__init__(*args, **_FIRST_KWARGS)
+        else:
+            super().__init__(*args, **kwargs)
+
+
 def main():
-    args = parse(Command)
+    parser = _ArgumentParser(add_option_string_dash_variants=DashVariant.DASH)
+    parser.add_arguments(Command, dest="command")
+    args = parser.parse_args()
     args.command.run()

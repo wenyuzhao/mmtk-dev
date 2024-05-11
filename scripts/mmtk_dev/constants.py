@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import sys
 
@@ -31,3 +32,10 @@ DACAPO_CHOPIN = __find_dacapo_chopin()
 
 
 PROBES = (MMTK_DEV / "evaluation" / "probes") if (MMTK_DEV / "evaluation" / "probes" / "probes.jar").is_file() else None
+
+EVALUATION_DIR = MMTK_DEV / "evaluation"
+
+try:
+    USERNAME = os.getlogin()
+except BaseException:
+    USERNAME = os.environ["USER"]
