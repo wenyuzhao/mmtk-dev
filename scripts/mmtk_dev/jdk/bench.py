@@ -191,7 +191,7 @@ class Run:
 
     def run(self):
         # Find config file
-        config_file = self.config if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
+        config_file = Path(self.config) if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
         # Get heap args
         hfac = self.hfac.strip().lower()
         if hfac == "1x":
@@ -214,7 +214,7 @@ class Run:
         # Run
         os.system(f"pkill -f java -u {USERNAME} -9")
         workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
-        cmd = ["running", "runbms", *workdir_args, "-p", self.config, "./evaluation/results/log", config_file, *hfac_args]
+        cmd: list[str] = ["running", "runbms", *workdir_args, "-p", self.config, "./evaluation/results/log", str(config_file), *hfac_args]
         env = {"BUILDS": f"{EVALUATION_DIR}/builds", "PATH": os.environ["PATH"]}
         print(f'🔵 RUN: {" ".join(cmd)}')
         print(f"🔵 LOG: {self.log}")
