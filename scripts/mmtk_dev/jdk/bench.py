@@ -97,8 +97,7 @@ class Build:
         ᐅᐳᐳ("rm", "-rf", builds_dir / target)
         ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz")
         # Copy exploded jdk folder
-        (builds_dir / target).mkdir(parents=True, exist_ok=True)
-        ᐅᐳᐳ("cp", "-r", OPENJDK / "build" / "linux-x86_64-normal-server-release" / "jdk", builds_dir / target / "jdk")
+        ᐅᐳᐳ("cp", "-r", OPENJDK / "build" / "linux-x86_64-normal-server-release", builds_dir / target)
 
     def __copy_jdk_bundle(self, target: str):
         builds_dir = EVALUATION_DIR / "builds"

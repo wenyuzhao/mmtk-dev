@@ -6,7 +6,54 @@ includes:
 overrides:
   heap_range: 3
   invocations: 20
-  suites.dacapochopin.minheap: G1
+  benchmarks:
+    dacapochopin-b00bfa9:
+      - lusearch
+      - h2
+      - cassandra
+      - tomcat
+      - fop
+      - h2o
+      - avrora
+      - batik
+      - biojava
+      - eclipse
+      - graphchi
+      - jython
+      - luindex
+      - pmd
+      - sunflow
+      - xalan
+      - zxing
+  suites:
+    dacapochopin-b00bfa9:
+      callback: probe.DacapoChopinCallback
+      minheap: g1
+      minheap_values:
+        g1:
+          avrora: 7
+          batik: 1076
+          biojava: 191
+          cassandra: 263
+          eclipse: 534
+          fop: 73
+          graphchi: 255
+          h2: 1191
+          h2o: 3689
+          jme: 235
+          jython: 325
+          luindex: 41
+          lusearch: 53
+          pmd: 637
+          sunflow: 87
+          tomcat: 71
+          xalan: 43
+          zxing: 153
+      path: /home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar
+      release: evaluation
+      timeout: 600
+      timing_iteration: 5
+      type: DaCapo
 
 runtimes:
   jdk-lxr-pldi: &lxr-pldi
@@ -39,11 +86,12 @@ runtimes:
 
 configs:
   # G1
-  - jdk-lxr|g1|common3|hs
-  - jdk-lxr-jul2023|g1|common3|hs
+  - jdk-lxr-latest-defeatured|g1|common_legacy|hs
+  - jdk-lxr-latest-defeatured-x|g1|common_legacy|hs
+  - jdk-lxr-pldi|g1|common_legacy|hs
+  - jdk-lxr-pldi-x|g1|common_legacy|hs
   # LXR
-  - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-jul2023|lxr|common3|tph
-
-  - jdk-lxr-pldi|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
-  - jdk-lxr-pldi-x|ix|common|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr-latest-defeatured|lxr|common_legacy|tph
+  - jdk-lxr-latest-defeatured-x|lxr|common_legacy|tph
+  - jdk-lxr-pldi|ix|common_legacy|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr-pldi-x|ix|common_legacy|tph|trace2-5|srv-128|srvw|lfb-32

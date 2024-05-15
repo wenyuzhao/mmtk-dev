@@ -133,6 +133,9 @@ modifiers:
   exit_on_oom:
     type: JVMArg
     val: "-XX:+ExitOnOutOfMemoryError"
+  _common:
+    type: ModifierSet
+    val: "ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload"
   common:
     type: ModifierSet
     val: "ms|s|c2|probes|probes_cp|exit_on_oom|add_exports"

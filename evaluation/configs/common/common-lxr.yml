@@ -2,15 +2,15 @@ includes:
   - "./common.yml"
 
 modifiers:
-  # common_legacy:
-  #   type: ModifierSet
-  #   val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
-  # no_inline_clone:
-  #   type: JVMArg
-  #   val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
-  # no_weak_and_class_unload:
-  #   type: JVMArg
-  #   val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  common_legacy:
+    type: ModifierSet
+    val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
+  no_inline_clone:
+    type: JVMArg
+    val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy
+  no_weak_and_class_unload:
+    type: JVMArg
+    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
   nb:
     type: EnvVar
     var: "NURSERY_BLOCKS"
