@@ -143,10 +143,14 @@ class JVMArgs:
     biased_locking: bool = field(default=True, negative_prefix="--no-")
     """Enable biased locking"""
 
+    weak_refs: bool = field(default=True, negative_prefix="--no-")
+    """Enable weak/soft/phantom/finalizer reference processing"""
+
     jvm_args: list[str] = field(default_factory=list)
     """Extra JVM args"""
 
     def get_args(self):
+        envs: dict[str, str] = {}
         args: list[str] = ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError"]
         # Compiler args
         if not self.c1 and not self.c2:
@@ -167,12 +171,17 @@ class JVMArgs:
         # Compressed oops
         if not self.compressed_oops:
             args += ["-XX:-UseCompressedOops", "-XX:-UseCompressedClassPointers"]
+        # Compressed oops
+        if not self.weak_refs:
+            args += ["-XX:-RegisterReferences"]
+            envs["MMTK_NO_REFERENCE_TYPES"] = "true"
+            envs["MMTK_NO_FINALIZER"] = "true"
         # Extra
         args += self.jvm_args
         # Dedup
         args = [a for a in args if a.strip() != ""]
         args = list(dict.fromkeys(args))
-        return args
+        return args, envs
 
 
 @dataclass
@@ -232,7 +241,7 @@ class Run:
     jvm: JVMArgs = field(default_factory=JVMArgs)
     """JVM Args"""
 
-    verbose: int = choice(0, 1, 2, 3, alias="v", default=0)
+    verbose: str = choice("0", "1", "2", "3", alias="v", default="0")
     """Set verbosity level"""
 
     asan: bool = field(default=False, negative_prefix="--no-")
@@ -295,8 +304,6 @@ class Run:
     def run_jdk(self, bench: str | None = None, heap: str | None = None, iter: int | None = None):
         env: dict[str, str] = {
             "RUST_BACKTRACE": "1",
-            "MMTK_NO_REFERENCE_TYPES": "true",
-            "MMTK_NO_FINALIZER": "true",
         }
         # MMTk or HotSpot GC args
         heap_args: list[str] = []
@@ -319,7 +326,8 @@ class Run:
         # taskset wrapper
         wrappers = self.__get_wrappers()
         # JVM Args
-        jvm_args = self.jvm.get_args()
+        jvm_args, jvm_envs = self.jvm.get_args()
+        env = {**env, **jvm_envs}
         # Probe args
         bm_args: list[str] = []
         if self.gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
@@ -339,11 +347,12 @@ class Run:
         # Extra
         if self.asan:
             env["ASAN_OPTIONS"] = "handle_segv=0"
-        if self.verbose != 0:
+        if self.verbose != "0":
             env["MMTK_VERBOSE"] = f"{self.verbose}"
-            if self.verbose >= 3:
+            verbose = int(self.verbose)
+            if verbose >= 3:
                 jvm_args += ["-Xlog:gc*"]
-            elif self.verbose >= 2:
+            elif verbose >= 2:
                 jvm_args += ["-Xlog:gc"]
         # Run
         profile = self.profile.value if not self.release else Profile.release.value

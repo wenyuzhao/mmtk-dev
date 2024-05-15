@@ -2,9 +2,9 @@ includes:
   - "./common.yml"
 
 modifiers:
-  common_legacy:
+  common_defeature:
     type: ModifierSet
-    val: ms|s|c2|probes|probes_cp|no_inline_clone|no_weak_and_class_unload
+    val: ms|s|c2|probes|probes_cp|no_inline_clone|defeature
   no_inline_clone:
     type: JVMArg
     val: -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy

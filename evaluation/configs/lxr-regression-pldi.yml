@@ -71,9 +71,10 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-latest-defeatured/jdk-11.0.19
     commits:
-      mmtk-core: d0b7293
-      mmtk-openjdk: 2cf7c70
+      mmtk-core: d27594415
+      mmtk-openjdk: e0b27083
       openjdk: bc9669aaed
+    features: no_weak_refs
   jdk-lxr-pldi-x:
     <<: *lxr-pldi
     home: /$BUILDS/jdk-lxr-pldi-x/jdk
@@ -86,12 +87,12 @@ runtimes:
 
 configs:
   # G1
-  - jdk-lxr-latest-defeatured|g1|common_legacy|hs
-  - jdk-lxr-latest-defeatured-x|g1|common_legacy|hs
-  - jdk-lxr-pldi|g1|common_legacy|hs
-  - jdk-lxr-pldi-x|g1|common_legacy|hs
+  - jdk-lxr-latest-defeatured|g1|common_defeature|hs
+  - jdk-lxr-latest-defeatured-x|g1|common_defeature|hs
+  - jdk-lxr-pldi|g1|common_defeature|hs
+  - jdk-lxr-pldi-x|g1|common_defeature|hs
   # LXR
-  - jdk-lxr-latest-defeatured|lxr|common_legacy|tph
-  - jdk-lxr-latest-defeatured-x|lxr|common_legacy|tph
-  - jdk-lxr-pldi|ix|common_legacy|tph|trace2-5|srv-128|srvw|lfb-32
-  - jdk-lxr-pldi-x|ix|common_legacy|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr-latest-defeatured|lxr|common_defeature|tph
+  - jdk-lxr-latest-defeatured-x|lxr|common_defeature|tph
+  - jdk-lxr-pldi|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr-pldi-x|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32
