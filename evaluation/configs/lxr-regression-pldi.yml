@@ -8,23 +8,23 @@ overrides:
   invocations: 20
   benchmarks:
     dacapochopin-b00bfa9:
-      - lusearch
-      - h2
-      - cassandra
-      - tomcat
-      - fop
-      - h2o
-      - avrora
-      - batik
-      - biojava
-      - eclipse
-      - graphchi
+      # - lusearch
+      # - h2
+      # - cassandra
+      # - tomcat
+      # - fop
+      # - h2o
+      # - avrora
+      # - batik
+      # - biojava
+      # - eclipse
+      # - graphchi
       - jython
-      - luindex
-      - pmd
-      - sunflow
-      - xalan
-      - zxing
+      # - luindex
+      # - pmd
+      # - sunflow
+      # - xalan
+      # - zxing
   suites:
     dacapochopin-b00bfa9:
       callback: probe.DacapoChopinCallback

@@ -351,7 +351,7 @@ class Run:
             env["MMTK_VERBOSE"] = f"{self.verbose}"
             verbose = int(self.verbose)
             if verbose >= 3:
-                jvm_args += ["-Xlog:gc*"]
+                jvm_args += ["-Xlog:gc*=debug"]
             elif verbose >= 2:
                 jvm_args += ["-Xlog:gc"]
         # Run
