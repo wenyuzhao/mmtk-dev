@@ -194,8 +194,6 @@ class Rsync:
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/advice", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/probes", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/builds", dst)
-        self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager", dst)
-        self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/manager.py", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/poetry.lock", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/pyproject.toml", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/scripts/mmtk_dev", dst)
