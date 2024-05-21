@@ -3,8 +3,7 @@ from mmtk_dev.utils import MMTkDevArgumentParser
 from simple_parsing.helpers.fields import subparsers
 from dataclasses import dataclass
 from simple_parsing.wrappers.field_wrapper import DashVariant
-from .run import Build, Run, Clean
-from .bench import Bench
+from .run import Build, Run
 
 
 @dataclass
@@ -26,8 +25,6 @@ class Command:
             "b": Build,
             "run": Run,
             "r": Run,
-            "clean": Clean,
-            "bench": Bench,
         }
     )
     """Sub-commands"""

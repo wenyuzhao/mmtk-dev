@@ -10,6 +10,10 @@ MMTK_CORE = MMTK_DEV / "mmtk-core"
 
 MMTK_OPENJDK = MMTK_DEV / "mmtk-openjdk"
 
+MMTK_JIKESRVM = MMTK_DEV / "mmtk-jikesrvm"
+
+JIKESRVM = MMTK_DEV / "jikesrvm"
+
 DACAPO_ROOT = Path("/usr/share/benchmarks/dacapo")
 
 
@@ -29,6 +33,8 @@ def __find_dacapo_chopin():
 
 
 DACAPO_CHOPIN = __find_dacapo_chopin()
+
+DACAPO_9_12 = DACAPO_ROOT / "dacapo-9.12-bach.jar"
 
 
 PROBES = (MMTK_DEV / "evaluation" / "probes") if (MMTK_DEV / "evaluation" / "probes" / "probes.jar").is_file() else None

@@ -6,7 +6,7 @@ from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, P
 from mmtk_dev.utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import choice
 from dataclasses import dataclass
-from simple_parsing import field, subgroups
+from simple_parsing import field
 
 FORCE_USE_JVMTI_HOOK = False
 MAX_CORES = 32  # None

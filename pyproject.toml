@@ -8,10 +8,10 @@ packages = [{ include = "mmtk_dev", from = "scripts" }]
 
 [tool.poetry.scripts]
 mmtk-jdk = "mmtk_dev.jdk.main:main"
+mmtk-jks = "mmtk_dev.jks.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-typer = { extras = ["all"], version = "^0.9.0" }
 pyaml = "^23.7.0"
 simple-parsing = "^0.1.5"
 
