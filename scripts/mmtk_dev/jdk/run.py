@@ -131,7 +131,7 @@ class JVMArgs:
     xcomp: bool = field(default=False, negative_prefix="--no-")
     """Enable -Xcomp"""
 
-    threads: Threads = Threads()
+    threads: Threads = field(default_factory=Threads)
     """Set number of threads"""
 
     compressed_oops: bool = field(default=True, negative_prefix="--no-")
