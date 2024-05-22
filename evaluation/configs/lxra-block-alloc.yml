@@ -16,16 +16,16 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr/jdk-11.0.19
     commits: &lxr-commits
-      mmtk-core: d27594415
-      mmtk-openjdk: e0b27083
+      mmtk-core: 520622746f1
+      mmtk-openjdk: b9df8b5d05a
       openjdk: bc9669aaed
   jdk-lxr-no-block-alloc-opt:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
     commits:
       <<: *lxr-commits
-      mmtk-core: 5e02080c3b7
-      mmtk-openjdk: e552fc3618e
+      mmtk-core: 9bf4f2132c4
+      mmtk-openjdk: 90da07c04
 
 configs:
   - jdk-lxr|lxr|common|tph
