@@ -1,0 +1,32 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+# LXR-Ablation-Experiment: Block-Alloc
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr/jdk-11.0.19
+    commits: &lxr-commits
+      mmtk-core: d27594415
+      mmtk-openjdk: e0b27083
+      openjdk: bc9669aaed
+  jdk-lxr-no-block-alloc-opt:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
+    commits:
+      <<: *lxr-commits
+      mmtk-core: 5e02080c3b7
+      mmtk-openjdk: e552fc3618e
+
+configs:
+  - jdk-lxr|lxr|common|tph
+  - jdk-lxr-no-block-alloc-opt|lxr|common|tph
