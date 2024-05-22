@@ -1,5 +1,9 @@
-# Override `mmtk-core` depencency with the local copy
-paths = ["./mmtk-core"]
-
 [net]
 git-fetch-with-cli = true
+
+# Override `mmtk-core` depencency with the local copy
+[patch."https://github.com/wenyuzhao/mmtk-core.git"]
+mmtk = { path = "./mmtk-core" }
+
+[patch."https://github.com/mmtk/mmtk-core.git"]
+mmtk = { path = "./mmtk-core" }
