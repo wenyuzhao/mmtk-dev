@@ -21,7 +21,7 @@ modifiers:
   jdk-field-barrier-no-opt:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-field-barrier-no-opt/jdk-11.0.19
-    commits: &lxr-commits
+    commits:
       <<: *lxr-commits
       mmtk-openjdk: d3555106a1a
   jdk-no-barrier:
@@ -33,24 +33,3 @@ configs:
   - jdk-field-barrier|ix|common|tph
   - jdk-field-barrier-no-opt|ix|common|tph
   - jdk-no-barrier|ix|common|tph
-configs:
-  - jdk-lxr|g1|common|defeature2|hs
-
-  - jdk-ix-largetlab|ix|common|defeature2|tph
-  - jdk-ix-largetlab-nobarrier|ix|common|defeature2|tph
-  - jdk-ix-largetlab-fieldbarrier-loadfix|ix|common|defeature2|tph
-  - jdk-ix-largetlab-fieldbarrier-noclone|ix|common|defeature2|tph
-  - jdk-ix-largetlab-fieldbarrier-noload|ix|common|defeature2|tph
-
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-10
-  - jdk-lxr|lxr|common|defeature2|tph|trace2-30
-  - jdk-lxr-lock8|lxr|common|defeature2|tph|trace2-30
-  # - jdk-lxr|lxr|common|defeature2|tph|trace2-50
-  # - jdk-lxr-lock8|lxr|common|defeature2|tph|trace2-50
-  - jdk-ix-largetlab-fieldbarrier-lock8|ix|common|defeature2|tph
-  # - jdk-ix-largetlab-fieldbarrier-lock7|ix|common|defeature2|tph
-  # - jdk-ix-largetlab-fieldbarrier-lock6|ix|common|defeature2|tph
-  # - jdk-ix-largetlab-fieldbarrier-lock5|ix|common|defeature2|tph
-  # - jdk-ix-largetlab-fieldbarrier-lock4|ix|common|defeature2|tph
-  # - jdk-ix-largetlab-fieldbarrier-lock3|ix|common|defeature2|tph
-  # - jdk-ix-largetlab-nobarrier|ix|common|defeature2|tph
