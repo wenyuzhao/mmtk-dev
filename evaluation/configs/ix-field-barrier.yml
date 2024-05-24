@@ -1,14 +1,14 @@
 # running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
 
 includes:
-  - "../common-lxr.yml"
+  - "./common/common-lxr.yml"
 
 overrides:
   heap_range: 3
   invocations: 40
   suites.dacapochopin.minheap: G1
 
-modifiers:
+runtimes:
   jdk-field-barrier: &lxr
     type: OpenJDK
     release: 11
