@@ -1,0 +1,42 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+  benchmarks.dacapochopin:
+    - avrora
+    - kafka
+    - fop
+    - cassandra
+    - pmd
+    - spring
+    - tradebeans
+    - tradesoap
+
+runtimes:
+  jdk-field-barrier: &lxr
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-field-barrier/jdk-11.0.19
+    commits: &lxr-commits
+      mmtk-core: c9279835ae
+      mmtk-openjdk: fb84fed66f
+      openjdk: bc9669aaed
+    features: barrier_measurement
+  jdk-field-barrier-no-c2-slow-call:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-field-barrier-no-c2-slow-call/jdk-11.0.19
+    features: barrier_measurement,field_barrier_no_c2_slow_call
+  jdk-field-barrier-no-c2-rust-call:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-field-barrier-no-c2-rust-call/jdk-11.0.19
+    features: barrier_measurement,field_barrier_no_c2_rust_call
+
+configs:
+  - jdk-field-barrier|ix|common|tph
+  - jdk-field-barrier-no-c2-slow-call|ix|common|tph
+  - jdk-field-barrier-no-c2-rust-call|ix|common|tph
