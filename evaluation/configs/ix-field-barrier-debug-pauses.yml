@@ -41,6 +41,7 @@ runtimes:
     features: barrier_measurement,field_barrier_no_c2_rust_call
 
 configs:
+  - jdk-no-barrier|ix|common|tph
   - jdk-field-barrier|ix|common|tph
   - jdk-field-barrier-no-c2-slow-call|ix|common|tph
   - jdk-field-barrier-no-c2-rust-call|ix|common|tph
