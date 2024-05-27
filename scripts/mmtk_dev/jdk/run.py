@@ -350,7 +350,7 @@ class Run:
         if self.verbose != "0":
             env["MMTK_VERBOSE"] = f"{self.verbose}"
             verbose = int(self.verbose)
-            if verbose >= 3:
+            if verbose >= 3 and self.gc in HOTSPOT_GCS:
                 jvm_args += ["-Xlog:gc*=debug"]
             elif verbose >= 2:
                 jvm_args += ["-Xlog:gc"]
