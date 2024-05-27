@@ -27,6 +27,10 @@ runtimes:
       mmtk-openjdk: fb84fed66f
       openjdk: bc9669aaed
     features: barrier_measurement
+  jdk-no-barrier:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-no-barrier/jdk-11.0.19
+    features: barrier_measurement,mmtk/barrier_measurement_no_barrier
   jdk-field-barrier-no-c2-slow-call:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-field-barrier-no-c2-slow-call/jdk-11.0.19
