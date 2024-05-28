@@ -1,0 +1,46 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1
+  benchmarks.dacapochopin:
+    - avrora
+    - tradebeans
+    - tradesoap
+    - kafka
+    - spring
+    - h2
+    - h2o
+    - pmd
+    - jython
+    - fop
+    - cassandra
+
+runtimes:
+  jdk-field-barrier: &lxr
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-field-barrier/jdk-11.0.19
+    commits: &lxr-commits
+      mmtk-core: db537e8bdec
+      mmtk-openjdk: fb84fed66f
+      openjdk: bc9669aaed
+    features: barrier_measurement,no_fast_alloc
+  jdk-no-barrier:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-no-barrier/jdk-11.0.19
+    features: barrier_measurement,mmtk/barrier_measurement_no_barrier,no_fast_alloc
+  jdk-lxr:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
+    features: no_fast_alloc
+    test-command: RUST_BACKTRACE=1 MMTK_PLAN=LXR taskset -c 0-23 /home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/images/jdk/bin/java -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+ExitOnOutOfMemoryError --add-exports java.base/jdk.internal.ref=ALL-UNNAMED -Dprobes=RustMMTk -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -cp /home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar -XX:+UseThirdPartyHeap -Xms500M -Xmx500M Harness -n 1 fop -c probe.DacapoChopinCallback
+
+configs:
+  - jdk-no-barrier|ix|common|tph
+  - jdk-field-barrier|ix|common|tph
+  - jdk-lxr|lxr|common|tph
