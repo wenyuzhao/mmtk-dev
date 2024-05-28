@@ -26,7 +26,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-field-barrier/jdk-11.0.19
     commits: &lxr-commits
-      mmtk-core: db537e8bdec
+      mmtk-core: 7ab8d50457
       mmtk-openjdk: fb84fed66f
       openjdk: bc9669aaed
     features: barrier_measurement,no_fast_alloc
