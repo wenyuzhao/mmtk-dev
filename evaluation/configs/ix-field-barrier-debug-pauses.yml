@@ -44,4 +44,5 @@ configs:
   - jdk-no-barrier|ix|common|tph
   - jdk-field-barrier|ix|common|tph
   - jdk-field-barrier-no-c2-slow-call|ix|common|tph
-  - jdk-field-barrier-no-c2-rust-call|ix|common|tph
+  - jdk-field-barrier|ix|common|tph|xcomp
+  # - jdk-field-barrier-no-c2-rust-call|ix|common|tph
