@@ -35,10 +35,10 @@ runtimes:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-field-barrier-no-c2-slow-call/jdk-11.0.19
     features: barrier_measurement,field_barrier_no_c2_slow_call
-  jdk-field-barrier-no-c2-rust-call:
-    <<: *lxr
-    home: /$BUILDS/jdk-lxr-field-barrier-no-c2-rust-call/jdk-11.0.19
-    features: barrier_measurement,field_barrier_no_c2_rust_call
+  # jdk-field-barrier-no-c2-rust-call:
+  #   <<: *lxr
+  #   home: /$BUILDS/jdk-lxr-field-barrier-no-c2-rust-call/jdk-11.0.19
+  # features: barrier_measurement,field_barrier_no_c2_rust_call
 
 configs:
   - jdk-no-barrier|ix|common|tph
