@@ -1,0 +1,34 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+runtimes:
+  jdk-lxr-no-opt: &base-cfg
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-no-opt/jdk-11.0.19
+    commits:
+      mmtk-core: ce02e878e00a02f117e3c4ac50104e18df4bfb60
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+  jdk-lxr-opt:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-opt/jdk-11.0.19
+    features: mmtk/opt
+
+configs:
+  # LXR
+  - jdk-lxr-no-opt|lxr|common3|tph
+  # - jdk-lxr-opt-mark|lxr|common3|tph
+  # - jdk-lxr-opt-space-check|lxr|common3|tph
+  # - jdk-lxr-no-dyn-dispatch|lxr|common3|tph
+  # - jdk-lxr-opt-rc-check|lxr|common3|tph
+  # - jdk-lxr-skip-marked|lxr|common3|tph
+  # - jdk-lxr-edge-enqueuing|lxr|common3|tph
+  - jdk-lxr-opt|lxr|common3|tph
