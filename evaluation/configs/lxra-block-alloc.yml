@@ -31,7 +31,7 @@ runtimes:
     home: /$BUILDS/jdk-lxr-no-block-alloc-opt-no-bug-fix/jdk-11.0.19
     commits:
       <<: *lxr-commits-no-block-alloc-opt
-    features: mutator_reused_block_state_bug
+    features: mmtk/mutator_reused_block_state_bug
 
 configs:
   - jdk-lxr|lxr|common|tph
