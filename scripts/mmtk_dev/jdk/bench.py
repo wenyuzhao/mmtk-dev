@@ -69,7 +69,7 @@ class Build:
     def __checkout(self, repo: Path, commit: str):
         if self.__is_at_commit(repo, commit):
             return
-        if os.system(f"cd {repo} && git checkout {commit}") != 0:
+        if os.system(f"cd {repo} && git checkout {commit} --force") != 0:
             sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
 
     def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None):

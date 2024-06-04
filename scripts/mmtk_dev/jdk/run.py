@@ -353,7 +353,7 @@ class Run:
             if verbose >= 3 and self.gc in HOTSPOT_GCS:
                 jvm_args += ["-Xlog:gc*=debug"]
             elif verbose >= 2:
-                jvm_args += ["-Xlog:gc"]
+                jvm_args += ["-Xlog:gc*"]
         # Run
         profile = self.profile.value if not self.release else Profile.release.value
         jdk_build_dir = f"{OPENJDK}/build/linux-x86_64-normal-server-{str(profile)}"

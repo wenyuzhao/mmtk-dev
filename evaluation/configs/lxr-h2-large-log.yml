@@ -1,0 +1,51 @@
+# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
+
+includes:
+  - "./common/common-lxr.yml"
+
+overrides:
+  heap_range: 3
+  invocations: 3
+  suites.dacapochopin.minheap: G1
+  suites.dacapochopin.minheap_values.G1:
+    h2: 10186
+  benchmarks.dacapochopin:
+    - h2
+  suites.dacapochopin.timing_iteration: 2
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr/jdk-11.0.19
+    commits: &lxr-commits
+      mmtk-core: 8f76a3501
+      mmtk-openjdk: 46f70a5da6
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  jdk-lxr-jul2023:
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-jul2023/jdk-11.0.19
+    commits:
+      mmtk-core: 333ffb8ad9f9
+      mmtk-openjdk: 98eb6f9fc346
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+
+modifiers:
+  mmtk_verbose:
+    type: EnvVar
+    var: "MMTK_VERBOSE"
+    val: 2
+  hs_verbose:
+    type: JVMArg
+    val: "-Xlog:gc*"
+  large:
+    type: ProgramArg
+    val: "-s large"
+
+configs:
+  - jdk-lxr|g1|common|hs|hs_verbose|large
+  - jdk-lxr|lxr|common|tph|mmtk_verbose|large
+  - jdk-lxr-jul2023|lxr|common|tph|mmtk_verbose|large
