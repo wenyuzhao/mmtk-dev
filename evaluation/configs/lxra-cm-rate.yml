@@ -17,35 +17,35 @@ runtimes:
       mmtk-core: ce02e878e00a02f117e3c4ac50104e18df4bfb60
       mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
       openjdk: bc9669aaed
-    features: mmtk/no_meta_counting
+    features: mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-opt-mark:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-opt-mark/jdk-11.0.19
-    features: mmtk/opt_attempt_mark,mmtk/no_meta_counting
+    features: mmtk/opt_attempt_mark,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-opt-space-check:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-opt-space-check/jdk-11.0.19
-    features: mmtk/opt_space_check,mmtk/no_meta_counting
+    features: mmtk/opt_space_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-no-dyn-dispatch:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-no-dyn-dispatch/jdk-11.0.19
-    features: mmtk/no_dyn_dispatch,mmtk/no_meta_counting
+    features: mmtk/no_dyn_dispatch,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-opt-rc-check:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-opt-rc-check/jdk-11.0.19
-    features: mmtk/fast_rc_check,mmtk/no_meta_counting
+    features: mmtk/fast_rc_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-skip-marked:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-skip-marked/jdk-11.0.19
-    features: mmtk/satb_skip_marked_objs,mmtk/no_meta_counting
+    features: mmtk/satb_skip_marked_objs,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-edge-enqueuing:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-edge-enqueuing/jdk-11.0.19
-    features: mmtk/edge_enqueuing,mmtk/no_meta_counting
+    features: mmtk/edge_enqueuing,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-opt:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-opt/jdk-11.0.19
-    features: mmtk/opt,mmtk/no_meta_counting
+    features: mmtk/opt,mmtk/no_meta_counting,mmtk/measure_trace_rate
 
 configs:
   # LXR
