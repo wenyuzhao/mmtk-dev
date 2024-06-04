@@ -7,15 +7,15 @@ overrides:
   heap_range: 3
   invocations: 20
   suites.dacapochopin.minheap: G1
-  benchmarks.dacapochopin:
-    - avrora
-    - kafka
-    - fop
-    - cassandra
-    - pmd
-    - spring
-    - tradebeans
-    - tradesoap
+  # benchmarks.dacapochopin:
+  #   - avrora
+  #   - kafka
+  #   - tradebeans
+  #   - tradesoap
+  #   - fop
+  #   - cassandra
+  #   - pmd
+  #   - spring
 
 runtimes:
   jdk-field-barrier: &lxr
@@ -27,16 +27,23 @@ runtimes:
       mmtk-openjdk: fb84fed66f
       openjdk: bc9669aaed
     features: barrier_measurement
+  jdk-no-barrier:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-no-barrier/jdk-11.0.19
+    features: barrier_measurement,mmtk/barrier_measurement_no_barrier
   jdk-field-barrier-no-c2-slow-call:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-field-barrier-no-c2-slow-call/jdk-11.0.19
     features: barrier_measurement,field_barrier_no_c2_slow_call
-  jdk-field-barrier-no-c2-rust-call:
-    <<: *lxr
-    home: /$BUILDS/jdk-lxr-field-barrier-no-c2-rust-call/jdk-11.0.19
-    features: barrier_measurement,field_barrier_no_c2_rust_call
+  # jdk-field-barrier-no-c2-rust-call:
+  #   <<: *lxr
+  #   home: /$BUILDS/jdk-lxr-field-barrier-no-c2-rust-call/jdk-11.0.19
+  # features: barrier_measurement,field_barrier_no_c2_rust_call
 
 configs:
+  - jdk-no-barrier|ix|common|tph
   - jdk-field-barrier|ix|common|tph
   - jdk-field-barrier-no-c2-slow-call|ix|common|tph
-  - jdk-field-barrier-no-c2-rust-call|ix|common|tph
+  - jdk-no-barrier|ix|common|tph|xcomp
+  - jdk-field-barrier|ix|common|tph|xcomp
+  # - jdk-field-barrier-no-c2-rust-call|ix|common|tph

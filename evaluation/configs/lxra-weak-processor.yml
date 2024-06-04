@@ -14,15 +14,16 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr/jdk-11.0.19
     commits: &lxr-commits
-      mmtk-core: d27594415
-      mmtk-openjdk: e0b27083
+      mmtk-core: 8f76a3501
+      mmtk-openjdk: 46f70a5da6
       openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
   jdk-lxr-no-weak-processor-opt:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-no-weak-processor-opt/jdk-11.0.19
     commits:
       <<: *lxr-commits
-      mmtk-openjdk: 1149f1c0b
+      mmtk-openjdk: 85d3d7834
 
 configs:
   - jdk-lxr|lxr|common|tph

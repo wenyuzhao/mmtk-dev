@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 40
+  invocations: 20
   suites.dacapochopin.minheap: G1
 
 runtimes:
@@ -14,22 +14,20 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-field-barrier/jdk-11.0.19
     commits: &lxr-commits
-      mmtk-core: 8ccfd1bb4b
-      mmtk-openjdk: dade238d00
+      mmtk-core: 090336605
+      mmtk-openjdk: fb84fed66
       openjdk: bc9669aaed
     features: barrier_measurement
   jdk-field-barrier-no-opt:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-field-barrier-no-opt/jdk-11.0.19
-    commits:
-      <<: *lxr-commits
-      mmtk-openjdk: d3555106a1a
+    features: barrier_measurement,field_barrier_no_eager_branch
   jdk-no-barrier:
     <<: *lxr
     home: /$BUILDS/jdk-lxr-no-barrier/jdk-11.0.19
     features: barrier_measurement,mmtk/barrier_measurement_no_barrier
 
 configs:
-  - jdk-field-barrier|ix|common|tph
-  - jdk-field-barrier-no-opt|ix|common|tph
-  - jdk-no-barrier|ix|common|tph
+  - jdk-field-barrier|ix|common|tph_perf
+  - jdk-field-barrier-no-opt|ix|common|tph_perf
+  - jdk-no-barrier|ix|common|tph_perf

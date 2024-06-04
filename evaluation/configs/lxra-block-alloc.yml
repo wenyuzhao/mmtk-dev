@@ -16,17 +16,23 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr/jdk-11.0.19
     commits: &lxr-commits
-      mmtk-core: 520622746f1
-      mmtk-openjdk: b9df8b5d05a
+      mmtk-core: 8f76a35015a
+      mmtk-openjdk: 46f70a5da6
       openjdk: bc9669aaed
-  jdk-lxr-no-block-alloc-opt:
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-block-alloc-opt: &lxr-old-alloc
     <<: *lxr
     home: /$BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
     commits:
       <<: *lxr-commits
-      mmtk-core: 9bf4f2132c4
-      mmtk-openjdk: 90da07c04
+      mmtk-core: fb84fed66f51
+      mmtk-openjdk: 0903366053
+  jdk-lxr-no-block-alloc-opt-no-bug-fix:
+    <<: *lxr-old-alloc
+    home: /$BUILDS/jdk-lxr-no-block-alloc-opt-no-bug-fix/jdk-11.0.19
+    features: mmtk/mutator_reused_block_state_bug,mmtk/no_meta_counting
 
 configs:
   - jdk-lxr|lxr|common|tph
   - jdk-lxr-no-block-alloc-opt|lxr|common|tph
+  - jdk-lxr-no-block-alloc-opt-no-bug-fix|lxr|common|tph
