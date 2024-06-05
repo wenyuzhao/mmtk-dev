@@ -37,7 +37,7 @@ modifiers:
   mmtk_verbose:
     type: EnvVar
     var: "MMTK_VERBOSE"
-    val: 2
+    val: "2"
   hs_verbose:
     type: JVMArg
     val: "-Xlog:gc*"

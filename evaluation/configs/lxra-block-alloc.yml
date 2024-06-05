@@ -25,8 +25,8 @@ runtimes:
     home: /$BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
     commits:
       <<: *lxr-commits
-      mmtk-core: fb84fed66f51
-      mmtk-openjdk: 0903366053
+      mmtk-core: 0903366053
+      mmtk-openjdk: fb84fed66f51
   jdk-lxr-no-block-alloc-opt-no-bug-fix:
     <<: *lxr-old-alloc
     home: /$BUILDS/jdk-lxr-no-block-alloc-opt-no-bug-fix/jdk-11.0.19
