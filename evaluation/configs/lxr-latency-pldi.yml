@@ -6,16 +6,45 @@ includes:
 overrides:
   heap_range: 3
   invocations: 20
-  suites.dacapochopin.minheap: LXR
-  benchmarks.dacapochopin:
-    - lusearch
-    - cassandra
-    - h2
-    - tomcat
-    - kafka
-    - spring
-    - tradebeans
-    - tradesoap
+  benchmarks:
+    dacapochopin-b00bfa9:
+      - lusearch
+      - cassandra
+      - h2
+      - tomcat
+      # - kafka
+      # - spring
+      # - tradebeans
+      # - tradesoap
+  suites:
+    dacapochopin-b00bfa9:
+      callback: probe.DacapoChopinCallback
+      minheap: g1
+      minheap_values:
+        g1:
+          avrora: 7
+          batik: 1076
+          biojava: 191
+          cassandra: 263
+          eclipse: 534
+          fop: 73
+          graphchi: 255
+          h2: 1191
+          h2o: 3689
+          jme: 235
+          jython: 325
+          luindex: 41
+          lusearch: 53
+          pmd: 637
+          sunflow: 87
+          tomcat: 71
+          xalan: 43
+          zxing: 153
+      path: /home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar
+      release: evaluation
+      timeout: 600
+      timing_iteration: 5
+      type: DaCapo
 
 runtimes:
   jdk-lxr-pldi: &lxr-pldi
@@ -47,13 +76,23 @@ runtimes:
     home: /$BUILDS/jdk-lxr-latest-defeatured-x/jdk
     exploded: true
 
+modifiers:
+  latency:
+    type: ProgramArg
+    val: --dump-latency
+
 configs:
-  - jdk-lxr-latest-defeatured|g1|common_defeature|hs
-  - jdk-lxr-pldi|g1|common_defeature|hs
-  - jdk-lxr|g1|common3|hs|latency
-  - jdk-lxr|lxr|common3|tph|latency
-  - jdk-lxr|shenandoah|common3|hs|latency
-  - jdk-lxr|z|common3|hs|latency
+  - jdk-lxr-pldi|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32|latency
+  - jdk-lxr-latest-defeatured|g1|common_defeature|hs|latency
+  - jdk-lxr-latest-defeatured|shenandoah|common_defeature|hs|latency
+  - jdk-lxr-latest-defeatured|z|common_defeature|hs|latency
+  - jdk-lxr-latest-defeatured|lxr|common_defeature|tph|latency
+
+  - jdk-lxr-pldi-x|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32|latency
+  - jdk-lxr-latest-defeatured-x|g1|common_defeature|hs|latency
+  - jdk-lxr-latest-defeatured-x|shenandoah|common_defeature|hs|latency
+  - jdk-lxr-latest-defeatured-x|z|common_defeature|hs|latency
+  - jdk-lxr-latest-defeatured-x|lxr|common_defeature|tph|latency
 
 plugins:
   dacapo-latency:
