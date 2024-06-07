@@ -8,23 +8,23 @@ overrides:
   invocations: 20
   benchmarks:
     dacapochopin-b00bfa9:
-      # - lusearch
-      # - h2
-      # - cassandra
-      # - tomcat
-      # - fop
-      # - h2o
-      # - avrora
-      # - batik
-      # - biojava
-      # - eclipse
-      # - graphchi
+      - lusearch
+      - h2
+      - cassandra
+      - tomcat
+      - fop
+      - h2o
+      - avrora
+      - batik
+      - biojava
+      - eclipse
+      - graphchi
       - jython
-      # - luindex
-      # - pmd
-      # - sunflow
-      # - xalan
-      # - zxing
+      - luindex
+      - pmd
+      - sunflow
+      - xalan
+      - zxing
   suites:
     dacapochopin-b00bfa9:
       callback: probe.DacapoChopinCallback
@@ -71,8 +71,8 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-latest-defeatured/jdk-11.0.19
     commits:
-      mmtk-core: d27594415
-      mmtk-openjdk: e0b27083
+      mmtk-core: 8f76a35015
+      mmtk-openjdk: 83f2d3aa56b
       openjdk: bc9669aaed
     features: no_weak_refs
   jdk-lxr-pldi-x:
@@ -88,11 +88,11 @@ runtimes:
 configs:
   # G1
   - jdk-lxr-latest-defeatured|g1|common_defeature|hs
-  - jdk-lxr-latest-defeatured-x|g1|common_defeature|hs
+  # - jdk-lxr-latest-defeatured-x|g1|common_defeature|hs
   - jdk-lxr-pldi|g1|common_defeature|hs
-  - jdk-lxr-pldi-x|g1|common_defeature|hs
+  # - jdk-lxr-pldi-x|g1|common_defeature|hs
   # LXR
   - jdk-lxr-latest-defeatured|lxr|common_defeature|tph
-  - jdk-lxr-latest-defeatured-x|lxr|common_defeature|tph
+  # - jdk-lxr-latest-defeatured-x|lxr|common_defeature|tph
   - jdk-lxr-pldi|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32
-  - jdk-lxr-pldi-x|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32
+  # - jdk-lxr-pldi-x|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32

@@ -1,0 +1,38 @@
+includes:
+  - ./common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 3
+  suites.dacapochopin.minheap: G1
+  # suites.dacapochopin.timing_iteration: 1
+
+runtimes:
+  jdk-lxr-objsize: &lxr
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-objsize/jdk-11.0.19
+    commits:
+      mmtk-core: 8f76a35015aeeb9da6172a4d0f834e1649153da4
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aae
+    features: object_size_distribution
+  jdk-lxr-alloc:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-alloc/jdk-11.0.19
+    features: instrumentation
+  jdk-lxr-frag:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-frag/jdk-11.0.19
+    features: mmtk/fragmentation_analysis
+
+modifiers:
+  mmtk_verbose:
+    type: EnvVar
+    var: "MMTK_VERBOSE"
+    val: "2"
+
+configs:
+  - jdk-lxr-objsize|lxr|common3|tph|mmtk_verbose
+  - jdk-lxr-alloc|lxr|common3|tph|mmtk_verbose
+  - jdk-lxr-frag|lxr|common3|tph|mmtk_verbose
