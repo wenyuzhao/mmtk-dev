@@ -6,7 +6,7 @@ includes:
 overrides:
   heap_range: 3
   invocations: 20
-  suites.dacapochopin.minheap: LXR
+  suites.dacapochopin.minheap: G1
   benchmarks.dacapochopin:
     - lusearch
     - cassandra
@@ -18,42 +18,30 @@ overrides:
     - tradesoap
 
 runtimes:
-  jdk-lxr-pldi: &lxr-pldi
+  jdk-lxr: &lxr
     type: OpenJDK
     release: 11
-    home: /$BUILDS/jdk-lxr-pldi/jdk-11.0.11
+    home: /$BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 4d4e516
-      mmtk-openjdk: f933db31a
-      openjdk: f817e9d00b
-    features: lxr,lxr_heap_health_guided_gc
-    test-command: MMTK_PLAN=Immix TRACE_THRESHOLD2=10 LOCK_FREE_BLOCKS=32 MAX_SURVIVAL_MB=256 SURVIVAL_PREDICTOR_WEIGHTED=1 ./openjdk/build/linux-x86_64-normal-server-release/images/jdk/bin/java -XX:MetaspaceSize=1G -XX:-UseBiasedLocking -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -Djava.library.path=./evaluation/probes -cp ./evaluation/probes:./evaluation/probes/probes.jar:/home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar -XX:+UseThirdPartyHeap -Dprobes=RustMMTk -Xms100M -Xmx100M Harness -n 5 -c probe.DacapoChopinCallback lusearch
-  jdk-lxr-latest-defeatured: &lxr-latest
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-lxr-latest-defeatured/jdk-11.0.19
-    commits:
-      mmtk-core: 8f76a35015
-      mmtk-openjdk: 83f2d3aa56b
+      mmtk-core: 8f76a35015aeeb9da6172a4d0f834e1649153da4
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
       openjdk: bc9669aaed
-    features: no_weak_refs
-  jdk-lxr-pldi-x:
-    <<: *lxr-pldi
-    home: /$BUILDS/jdk-lxr-pldi-x/jdk
-    exploded: true
-    test-command: MMTK_PLAN=Immix TRACE_THRESHOLD2=10 LOCK_FREE_BLOCKS=32 MAX_SURVIVAL_MB=256 SURVIVAL_PREDICTOR_WEIGHTED=1 ./openjdk/build/linux-x86_64-normal-server-release/jdk/bin/java -XX:MetaspaceSize=1G -XX:-UseBiasedLocking -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -Djava.library.path=./evaluation/probes -cp ./evaluation/probes:./evaluation/probes/probes.jar:/home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar -XX:+UseThirdPartyHeap -Dprobes=RustMMTk -Xms100M -Xmx100M Harness -n 5 -c probe.DacapoChopinCallback lusearch
-  jdk-lxr-latest-defeatured-x:
-    <<: *lxr-latest
-    home: /$BUILDS/jdk-lxr-latest-defeatured-x/jdk
-    exploded: true
+  jdk-lxr-jul2023:
+    <<: *lxr
+    home: /$BUILDS/jdk-lxr-jul2023/jdk-11.0.19
+    commits:
+      mmtk-core: ad9314e
+      mmtk-openjdk: 98eb6f9f
+      openjdk: bc9669aaed
 
 configs:
-  - jdk-lxr-latest-defeatured|g1|common_defeature|hs
-  - jdk-lxr-pldi|g1|common_defeature|hs
+  # G1
   - jdk-lxr|g1|common3|hs|latency
-  - jdk-lxr|lxr|common3|tph|latency
   - jdk-lxr|shenandoah|common3|hs|latency
   - jdk-lxr|z|common3|hs|latency
+  # LXR
+  - jdk-lxr|lxr|common3|tph|latency
+  - jdk-lxr-jul2023|lxr|common3|tph|latency
 
 plugins:
   dacapo-latency:

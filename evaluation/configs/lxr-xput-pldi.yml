@@ -75,15 +75,15 @@ runtimes:
       mmtk-openjdk: 83f2d3aa56b
       openjdk: bc9669aaed
     features: no_weak_refs
-  jdk-lxr-pldi-x:
-    <<: *lxr-pldi
-    home: /$BUILDS/jdk-lxr-pldi-x/jdk
-    exploded: true
-    test-command: MMTK_PLAN=Immix TRACE_THRESHOLD2=10 LOCK_FREE_BLOCKS=32 MAX_SURVIVAL_MB=256 SURVIVAL_PREDICTOR_WEIGHTED=1 ./openjdk/build/linux-x86_64-normal-server-release/jdk/bin/java -XX:MetaspaceSize=1G -XX:-UseBiasedLocking -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -Djava.library.path=./evaluation/probes -cp ./evaluation/probes:./evaluation/probes/probes.jar:/home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar -XX:+UseThirdPartyHeap -Dprobes=RustMMTk -Xms100M -Xmx100M Harness -n 5 -c probe.DacapoChopinCallback lusearch
-  jdk-lxr-latest-defeatured-x:
-    <<: *lxr-latest
-    home: /$BUILDS/jdk-lxr-latest-defeatured-x/jdk
-    exploded: true
+  # jdk-lxr-pldi-x:
+  #   <<: *lxr-pldi
+  #   home: /$BUILDS/jdk-lxr-pldi-x/jdk
+  #   exploded: true
+  #   test-command: MMTK_PLAN=Immix TRACE_THRESHOLD2=10 LOCK_FREE_BLOCKS=32 MAX_SURVIVAL_MB=256 SURVIVAL_PREDICTOR_WEIGHTED=1 ./openjdk/build/linux-x86_64-normal-server-release/jdk/bin/java -XX:MetaspaceSize=1G -XX:-UseBiasedLocking -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -Djava.library.path=./evaluation/probes -cp ./evaluation/probes:./evaluation/probes/probes.jar:/home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar -XX:+UseThirdPartyHeap -Dprobes=RustMMTk -Xms100M -Xmx100M Harness -n 5 -c probe.DacapoChopinCallback lusearch
+  # jdk-lxr-latest-defeatured-x:
+  #   <<: *lxr-latest
+  #   home: /$BUILDS/jdk-lxr-latest-defeatured-x/jdk
+  #   exploded: true
 
 configs:
   # G1

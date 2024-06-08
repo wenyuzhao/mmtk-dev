@@ -31,6 +31,29 @@ overrides:
         tradesoap: 85
         xalan: 13
         zxing: 75
+      G1-n5:
+        avrora: 5
+        batik: 175
+        biojava: 95
+        cassandra: 128
+        eclipse: 135
+        fop: 13
+        graphchi: 175
+        h2: 681
+        h2o: 71
+        jme: 29
+        jython: 25
+        kafka: 194
+        luindex: 29
+        lusearch: 21
+        pmd: 189
+        spring: 58
+        sunflow: 29
+        tomcat: 19
+        tradebeans: 135
+        tradesoap: 91
+        xalan: 13
+        zxing: 195
       LXR: # Min of LXR and G1's minheap
         avrora: 5
         batik: 177
