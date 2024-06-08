@@ -5,6 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
+  minheap_multiplier: 1.0
   invocations: 20
   benchmarks:
     dacapochopin-b00bfa9:
@@ -12,10 +13,6 @@ overrides:
       - cassandra
       - h2
       - tomcat
-      # - kafka
-      # - spring
-      # - tradebeans
-      # - tradesoap
   suites:
     dacapochopin-b00bfa9:
       callback: probe.DacapoChopinCallback
