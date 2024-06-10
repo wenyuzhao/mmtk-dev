@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 from typing import Any
 import yaml
 from mmtk_dev.constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
@@ -329,6 +330,34 @@ class Run:
 
 
 @dataclass
+class Status:
+    """
+    show status of the running benchmark
+
+    Example: mmtk-jdk bench status --remote bear.moma
+    """
+
+    remote: str
+    """Remote machine name"""
+
+    remote_user: str = USERNAME
+    """Remote user name"""
+
+    def __scp(self, src: str, dst: str):
+        cmd = ["scp", src, dst]
+        try:
+            subprocess.check_call(cmd, cwd=MMTK_DEV)
+        except subprocess.CalledProcessError:
+            sys.exit(f'❌ {" ".join(cmd)}')
+
+    def run(self):
+        src = f"{self.remote_user}@{self.remote}:/home/{self.remote_user}/MMTk-Dev/running.log"
+        with tempfile.NamedTemporaryFile(prefix="running", suffix=".log") as tmp:
+            self.__scp(src, tmp.name)
+            os.system(f"cat {tmp.name}")
+
+
+@dataclass
 class Bench:
     """
     Benchmarking utils
@@ -339,7 +368,7 @@ class Bench:
       run         run benchmark
     """
 
-    command: Build | Rsync | Run
+    command: Build | Rsync | Run | Status
     """Sub-commands"""
 
     def run(self):
