@@ -5,16 +5,10 @@ includes:
   - "./common-lxr.yml"
 
 overrides:
-  # suites.dacapochopin:
-  #   type: DaCapo
-  #   release: evaluation
-  #   path: /usr/share/benchmarks/dacapo/dacapo-evaluation-git-04132797.jar
-  #   timing_iteration: 5
-  #   timeout: 120
   suites.dacapochopin.timing_iteration: 5
-  suites.dacapochopin.callback: probe.DacapoChopinCallback
+  suites.dacapochopin.callback: null
   suites.dacapochopin.timeout: 600
-  maxheap: 2048
+  maxheap: 4096
 
 benchmarks:
   dacapochopin:
@@ -23,6 +17,7 @@ benchmarks:
     - cassandra
     - tomcat
     - spring
+    - kafka
     - tradebeans
     - tradesoap
 
@@ -35,7 +30,6 @@ benchmarks:
     - h2o
     - jme
     - jython
-    - kafka
     - luindex
     - pmd
     - sunflow

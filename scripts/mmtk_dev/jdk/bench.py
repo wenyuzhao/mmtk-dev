@@ -10,6 +10,7 @@ from simple_parsing import field
 from mmtk_dev.utils import ᐅᐳᐳ
 from .run import Run as RunJDK, Build as BuildJDK
 import re
+import shlex
 
 
 def _find_config_file(config: str):
@@ -136,7 +137,11 @@ class Build:
             doc = yaml.safe_load(file)
             self.__check_builds(doc["runtimes"])
             for runtime_name, runtime in doc["runtimes"].items():
+                assert "commits" in runtime, f"❌ `runtimes.{runtime_name}.commits` is not defined"
                 commits = runtime["commits"]
+                if commits is None:
+                    print(f"✅ [{runtime_name}]: Skipping build\n\n\n")
+                    continue
                 features = runtime.get("features")
                 exploded = runtime.get("exploded", False)
                 test_command = runtime.get("test-command")
@@ -212,7 +217,7 @@ class Run:
     config: str
     """Running config name or path to a running config file"""
 
-    hfac: str
+    hfac: str | None = None
     """Heap factor. e.g. 2x or \"12 1 3 4\""""
 
     log: Path = MMTK_DEV / "running.log"
@@ -220,33 +225,89 @@ class Run:
 
     workdir: Path | None = None
 
-    def run(self):
-        # Find config file
-        config_file = Path(self.config) if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
-        # Get heap args
-        hfac = self.hfac.strip().lower()
+    def __get_hfac_args(self, config: dict[str, Any]) -> list[str]:
+        if self.hfac is None:
+            if "hfac" not in config or not isinstance(config["hfac"], str):
+                sys.exit(f"❌ `hfac` is not defined in both command line and config file")
+            hfac = config["hfac"].strip().lower()
+        else:
+            hfac = self.hfac.strip().lower()
         if hfac == "1x":
-            hfac_args = ["12", "0"]
+            return ["12", "0"]
         elif hfac == "1.3x":
-            hfac_args = ["32", "7"]
+            return ["32", "7"]
         elif hfac == "1.4x":
-            hfac_args = ["12", "3"]
+            return ["12", "3"]
         elif hfac == "2x":
-            hfac_args = ["12", "7"]
+            return ["12", "7"]
         elif hfac == "3x":
-            hfac_args = ["12", "12"]
+            return ["12", "12"]
         elif "-" in hfac:
             try:
-                hfac_args = [f"{int(x)}" for x in hfac.split("-")]
+                return [f"{int(x)}" for x in hfac.split("-")]
             except ValueError:
                 sys.exit(f"❌ Invalid hfac args `{hfac}`")
         else:
             sys.exit(f"❌ Invalid hfac args `{hfac}`")
-        # Run
+
+    def __get_command(self, config: dict[str, Any], config_file: Path, config_name: str) -> list[str]:
+        if "command" in config:
+            raw_cmd = config["command"]
+            if isinstance(raw_cmd, str):
+                raw_cmd_list: list[str] = shlex.split(raw_cmd)
+            elif isinstance(raw_cmd, list):
+                raw_cmd_list: list[str] = raw_cmd
+            else:
+                sys.exit(f"❌ Invalid command: {raw_cmd}")
+            for arg in raw_cmd_list:
+                if not isinstance(arg, str):
+                    sys.exit(f"❌ Invalid command: {raw_cmd}")
+            cmd = [os.path.expanduser(os.path.expandvars(arg)) for arg in raw_cmd_list]
+        else:
+            # Get heap args
+            hfac_args = self.__get_hfac_args(config)
+            # Run
+            os.system(f"pkill -f java -u {USERNAME} -9")
+            workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
+            cmd: list[str] = ["running", "runbms", *workdir_args, "-p", config_name, "./evaluation/results/log", str(config_file), *hfac_args]
+        return cmd
+
+    def __generate_config_name(self, config_file: Path):
+        # If not under configs directory, use the filename
+        configs_dir = EVALUATION_DIR / "configs"
+        if not str(config_file).startswith(str(configs_dir) + "/"):
+            return config_file.stem
+        # Get relative path
+        config_file_rel = config_file.relative_to(configs_dir)
+        stem = config_file_rel.stem
+        if stem == "config" and config_file.parent != configs_dir:
+            return config_file_rel.parent.name
+        if config_file.parent == configs_dir:
+            return stem
+        # Get project name
+        project = config_file_rel.parent.name
+        return f"[{project}]:{stem}"
+
+    def run(self):
+        # Find config file
+        config_file = Path(self.config) if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
+        config_file = config_file.absolute()
+        with open(config_file, "r") as file:
+            config: dict[str, Any] = yaml.safe_load(file)
+        config_name = self.__generate_config_name(config_file)
+        # Kill previous runs
         os.system(f"pkill -f java -u {USERNAME} -9")
-        workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
-        cmd: list[str] = ["running", "runbms", *workdir_args, "-p", self.config, "./evaluation/results/log", str(config_file), *hfac_args]
-        env = {"BUILDS": f"{EVALUATION_DIR}/builds", "PATH": os.environ["PATH"]}
+        # Setup env
+        env = {
+            "BUILDS": f"{EVALUATION_DIR}/builds",
+            "CONFIGS": f"{EVALUATION_DIR}/configs",
+            "PATH": os.environ["PATH"],
+            "CONFIG": str(config_file),
+            "ID_PREFIX": self.config,
+        }
+        os.environ.update(env)
+        # Run
+        cmd = self.__get_command(config, config_file, config_name)
         print(f'🔵 RUN: {" ".join(cmd)}')
         print(f"🔵 LOG: {self.log}")
         print(f'🔵 BUILDS: {env["BUILDS"]}')

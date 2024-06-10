@@ -221,6 +221,9 @@ modifiers:
   no_compressed_oops:
     type: JVMArg
     val: -XX:-UseCompressedOops -XX:-UseCompressedClassPointers
+  compressed_oops:
+    type: JVMArg
+    val: -XX:+UseCompressedOops
   defeature:
     type: ModifierSet
     val: no_weak|no_class_unload|no_compressed_oops|mmtk_no_weak|mmtk_no_finalizer
@@ -249,3 +252,9 @@ modifiers:
     type: EnvVar
     var: RC_STOP_PERCENT
     val: "{0}"
+  t:
+    type: ProgramArg
+    val: "-t {0}"
+  f:
+    type: ProgramArg
+    val: "-f {0}"

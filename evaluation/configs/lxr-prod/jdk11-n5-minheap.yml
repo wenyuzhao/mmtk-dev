@@ -1,0 +1,17 @@
+command: running minheap --attempts 5 $CONFIG ./minheap.yml
+
+includes:
+  - $CONFIGS/common/minheap.yml
+
+overrides:
+  invocations: 3
+
+runtimes:
+  jdk11:
+    type: OpenJDK
+    release: 11
+    home: /usr/lib/jvm/java-11-openjdk-amd64
+    commits: null
+
+configs:
+  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10
