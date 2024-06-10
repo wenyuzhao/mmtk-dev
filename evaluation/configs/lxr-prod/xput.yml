@@ -14,9 +14,10 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 8f76a35015aeeb9da6172a4d0f834e1649153da4
+      mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
       mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
       openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
   jdk-lxr-jul2023:
     <<: *lxr
     home: $BUILDS/jdk-lxr-jul2023/jdk-11.0.19

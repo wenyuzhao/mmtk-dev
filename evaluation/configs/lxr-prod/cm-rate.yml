@@ -14,7 +14,7 @@ runtimes:
     release: 11
     home: /$BUILDS/jdk-lxr-no-opt/jdk-11.0.19
     commits:
-      mmtk-core: ce02e878e00a02f117e3c4ac50104e18df4bfb60
+      mmtk-core: c9977c11db2ce4553dc3d060fb6fd6e07c8fab6d
       mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/measure_trace_rate
@@ -34,10 +34,6 @@ runtimes:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-opt-rc-check/jdk-11.0.19
     features: mmtk/fast_rc_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
-  jdk-lxr-skip-marked:
-    <<: *base-cfg
-    home: /$BUILDS/jdk-lxr-skip-marked/jdk-11.0.19
-    features: mmtk/satb_skip_marked_objs,mmtk/no_meta_counting,mmtk/measure_trace_rate
   jdk-lxr-edge-enqueuing:
     <<: *base-cfg
     home: /$BUILDS/jdk-lxr-edge-enqueuing/jdk-11.0.19
