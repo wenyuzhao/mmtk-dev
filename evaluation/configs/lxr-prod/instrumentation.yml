@@ -16,7 +16,7 @@ runtimes:
     home: $BUILDS/jdk-lxr-objsize/jdk-11.0.19
     commits:
       mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
-      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      mmtk-openjdk: d02c76a1a8309ea6b7d0baf43af3a3eb0ed7a76d # lxr-x/fix-instrumentation
       openjdk: bc9669aae
     features: mmtk/no_meta_counting,object_size_distribution
   jdk-lxr-alloc:
