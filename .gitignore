@@ -15,3 +15,4 @@ _*
 /.docker
 /depot_tools
 /*.json.gz
+/*.pdf
