@@ -1,5 +1,5 @@
 includes:
-  - "$RUNNING_NG_PACKAGE_DATA/base/runbms-anu.yml"
+  - "$RUNNING_NG_PACKAGE_DATA/base/runbms$__ANU.yml"
 
 overrides:
   suites.dacapochopin:

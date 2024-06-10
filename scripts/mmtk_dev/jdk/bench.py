@@ -223,6 +223,9 @@ class Run:
     log: Path = MMTK_DEV / "running.log"
     """Benchmark log file"""
 
+    anu: bool = field(default=True, negative_prefix="--no-")
+    """Rsycn results to squirrel.moma"""
+
     workdir: Path | None = None
 
     def __get_hfac_args(self, config: dict[str, Any]) -> list[str]:
@@ -313,6 +316,7 @@ class Run:
             "PATH": os.environ["PATH"],
             "CONFIG": str(config_file),
             "ID_PREFIX": config_name,
+            "__ANU": "-anu" if self.anu else "",  # a special flag to enable rsync results to squirrel.moma
         }
         os.environ.update(env)
         # Run
