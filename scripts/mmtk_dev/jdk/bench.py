@@ -279,16 +279,22 @@ class Run:
         configs_dir = EVALUATION_DIR / "configs"
         if not str(config_file).startswith(str(configs_dir) + "/"):
             return config_file.stem
-        # Get relative path
-        config_file_rel = config_file.relative_to(configs_dir)
-        stem = config_file_rel.stem
-        if stem == "config" and config_file.parent != configs_dir:
-            return config_file_rel.parent.name
+        # Config file name without extension
+        stem = config_file.stem
+        # 1. Backward compatibility: for $configs_dir/<name>/config.yml, use <name>
+        if stem == "config" and config_file.parent.parent == configs_dir:
+            return config_file.parent.name
+        # 2. For $configs_dir/<name>.yml, use <name>
         if config_file.parent == configs_dir:
             return stem
-        # Get project name
-        project = config_file_rel.parent.name
-        return f"[{project}]:{stem}"
+        # 3. For $configs_dir/<project...>/<name>.yml, use [<project...>]:<name>
+        projects: list[str] = []
+        x = config_file
+        while x.parent != configs_dir:
+            projects.insert(0, x.parent.name)
+            x = x.parent
+        project_name = ".".join(projects)
+        return f"[{project_name}]{stem}"
 
     def run(self):
         # Find config file
@@ -297,6 +303,7 @@ class Run:
         with open(config_file, "r") as file:
             config: dict[str, Any] = yaml.safe_load(file)
         config_name = self.__generate_config_name(config_file)
+        print(f"🔵 PREFIX: {config_name}")
         # Kill previous runs
         os.system(f"pkill -f java -u {USERNAME} -9")
         # Setup env
