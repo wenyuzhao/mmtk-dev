@@ -344,7 +344,7 @@ class Status:
     """Remote user name"""
 
     def __scp(self, src: str, dst: str):
-        cmd = ["scp", src, dst]
+        cmd = ["scp", "-q", src, dst]
         try:
             subprocess.check_call(cmd, cwd=MMTK_DEV)
         except subprocess.CalledProcessError:
