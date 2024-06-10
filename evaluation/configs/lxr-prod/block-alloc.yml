@@ -23,8 +23,8 @@ runtimes:
     home: $BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
     commits:
       <<: *lxr-commits
-      mmtk-core: 5b8b874583077b9c608999080a88f1e162e907cf # lxr-revert-block-alloc
-      mmtk-openjdk: fb84fed66f51 # lxr-revert-block-alloc
+      mmtk-core: 5b8b874583077b9c608999080a88f1e162e907cf # lxr-x/revert-block-alloc
+      mmtk-openjdk: fb84fed66f51 # lxr-x/revert-block-alloc
   jdk-lxr-no-block-alloc-opt-no-bug-fix:
     <<: *lxr-old-alloc
     home: $BUILDS/jdk-lxr-no-block-alloc-opt-no-bug-fix/jdk-11.0.19
