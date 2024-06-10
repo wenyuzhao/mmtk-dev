@@ -252,6 +252,8 @@ class Run:
 
     def __get_command(self, config: dict[str, Any], config_file: Path, config_name: str) -> list[str]:
         if "command" in config:
+            assert self.hfac is None, "❌ `hfac` is not supported with custom command"
+            assert "hfac" not in config, "❌ `hfac` is not supported with custom command"
             raw_cmd = config["command"]
             if isinstance(raw_cmd, str):
                 raw_cmd_list: list[str] = shlex.split(raw_cmd)
