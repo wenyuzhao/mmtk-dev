@@ -312,7 +312,7 @@ class Run:
             "CONFIGS": f"{EVALUATION_DIR}/configs",
             "PATH": os.environ["PATH"],
             "CONFIG": str(config_file),
-            "ID_PREFIX": self.config,
+            "ID_PREFIX": config_name,
         }
         os.environ.update(env)
         # Run
