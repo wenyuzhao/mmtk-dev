@@ -10,5 +10,15 @@ runtimes:
     home: /usr/lib/jvm/java-11-openjdk-amd64
     commits: null
 
+modifiers:
+  repeat:
+    type: EnvVar
+    var: "__DUMMY__"
+    val: "{0}"
+
 configs:
-  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10
+  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10|repeat-0
+  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10|repeat-1
+  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10|repeat-2
+  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10|repeat-3
+  - jdk11|g1|s|compressed_oops|exit_on_oom|add_exports|t-32|f-10|repeat-4
