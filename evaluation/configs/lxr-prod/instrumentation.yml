@@ -21,10 +21,10 @@ runtimes:
     <<: *lxr
     home: $BUILDS/jdk-lxr-alloc/jdk-11.0.19
     features: instrumentation
-  jdk-lxr-frag:
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-frag/jdk-11.0.19
-    features: mmtk/fragmentation_analysis
+  # jdk-lxr-frag:
+  #   <<: *lxr
+  #   home: $BUILDS/jdk-lxr-frag/jdk-11.0.19
+  #   features: mmtk/fragmentation_analysis
 
 modifiers:
   mmtk_verbose:
@@ -35,4 +35,4 @@ modifiers:
 configs:
   - jdk-lxr-objsize|lxr|common3|tph|mmtk_verbose
   - jdk-lxr-alloc|lxr|common3|tph|mmtk_verbose
-  - jdk-lxr-frag|lxr|common3|tph|mmtk_verbose
+  # - jdk-lxr-frag|lxr|common3|tph|mmtk_verbose
