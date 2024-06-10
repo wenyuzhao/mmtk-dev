@@ -1,5 +1,7 @@
+hfac: 2x
+
 includes:
-  - ./common/common-lxr.yml
+  - $CONFIGS/common/common-lxr.yml
 
 overrides:
   heap_range: 3
