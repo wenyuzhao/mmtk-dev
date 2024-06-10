@@ -3,9 +3,6 @@ command: running minheap --attempts 5 $CONFIG ./minheap.yml
 includes:
   - $CONFIGS/common/minheap.yml
 
-overrides:
-  invocations: 3
-
 runtimes:
   jdk11:
     type: OpenJDK

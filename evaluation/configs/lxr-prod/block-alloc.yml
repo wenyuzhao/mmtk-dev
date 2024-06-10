@@ -1,9 +1,7 @@
-# running runbms ./evaluation/results/log ./evaluation/configs/lxr-xput/config.yml 8 3 --skip-oom 1 --skip-timeout 1 > _log
-
-# LXR-Ablation-Experiment: Block-Alloc
+hfac: 2x
 
 includes:
-  - "./common/common-lxr.yml"
+  - $CONFIGS/common/common-lxr.yml
 
 overrides:
   heap_range: 3
