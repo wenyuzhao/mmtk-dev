@@ -229,32 +229,43 @@ class Run:
 
     workdir: Path | None = None
 
-    def __get_hfac_args(self, config: dict[str, Any]) -> list[str]:
+    def __get_hfac_args_list(self, config: dict[str, Any]) -> list[list[str]]:
+        hfac_list: list[str] | None = None
         if self.hfac is None:
-            if "hfac" not in config or not isinstance(config["hfac"], str):
+            if "hfac" not in config:
                 sys.exit(f"❌ `hfac` is not defined in both command line and config file")
-            hfac = config["hfac"].strip().lower()
+            if isinstance(config["hfac"], str):
+                hfac_list = [config["hfac"].strip().lower()]
+            elif isinstance(config["hfac"], list):
+                hfac_list = [x.strip().lower() for x in config["hfac"]]
+            else:
+                sys.exit(f"❌ Invalid hfac: {config['hfac']}")
         else:
-            hfac = self.hfac.strip().lower()
-        if hfac == "1x":
-            return ["12", "0"]
-        elif hfac == "1.3x":
-            return ["32", "7"]
-        elif hfac == "1.4x":
-            return ["12", "3"]
-        elif hfac == "2x":
-            return ["12", "7"]
-        elif hfac == "3x":
-            return ["12", "12"]
-        elif "-" in hfac:
-            try:
-                return [f"{int(x)}" for x in hfac.split("-")]
-            except ValueError:
-                sys.exit(f"❌ Invalid hfac args `{hfac}`")
-        else:
-            sys.exit(f"❌ Invalid hfac args `{hfac}`")
+            hfac_list = [self.hfac.strip().lower()]
 
-    def __get_command(self, config: dict[str, Any], config_file: Path, config_name: str) -> list[str]:
+        results = []
+        for hfac in hfac_list:
+            if hfac == "1x":
+                result = ["12", "0"]
+            elif hfac == "1.3x":
+                result = ["32", "7"]
+            elif hfac == "1.4x":
+                result = ["12", "3"]
+            elif hfac == "2x":
+                result = ["12", "7"]
+            elif hfac == "3x":
+                result = ["12", "12"]
+            elif "-" in hfac:
+                try:
+                    result = [f"{int(x)}" for x in hfac.split("-")]
+                except ValueError:
+                    sys.exit(f"❌ Invalid hfac args `{hfac}`")
+            else:
+                sys.exit(f"❌ Invalid hfac args `{hfac}`")
+            results.append(result)
+        return results
+
+    def __get_commands(self, config: dict[str, Any], config_file: Path, config_name: str) -> list[list[str]]:
         if "command" in config:
             assert self.hfac is None, "❌ `hfac` is not supported with custom command"
             assert "hfac" not in config, "❌ `hfac` is not supported with custom command"
@@ -269,14 +280,17 @@ class Run:
                 if not isinstance(arg, str):
                     sys.exit(f"❌ Invalid command: {raw_cmd}")
             cmd = [os.path.expanduser(os.path.expandvars(arg)) for arg in raw_cmd_list]
+            commands = [cmd]
         else:
             # Get heap args
-            hfac_args = self.__get_hfac_args(config)
-            # Run
-            os.system(f"pkill -f java -u {USERNAME} -9")
-            workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
-            cmd: list[str] = ["running", "runbms", *workdir_args, "-p", config_name, "./evaluation/results/log", str(config_file), *hfac_args]
-        return cmd
+            commands = []
+            for hfac_args in self.__get_hfac_args_list(config):
+                # Run
+                os.system(f"pkill -f java -u {USERNAME} -9")
+                workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
+                cmd: list[str] = ["running", "runbms", *workdir_args, "-p", config_name, "./evaluation/results/log", str(config_file), *hfac_args]
+                commands.append(cmd)
+        return commands
 
     def __generate_config_name(self, config_file: Path):
         # If not under configs directory, use the filename
@@ -320,13 +334,17 @@ class Run:
             "__ANU": "-anu" if self.anu else "",  # a special flag to enable rsync results to squirrel.moma
         }
         os.environ.update(env)
+        # Clear log file
+        if self.log.exists():
+            self.log.unlink(missing_ok=True)
         # Run
-        cmd = self.__get_command(config, config_file, config_name)
-        print(f'🔵 RUN: {" ".join(cmd)}')
-        print(f"🔵 LOG: {self.log}")
-        print(f'🔵 BUILDS: {env["BUILDS"]}')
-        with open(self.log, "w") as logfile:
-            subprocess.check_call(cmd, stdout=logfile, stderr=logfile, cwd=MMTK_DEV, env=env)
+        for cmd in self.__get_commands(config, config_file, config_name):
+            print(f'🔵 RUN: {" ".join(cmd)}')
+            print(f"🔵 LOG: {self.log}")
+            print(f'🔵 BUILDS: {env["BUILDS"]}')
+            with open(self.log, "a") as logfile:
+                subprocess.check_call(cmd, stdout=logfile, stderr=logfile, cwd=MMTK_DEV, env=env)
+        print(f"✅ Benchmark completed.")
 
 
 @dataclass

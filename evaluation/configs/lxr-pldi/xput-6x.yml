@@ -1,0 +1,7 @@
+hfac: 3x
+
+includes:
+  - ./xput.yml
+
+overrides:
+  heap_range: 6

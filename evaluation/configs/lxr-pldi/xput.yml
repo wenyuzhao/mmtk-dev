@@ -1,4 +1,4 @@
-hfac: 2x
+hfac: [2x, 1.3x, 6x]
 
 includes:
   - $CONFIGS/common/common-lxr.yml
@@ -87,12 +87,12 @@ runtimes:
 
 configs:
   # Non-exploded
-  - jdk-lxr-latest-defeatured|g1|common_defeature|hs
-  - jdk-lxr-pldi|g1|common_defeature|hs
-  - jdk-lxr-pldi|shenandoah|common_defeature|hs
-  - jdk-lxr-pldi|z|common_defeature|hs
-  - jdk-lxr-latest-defeatured|lxr|common_defeature|tph
-  - jdk-lxr-pldi|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32
+  - jdk-lxr-latest-defeatured|g1|common_defeature|xcomp|hs
+  - jdk-lxr-pldi|g1|common_defeature|xcomp|hs
+  - jdk-lxr-pldi|shenandoah|common_defeature|xcomp|hs
+  - jdk-lxr-pldi|z|common_defeature|xcomp|hs
+  - jdk-lxr-latest-defeatured|lxr|common_defeature|xcomp|tph
+  - jdk-lxr-pldi|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32|xcomp
 
   # - jdk-lxr-pldi-x|g1|common_defeature|hs
   # LXR
