@@ -45,11 +45,11 @@ runtimes:
 
 configs:
   # LXR
-  - jdk-lxr-no-opt|lxr|common3|tph
-  - jdk-lxr-opt-mark|lxr|common3|tph
-  - jdk-lxr-opt-space-check|lxr|common3|tph
-  - jdk-lxr-no-dyn-dispatch|lxr|common3|tph
-  - jdk-lxr-opt-rc-check|lxr|common3|tph
-  - jdk-lxr-skip-marked|lxr|common3|tph
-  - jdk-lxr-edge-enqueuing|lxr|common3|tph
-  - jdk-lxr-opt|lxr|common3|tph
+  - jdk-lxr-no-opt|lxr|common3|tph_perf
+  - jdk-lxr-opt-mark|lxr|common3|tph_perf
+  - jdk-lxr-opt-space-check|lxr|common3|tph_perf
+  - jdk-lxr-no-dyn-dispatch|lxr|common3|tph_perf
+  - jdk-lxr-opt-rc-check|lxr|common3|tph_perf
+  - jdk-lxr-skip-marked|lxr|common3|tph_perf
+  - jdk-lxr-edge-enqueuing|lxr|common3|tph_perf
+  - jdk-lxr-opt|lxr|common3|tph_perf
