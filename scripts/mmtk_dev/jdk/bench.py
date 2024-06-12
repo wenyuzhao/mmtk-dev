@@ -232,12 +232,13 @@ class Run:
     def __get_hfac_args_list(self, config: dict[str, Any]) -> list[list[str]]:
         hfac_list: list[str] | None = None
         if self.hfac is None:
-            if "hfac" not in config:
+            cfg_hac = config.get("hfac") or config.get("overrides", {}).get("hfac")
+            if cfg_hac is None:
                 sys.exit(f"❌ `hfac` is not defined in both command line and config file")
-            if isinstance(config["hfac"], str):
-                hfac_list = [config["hfac"].strip().lower()]
-            elif isinstance(config["hfac"], list):
-                hfac_list = [x.strip().lower() for x in config["hfac"]]
+            if isinstance(cfg_hac, str):
+                hfac_list = [cfg_hac.strip().lower()]
+            elif isinstance(cfg_hac, list):
+                hfac_list = [x.strip().lower() for x in cfg_hac]
             else:
                 sys.exit(f"❌ Invalid hfac: {config['hfac']}")
         else:

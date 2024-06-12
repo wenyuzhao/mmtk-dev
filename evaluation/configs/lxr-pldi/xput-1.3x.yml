@@ -2,5 +2,4 @@ includes:
   - ./xput.yml
 
 overrides:
-  heap_range: 6
-  hfac: 3x
+  hfac: 1.3x

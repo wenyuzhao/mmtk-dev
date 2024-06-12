@@ -1,4 +1,4 @@
-hfac: [2x, 1.3x]
+hfac: 2x
 
 includes:
   - $CONFIGS/common/common-lxr.yml
