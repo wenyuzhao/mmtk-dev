@@ -1,26 +1,31 @@
-hfac: 12-5
+hfac: 2x
 
 includes:
   - $CONFIGS/common/common-lxr.yml
 
 overrides:
   heap_range: 3
-  invocations: 3
+  invocations: 10
   suites.dacapochopin.minheap: G1
 
 runtimes:
-  jdk-lxr-objsize: &lxr
+  # jdk-lxr-objsize: &lxr
+  #   type: OpenJDK
+  #   release: 11
+  #   home: $BUILDS/jdk-lxr-objsize/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 68d3c2390ce9f7ce980a6ef9e4619b30f8b530a5 # lxr-x/fix-instrumentation
+  #     mmtk-openjdk: d02c76a1a8309ea6b7d0baf43af3a3eb0ed7a76d # lxr-x/fix-instrumentation
+  #     openjdk: bc9669aae
+  #   features: mmtk/no_meta_counting,object_size_distribution
+  jdk-lxr-alloc:
     type: OpenJDK
     release: 11
-    home: $BUILDS/jdk-lxr-objsize/jdk-11.0.19
+    home: $BUILDS/jdk-lxr-alloc/jdk-11.0.19
     commits:
-      mmtk-core: 065be4f5f4280f5d6ea72adf2b64358bc9d8a2aa # lxr-x/fix-instrumentation
+      mmtk-core: 68d3c2390ce9f7ce980a6ef9e4619b30f8b530a5 # lxr-x/fix-instrumentation
       mmtk-openjdk: d02c76a1a8309ea6b7d0baf43af3a3eb0ed7a76d # lxr-x/fix-instrumentation
       openjdk: bc9669aae
-    features: mmtk/no_meta_counting,object_size_distribution
-  jdk-lxr-alloc:
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-alloc/jdk-11.0.19
     features: mmtk/no_meta_counting,instrumentation
   # jdk-lxr-frag:
   #   <<: *lxr
@@ -34,6 +39,6 @@ modifiers:
     val: "2"
 
 configs:
-  - jdk-lxr-objsize|lxr|common3|tph|mmtk_verbose|t-32
-  - jdk-lxr-alloc|lxr|common3|tph|mmtk_verbose|t-32
+  # - jdk-lxr-objsize|lxr|common3|tph|mmtk_verbose|t-32
+  - jdk-lxr-alloc|lxr|common3|tph|t-32
   # - jdk-lxr-frag|lxr|common3|tph|mmtk_verbose

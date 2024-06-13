@@ -1,0 +1,9 @@
+includes:
+  - ./xput.yml
+
+overrides:
+  heap_range: 6
+  hfac: 3x
+  benchmarks:
+    dacapochopin-b00bfa9:
+      - jython
