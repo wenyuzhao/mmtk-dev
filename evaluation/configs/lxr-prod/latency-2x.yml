@@ -1,0 +1,5 @@
+includes:
+  - ./latency.yml
+
+overrides:
+  hfac: 2x
