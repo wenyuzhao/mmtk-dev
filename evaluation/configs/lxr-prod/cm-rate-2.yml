@@ -1,0 +1,29 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+runtimes:
+  jdk-lxr-no-opt: &base-cfg
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-no-opt/jdk-11.0.19
+    commits:
+      mmtk-core: c9977c11db2ce4553dc3d060fb6fd6e07c8fab6d # lxr-x/no-cmopt
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-opt-noedge:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-opt-noedge/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/measure_trace_rate,mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/no_dyn_dispatch,mmtk/fast_rc_check
+
+configs:
+  # LXR
+  - jdk-lxr-no-opt|lxr|common3|tph
+  - jdk-lxr-opt-noedge|lxr|common3|tph
