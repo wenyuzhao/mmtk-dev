@@ -1,0 +1,36 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits: &lxr-commits
+      mmtk-core: 18e67df637f9209bfdb12a96fc04454767ce5d28 # lxr-x/revert-fixes
+      mmtk-openjdk: 46f70a5da6
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-lock-check-fix: &lxr-old-alloc
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-no-lock-check-fix/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/revert_lock_check
+
+modifiers:
+  young_evac_threshold:
+    type: EnvVar
+    var: "MAX_YOUNG_EVAC_SIZE"
+    val: "{0}"
+
+configs:
+  - jdk-lxr|lxr|common|tph_perf
+  - jdk-lxr|lxr|common|tph_perf|young_evac_threshold-1024
+  - jdk-lxr-no-lock-check-fix|lxr|common|tph_perf
+  - jdk-lxr-no-lock-check-fix|lxr|common|tph_perf|young_evac_threshold-1024
