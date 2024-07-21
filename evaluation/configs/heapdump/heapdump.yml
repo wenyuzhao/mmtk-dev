@@ -1,4 +1,4 @@
-hfac: 2x
+hfac: 3x
 
 includes:
   - $CONFIGS/common/common-lxr.yml
@@ -14,13 +14,13 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 84a14910cad3093efd3ef953c24cb10b1fa4945e
+      mmtk-core: 0da4c87310eeeb182d764b501bd7095a93483f67
       mmtk-openjdk: b3a612e50e7b782ca40d66eb59a562bfdecc2327
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
 
 configs:
-  - jdk-lxr|lxr|common3|tph|mu-1
+  - jdk-lxr|lxr|common3|tph|no_compressed_oops|mu-1
 
 plugins:
   dacapo-heapdump:
