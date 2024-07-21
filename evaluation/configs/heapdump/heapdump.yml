@@ -14,13 +14,13 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 3f10b835e68e28e5ef55ae7a3ee1de659fd9fa0c
+      mmtk-core: 84a14910cad3093efd3ef953c24cb10b1fa4945e
       mmtk-openjdk: b3a612e50e7b782ca40d66eb59a562bfdecc2327
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
 
 configs:
-  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph|mu-1
 
 plugins:
   dacapo-heapdump:
