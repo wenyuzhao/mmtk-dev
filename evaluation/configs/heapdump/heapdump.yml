@@ -1,0 +1,29 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 5
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 3f10b835e68e28e5ef55ae7a3ee1de659fd9fa0c
+      mmtk-openjdk: b3a612e50e7b782ca40d66eb59a562bfdecc2327
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+
+configs:
+  - jdk-lxr|lxr|common3|tph
+
+plugins:
+  dacapo-heapdump:
+    patterns:
+      - scratch/_heapdump/heapdump.*.binpb.zst
+    type: CopyFile
