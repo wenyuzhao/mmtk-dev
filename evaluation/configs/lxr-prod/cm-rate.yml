@@ -50,6 +50,5 @@ configs:
   - jdk-lxr-opt-space-check|lxr|common3|tph
   - jdk-lxr-no-dyn-dispatch|lxr|common3|tph
   - jdk-lxr-opt-rc-check|lxr|common3|tph
-  - jdk-lxr-skip-marked|lxr|common3|tph
   - jdk-lxr-edge-enqueuing|lxr|common3|tph
   - jdk-lxr-opt|lxr|common3|tph
