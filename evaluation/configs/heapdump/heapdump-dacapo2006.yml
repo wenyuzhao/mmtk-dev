@@ -17,7 +17,7 @@ overrides:
         lusearch: 8
         pmd: 21
         xalan: 23
-    timing_iteration: 3
+    timing_iteration: 5
     timeout: 120
     callback: probe.Dacapo2006Callback
   benchmarks:
@@ -39,7 +39,7 @@ runtimes:
       mmtk-openjdk: b3a612e50e7b782ca40d66eb59a562bfdecc2327
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
-
+    test-command: MMTK_PLAN=LXR /home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-normal-server-release/images/jdk/bin/java -server -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -XX:+ExitOnOutOfMemoryError --add-exports java.base/jdk.internal.ref=ALL-UNNAMED -XX:+UseThirdPartyHeap -XX:-UseCompressedOops -XX:-UseCompressedClassPointers -Xms15M -Xmx15M -cp /home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar:/usr/share/benchmarks/dacapo/dacapo-2006-10-MR2.jar Harness -c probe.Dacapo2006Callback -n 5 antlr -t 1
 configs:
   - jdk-lxr|lxr|common3|tph|no_compressed_oops
 
