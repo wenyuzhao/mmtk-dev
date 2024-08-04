@@ -54,20 +54,20 @@ runtimes:
     <<: *lxr
     home: $BUILDS/jdk-lxr-prefetch-4-mark/jdk-11.0.19
     features: mmtk/no_meta_counting,mmtk/lxr_prefetch_policy_trace,mmtk/lxr_prefetch_step_4,mmtk/lxr_prefetch_mark
-  jdk-lxr-prefetch-4-write:
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-prefetch-4-write/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/lxr_prefetch_policy_trace,mmtk/lxr_prefetch_step_4,mmtk/lxr_prefetch_header_write
+  # jdk-lxr-prefetch-4-write:
+  #   <<: *lxr
+  #   home: $BUILDS/jdk-lxr-prefetch-4-write/jdk-11.0.19
+  #   features: mmtk/no_meta_counting,mmtk/lxr_prefetch_policy_trace,mmtk/lxr_prefetch_step_4,mmtk/lxr_prefetch_header_write
 
 configs:
-  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph_perf
   # - jdk-lxr-prefetch-1|lxr|common3|tph
   # - jdk-lxr-prefetch-2|lxr|common3|tph
-  - jdk-lxr-prefetch-4|lxr|common3|tph
+  - jdk-lxr-prefetch-4|lxr|common3|tph_perf
   # - jdk-lxr-prefetch-8|lxr|common3|tph
   # - jdk-lxr-prefetch-16|lxr|common3|tph
   # - jdk-lxr-prefetch-32|lxr|common3|tph
   # - jdk-lxr-prefetch-64|lxr|common3|tph
   # - jdk-lxr-cas-opt|lxr|common3|tph
-  - jdk-lxr-prefetch-4-mark|lxr|common3|tph
-  - jdk-lxr-prefetch-4-write|lxr|common3|tph
+  - jdk-lxr-prefetch-4-mark|lxr|common3|tph_perf
+  # - jdk-lxr-prefetch-4-write|lxr|common3|tph
