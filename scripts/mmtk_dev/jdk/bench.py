@@ -9,7 +9,7 @@ from mmtk_dev.constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
 from dataclasses import dataclass
 from simple_parsing import field
 from mmtk_dev.utils import ᐅᐳᐳ
-from .run import Run as RunJDK, Build as BuildJDK
+from .run import JVMArgs, Run as RunJDK, Build as BuildJDK
 import re
 import shlex
 
@@ -78,6 +78,7 @@ class Build:
         try:
             if test_command is None:
                 run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded)
+                # run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, jvm=JVMArgs(compressed_oops=False))
                 run.run()
             else:
                 build = BuildJDK(release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded)
