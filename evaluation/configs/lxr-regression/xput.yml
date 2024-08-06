@@ -18,12 +18,12 @@ runtimes:
       mmtk-openjdk: f787e4bb55cf292e37a2ab14aae17d27b681fcf2
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
-  jdk-lxr-2:
+  jdk-lxr-2: # 0.26.0
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: 97bec3bc90330974c1d527409b5a2384e717870f
-      mmtk-openjdk: b34c4f959441310134737e4c2ef4e448d63e8664
+      mmtk-core: abd73a8ea6f97d83fed1f95ba12ab89c6680c2b2
+      mmtk-openjdk: 5f79679d2fb4573bdc8cdd4b9172f7dbc2d49bdb
       openjdk: bc9669aaed
 
 configs:
