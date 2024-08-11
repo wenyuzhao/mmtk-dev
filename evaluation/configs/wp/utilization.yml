@@ -1,0 +1,37 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: d1bd2b06f35c153f76f2d33b0c09973354b6e5ba
+      mmtk-openjdk: 681c208f09b601658633457df9915c5b50774509
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  jdk-lxr-2:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    commits:
+      mmtk-core: 54841c1bfa14a96e080a17c4800f6536eee9ca85
+      mmtk-openjdk: 66fbb66a05605a8136e8a01a1d13a01a679d3b3b
+      openjdk: bc9669aaed
+
+configs:
+  - jdk-lxr|ix|common3|tph|threads-16
+  - jdk-lxr-2|ix|common3|tph|threads-16
+  - jdk-lxr|ix|common3|tph|threads-32
+  - jdk-lxr-2|ix|common3|tph|threads-32
+  - jdk-lxr|ix|common3|tph|threads-64
+  - jdk-lxr-2|ix|common3|tph|threads-64
+  - jdk-lxr|ix|common3|tph|threads-128
+  - jdk-lxr-2|ix|common3|tph|threads-128
