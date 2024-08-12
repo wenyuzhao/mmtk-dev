@@ -8,13 +8,13 @@ overrides:
   invocations: 10
   suites.dacapochopin.minheap: Immix
   benchmarks.dacapochopin:
-    # - lusearch
-    # - h2
-    # - cassandra
-    # - tomcat
-    # - spring
-    # - tradebeans
-    # - tradesoap
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - tradebeans
+    - tradesoap
     - kafka
 
     - avrora
