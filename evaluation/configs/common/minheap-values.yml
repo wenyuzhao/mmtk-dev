@@ -77,6 +77,28 @@ overrides:
         tradesoap: 85
         xalan: 13
         zxing: 75
+      Immix:
+        avrora: 9
+        biojava: 192
+        cassandra: 152
+        fop: 29
+        graphchi: 184
+        h2: 1959
+        h2o: 101
+        jme: 236
+        jython: 56
+        kafka: 217
+        luindex: 27
+        lusearch: 25
+        pmd: 360
+        spring: 139
+        sunflow: 44
+        tomcat: 74
+        tradebeans: 433
+        tradesoap: 193
+        xalan: 23
+        zxing: 468
+
     timing_iteration: 3
     timeout: 120
   # suites.dacapochopin-rc3:
