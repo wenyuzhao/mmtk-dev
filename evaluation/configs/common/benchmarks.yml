@@ -1,4 +1,3 @@
-
 benchmarks:
   dacapochopin:
     - lusearch
@@ -8,6 +7,7 @@ benchmarks:
     - spring
     - tradebeans
     - tradesoap
+    - kafka
 
     - avrora
     - batik
@@ -18,7 +18,6 @@ benchmarks:
     - h2o
     - jme
     - jython
-    - kafka
     - luindex
     - pmd
     - sunflow
