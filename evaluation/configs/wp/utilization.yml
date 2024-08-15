@@ -33,20 +33,20 @@ overrides:
     - zxing
 
 runtimes:
-  jdk-lxr: &lxr
+  jdk-lxr: &lxr # Sequential
     type: OpenJDK
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 9fef67b425d104f83baa6a84992d97355a0a9bb3
+      mmtk-core: 26ea69ba62ea5c125c31fb0677cc39a1b0d12ca4
       mmtk-openjdk: e29fd88109231765442ed68640ab68a407815454
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/ix_always_defrag
-  jdk-lxr-2:
+  jdk-lxr-2: # Dependency
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: 00d1162b1714933ad79fe6bff44be999832ba754
+      mmtk-core: cca2901de3b68d4cf9afbc64355dc07f598ade7b
       mmtk-openjdk: 66fbb66a05605a8136e8a01a1d13a01a679d3b3b
       openjdk: bc9669aaed
 
