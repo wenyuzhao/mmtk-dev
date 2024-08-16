@@ -3,10 +3,17 @@ import os
 from pathlib import Path
 from typing import Literal
 from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
+from mmtk_dev.jdk.bpf import start_capturing_process
 from mmtk_dev.utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import choice
 from dataclasses import dataclass
 from simple_parsing import field
+
+# PERF_EVENTS = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_L1I:MISS,0,-1;PERF_COUNT_HW_BRANCH_MISSES,0,-1"
+
+PERF_EVENTS = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_L1D:ACCESS,0,-1"
+
+os.environ["MMTK_PHASE_PERF_EVENTS"] = PERF_EVENTS
 
 FORCE_USE_JVMTI_HOOK = False
 MAX_CORES = 32  # None
@@ -262,6 +269,9 @@ class Run:
     bundle: bool = field(default=False, negative_prefix="--no-")
     """Create product bundles"""
 
+    capture_bpftrace: bool = field(default=False, negative_prefix="--no-")
+    """Capture bpftrace"""
+
     def build_jdk(self, pgo_step: Literal["gen", "use"] | None):
         build = Build(
             profile=self.profile,
@@ -360,7 +370,12 @@ class Run:
         java = f"{jdk_build_dir}/jdk/bin/java" if self.exploded else f"{jdk_build_dir}/images/jdk/bin/java"
         if self.jdk is not None:
             java = f"{self.jdk}/bin/java"
+        if self.capture_bpftrace:
+            ᐅᐳᐳ("sudo", "echo", "''")
+            daemon = start_capturing_process(exploded=self.exploded)
         ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter or self.iter}", bench or self.bench, *bm_args, env=env)
+        if self.capture_bpftrace:
+            daemon.finalize()
 
     def run(self):
         if self.build:
