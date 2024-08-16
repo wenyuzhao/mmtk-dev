@@ -50,7 +50,7 @@ def start_capturing_process(exploded: bool, name="wp"):
     #     print(content)
     temp_file.write(content)
     temp_file.flush()
-    process = subprocess.Popen(["sudo", BPFTRACE_BIN, "--unsafe", temp_file.name], stdout=stdout_file, stderr=stdout_file)
+    process = subprocess.Popen(["sudo", BPFTRACE_BIN, "-f", "json", "--unsafe", temp_file.name], stdout=stdout_file, stderr=stdout_file)
     return BPFTraceDaemon(process, Path(temp_file.name), Path(stdout_file.name))
 
 
@@ -65,79 +65,51 @@ class LogProcessor:
         self.start_time = None
         self.tid_current_work_packet = {}
 
-    def process_line(self, line):
-        if line.startswith("@type_name"):
-            self.process_type_line(line)
-        elif "," in line:
-            self.process_log_line(line)
-
-    def process_type_line(self, line):
-        left, right = line.split(":", 1)
-        search_result = RE_TYPE_ID.search(left)
-        assert search_result is not None, f"Failed to find type ID in line: {line}"
-        type_id = int(search_result.group())
-        type_name = right.strip()
-        if type_name == "":
-            # bpftrace sometimes sees empty strings when using the `str` function
-            # See the "Known issues" section in README.md
-            type_name = UNKNOWN_TYPE
-        self.type_id_name[type_id] = type_name
-
-    def process_log_line(self, line):
-        parts = line.split(",")
-        try:
-            name, be, tid, ts = parts[:4]
-        except:
-            print("Abnormal line: {}".format(line))
-            raise
-        ts = int(ts)
-        rest = parts[4:]
-
-        if not self.start_time:
-            self.start_time = ts
-
+    def process_mmtk_event_gc(self, tid: str, ts: float, values: list[str | int]):
+        be = "B" if values[0] == 0 else "E"
         result = {
-            "name": name,
+            "name": "GC",
+            "ph": be,
+            # Put GC start/stop events in a virtual thread with tid=0
+            "tid": 0,
+            "ts": ts,
+        }
+        self.results.append(result)
+
+    def process_mmtk_event_work(self, tid: str, ts: float, values: list[str | int]):
+        be = "B" if values[0] == 0 else "E"
+        work_id = int(values[1])
+        result = {
+            "name": "WORK",
             "ph": be,
             "tid": tid,
-            # https://github.com/google/perfetto/issues/274
-            "ts": (ts - self.start_time) / 1000.0,
+            "ts": ts,
+            "args": {"type_id": int(work_id)},
         }
+        match be:
+            case "B":
+                self.set_current_work_packet(tid, result)
+            case "E":
+                self.clear_current_work_packet(tid, result)
+        self.results.append(result)
 
-        match name:
-            case "GC":
-                # Put GC start/stop events in a virtual thread with tid=0
-                result["tid"] = 0
-
-            case "BUCKET_OPEN":
-                result["args"] = {"stage": int(rest[0])}
-
-            case "INST":
-                result["args"] = {"val": int(rest[0])}
-
-            case "WORK":
-                result["args"] = {"type_id": int(rest[0])}
-                match be:
-                    case "B":
-                        self.set_current_work_packet(tid, result)
-                    case "E":
-                        self.clear_current_work_packet(tid, result)
-
-            case "process_slots":
-                current = self.get_current_work_packet(tid)
-                # eBPF may drop events.  Be conservative.
-                if current is not None:
-                    current["args"]["num_slots"] = int(rest[0])
-                    current["args"]["is_roots"] = int(rest[1])
-
-            case "sweep_chunk":
-                current = self.get_current_work_packet(tid)
-                # eBPF may drop events.  Be conservative.
-                if current is not None:
-                    current["args"]["allocated_blocks"] = int(rest[0])
-
-        if be != "meta":
-            self.results.append(result)
+    def process_variable(self, line: str):
+        data = json.loads(line)["data"]
+        key = list(data.items())[0][0]
+        if key == "@type_name":
+            for k, v in data[key].items():
+                self.type_id_name[int(k)] = v
+        if not key.startswith("@mmtk_event_"):
+            return
+        for k, v in data[key].items():
+            tid = k.split(",")[0]
+            ts = int(k.split(",")[1])
+            ts = ts / 1000.0  # https://github.com/google/perfetto/issues/274
+            match key:
+                case "@mmtk_event_gc":
+                    self.process_mmtk_event_gc(tid, ts, v)
+                case "@mmtk_event_work":
+                    self.process_mmtk_event_work(tid, ts, v)
 
     def set_current_work_packet(self, tid, result):
         self.tid_current_work_packet[tid] = result
@@ -149,10 +121,18 @@ class LogProcessor:
         self.tid_current_work_packet[tid] = None
 
     def resolve_results(self):
+        # get start time
+        min_time = None
+        for result in self.results:
+            if min_time is None or result["ts"] < min_time:
+                min_time = result["ts"]
+        # adjust time
+        for result in self.results:
+            result["ts"] -= min_time
         for result in self.results:
             if result["name"] == "WORK":
                 type_id = result["args"]["type_id"]
-                type_name = self.type_id_name[type_id]
+                type_name = self.type_id_name.get(type_id, "???")
                 if type_name == UNKNOWN_TYPE:
                     type_name = f"(unknown:{type_id})"
                 result["name"] = type_name
@@ -169,7 +149,9 @@ class LogProcessor:
     def process(content: str, out: Path):
         processor = LogProcessor()
         for line in content.splitlines():
-            processor.process_line(line.strip())
+            if not line.startswith('{"type": "map", "data": {'):
+                continue
+            processor.process_variable(line.strip())
         processor.resolve_results()
         with gzip.open(out, "wt") as f:
             processor.output(f)

@@ -19,7 +19,7 @@ END {
 }
 
 // MMTk Event Format:
-// @mmtk_event_xxx[(tid, $ns)] = (B/E, work-id, rest)
+// @mmtk_event_xxx[(tid, $ns)] = (B/E, work-id);
 
 usdt:$MMTK:mmtk:harness_begin {
     if (@harness) {
@@ -38,9 +38,8 @@ usdt:$MMTK:mmtk:harness_end {
 
 // Work packet start
 usdt:$MMTK:mmtk:work {
-    $ns = nsecs;
     $work_name = str(arg0, arg1);
-    printf("%p %d %s\n", arg0, arg1, $work_name);
+    // printf("%p %d %s\n", arg0, arg1, $work_name);
     @thread_in_work[tid] = 1;
     if (!(@decoded[arg0])) {
         @type_name[arg0] = $work_name;
@@ -48,36 +47,31 @@ usdt:$MMTK:mmtk:work {
     }
     @thread_work_id[tid] = arg0;
     if (@stats_enabled) {
-        @mmtk_event_work[tid,$ns] = (0, @thread_work_id[tid], "");
+        @mmtk_event_work[tid, nsecs] = (0, @thread_work_id[tid]);
     }
 }
 
 // Work packet end
 usdt:$MMTK:mmtk:work_poll {
-    $ns = nsecs;
-    //printf("WORK_POLL,B,%d,%lu\n", tid, $ns);
+    //printf("WORK_POLL,B,%d,%lu\n", tid, nsecs);
     if (@thread_in_work[tid]) {
         if (@stats_enabled) {
-            @mmtk_event_work[tid,$ns] = (1, @thread_work_id[tid], "");
+            @mmtk_event_work[tid, nsecs] = (1, @thread_work_id[tid]);
         }
     }
 }
 
 usdt:$MMTK:mmtk:gc_start {
-    $ns = nsecs;
-
-        if (@stats_enabled) {
-    printf("GC,B,%d,%lu\n", tid, nsecs);
-    @gc_count += 1;
-    @mmtk_event_gc[tid,$ns] = (0, 0, "");
-        }
+    if (@stats_enabled) {
+        //printf("GC,B,%d,%lu\n", tid, nsecs);
+        @gc_count += 1;
+        @mmtk_event_gc[tid, nsecs] = (0, 0);
+    }
 }
 
 usdt:$MMTK:mmtk:gc_end {
-
-        if (@stats_enabled) {
-    printf("GC,E,%d,%lu\n", tid, nsecs);
-    $ns = nsecs;
-    @mmtk_event_gc[tid,$ns] = (1, 0, "");
-        }
+    if (@stats_enabled) {
+        // printf("GC,E,%d,%lu\n", tid, nsecs);
+        @mmtk_event_gc[tid, nsecs] = (1, 0);
+    }
 }

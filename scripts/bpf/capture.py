@@ -58,7 +58,7 @@ def main():
         # and doesn't work reliably.
         # See also https://github.com/anupli/running-ng/commit/b74e3a13f56dd97f73432d8a391e1d6cd9db8663
         # os.execvp("sudo", ["sudo", args.bpftrace, "--unsafe", tmp.name])
-        result = subprocess.run(["sudo", args.bpftrace, "-f", "json",  "--unsafe", tmp.name], stdout=subprocess.PIPE, check=True)
+        result = subprocess.run(["sudo", args.bpftrace, "-f", "json", "--unsafe", tmp.name], stdout=subprocess.PIPE, check=True)
         stdout = result.stdout.decode("utf-8")
         print(stdout)
         time_str = now.strftime("%Y-%m-%d-%H%M%S")
@@ -91,7 +91,6 @@ class LogProcessor:
             tid = k.split(",")[0]
             ts = int(k.split(",")[1])
             work_id = v[1]
-            work_name = v[2]
             result = {
                 "name": name.upper(),
                 "ph": be,
