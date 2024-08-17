@@ -38,15 +38,15 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 9fef67b425d104f83baa6a84992d97355a0a9bb3
+      mmtk-core: c5d66c271a0919997cda758ca689066da4387559
       mmtk-openjdk: e29fd88109231765442ed68640ab68a407815454
       openjdk: bc9669aaed
-    features: mmtk/no_meta_counting,mmtk/ix_always_defrag
+    features: mmtk/no_meta_counting
   jdk-lxr-2:
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: 00d1162b1714933ad79fe6bff44be999832ba754
+      mmtk-core: afc940a44ff80ec16bbd35976dc76da2a7f3fd9c
       mmtk-openjdk: 66fbb66a05605a8136e8a01a1d13a01a679d3b3b
       openjdk: bc9669aaed
 
