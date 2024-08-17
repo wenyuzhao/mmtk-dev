@@ -14,6 +14,7 @@ mmtk-jks = "mmtk_dev.jks.main:main"
 python = "^3.10"
 pyaml = "^23.7.0"
 simple-parsing = "^0.1.5"
+requests = "^2.32.3"
 
 
 [tool.poetry.group.dev.dependencies]

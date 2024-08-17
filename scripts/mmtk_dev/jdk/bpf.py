@@ -7,6 +7,7 @@ import subprocess, re, json, gzip
 import tempfile
 from datetime import datetime
 from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
+import requests
 
 BPFTRACE_SCRIPT = MMTK_DEV / "scripts" / "bpf" / "wp.bt"
 MMTK_BIN_X = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
@@ -30,11 +31,13 @@ class BPFTraceDaemon:
         assert returncode == 0, f"bpftrace failed with return code {self.__process.returncode}"
         stdout = self.__stdout_file.read_text()
         time_str = self.__now.strftime("%Y-%m-%d-%H%M%S")
-        LogProcessor.process(stdout, Path(f"{time_str}.json.gz"))
+        url = LogProcessor.process(stdout, Path(f"{time_str}.json.gz"))
         print(f"Trace captured to {time_str}.json.gz")
         # Delete the temporary file
         self.__temp_file.unlink(missing_ok=True)
         self.__stdout_file.unlink(missing_ok=True)
+        if url is not None:
+            print("Trace Preview Link:", url)
 
 
 def start_capturing_process(exploded: bool, name="wp"):
@@ -145,8 +148,21 @@ class LogProcessor:
             outfile,
         )
 
+    def upload_trace(self, file: Path) -> str | None:
+        url = "https://perfetto.wenyu.me/api/v1/upload"
+        print(f"Uploading trace file {file}")
+        with open(file, "rb") as f:
+            files = {"file": f}
+            response = requests.post(url, files=files)
+
+        if response.ok:
+            data = response.json()
+            return data["url"]
+        else:
+            print("Failed to upload trace file to perfetto.wenyu.me")
+
     @staticmethod
-    def process(content: str, out: Path):
+    def process(content: str, out: Path) -> str | None:
         processor = LogProcessor()
         for line in content.splitlines():
             if not line.startswith('{"type": "map", "data": {'):
@@ -155,3 +171,4 @@ class LogProcessor:
         processor.resolve_results()
         with gzip.open(out, "wt") as f:
             processor.output(f)
+        return processor.upload_trace(out)
