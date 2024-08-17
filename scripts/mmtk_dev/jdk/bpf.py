@@ -24,7 +24,7 @@ class BPFTraceDaemon:
         self.__stdout_file = stdout_file
 
     def finalize(self):
-        print("Finalizing trace capture: ", self.__process.stdout)
+        print("Finalizing trace capture ...")
         returncode = self.__process.wait()
         if returncode != 0:
             print()
@@ -32,7 +32,6 @@ class BPFTraceDaemon:
         stdout = self.__stdout_file.read_text()
         time_str = self.__now.strftime("%Y-%m-%d-%H%M%S")
         url = LogProcessor.process(stdout, Path(f"{time_str}.json.gz"))
-        print(f"Trace captured to {time_str}.json.gz")
         # Delete the temporary file
         self.__temp_file.unlink(missing_ok=True)
         self.__stdout_file.unlink(missing_ok=True)
@@ -53,7 +52,7 @@ def start_capturing_process(exploded: bool, name="wp"):
     #     print(content)
     temp_file.write(content)
     temp_file.flush()
-    process = subprocess.Popen(["sudo", BPFTRACE_BIN, "-f", "json", "--unsafe", temp_file.name], stdout=stdout_file, stderr=stdout_file)
+    process = subprocess.Popen(["sudo", BPFTRACE_BIN, "-f", "json", "--unsafe", temp_file.name], stdout=stdout_file, stderr=stdout_file, stdin=subprocess.DEVNULL)
     return BPFTraceDaemon(process, Path(temp_file.name), Path(stdout_file.name))
 
 
@@ -150,7 +149,7 @@ class LogProcessor:
 
     def upload_trace(self, file: Path) -> str | None:
         url = "https://perfetto.wenyu.me/api/v1/upload"
-        print(f"Uploading trace file {file}")
+        print(f"Uploading trace file {file} ...")
         with open(file, "rb") as f:
             files = {"file": f}
             response = requests.post(url, files=files)
@@ -171,4 +170,5 @@ class LogProcessor:
         processor.resolve_results()
         with gzip.open(out, "wt") as f:
             processor.output(f)
+        print(f"Trace captured to {out}")
         return processor.upload_trace(out)
