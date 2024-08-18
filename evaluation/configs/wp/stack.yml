@@ -5,24 +5,34 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 8
   suites.dacapochopin.minheap: G1-n5
 
 runtimes:
-  jdk-lxr: &lxr # Queue
+  jdk-lxr-queue: &lxr # Queue
     type: OpenJDK
     release: 11
-    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    home: $BUILDS/jdk-lxr-queue/jdk-11.0.19
     commits:
-      mmtk-core: 778174dea8e5cdbb6b5068935c9157453b2cfa57
+      mmtk-core: 36b99b07f49b17cb00e49437dba85d6f84609b14
       mmtk-openjdk: 9b39764a9ae02f31f0b11570f4d00ffef3f433be
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch
-  jdk-lxr-2: # Stack
+  jdk-lxr-queue-half: # Queue
     <<: *lxr
-    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    home: $BUILDS/jdk-lxr-queue-half/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half
+  jdk-lxr-stack: # Stack
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-stack/jdk-11.0.19
     features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/stack
+  jdk-lxr-stack-half: # Stack Half
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-stack-half/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/stack,mmtk/flush_half
 
 configs:
-  - jdk-lxr|lxr|common3|tph_perf
-  - jdk-lxr-2|lxr|common3|tph_perf
+  - jdk-lxr-queue|lxr|common3|tph_perf
+  - jdk-lxr-queue-half|lxr|common3|tph_perf
+  - jdk-lxr-stack|lxr|common3|tph_perf
+  - jdk-lxr-stack-half|lxr|common3|tph_perf
