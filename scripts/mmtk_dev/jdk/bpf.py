@@ -154,7 +154,6 @@ class LogProcessor:
         result = subprocess.run(["cloudflared", "access", "curl", url, "-X", "PUT", "-F", f"file=@{file}"], stdout=subprocess.PIPE, universal_newlines=True, check=True)
 
         if result.returncode == 0:
-            print(result.stdout)
             data = json.loads(result.stdout)
             url = data["url"]
             return url
