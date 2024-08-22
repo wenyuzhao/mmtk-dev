@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 20
+  invocations: 8
   suites.dacapochopin.minheap: G1-n5
 
 runtimes:
@@ -14,15 +14,45 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-queue/jdk-11.0.19
     commits:
-      mmtk-core: e37d41151eff58cf402a7fe961e3f4ad791b996f
+      mmtk-core: 3173a42d85f528f327d1db0e47422c5b3efb6a5e
       mmtk-openjdk: 9b39764a9ae02f31f0b11570f4d00ffef3f433be
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch
-  jdk-lxr-queue-half: # Queue
+  jdk-lxr-queue-half-rc: # Queue
     <<: *lxr
-    home: $BUILDS/jdk-lxr-queue-half/jdk-11.0.19
+    home: $BUILDS/jdk-lxr-queue-half-rc/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half_rc
+  jdk-lxr-queue-half-rc-1k: # Queue
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-queue-half-rc-1k/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half_rc,mmtk/flush_half_1024
+  jdk-lxr-queue-half-cm: # Queue
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-queue-half-cm/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half_cm
+  jdk-lxr-queue-half-mature: # Queue
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-queue-half-mature/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half_mature
+  jdk-lxr-queue-half-weak: # Queue
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-queue-half-weak/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half_weak
+  jdk-lxr-queue-half-legacy:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-queue-legacy/jdk-11.0.19
+    commits:
+      mmtk-core: 17424f9bcaa5fff5edb4a9adc1a73e186d215f18
+      mmtk-openjdk: 9b39764a9ae02f31f0b11570f4d00ffef3f433be
+      openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/lxr_no_prefetch,mmtk/flush_half
 
 configs:
   - jdk-lxr-queue|lxr|common3|tph_perf
-  - jdk-lxr-queue-half|lxr|common3|tph_perf
+  - jdk-lxr-queue-half-rc|lxr|common3|tph_perf
+  - jdk-lxr-queue-half-rc-1k|lxr|common3|tph_perf
+  - jdk-lxr-queue-half-cm|lxr|common3|tph_perf
+  - jdk-lxr-queue-half-mature|lxr|common3|tph_perf
+  - jdk-lxr-queue-half-weak|lxr|common3|tph_perf
+  - jdk-lxr-queue-half-legacy|lxr|common3|tph_perf
