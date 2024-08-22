@@ -1,0 +1,28 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 344a97f6fa828e0a7d2d400e2a6ec0833a5fde0a
+      mmtk-openjdk: f3aabeb7ccc7bdc672c44f46abab17aa2a8432ce # lxr-unaligned-edge
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  jdk-lxr-unaligned: &lxr
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    features: mmtk/no_meta_counting,unaligned
+
+configs:
+  - jdk-lxr|lxr|common3|tph_perf
+  - jdk-lxr-unaligned|lxr|common3|tph_perf

@@ -7,7 +7,7 @@ import subprocess, re, json, gzip
 import tempfile
 from datetime import datetime
 from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
-import requests
+import os
 
 BPFTRACE_SCRIPT = MMTK_DEV / "scripts" / "bpf" / "wp.bt"
 MMTK_BIN_X = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
@@ -148,15 +148,15 @@ class LogProcessor:
         )
 
     def upload_trace(self, file: Path) -> str | None:
-        url = "https://perfetto.wenyu.me/api/v1/upload"
+        url = "https://perfetto.wenyu.me/api/trace"
         print(f"Uploading trace file {file} ...")
-        with open(file, "rb") as f:
-            files = {"file": f}
-            response = requests.post(url, files=files)
 
-        if response.ok:
-            data = response.json()
-            return data["url"]
+        result = subprocess.run(["cloudflared", "access", "curl", url, "-X", "PUT", "-F", f"file=@{file}"], stdout=subprocess.PIPE, universal_newlines=True, check=True)
+
+        if result.returncode == 0:
+            data = json.loads(result.stdout)
+            url = data["url"]
+            return url
         else:
             print("Failed to upload trace file to perfetto.wenyu.me")
 
