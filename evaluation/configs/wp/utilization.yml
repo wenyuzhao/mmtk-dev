@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 8
   suites.dacapochopin.minheap: Immix
   benchmarks.dacapochopin:
     - lusearch
@@ -33,20 +33,20 @@ overrides:
     - zxing
 
 runtimes:
-  jdk-lxr: &lxr
+  jdk-lxr: &lxr # Sequential
     type: OpenJDK
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 9fef67b425d104f83baa6a84992d97355a0a9bb3
+      mmtk-core: fe4cff2affe2bc4dc3cf2c5d9b208643fe4c9afd # wp/lxr-ix-reduce-buckets
       mmtk-openjdk: e29fd88109231765442ed68640ab68a407815454
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/ix_always_defrag
-  jdk-lxr-2:
+  jdk-lxr-2: # Dependency
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: 00d1162b1714933ad79fe6bff44be999832ba754
+      mmtk-core: 201f88d38cfd6a17ff52b7fca29feaf16fb0efe2 # wp/dep-dev
       mmtk-openjdk: 66fbb66a05605a8136e8a01a1d13a01a679d3b3b
       openjdk: bc9669aaed
 
