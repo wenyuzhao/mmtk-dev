@@ -1,0 +1,34 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1-n5
+  benchmarks.dacapochopin:
+    - h2
+  suites.dacapochopin.timing_iteration: 2
+  suites.dacapochopin.minheap_values.G1-n5:
+    h2: 10193
+
+modifiers:
+  size:
+    type: ProgramArg
+    val: "-t {0}"
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 344a97f6fa828e0a7d2d400e2a6ec0833a5fde0a
+      mmtk-openjdk: 9b39764a9ae02f31f0b11570f4d00ffef3f433be
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+
+configs:
+  - jdk-lxr|g1|common3|tph|large
+  - jdk-lxr|lxr|common3|tph|large
