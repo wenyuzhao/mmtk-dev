@@ -16,7 +16,7 @@ overrides:
 modifiers:
   size:
     type: ProgramArg
-    val: "-t {0}"
+    val: "-s {0}"
 
 runtimes:
   jdk-lxr: &lxr
@@ -30,5 +30,5 @@ runtimes:
     features: mmtk/no_meta_counting
 
 configs:
-  - jdk-lxr|g1|common3|tph|large
-  - jdk-lxr|lxr|common3|tph|large
+  - jdk-lxr|g1|common3|hs|size-large
+  - jdk-lxr|lxr|common3|tph|size-large
