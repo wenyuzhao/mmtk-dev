@@ -26,10 +26,10 @@ class BPFTraceDaemon:
     def finalize(self):
         print("Finalizing trace capture ...")
         returncode = self.__process.wait()
-        if returncode != 0:
-            print()
-        assert returncode == 0, f"bpftrace failed with return code {self.__process.returncode}"
         stdout = self.__stdout_file.read_text()
+        if returncode != 0:
+            print(stdout)
+        assert returncode == 0, f"bpftrace failed with return code {self.__process.returncode}"
         time_str = self.__now.strftime("%Y-%m-%d-%H%M%S")
         url = LogProcessor.process(stdout, Path(f"{time_str}.json.gz"))
         # Delete the temporary file
