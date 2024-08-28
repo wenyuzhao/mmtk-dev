@@ -375,7 +375,7 @@ class Run:
             daemon = start_capturing_process(exploded=self.exploded)
         ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter or self.iter}", bench or self.bench, *bm_args, env=env)
         if self.capture_bpftrace:
-            daemon.finalize()
+            daemon.finalize(name=f"{self.gc}-{self.bench}-{self.heap}".lower())
 
     def run(self):
         if self.build:
