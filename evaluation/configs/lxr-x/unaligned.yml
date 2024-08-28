@@ -18,7 +18,7 @@ runtimes:
       mmtk-openjdk: f3aabeb7ccc7bdc672c44f46abab17aa2a8432ce # lxr-unaligned-edge
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
-  jdk-lxr-unaligned: &lxr
+  jdk-lxr-unaligned:
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     features: mmtk/no_meta_counting,unaligned
