@@ -376,7 +376,8 @@ class Run:
         ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter or self.iter}", bench or self.bench, *bm_args, env=env)
         if self.bpftrace is not None:
             name = f"{self.gc}-{self.bench}-{self.heap}".lower()
-            name = name + "-" + self.bpftrace
+            if self.bpftrace != "":
+                name = name + "-" + self.bpftrace
             daemon.finalize(name=name)
 
     def run(self):
