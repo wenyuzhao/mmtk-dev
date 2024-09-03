@@ -269,8 +269,8 @@ class Run:
     bundle: bool = field(default=False, negative_prefix="--no-")
     """Create product bundles"""
 
-    capture_bpftrace: bool = field(default=False, negative_prefix="--no-")
-    """Capture bpftrace"""
+    bpftrace: str | None = None
+    """The name of the generated bpftrace file"""
 
     def build_jdk(self, pgo_step: Literal["gen", "use"] | None):
         build = Build(
@@ -370,12 +370,14 @@ class Run:
         java = f"{jdk_build_dir}/jdk/bin/java" if self.exploded else f"{jdk_build_dir}/images/jdk/bin/java"
         if self.jdk is not None:
             java = f"{self.jdk}/bin/java"
-        if self.capture_bpftrace:
+        if self.bpftrace is not None:
             ᐅᐳᐳ("sudo", "echo", "''")
             daemon = start_capturing_process(exploded=self.exploded)
         ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter or self.iter}", bench or self.bench, *bm_args, env=env)
-        if self.capture_bpftrace:
-            daemon.finalize(name=f"{self.gc}-{self.bench}-{self.heap}".lower())
+        if self.bpftrace is not None:
+            name = f"{self.gc}-{self.bench}-{self.heap}".lower()
+            name = name + "-" + self.bpftrace
+            daemon.finalize(name=name)
 
     def run(self):
         if self.build:
