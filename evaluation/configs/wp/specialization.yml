@@ -1,0 +1,52 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: Immix
+  benchmarks.dacapochopin:
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - tradebeans
+    - tradesoap
+    - kafka
+
+    - avrora
+    # - batik
+    - biojava
+    # - eclipse
+    - fop
+    - graphchi
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr-queue: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: d91881ad580c34b367fa939dcd4514a3607695b7
+      mmtk-openjdk: 4aec297305e5e1047d2f8eee1f8a9097d1084d1d
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push
+  jdk-lxr-queue-specialization:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push,mmtk/specialization
+
+configs:
+  - jdk-lxr-queue|ix|common3|tph_perf
+  - jdk-lxr-queue-specialization|ix|common3|tph_perf
