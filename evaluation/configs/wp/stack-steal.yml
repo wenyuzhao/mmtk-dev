@@ -33,25 +33,35 @@ overrides:
     - zxing
 
 runtimes:
-  jdk-lxr-queue: &lxr
+  jdk-mmtk-queue: &lxr
     type: OpenJDK
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 312d930294249c259001b67b723e730ef00fe843
+      mmtk-core: e166d2668066f4a12d42e9c1914f92bd4bc3f026
       mmtk-openjdk: 4aec297305e5e1047d2f8eee1f8a9097d1084d1d
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push
-  jdk-lxr-stack:
+  jdk-mmtk-queue-random: &lxr
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/push
-  jdk-lxr-stack-steal:
+    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push,mmtk/random_packet_stealing
+  jdk-mmtk-stack:
     <<: *lxr
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/push
+  jdk-mmtk-stack-steal:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
     features: mmtk/no_meta_counting,mmtk/push,mmtk/steal
+  jdk-mmtk-stack-steal-random:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-5/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal,mmtk/random_packet_stealing
 
 configs:
-  - jdk-lxr-queue|ix|common3|tph_perf
-  - jdk-lxr-stack|ix|common3|tph_perf
-  - jdk-lxr-stack-steal|ix|common3|tph_perf
+  - jdk-mmtk-queue|ix|common3|tph_perf
+  - jdk-mmtk-queue-random|ix|common3|tph_perf
+  - jdk-mmtk-stack|ix|common3|tph_perf
+  - jdk-mmtk-stack-steal|ix|common3|tph_perf
+  - jdk-mmtk-stack-steal-random|ix|common3|tph_perf
