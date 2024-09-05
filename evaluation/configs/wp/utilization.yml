@@ -53,9 +53,9 @@ runtimes:
 configs:
   - jdk-lxr|ix|common3|tph|threads-16
   - jdk-lxr-2|ix|common3|tph|threads-16
-  - jdk-lxr|ix|common3|tph|threads-32
-  - jdk-lxr-2|ix|common3|tph|threads-32
-  - jdk-lxr|ix|common3|tph|threads-64
-  - jdk-lxr-2|ix|common3|tph|threads-64
+  # - jdk-lxr|ix|common3|tph|threads-32
+  # - jdk-lxr-2|ix|common3|tph|threads-32
+  # - jdk-lxr|ix|common3|tph|threads-64
+  # - jdk-lxr-2|ix|common3|tph|threads-64
   - jdk-lxr|ix|common3|tph|threads-128
   - jdk-lxr-2|ix|common3|tph|threads-128
