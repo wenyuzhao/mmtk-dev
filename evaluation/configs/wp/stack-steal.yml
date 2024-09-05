@@ -42,7 +42,7 @@ runtimes:
       mmtk-openjdk: 4aec297305e5e1047d2f8eee1f8a9097d1084d1d
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push
-  jdk-mmtk-queue-random: &lxr
+  jdk-mmtk-queue-random:
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push,mmtk/random_packet_stealing
