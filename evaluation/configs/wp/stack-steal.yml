@@ -38,30 +38,35 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: e166d2668066f4a12d42e9c1914f92bd4bc3f026
+      mmtk-core: 4b604208f71f393e57fb38a298180d5a272f0439
       mmtk-openjdk: 4aec297305e5e1047d2f8eee1f8a9097d1084d1d
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push
-  jdk-mmtk-queue-random:
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/push,mmtk/random_packet_stealing
   jdk-mmtk-stack:
     <<: *lxr
-    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     features: mmtk/no_meta_counting,mmtk/push
-  jdk-mmtk-stack-steal:
+  jdk-mmtk-stack-steal-lifo:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal
+  jdk-mmtk-stack-steal-lifo-bulk:
     <<: *lxr
     home: $BUILDS/jdk-lxr-4/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal
-  jdk-mmtk-stack-steal-random:
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk
+  jdk-mmtk-stack-steal-fifo:
     <<: *lxr
     home: $BUILDS/jdk-lxr-5/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal,mmtk/random_packet_stealing
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal,mmtk/fifo
+  jdk-mmtk-stack-steal-fifo-bulk:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-6/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk,mmtk/fifo
 
 configs:
   - jdk-mmtk-queue|ix|common3|tph_perf
-  - jdk-mmtk-queue-random|ix|common3|tph_perf
   - jdk-mmtk-stack|ix|common3|tph_perf
-  - jdk-mmtk-stack-steal|ix|common3|tph_perf
-  - jdk-mmtk-stack-steal-random|ix|common3|tph_perf
+  - jdk-mmtk-stack-steal-lifo|ix|common3|tph_perf
+  - jdk-mmtk-stack-steal-lifo-bulk|ix|common3|tph_perf
+  - jdk-mmtk-stack-steal-fifo|ix|common3|tph_perf
+  - jdk-mmtk-stack-steal-fifo-bulk|ix|common3|tph_perf
