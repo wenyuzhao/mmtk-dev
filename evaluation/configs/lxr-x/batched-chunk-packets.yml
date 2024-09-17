@@ -1,0 +1,30 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-mmtk: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 905850e0af65eec107c2fa489db31d9e4d825e40
+      mmtk-openjdk: 9b39764a9ae02f31f0b11570f4d00ffef3f433be
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+
+modifiers:
+  batched:
+    type: EnvVar
+    var: "BATCHED_CHUNK_PACKETS"
+    val: "1"
+
+configs:
+  - jdk-mmtk|lxr|common3|tph_perf
+  - jdk-mmtk|lxr|common3|tph_perf|batched
