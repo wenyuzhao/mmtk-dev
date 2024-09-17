@@ -258,3 +258,7 @@ modifiers:
   f:
     type: ProgramArg
     val: "-f {0}"
+  verbose:
+    type: EnvVar
+    var: MMTK_VERBOSE
+    val: "{0}"
