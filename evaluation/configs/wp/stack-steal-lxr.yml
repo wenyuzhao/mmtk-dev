@@ -5,32 +5,8 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 30
+  invocations: 10
   suites.dacapochopin.minheap: G1-n5
-  benchmarks.dacapochopin:
-    - lusearch
-    - h2
-    - cassandra
-    - tomcat
-    - spring
-    - tradebeans
-    - tradesoap
-    - kafka
-
-    - avrora
-    # - batik
-    - biojava
-    # - eclipse
-    - fop
-    - graphchi
-    - h2o
-    - jme
-    - jython
-    - luindex
-    - pmd
-    - sunflow
-    - xalan
-    - zxing
 
 runtimes:
   jdk-mmtk-queue: &lxr
@@ -38,8 +14,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: d431d5d71387773beefa4f6b3632effee1bdc674
-      mmtk-openjdk: 5c9c365622db89fd26bfc15f2751dde317ed44cc
+      mmtk-core: 47ee34b99bcef5f6f2fc0cc323bdcecd25f50c56
+      mmtk-openjdk: c4c4dda4848b4832265157f76c13e52ba5b7d582
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/no_stack
   jdk-mmtk-stack:
@@ -54,9 +30,14 @@ runtimes:
     <<: *lxr
     home: $BUILDS/jdk-lxr-4/jdk-11.0.19
     features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk
+  jdk-mmtk-stack-steal-bulk-no-push:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-5/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/steal_bulk
 
 configs:
   - jdk-mmtk-queue|lxr|common3|tph_perf
   - jdk-mmtk-stack|lxr|common3|tph_perf
   - jdk-mmtk-stack-steal|lxr|common3|tph_perf
   - jdk-mmtk-stack-steal-bulk|lxr|common3|tph_perf
+  - jdk-mmtk-stack-steal-bulk-no-push|lxr|common3|tph_perf
