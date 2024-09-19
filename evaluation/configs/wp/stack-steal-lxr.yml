@@ -33,7 +33,7 @@ runtimes:
   jdk-mmtk-queue-no-prefetch:
     <<: *lxr
     home: $BUILDS/jdk-lxr-5/jdk-11.0.19
-    features: mmtk/no_meta_counting,mtk/no_stack,mmtk/lxr_no_prefetch,mmtk/satb_timer
+    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/lxr_no_prefetch,mmtk/satb_timer
 
 configs:
   - jdk-mmtk-queue|lxr|common3|tph_perf
