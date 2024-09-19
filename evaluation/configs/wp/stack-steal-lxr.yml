@@ -21,23 +21,23 @@ runtimes:
   jdk-mmtk-stack:
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/push
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/lxr_no_prefetch
   jdk-mmtk-stack-steal:
     <<: *lxr
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal,mmtk/lxr_no_prefetch
   jdk-mmtk-stack-steal-bulk:
     <<: *lxr
     home: $BUILDS/jdk-lxr-4/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk
-  jdk-mmtk-stack-steal-bulk-no-push:
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk,mmtk/lxr_no_prefetch
+  jdk-mmtk-queue-no-prefetch:
     <<: *lxr
     home: $BUILDS/jdk-lxr-5/jdk-11.0.19
-    features: mmtk/no_meta_counting,mmtk/steal_bulk
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/no_stack,mmtk/lxr_no_prefetch
 
 configs:
   - jdk-mmtk-queue|lxr|common3|tph_perf
+  - jdk-mmtk-queue-no-prefetch|lxr|common3|tph_perf
   - jdk-mmtk-stack|lxr|common3|tph_perf
   - jdk-mmtk-stack-steal|lxr|common3|tph_perf
   - jdk-mmtk-stack-steal-bulk|lxr|common3|tph_perf
-  - jdk-mmtk-stack-steal-bulk-no-push|lxr|common3|tph_perf
