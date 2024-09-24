@@ -1,0 +1,47 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-mmtk-queue: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: f704b633404fdbc9454affdb307a07c012ce59fc
+      mmtk-openjdk: c4c4dda4848b4832265157f76c13e52ba5b7d582
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/satb_timer
+  # jdk-mmtk-stack:
+  #   <<: *lxr
+  #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+  #   features: mmtk/no_meta_counting,mmtk/push,mmtk/lxr_no_prefetch,mmtk/satb_timer
+  # jdk-mmtk-stack-steal:
+  #   <<: *lxr
+  #   home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+  #   features: mmtk/no_meta_counting,mmtk/push,mmtk/steal,mmtk/lxr_no_prefetch,mmtk/satb_timer
+  jdk-mmtk-stack-steal-bulk-no-prefetch:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk,mmtk/satb_timer,mmtk/lxr_no_prefetch
+  jdk-mmtk-stack-steal-bulk:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/steal_bulk,mmtk/satb_timer
+  jdk-mmtk-queue-no-prefetch:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-5/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/no_stack,mmtk/satb_timer,mmtk/lxr_no_prefetch
+
+configs:
+  - jdk-mmtk-queue|lxr|common3|tph_perf
+  - jdk-mmtk-queue-no-prefetch|lxr|common3|tph_perf
+  # - jdk-mmtk-stack|lxr|common3|tph_perf
+  - jdk-mmtk-stack-steal-bulk-no-prefetch|lxr|common3|tph_perf
+  - jdk-mmtk-stack-steal-bulk|lxr|common3|tph_perf
