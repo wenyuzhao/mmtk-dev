@@ -6,7 +6,31 @@ includes:
 overrides:
   heap_range: 3
   invocations: 10
-  suites.dacapochopin.minheap: G1-n5
+  suites.dacapochopin.minheap: Immix
+  benchmarks.dacapochopin:
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - tradebeans
+    - tradesoap
+    - kafka
+
+    - avrora
+    # - batik
+    - biojava
+    # - eclipse
+    - fop
+    - graphchi
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
 
 runtimes:
   jdk-mmtk: &lxr
