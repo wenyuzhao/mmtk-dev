@@ -35,7 +35,7 @@ runtimes:
       openjdk: bc9669aaed
   jdk-mmtk-all:
     <<: *base
-    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
     commits:
       mmtk-core: 4a96636932b8c786aa98a215e14e421adb0eb7b6 # wp/dev-merge
       mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
