@@ -148,7 +148,7 @@ class LogProcessor:
         )
 
     def upload_trace(self, file: Path) -> str | None:
-        url = "https://perfetto.wenyu.me/api/trace?project=mmtk"
+        url = "https://perfetto.wenyu.me/api/trace?scope=mmtk"
         print(f"Uploading trace file {file} ...")
 
         result = subprocess.run(["cloudflared", "access", "curl", url, "-F", f"file=@{file}"], stdout=subprocess.PIPE, universal_newlines=True, check=True)
