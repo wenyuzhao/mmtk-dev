@@ -16,3 +16,4 @@ _*
 /depot_tools
 /*.json.gz
 /*.pdf
+/.env
