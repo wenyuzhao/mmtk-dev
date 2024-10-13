@@ -17,3 +17,5 @@ _*
 /*.json.gz
 /*.pdf
 /.env
+/*.data
+/*.data.old
