@@ -1,0 +1,29 @@
+struct X {
+    long sid;
+    int nr;
+    int p;
+    int probeid;
+};
+
+profile:hz:100000 /pid==cpid/ {
+    if (comm != "MMTk Collector ") {
+        return
+    }
+
+    @[(uint64*) reg("ip")] = count();
+
+    /*
+    $ip = reg("ip");
+    $s = ustack(1);
+    if (($ip & 0xff00000000000000) != 0) {
+       printf("K %x %s\n", $ip, ksym($ip));
+    } else {
+       printf("U %x %s %x\n", $ip, usym($ip), pid);
+       @syms[(uint64*)$ip] = ($s, usym($ip));
+    }
+    */
+}
+
+END {
+    printf("FINISH");
+}
