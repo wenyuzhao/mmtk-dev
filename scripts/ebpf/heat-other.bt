@@ -1,10 +1,10 @@
 
 profile:hz:100000 /pid==cpid/ {
-    if (comm != "MMTk Collector "
+    if (!(comm != "MMTk Collector "
         && strncmp(comm, "G1 ", 3) && strncmp(comm, "GC Thread#", 10)
         && strncmp(comm, "ZDirector ", 9) && strncmp(comm, "ZDriver", 7) && strncmp(comm, "ZWorker#", 8)
         && strncmp(comm, "Shenandoah GC T", 15)
-    ) {
+    )) {
         // @x[comm] = count();
         // @y[comm] = strncmp(comm, "G1 ", 3);
         return;

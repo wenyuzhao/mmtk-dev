@@ -19,3 +19,4 @@ _*
 /.env
 /*.data
 /*.data.old
+/*.jsonl
