@@ -41,18 +41,28 @@ class GC(str, Enum):
     z = "z"
 
 
+DEFAULT_HEAPS = {
+    "lusearch": "512M",
+    "h2": "2G",
+    "kafka": "512M",
+}
+
+
 def main(
     gc: Annotated[GC, typer.Option()],
-    heap: str = "512M",
+    heap: str | None = None,
     bench: str = "lusearch",
     build: bool = False,
     iter: Annotated[int, typer.Option("-n")] = 5,
-    plot: bool = False,
     json: bool = False,
-    exclude_gc: bool = False,
 ):
     if build:
         build_openjdk()
+    if not heap:
+        heap = DEFAULT_HEAPS.get(bench)
+        if not heap:
+            typer.echo(f"Unknown heap size for benchmark {bench}", err=True)
+            raise typer.Exit(1)
     typer.echo(f"RUN gc={gc.value} heap={heap} bench={bench}", err=True)
     java_bin = f"{PROJECT_ROOT}/openjdk/build/linux-x86_64-normal-server-release/images/jdk/bin/java"
     match gc:
@@ -70,19 +80,14 @@ def main(
             gc_args = ["-XX:+UseZGC"]
     heap_args = [f"-Xms{heap}", f"-Xmx{heap}"]
 
-    java_command = [java_bin, "-XX:+PreserveFramePointer", "-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError", "-XX:-UseCompressedOops", *gc_args, "--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-cp", "/usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar", *heap_args, "Harness", "-n", str(iter), "lusearch"]
+    java_command = [java_bin, "-XX:+PreserveFramePointer", "-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError", "-XX:-UseCompressedOops", *gc_args, "--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-cp", "/usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar", *heap_args, "Harness", "-n", str(iter), bench]
     java_command_string = shlex.join(java_command)
-    script = BT_EXCLUDE_GC_SCRIPT if exclude_gc else BT_SCRIPT
-    cmd = ["sudo", "bpftrace", script, "-c", java_command_string]
+    cmd = ["sudo", "bpftrace", BT_SCRIPT, "-c", java_command_string]
     if json:
         cmd += ["-f", "json"]
     scratch = PROJECT_ROOT / "scratch"
     if scratch.exists() and scratch.is_dir():
         subprocess.check_call(["sudo", "rm", "-r", scratch])
-
-    if plot:
-        subprocess.check_call(cmd, cwd=PROJECT_ROOT)
-        subprocess.check_call(["sudo", "python3", "scripts/bpf/plot.py", scratch], cwd=PROJECT_ROOT)
 
     subprocess.check_call(cmd, cwd=PROJECT_ROOT)
 

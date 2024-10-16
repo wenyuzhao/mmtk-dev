@@ -1,12 +1,17 @@
+config = {
+    max_map_keys=10000000
+}
 
 profile:hz:100000 /pid==cpid/ {
     if (comm != "MMTk Collector "
         && strncmp(comm, "G1 ", 3) && strncmp(comm, "GC Thread#", 10)
         && strncmp(comm, "ZDirector ", 9) && strncmp(comm, "ZDriver", 7) && strncmp(comm, "ZWorker#", 8)
         && strncmp(comm, "Shenandoah GC T", 15)
+        && strncmp(comm, "ParGC Thread#", 13)
     ) {
         // @x[comm] = count();
         // @y[comm] = strncmp(comm, "G1 ", 3);
+        @instr_samples_other[(uint64*) reg("ip")] = count();
         return;
     }
 
