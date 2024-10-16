@@ -55,6 +55,7 @@ def main(
     build: bool = False,
     iter: Annotated[int, typer.Option("-n")] = 5,
     json: bool = False,
+    dump_syms: bool = False,
 ):
     if build:
         build_openjdk()
@@ -82,9 +83,14 @@ def main(
 
     java_command = [java_bin, "-XX:+PreserveFramePointer", "-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError", "-XX:-UseCompressedOops", *gc_args, "--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-cp", "/usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar", *heap_args, "Harness", "-n", str(iter), bench]
     java_command_string = shlex.join(java_command)
-    cmd = ["sudo", "bpftrace", BT_SCRIPT, "-c", java_command_string]
+    cmd = ["sudo", "bpftrace", "-B", "full", "-c", java_command_string]
     if json:
         cmd += ["-f", "json"]
+    cmd += [BT_SCRIPT]
+    if dump_syms:
+        cmd += ["1"]
+    else:
+        cmd += ["0"]
     scratch = PROJECT_ROOT / "scratch"
     if scratch.exists() and scratch.is_dir():
         subprocess.check_call(["sudo", "rm", "-r", scratch])

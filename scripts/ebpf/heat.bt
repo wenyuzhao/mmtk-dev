@@ -1,8 +1,12 @@
+#define DUMP_SYMBOLS $1
+
 config = {
     max_map_keys=10000000
 }
 
 profile:hz:100000 /pid==cpid/ {
+    $ip = reg("ip");
+
     if (comm != "MMTk Collector "
         && strncmp(comm, "G1 ", 3) && strncmp(comm, "GC Thread#", 10)
         && strncmp(comm, "ZDirector ", 9) && strncmp(comm, "ZDriver", 7) && strncmp(comm, "ZWorker#", 8)
@@ -11,24 +15,24 @@ profile:hz:100000 /pid==cpid/ {
     ) {
         // @x[comm] = count();
         // @y[comm] = strncmp(comm, "G1 ", 3);
-        @instr_samples_other[(uint64*) reg("ip")] = count();
+        @instr_samples_other[(uint64*) $ip] = count();
         return;
     }
 
-    @instr_samples[(uint64*) reg("ip")] = count();
+    @instr_samples[(uint64*) $ip] = count();
 
-    /*
-    $ip = reg("ip");
-    $s = ustack(1);
-    if (($ip & 0xff00000000000000) != 0) {
-       printf("K %x %s\n", $ip, ksym($ip));
-    } else {
-       printf("U %x %s %x\n", $ip, usym($ip), pid);
-       @syms[(uint64*)$ip] = ($s, usym($ip));
+    if (DUMP_SYMBOLS) {
+        if (($ip & 0xff00000000000000) == 0 && !@syms[$ip]) {
+            @syms[$ip] = 1;
+            printf("U %p@%s\n", (uint64*) $ip, usym($ip));
+        }
+        if (($ip & 0xff00000000000000) != 0 && !@syms[$ip]) {
+            @syms[$ip] = 1;
+            printf("K %p@%s\n", (uint64*) $ip, ksym($ip));
+        }
     }
-    */
 }
 
 END {
-    printf("FINISH");
+    clear(@syms);
 }
