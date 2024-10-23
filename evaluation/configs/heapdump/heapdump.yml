@@ -4,8 +4,8 @@ includes:
   - $CONFIGS/common/common-lxr.yml
 
 overrides:
-  heap_range: 3
-  invocations: 5
+  heap_range: 6
+  invocations: 3
   suites.dacapochopin.minheap: G1-n5
 
 runtimes:

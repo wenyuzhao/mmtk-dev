@@ -7,4 +7,4 @@ overrides:
   invocations: 20
   suites.dacapochopin.timing_iteration: 5
   suites.dacapochopin.callback: probe.DacapoChopinCallback
-  suites.dacapochopin.timeout: 600
+  suites.dacapochopin.timeout: 6000
