@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 3
   suites.dacapochopin.minheap: G1-n5
 
 runtimes:
@@ -18,7 +18,7 @@ runtimes:
       mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer
-  jdk-mmtk-item-stealing:
+  jdk-mmtk-item-steal:
     <<: *base
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
@@ -26,7 +26,7 @@ runtimes:
       mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
-  jdk-mmtk-dependency:
+  jdk-mmtk-dep:
     <<: *base
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
     commits:
@@ -45,10 +45,13 @@ runtimes:
 configs:
   - jdk-mmtk-baseline|g1|common3|hs_perf
   - jdk-mmtk-baseline|lxr|common3|tph_perf
-  - jdk-mmtk-item-stealing|lxr|common3|tph_perf
-  - jdk-mmtk-dependency|lxr|common3|tph_perf
-  - jdk-mmtk-all|lxr|common3|tph_perf
   - jdk-mmtk-baseline|ix|common3|tph_perf
-  - jdk-mmtk-item-stealing|ix|common3|tph_perf
-  - jdk-mmtk-dependency|ix|common3|tph_perf
+
+  - jdk-mmtk-dep|lxr|common3|tph_perf
+  - jdk-mmtk-dep|ix|common3|tph_perf
+
+  - jdk-mmtk-item-steal|lxr|common3|tph_perf
   - jdk-mmtk-all|ix|common3|tph_perf
+
+  - jdk-mmtk-all|lxr|common3|tph_perf
+  - jdk-mmtk-item-steal|ix|common3|tph_perf
