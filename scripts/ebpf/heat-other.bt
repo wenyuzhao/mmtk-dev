@@ -1,0 +1,29 @@
+
+profile:hz:100000 /pid==cpid/ {
+    if (!(comm != "MMTk Collector "
+        && strncmp(comm, "G1 ", 3) && strncmp(comm, "GC Thread#", 10)
+        && strncmp(comm, "ZDirector ", 9) && strncmp(comm, "ZDriver", 7) && strncmp(comm, "ZWorker#", 8)
+        && strncmp(comm, "Shenandoah GC T", 15)
+    )) {
+        // @x[comm] = count();
+        // @y[comm] = strncmp(comm, "G1 ", 3);
+        return;
+    }
+
+    @instr_samples[(uint64*) reg("ip")] = count();
+
+    /*
+    $ip = reg("ip");
+    $s = ustack(1);
+    if (($ip & 0xff00000000000000) != 0) {
+       printf("K %x %s\n", $ip, ksym($ip));
+    } else {
+       printf("U %x %s %x\n", $ip, usym($ip), pid);
+       @syms[(uint64*)$ip] = ($s, usym($ip));
+    }
+    */
+}
+
+END {
+    printf("FINISH");
+}
