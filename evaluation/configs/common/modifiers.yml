@@ -262,3 +262,6 @@ modifiers:
     type: EnvVar
     var: MMTK_VERBOSE
     val: "{0}"
+  gc_threads:
+    type: JVMArg
+    val: "-XX:ParallelGCThreads={0} -XX:ConcGCThreads={0}"

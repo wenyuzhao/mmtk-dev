@@ -44,42 +44,34 @@ runtimes:
 
 configs:
   # 1
-  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-0
-  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-0
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-0
-  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-0
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-0
-  # - jdk-mmtk-item-steal|lxr|common3|tph_perf|taskset-0-0
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-0
-  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-0
-  # - jdk-mmtk-item-steal|ix|common3|tph_perf|taskset-0-0
+  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
   # 2
-  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-1
-  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-1
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-1
-  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-1
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-1
-  # - jdk-mmtk-item-steal|lxr|common3|tph_perf|taskset-0-1
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-1
-  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-1
-  # - jdk-mmtk-item-steal|ix|common3|tph_perf|taskset-0-1
+  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-1|gc_threads-2
+  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-1|gc_threads-2
+  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-1|gc_threads-2
+  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-1|gc_threads-2
+  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-1|gc_threads-2
+  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-1|gc_threads-2
+  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-1|gc_threads-2
   # 4
-  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-3
-  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-3
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-3
-  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-3
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-3
-  # - jdk-mmtk-item-steal|lxr|common3|tph_perf|taskset-0-3
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-3
-  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-3
-  # - jdk-mmtk-item-steal|ix|common3|tph_perf|taskset-0-3
+  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-3|gc_threads-4
+  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-3|gc_threads-4
+  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-3|gc_threads-4
+  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-3|gc_threads-4
+  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-3|gc_threads-4
+  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-3|gc_threads-4
+  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-3|gc_threads-4
   # 8
-  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-7
-  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-7
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-7
-  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-7
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-7
-  # - jdk-mmtk-item-steal|lxr|common3|tph_perf|taskset-0-3
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-7
-  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-7
-  # - jdk-mmtk-item-steal|ix|common3|tph_perf|taskset-0-3
+  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-7|gc_threads-8
+  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-7|gc_threads-8
+  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-7|gc_threads-8
+  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-7|gc_threads-8
+  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-7|gc_threads-8
+  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-7|gc_threads-8
+  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-7|gc_threads-8
