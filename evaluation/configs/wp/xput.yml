@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 3
+  invocations: 10
   suites.dacapochopin.minheap: G1-n5
 
 runtimes:
@@ -18,26 +18,26 @@ runtimes:
       mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer
-  jdk-mmtk-item-steal:
-    <<: *base
-    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-    commits:
-      mmtk-core: 92c72028e1a1cb803b26ed34e72ea0cb8de2d971 # wp/dev-stealing
-      mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
-      openjdk: bc9669aaed
-    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
+  # jdk-mmtk-item-steal:
+  #   <<: *base
+  #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 92c72028e1a1cb803b26ed34e72ea0cb8de2d971 # wp/dev-stealing
+  #     mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+  #     openjdk: bc9669aaed
+  # features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
   jdk-mmtk-dep:
     <<: *base
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
     commits:
-      mmtk-core: 35e563dd3ea37ae153676fc797e089bdb7937248 # wp/dev-dep
+      mmtk-core: bfea2b0a793f2e9d00cd41e0c8fcc8b9d2bae6f5 # wp/dev-dep
       mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
       openjdk: bc9669aaed
   jdk-mmtk-all:
     <<: *base
     home: $BUILDS/jdk-lxr-4/jdk-11.0.19
     commits:
-      mmtk-core: 4a96636932b8c786aa98a215e14e421adb0eb7b6 # wp/dev-merge
+      mmtk-core: 705dae91442f085db3030eb66a57508f4a8a9335 # wp/dev-merge
       mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
@@ -46,12 +46,7 @@ configs:
   - jdk-mmtk-baseline|g1|common3|hs_perf
   - jdk-mmtk-baseline|lxr|common3|tph_perf
   - jdk-mmtk-baseline|ix|common3|tph_perf
-
   - jdk-mmtk-dep|lxr|common3|tph_perf
   - jdk-mmtk-dep|ix|common3|tph_perf
-
-  - jdk-mmtk-item-steal|lxr|common3|tph_perf
   - jdk-mmtk-all|ix|common3|tph_perf
-
   - jdk-mmtk-all|lxr|common3|tph_perf
-  - jdk-mmtk-item-steal|ix|common3|tph_perf
