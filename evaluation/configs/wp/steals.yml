@@ -1,0 +1,43 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 5
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-mmtk-baseline: &base
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-steal-rate/jdk-11.0.19
+    commits:
+      mmtk-core: 48542ae2bba15aa9dab97da197eeb7c6c7120c9f # wp/dev-baseline-steal-rate
+      mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/measure_steal
+  jdk-mmtk-dep:
+    <<: *base
+    home: $BUILDS/jdk-lxr-steal-rate-3/jdk-11.0.19
+    commits:
+      mmtk-core: d988b845876fdc358b01764e8c345b3e85e079cb # wp/dev-dep-steal-rate
+      mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
+      openjdk: bc9669aaed
+  jdk-mmtk-all:
+    <<: *base
+    home: $BUILDS/jdk-lxr-steal-rate-4/jdk-11.0.19
+    commits:
+      mmtk-core: 0f354ed5718f2840bcdd100ac1cfe6201990ff1b # wp/dev-merge-steal-rate
+      mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk,mmtk/measure_steal
+
+configs:
+  - jdk-mmtk-baseline|lxr|common3|tph_perf
+  - jdk-mmtk-baseline|ix|common3|tph_perf
+  - jdk-mmtk-dep|lxr|common3|tph_perf
+  - jdk-mmtk-dep|ix|common3|tph_perf
+  - jdk-mmtk-all|ix|common3|tph_perf
+  - jdk-mmtk-all|lxr|common3|tph_perf
