@@ -255,6 +255,8 @@ class Run:
                 result = ["32", "7"]
             elif hfac == "1.4x":
                 result = ["12", "3"]
+            elif hfac == "1.5x":
+                result = ["12", "4"]
             elif hfac == "2x":
                 result = ["12", "7"]
             elif hfac == "3x":
