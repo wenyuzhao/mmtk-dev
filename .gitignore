@@ -20,3 +20,5 @@ _*
 /*.data
 /*.data.old
 /*.jsonl
+/*.zip
+/heapdump-*
