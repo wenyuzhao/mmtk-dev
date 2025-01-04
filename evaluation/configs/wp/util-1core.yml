@@ -5,8 +5,31 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 10
+  invocations: 3
   suites.dacapochopin.minheap: G1-n5
+  benchmarks.dacapochopin:
+    - batik
+    - xalan
+    # - lusearch
+    # - h2
+    # - cassandra
+    # - tomcat
+    - spring
+    - tradebeans
+    - tradesoap
+    - kafka
+    - avrora
+    - biojava
+    - eclipse
+    - fop
+    - graphchi
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - zxing
 
 runtimes:
   jdk-mmtk-baseline: &base
@@ -18,14 +41,6 @@ runtimes:
       mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/utilization
-  # jdk-mmtk-item-steal:
-  #   <<: *base
-  #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-  #   commits:
-  #     mmtk-core: 92c72028e1a1cb803b26ed34e72ea0cb8de2d971 # wp/dev-stealing
-  #     mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
-  #     openjdk: bc9669aaed
-  #   features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/utilization,mmtk/steal_bulk
   jdk-mmtk-dep:
     <<: *base
     home: $BUILDS/jdk-lxr-util-3/jdk-11.0.19
@@ -43,10 +58,11 @@ runtimes:
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk,mmtk/utilization
 
 configs:
-  - jdk-mmtk-baseline|g1|common3|hs_perf
-  - jdk-mmtk-baseline|lxr|common3|tph_perf
-  - jdk-mmtk-baseline|ix|common3|tph_perf
-  - jdk-mmtk-dep|lxr|common3|tph_perf
-  - jdk-mmtk-dep|ix|common3|tph_perf
-  - jdk-mmtk-all|ix|common3|tph_perf
-  - jdk-mmtk-all|lxr|common3|tph_perf
+  # 1
+  - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-0|gc_threads-1
+  - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-0|gc_threads-1

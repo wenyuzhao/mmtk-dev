@@ -228,6 +228,8 @@ class Run:
     anu: bool = field(default=True, negative_prefix="--no-")
     """Rsycn results to squirrel.moma"""
 
+    invocations: int | None = None
+
     workdir: Path | None = None
 
     def __get_hfac_args_list(self, config: dict[str, Any]) -> list[list[str]]:
@@ -253,6 +255,8 @@ class Run:
                 result = ["32", "7"]
             elif hfac == "1.4x":
                 result = ["12", "3"]
+            elif hfac == "1.5x":
+                result = ["12", "4"]
             elif hfac == "2x":
                 result = ["12", "7"]
             elif hfac == "3x":
@@ -290,7 +294,12 @@ class Run:
                 # Run
                 os.system(f"pkill -f java -u {USERNAME} -9")
                 workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
-                cmd: list[str] = ["running", "runbms", *workdir_args, "-p", config_name, "./evaluation/results/log", str(config_file), *hfac_args]
+                if self.invocations is not None:
+                    print(f"🔵 INVOCATIONS: {self.invocations}")
+                    inv = ["--invocations", f"{self.invocations}"]
+                else:
+                    inv = []
+                cmd: list[str] = ["running", "runbms", *workdir_args, "-p", config_name, *inv, "./evaluation/results/log", str(config_file), *hfac_args]
                 commands.append(cmd)
         return commands
 
