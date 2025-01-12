@@ -42,7 +42,15 @@ runtimes:
       mmtk-openjdk: 2f7da8dc817c1364f6d072ec67eb900536b870a5
       openjdk: bc9669aaedc07924d08b939adedcad33f3e76065
     features: mmtk/no_meta_counting,mmtk/ix_dump_holes
+  jdk-lxr-refill:
+    <<: *lxr
+    commits:
+      mmtk-core: 6cb8b8cb8d3f201b2d69fc042eb14284ad2ea9f5
+      mmtk-openjdk: 2f7da8dc817c1364f6d072ec67eb900536b870a5
+      openjdk: bc9669aaedc07924d08b939adedcad33f3e76065
+    features: mmtk/no_meta_counting,mmtk/ix_dump_holes,mmtk/init_bump_pointer_on_medium_alloc
 
 configs:
-  - jdk-lxr|ix|common3|tph
+  # - jdk-lxr|ix|common3|tph
   - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-refill|lxr|common3|tph
