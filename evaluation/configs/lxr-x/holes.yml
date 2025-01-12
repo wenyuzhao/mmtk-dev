@@ -44,6 +44,7 @@ runtimes:
     features: mmtk/no_meta_counting,mmtk/ix_dump_holes
   jdk-lxr-refill:
     <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
       mmtk-core: 6cb8b8cb8d3f201b2d69fc042eb14284ad2ea9f5
       mmtk-openjdk: 2f7da8dc817c1364f6d072ec67eb900536b870a5
