@@ -1,0 +1,23 @@
+hfac: [2x, 3x]
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: a321148d3b936eb9c200b7916206da63c796fcaa
+      mmtk-openjdk: 09f87beba0231e0e3cde4fdb254c275f5b7e704e
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/lxr_stw
+
+configs:
+  - jdk-lxr|lxr|common3|tph

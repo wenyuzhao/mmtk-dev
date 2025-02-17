@@ -74,10 +74,10 @@ class Build:
         if os.system(f"cd {repo} && git checkout {commit} --force") != 0:
             sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
 
-    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None):
+    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool):
         try:
             if test_command is None:
-                run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded)
+                run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo)
                 # run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, jvm=JVMArgs(compressed_oops=False))
                 run.run()
             else:
@@ -147,6 +147,7 @@ class Build:
                 features = runtime.get("features")
                 exploded = runtime.get("exploded", False)
                 test_command = runtime.get("test-command")
+                pgo = runtime.get("pgo", False)
                 # checkout commits
                 print(f"🟢 [{runtime_name}]: mmtk-core@{commits['mmtk-core']} mmtk-openjdk@{commits['mmtk-openjdk']} openjdk@{commits['openjdk']} features={features}")
                 self.__checkout(MMTK_DEV / "mmtk-core", commits["mmtk-core"])
@@ -158,7 +159,7 @@ class Build:
                 if home.endswith("/"):
                     home = home[:-1]
                 build_name = os.path.split(os.path.split(home)[0])[1]
-                self.__build_one(runtime_name=runtime_name, build_name=build_name, features=features, exploded=exploded, test_command=test_command)
+                self.__build_one(runtime_name=runtime_name, build_name=build_name, features=features, exploded=exploded, test_command=test_command, pgo=pgo)
                 assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`: {home}/release does not exist"
                 print(f"✅ [{runtime_name}]: Build successful\n\n\n")
 

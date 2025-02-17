@@ -1,0 +1,63 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: Immix
+  benchmarks.dacapochopin:
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - tradebeans
+    - tradesoap
+    - kafka
+
+    - avrora
+    # - batik
+    - biojava
+    # - eclipse
+    - fop
+    - graphchi
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+runtimes:
+  jdk-lxr-dump: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 2d4930a2db8e4c2bac235d60abadc19da8e3dbda
+      mmtk-openjdk: 2f7da8dc817c1364f6d072ec67eb900536b870a5
+      openjdk: bc9669aaedc07924d08b939adedcad33f3e76065
+    features: mmtk/no_meta_counting,mmtk/ix_dump_holes
+  jdk-lxr-overflow-reuse-dump:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/ix_dump_holes,mmtk/ix_overflow_reused_alloc
+  jdk-lxr:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    features: mmtk/no_meta_counting
+  jdk-lxr-overflow-reuse:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
+    features: mmtk/no_meta_counting,mmtk/ix_overflow_reused_alloc
+
+configs:
+  # - jdk-lxr|ix|common3|tph
+  - jdk-lxr-dump|lxr|common3|tph
+  - jdk-lxr-overflow-reuse-dump|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-overflow-reuse|lxr|common3|tph

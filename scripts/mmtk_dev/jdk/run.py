@@ -8,6 +8,7 @@ from mmtk_dev.utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import choice
 from dataclasses import dataclass
 from simple_parsing import field
+import shutil
 
 # PERF_EVENTS = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_L1I:MISS,0,-1;PERF_COUNT_HW_BRANCH_MISSES,0,-1"
 
@@ -373,29 +374,38 @@ class Run:
         if self.bpftrace is not None:
             ᐅᐳᐳ("sudo", "echo", "''")
             daemon = start_capturing_process(exploded=self.exploded)
-        ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter or self.iter}", bench or self.bench, *bm_args, env=env)
+        ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter if iter is not None else self.iter}", bench or self.bench, *bm_args, env=env)
         if self.bpftrace is not None:
             name = f"{self.gc}-{self.bench}-{self.heap}".lower()
             if self.bpftrace != "":
                 name = name + "-" + self.bpftrace
             daemon.finalize(name=name)
 
+    def __fix_pfm_sys_permission_error(self):
+        for x in Path(MMTK_OPENJDK / "mmtk/target/x86_64-unknown-linux-gnu/release/build").glob("pfm-sys-*"):
+            if x.is_dir():
+                shutil.rmtree(x)
+
     def run(self):
         if self.build:
             if self.pgo:
-                assert self.profile == Profile.release, "PGO requires a release build"
+                self.__fix_pfm_sys_permission_error()
+                assert self.profile == Profile.release or self.release, "PGO requires a release build"
                 assert not self.asan, "PGO does not work with asan"
                 # Build for PGO profile generation
                 self.build_jdk(pgo_step="gen")
                 # Run a few benchmarks to generate PGO profiles
-                self.run_jdk(bench="lusearch", heap="200M", iter=5)
-                self.run_jdk(bench="h2", heap="1200M", iter=5)
-                self.run_jdk(bench="cassandra", heap="800M", iter=5)
-                self.run_jdk(bench="tomcat", heap="300M", iter=5)
+                self.run_jdk(bench="lusearch", heap="50M", iter=5)
+                self.run_jdk(bench="h2", heap="800M", iter=5)
+                self.run_jdk(bench="cassandra", heap="150M", iter=5)
+                self.run_jdk(bench="tomcat", heap="30M", iter=5)
                 # Merge PGO profiles
-                ᐅᐳᐳ(MMTK_DEV / "scripts" / "llvm-profdata", "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data")
+                llvm_profdata = Path.home() / ".cargo/bin/rust-profdata"
+                ᐅᐳᐳ(llvm_profdata, "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data", cwd=MMTK_OPENJDK / "mmtk")
+                self.__fix_pfm_sys_permission_error()
                 # Build again with PGO profiles
                 self.build_jdk(pgo_step="use")
+                self.__fix_pfm_sys_permission_error()
             else:
                 self.build_jdk(pgo_step=None)
         self.run_jdk()
