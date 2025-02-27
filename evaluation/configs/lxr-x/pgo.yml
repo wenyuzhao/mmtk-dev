@@ -18,14 +18,19 @@ runtimes:
       mmtk-openjdk: 09f87beba0231e0e3cde4fdb254c275f5b7e704e
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
-  jdk-lxr-2: # 0.26.0
+  jdk-lxr-pgo-dacapo: # 0.26.0
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-    pgo: true
+    pgo: lusearch,h2,cassandra,tomcat
+  jdk-lxr-pgo-pjbb: # 0.26.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    pgo: pjbb2005
 
 configs:
   # G1
   - jdk-lxr|g1|common3|hs
   # LXR
   - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-2|lxr|common3|tph
+  - jdk-lxr-pgo-dacapo|lxr|common3|tph
+  - jdk-lxr-pgo-pjbb|lxr|common3|tph

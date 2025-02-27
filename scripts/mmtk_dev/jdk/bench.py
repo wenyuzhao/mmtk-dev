@@ -9,7 +9,7 @@ from mmtk_dev.constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
 from dataclasses import dataclass
 from simple_parsing import field
 from mmtk_dev.utils import ᐅᐳᐳ
-from .run import JVMArgs, Run as RunJDK, Build as BuildJDK
+from .run import JVMArgs, Run as RunJDK, Build as BuildJDK, DEFAULT_PGO_TRAINING_BENCHMARKS
 import re
 import shlex
 
@@ -74,13 +74,16 @@ class Build:
         if os.system(f"cd {repo} && git checkout {commit} --force") != 0:
             sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
 
-    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool):
+    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool | str):
         try:
             if test_command is None:
-                run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo)
+                pgo_enabled = pgo if isinstance(pgo, bool) else True
+                pgo_benchmarks = pgo if isinstance(pgo, str) else ",".join(DEFAULT_PGO_TRAINING_BENCHMARKS)
+                run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo_enabled, pgo_benchmarks=pgo_benchmarks)
                 # run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, jvm=JVMArgs(compressed_oops=False))
                 run.run()
             else:
+                assert not pgo, "❌ PGO is not supported with custom test command"
                 build = BuildJDK(release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded)
                 build.run()
                 result = os.system(test_command)

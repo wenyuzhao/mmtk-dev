@@ -36,6 +36,18 @@ class Profile(str, Enum):
     slowdebug = "slowdebug"
 
 
+# PGO_TRAINING_BENCHMARKS = ["lusearch", "h2", "cassandra", "tomcat"]
+DEFAULT_PGO_TRAINING_BENCHMARKS = ["pjbb2005"]
+
+ALL_PGO_TRAINING_BENCHMARKS = {
+    "lusearch": "50M",
+    "h2": "800M",
+    "cassandra": "150M",
+    "tomcat": "30M",
+    "pjbb2005": "220M",
+}
+
+
 @dataclass
 class Clean:
     """
@@ -235,6 +247,9 @@ class Run:
     pgo: bool = field(default=False, negative_prefix="--no-")
     """Run with profile-guided optimization enabled."""
 
+    pgo_benchmarks: str = field(default=",".join(DEFAULT_PGO_TRAINING_BENCHMARKS))
+    """Benchmarks to run for PGO trainin, comma separated"""
+
     # Additional run args
 
     gdb: bool = field(default=False, negative_prefix="--no-")
@@ -312,11 +327,15 @@ class Run:
         wrappers += ["/bin/time", "-v"] if self.time_v else []
         return wrappers
 
-    def run_jdk(self, bench: str | None = None, heap: str | None = None, iter: int | None = None):
-        env: dict[str, str] = {
-            "RUST_BACKTRACE": "1",
-        }
+    def __is_dacapo(self, bench: str):
+        return bench in ["avrora", "batik", "biojava", "cassandra", "eclipse", "fop", "graphchi", "h2", "h2o", "jme", "jython", "kafka", "luindex", "lusearch", "pmd", "spring", "sunflow", "tomcat", "tradebeans", "tradesoap", "xalan", "zxing"]
+
+    def __is_pjbb2005(self, bench: str):
+        return bench in ["pjbb2005"]
+
+    def __gc_and_heap_args(self, heap: str | None = None):
         # MMTk or HotSpot GC args
+        env: dict[str, str] = {}
         heap_args: list[str] = []
         # Enable a GC
         heap_args.append(HOTSPOT_GCS.get(self.gc, "-XX:+UseThirdPartyHeap"))
@@ -334,27 +353,21 @@ class Run:
         heap_args += [f"-Xms{heap}", f"-Xmx{heap}"]
         if not self.jvm.class_unloading:
             heap_args.append("-XX:MetaspaceSize=1G")
-        # taskset wrapper
+        return heap_args, env
+
+    def __common_args(self, heap: str | None = None):
+        env: dict[str, str] = {
+            "RUST_BACKTRACE": "1",
+        }
+        # MMTk or HotSpot GC args
+        gc_jvm_args, gc_env = self.__gc_and_heap_args(heap)
+        # wrappers
         wrappers = self.__get_wrappers()
         # JVM Args
         jvm_args, jvm_envs = self.jvm.get_args()
-        env = {**env, **jvm_envs}
-        # Probe args
-        bm_args: list[str] = []
-        if self.gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
-            if PROBES is not None:
-                jvm_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
-                env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
-        if PROBES is not None:
-            jvm_args += ["--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-Dprobes=RustMMTk", f"-Djava.library.path={PROBES}", "-cp", f"{PROBES}:{PROBES}/probes.jar:{DACAPO_CHOPIN}"]
-            bm_args += ["-c", "probe.DacapoChopinCallback"]
-        else:
-            jvm_args += ["--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED", "-cp", DACAPO_CHOPIN]
-        # Benchmark args
-        if self.jvm.threads.threads_mu is not None:
-            bm_args += ["-t", f"{self.jvm.threads.threads_mu}"]
-        if self.size is not None:
-            bm_args += ["-s", self.size]
+        env = {**env, **gc_env, **jvm_envs}
+        jvm_args += ["--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED"]
+        jvm_args += gc_jvm_args
         # Extra
         if self.asan:
             env["ASAN_OPTIONS"] = "handle_segv=0"
@@ -365,21 +378,64 @@ class Run:
                 jvm_args += ["-Xlog:gc*=debug"]
             elif verbose >= 2:
                 jvm_args += ["-Xlog:gc*"]
-        # Run
+        return wrappers, env, jvm_args
+
+    def __java_bin(self):
         profile = self.profile.value if not self.release else Profile.release.value
         jdk_build_dir = f"{OPENJDK}/build/linux-x86_64-normal-server-{str(profile)}"
         java = f"{jdk_build_dir}/jdk/bin/java" if self.exploded else f"{jdk_build_dir}/images/jdk/bin/java"
         if self.jdk is not None:
             java = f"{self.jdk}/bin/java"
-        if self.bpftrace is not None:
-            ᐅᐳᐳ("sudo", "echo", "''")
-            daemon = start_capturing_process(exploded=self.exploded)
-        ᐅᐳᐳ(*wrappers, java, *jvm_args, *heap_args, "Harness", "-n", f"{iter if iter is not None else self.iter}", bench or self.bench, *bm_args, env=env)
-        if self.bpftrace is not None:
-            name = f"{self.gc}-{self.bench}-{self.heap}".lower()
-            if self.bpftrace != "":
-                name = name + "-" + self.bpftrace
-            daemon.finalize(name=name)
+        return java
+
+    def __bpftrace(self):
+        run = self
+
+        class BPFTracer:
+            def __enter__(self):
+                if run.bpftrace is not None:
+                    ᐅᐳᐳ("sudo", "echo", "''")
+                    self.daemon = start_capturing_process(exploded=run.exploded)
+                return self
+
+            def __exit__(self, exc_type, exc_value, traceback):
+                if run.bpftrace is not None:
+                    name = f"{run.gc}-{run.bench}-{run.heap}".lower()
+                    if run.bpftrace != "":
+                        name = name + "-" + run.bpftrace
+                    self.daemon.finalize(name=name)
+
+        return BPFTracer()
+
+    def run_jdk(self, bench: str | None = None, heap: str | None = None, iter: int | None = None):
+        wrappers, env, jvm_args = self.__common_args(heap)
+        java = self.__java_bin()
+        if self.__is_dacapo(bench or self.bench):
+            # Probe args
+            bm_args: list[str] = []
+            if self.gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
+                if PROBES is not None:
+                    jvm_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
+                    env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
+            if PROBES is not None:
+                jvm_args += ["-Dprobes=RustMMTk", f"-Djava.library.path={PROBES}", "-cp", f"{PROBES}:{PROBES}/probes.jar:{DACAPO_CHOPIN}"]
+                bm_args += ["-c", "probe.DacapoChopinCallback"]
+            else:
+                jvm_args += ["-cp", DACAPO_CHOPIN]
+            # Benchmark args
+            if self.jvm.threads.threads_mu is not None:
+                bm_args += ["-t", f"{self.jvm.threads.threads_mu}"]
+            if self.size is not None:
+                bm_args += ["-s", self.size]
+            # Run
+            with self.__bpftrace():
+                ᐅᐳᐳ(*wrappers, java, *jvm_args, "Harness", "-n", f"{iter if iter is not None else self.iter}", bench or self.bench, *bm_args, env=env)
+        elif self.__is_pjbb2005(bench or self.bench):
+            jvm_args += ["-cp", "/usr/share/benchmarks/pjbb2005/jbb.jar:/usr/share/benchmarks/pjbb2005/check.jar"]
+            assert not self.bpftrace, "BPFTrace is not supported for pjbb2005"
+            ᐅᐳᐳ(*wrappers, java, *jvm_args, "spec.jbb.JBBmain", "-propfile", "/usr/share/benchmarks/pjbb2005/SPECjbb-8x10000.props", "-n", f"{iter if iter is not None else self.iter}", env=env)
+        else:
+            raise ValueError(f"Unknown benchmark {bench or self.bench}")
 
     def __fix_pfm_sys_permission_error(self):
         for x in Path(MMTK_OPENJDK / "mmtk/target/x86_64-unknown-linux-gnu/release/build").glob("pfm-sys-*"):
@@ -395,10 +451,9 @@ class Run:
                 # Build for PGO profile generation
                 self.build_jdk(pgo_step="gen")
                 # Run a few benchmarks to generate PGO profiles
-                self.run_jdk(bench="lusearch", heap="50M", iter=5)
-                self.run_jdk(bench="h2", heap="800M", iter=5)
-                self.run_jdk(bench="cassandra", heap="150M", iter=5)
-                self.run_jdk(bench="tomcat", heap="30M", iter=5)
+                pgo_benchmarks = self.pgo_benchmarks.split(",")
+                for bench in pgo_benchmarks:
+                    self.run_jdk(bench=bench, heap=ALL_PGO_TRAINING_BENCHMARKS[bench], iter=5)
                 # Merge PGO profiles
                 llvm_profdata = Path.home() / ".cargo/bin/rust-profdata"
                 ᐅᐳᐳ(llvm_profdata, "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data", cwd=MMTK_OPENJDK / "mmtk")
