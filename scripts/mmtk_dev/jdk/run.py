@@ -45,6 +45,7 @@ ALL_PGO_TRAINING_BENCHMARKS = {
     "cassandra": "150M",
     "tomcat": "30M",
     "pjbb2005": "220M",
+    "gcbench": "20M",
 }
 
 
@@ -333,6 +334,9 @@ class Run:
     def __is_pjbb2005(self, bench: str):
         return bench in ["pjbb2005"]
 
+    def __is_gcbench(self, bench: str):
+        return bench in ["gcbench"]
+
     def __gc_and_heap_args(self, heap: str | None = None):
         # MMTk or HotSpot GC args
         env: dict[str, str] = {}
@@ -410,6 +414,7 @@ class Run:
     def run_jdk(self, bench: str | None = None, heap: str | None = None, iter: int | None = None):
         wrappers, env, jvm_args = self.__common_args(heap)
         java = self.__java_bin()
+        iter = iter if iter is not None else self.iter
         if self.__is_dacapo(bench or self.bench):
             # Probe args
             bm_args: list[str] = []
@@ -429,11 +434,17 @@ class Run:
                 bm_args += ["-s", self.size]
             # Run
             with self.__bpftrace():
-                ᐅᐳᐳ(*wrappers, java, *jvm_args, "Harness", "-n", f"{iter if iter is not None else self.iter}", bench or self.bench, *bm_args, env=env)
+                ᐅᐳᐳ(*wrappers, java, *jvm_args, "Harness", "-n", f"{iter}", bench or self.bench, *bm_args, env=env)
         elif self.__is_pjbb2005(bench or self.bench):
             jvm_args += ["-cp", "/usr/share/benchmarks/pjbb2005/jbb.jar:/usr/share/benchmarks/pjbb2005/check.jar"]
             assert not self.bpftrace, "BPFTrace is not supported for pjbb2005"
-            ᐅᐳᐳ(*wrappers, java, *jvm_args, "spec.jbb.JBBmain", "-propfile", "/usr/share/benchmarks/pjbb2005/SPECjbb-8x10000.props", "-n", f"{iter if iter is not None else self.iter}", env=env)
+            ᐅᐳᐳ(*wrappers, java, *jvm_args, "spec.jbb.JBBmain", "-propfile", "/usr/share/benchmarks/pjbb2005/SPECjbb-8x10000.props", "-n", f"{iter}", env=env)
+        elif self.__is_gcbench(bench or self.bench):
+            jvm_args += ["-jar", MMTK_DEV / "scripts/gcbench/gcbench.jar"]
+            assert not self.bpftrace, "BPFTrace is not supported for gcbench"
+            if iter > 1:
+                print("Warning: gcbench does not support multiple iterations")
+            ᐅᐳᐳ(*wrappers, java, *jvm_args, env=env)
         else:
             raise ValueError(f"Unknown benchmark {bench or self.bench}")
 

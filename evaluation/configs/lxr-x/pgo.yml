@@ -26,11 +26,16 @@ runtimes:
     <<: *lxr
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
     pgo: pjbb2005
+  jdk-lxr-pgo-gcbench: # 0.26.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
+    pgo: gcbench
 
 configs:
   # G1
-  - jdk-lxr|g1|common3|hs
+  # - jdk-lxr|g1|common3|hs
   # LXR
   - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-pgo-dacapo|lxr|common3|tph
-  - jdk-lxr-pgo-pjbb|lxr|common3|tph
+  # - jdk-lxr-pgo-dacapo|lxr|common3|tph
+  # - jdk-lxr-pgo-pjbb|lxr|common3|tph
+  - jdk-lxr-pgo-gcbench|lxr|common3|tph
