@@ -37,7 +37,7 @@ class Profile(str, Enum):
 
 
 # PGO_TRAINING_BENCHMARKS = ["lusearch", "h2", "cassandra", "tomcat"]
-DEFAULT_PGO_TRAINING_BENCHMARKS = ["pjbb2005"]
+DEFAULT_PGO_TRAINING_BENCHMARKS = ["gcbench"]
 
 ALL_PGO_TRAINING_BENCHMARKS = {
     "lusearch": "50M",
