@@ -214,7 +214,7 @@ class Run:
     """
 
     gc: str
-    """GC plan. e.g. SemiSpace"""
+    """GC plan. e.g. SemiSpace. Comma-separated list of GC plans also supported. e.g. SemiSpace,MarkSweep"""
 
     heap: str
     """Heap size. e.g. 100M. This will set both -Xms and -Xmx to the same value."""
@@ -337,14 +337,14 @@ class Run:
     def __is_gcbench(self, bench: str):
         return bench in ["gcbench"]
 
-    def __gc_and_heap_args(self, heap: str | None = None):
+    def __gc_and_heap_args(self, gc: str, heap: str | None = None):
         # MMTk or HotSpot GC args
         env: dict[str, str] = {}
         heap_args: list[str] = []
         # Enable a GC
-        heap_args.append(HOTSPOT_GCS.get(self.gc, "-XX:+UseThirdPartyHeap"))
-        if self.gc not in HOTSPOT_GCS:
-            env["MMTK_PLAN"] = self.gc
+        heap_args.append(HOTSPOT_GCS.get(gc, "-XX:+UseThirdPartyHeap"))
+        if gc not in HOTSPOT_GCS:
+            env["MMTK_PLAN"] = gc
         # Set GC threads
         if self.jvm.threads.threads_gc is not None:
             env["MMTK_THREADS"] = f"{self.jvm.threads.threads_gc}"
@@ -359,12 +359,12 @@ class Run:
             heap_args.append("-XX:MetaspaceSize=1G")
         return heap_args, env
 
-    def __common_args(self, heap: str | None = None):
+    def __common_args(self, gc: str, heap: str | None = None):
         env: dict[str, str] = {
             "RUST_BACKTRACE": "1",
         }
         # MMTk or HotSpot GC args
-        gc_jvm_args, gc_env = self.__gc_and_heap_args(heap)
+        gc_jvm_args, gc_env = self.__gc_and_heap_args(gc, heap)
         # wrappers
         wrappers = self.__get_wrappers()
         # JVM Args
@@ -378,7 +378,7 @@ class Run:
         if self.verbose != "0":
             env["MMTK_VERBOSE"] = f"{self.verbose}"
             verbose = int(self.verbose)
-            if verbose >= 3 and self.gc in HOTSPOT_GCS:
+            if verbose >= 3 and gc in HOTSPOT_GCS:
                 jvm_args += ["-Xlog:gc*=debug"]
             elif verbose >= 2:
                 jvm_args += ["-Xlog:gc*"]
@@ -411,14 +411,14 @@ class Run:
 
         return BPFTracer()
 
-    def run_jdk(self, bench: str | None = None, heap: str | None = None, iter: int | None = None):
-        wrappers, env, jvm_args = self.__common_args(heap)
+    def run_jdk(self, gc: str, bench: str | None = None, heap: str | None = None, iter: int | None = None):
+        wrappers, env, jvm_args = self.__common_args(gc, heap)
         java = self.__java_bin()
         iter = iter if iter is not None else self.iter
         if self.__is_dacapo(bench or self.bench):
             # Probe args
             bm_args: list[str] = []
-            if self.gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
+            if gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
                 if PROBES is not None:
                     jvm_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
                     env["LD_PRELOAD"] = f"{PROBES}/libperf_statistics_pfm3.so"
@@ -454,6 +454,7 @@ class Run:
                 shutil.rmtree(x)
 
     def run(self):
+        gcs = self.gc.split(",") if "," in self.gc else [self.gc]
         if self.build:
             if self.pgo:
                 self.__fix_pfm_sys_permission_error()
@@ -464,7 +465,8 @@ class Run:
                 # Run a few benchmarks to generate PGO profiles
                 pgo_benchmarks = self.pgo_benchmarks.split(",")
                 for bench in pgo_benchmarks:
-                    self.run_jdk(bench=bench, heap=ALL_PGO_TRAINING_BENCHMARKS[bench], iter=5)
+                    for gc in gcs:
+                        self.run_jdk(gc=gc, bench=bench, heap=ALL_PGO_TRAINING_BENCHMARKS[bench], iter=5)
                 # Merge PGO profiles
                 llvm_profdata = Path.home() / ".cargo/bin/rust-profdata"
                 ᐅᐳᐳ(llvm_profdata, "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data", cwd=MMTK_OPENJDK / "mmtk")
@@ -474,5 +476,6 @@ class Run:
                 self.__fix_pfm_sys_permission_error()
             else:
                 self.build_jdk(pgo_step=None)
-        self.run_jdk()
+        for gc in gcs:
+            self.run_jdk(gc=gc)
         # TODO: cp bench

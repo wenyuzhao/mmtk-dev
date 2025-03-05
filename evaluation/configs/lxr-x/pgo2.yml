@@ -1,0 +1,41 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: Immix
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 9d4dafdd85783ef0b03d03da8f36b0e74526fdf4
+      mmtk-openjdk: 09f87beba0231e0e3cde4fdb254c275f5b7e704e
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  # jdk-lxr-pgo-dacapo: # 0.26.0
+  #   <<: *lxr
+  #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+  #   pgo: lusearch,h2,cassandra,tomcat
+  # jdk-lxr-pgo-pjbb: # 0.26.0
+  #   <<: *lxr
+  #   home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+  #   pgo: pjbb2005
+  jdk-lxr-pgo-gcbench: # 0.26.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
+    pgo: gcbench
+
+configs:
+  # G1
+  - jdk-lxr|g1|common3|hs
+  # LXR
+  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr|ix|common3|tph
+  - jdk-lxr-pgo-gcbench|lxr|common3|tph
+  - jdk-lxr-pgo-gcbench|ix|common3|tph
