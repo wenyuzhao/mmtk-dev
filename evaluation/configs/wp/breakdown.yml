@@ -1,0 +1,33 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-mmtk-baseline: &base
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 352e04e671a08288f3f189443f3339fa98a19172 # wp/dev-baseline
+      mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/work_packet_stats,mmtk/work_packet_counter
+    pgo: true
+  # jdk-mmtk-item-steal:
+  #   <<: *base
+  #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 92c72028e1a1cb803b26ed34e72ea0cb8de2d971 # wp/dev-stealing
+  #     mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+  #     openjdk: bc9669aaed
+  # features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
+
+configs:
+  - jdk-mmtk-baseline|lxr|common3|tph_perf
+  - jdk-mmtk-baseline|ix|common3|tph_perf
