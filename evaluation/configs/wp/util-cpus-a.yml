@@ -30,6 +30,7 @@ runtimes:
       mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/utilization
+    pgo: true
   # jdk-mmtk-item-steal:
   #   <<: *base
   #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
@@ -45,6 +46,7 @@ runtimes:
       mmtk-core: bfea2b0a793f2e9d00cd41e0c8fcc8b9d2bae6f5 # wp/dev-dep
       mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
       openjdk: bc9669aaed
+    pgo: true
   jdk-mmtk-all:
     <<: *base
     home: $BUILDS/jdk-lxr-util-4/jdk-11.0.19
@@ -53,37 +55,38 @@ runtimes:
       mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk,mmtk/utilization
+    pgo: true
 
 configs:
   # 1
-  # - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-0|gc_threads-1
-  # - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-0|gc_threads-1
-  # - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-0|gc_threads-1
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-0|gc_threads-1
-  # - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-0|gc_threads-1
+  # - jdk-mmtk-baseline|g1|common3|hs_perf|gc_threads-1
+  # - jdk-mmtk-baseline|lxr|common3|tph_perf|gc_threads-1
+  - jdk-mmtk-baseline|ix|common3|tph_perf|gc_threads-1
+  # - jdk-mmtk-dep|lxr|common3|tph_perf|gc_threads-1
+  - jdk-mmtk-dep|ix|common3|tph_perf|gc_threads-1
+  - jdk-mmtk-all|ix|common3|tph_perf|gc_threads-1
+  # - jdk-mmtk-all|lxr|common3|tph_perf|gc_threads-1
   # 2
-  # - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-1|gc_threads-2
-  # - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-1|gc_threads-2
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-1|gc_threads-2
-  # - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-1|gc_threads-2
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-1|gc_threads-2
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-1|gc_threads-2
-  # - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-1|gc_threads-2
+  # - jdk-mmtk-baseline|g1|common3|hs_perf|gc_threads-2
+  # - jdk-mmtk-baseline|lxr|common3|tph_perf|gc_threads-2
+  - jdk-mmtk-baseline|ix|common3|tph_perf|gc_threads-2
+  # - jdk-mmtk-dep|lxr|common3|tph_perf|gc_threads-2
+  - jdk-mmtk-dep|ix|common3|tph_perf|gc_threads-2
+  - jdk-mmtk-all|ix|common3|tph_perf|gc_threads-2
+  # - jdk-mmtk-all|lxr|common3|tph_perf|gc_threads-2
   # 4
-  # - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-3|gc_threads-4
-  # - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-3|gc_threads-4
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-3|gc_threads-4
-  # - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-3|gc_threads-4
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-3|gc_threads-4
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-3|gc_threads-4
-  # - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-3|gc_threads-4
+  # - jdk-mmtk-baseline|g1|common3|hs_perf|gc_threads-4
+  # - jdk-mmtk-baseline|lxr|common3|tph_perf|gc_threads-4
+  - jdk-mmtk-baseline|ix|common3|tph_perf|gc_threads-4
+  # - jdk-mmtk-dep|lxr|common3|tph_perf|gc_threads-4
+  - jdk-mmtk-dep|ix|common3|tph_perf|gc_threads-4
+  - jdk-mmtk-all|ix|common3|tph_perf|gc_threads-4
+  # - jdk-mmtk-all|lxr|common3|tph_perf|gc_threads-4
   # 8
-  # - jdk-mmtk-baseline|g1|common3|hs_perf|taskset-0-7|gc_threads-8
-  # - jdk-mmtk-baseline|lxr|common3|tph_perf|taskset-0-7|gc_threads-8
-  - jdk-mmtk-baseline|ix|common3|tph_perf|taskset-0-7|gc_threads-8
-  # - jdk-mmtk-dep|lxr|common3|tph_perf|taskset-0-7|gc_threads-8
-  - jdk-mmtk-dep|ix|common3|tph_perf|taskset-0-7|gc_threads-8
-  - jdk-mmtk-all|ix|common3|tph_perf|taskset-0-7|gc_threads-8
-  # - jdk-mmtk-all|lxr|common3|tph_perf|taskset-0-7|gc_threads-8
+  # - jdk-mmtk-baseline|g1|common3|hs_perf|gc_threads-8
+  # - jdk-mmtk-baseline|lxr|common3|tph_perf|gc_threads-8
+  - jdk-mmtk-baseline|ix|common3|tph_perf|gc_threads-8
+  # - jdk-mmtk-dep|lxr|common3|tph_perf|gc_threads-8
+  - jdk-mmtk-dep|ix|common3|tph_perf|gc_threads-8
+  - jdk-mmtk-all|ix|common3|tph_perf|gc_threads-8
+  # - jdk-mmtk-all|lxr|common3|tph_perf|gc_threads-8

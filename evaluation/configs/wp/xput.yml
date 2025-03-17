@@ -8,6 +8,8 @@ overrides:
   invocations: 10
   suites.dacapochopin.minheap: G1-n5
 
+build_gc: LXR,Immix
+
 runtimes:
   jdk-mmtk-baseline: &base
     type: OpenJDK

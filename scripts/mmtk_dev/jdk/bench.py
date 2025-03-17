@@ -40,7 +40,7 @@ class Build:
     config: str
     """Running config name"""
 
-    gc: str = "Immix"
+    gc: str | None
     """GC to test the build"""
 
     clean: bool = field(default=False, negative_prefix="--no-")
@@ -74,12 +74,12 @@ class Build:
         if os.system(f"cd {repo} && git checkout {commit} --force") != 0:
             sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
 
-    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool | str):
+    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool | str, build_gc: str | None):
         try:
             if test_command is None:
                 pgo_enabled = pgo if isinstance(pgo, bool) else True
                 pgo_benchmarks = pgo if isinstance(pgo, str) else ",".join(DEFAULT_PGO_TRAINING_BENCHMARKS)
-                run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo_enabled, pgo_benchmarks=pgo_benchmarks)
+                run = RunJDK(gc=self.gc or build_gc or "Immix", bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo_enabled, pgo_benchmarks=pgo_benchmarks)
                 # run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, jvm=JVMArgs(compressed_oops=False))
                 run.run()
             else:
@@ -141,6 +141,9 @@ class Build:
         with open(config_file, "r") as file:
             doc = yaml.safe_load(file)
             self.__check_builds(doc["runtimes"])
+            build_gc = doc.get("build_gc")
+            # if build_gc is not None:
+            print(f"🟢 [build-gc]: {build_gc}")
             for runtime_name, runtime in doc["runtimes"].items():
                 assert "commits" in runtime, f"❌ `runtimes.{runtime_name}.commits` is not defined"
                 commits = runtime["commits"]
@@ -162,7 +165,7 @@ class Build:
                 if home.endswith("/"):
                     home = home[:-1]
                 build_name = os.path.split(os.path.split(home)[0])[1]
-                self.__build_one(runtime_name=runtime_name, build_name=build_name, features=features, exploded=exploded, test_command=test_command, pgo=pgo)
+                self.__build_one(runtime_name=runtime_name, build_name=build_name, features=features, exploded=exploded, test_command=test_command, pgo=pgo, build_gc=build_gc)
                 assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`: {home}/release does not exist"
                 print(f"✅ [{runtime_name}]: Build successful\n\n\n")
 

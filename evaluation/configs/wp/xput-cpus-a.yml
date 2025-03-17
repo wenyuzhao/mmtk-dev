@@ -5,7 +5,7 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 5
+  invocations: 10
   suites.dacapochopin.minheap: G1-n5
   benchmarks.dacapochopin:
     - h2
@@ -19,6 +19,8 @@ overrides:
     - jme
     - luindex
     - zxing
+
+build_gc: Immix,LXR
 
 runtimes:
   jdk-mmtk-baseline: &base
