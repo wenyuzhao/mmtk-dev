@@ -1,12 +1,14 @@
-hfac: 32-3-9-16-22-27-32
-# 7 -> 1.8x
+hfac: 32-7
+
+# 32-7 - 1.8x
+# 32-10 - 2.2x
 
 includes:
   - $CONFIGS/common/common-lxr.yml
 
 overrides:
   heap_range: 6
-  invocations: 20
+  invocations: 10
   suites.dacapochopin.minheap: G1-n5
   # benchmarks.dacapochopin:
   #   - fop
@@ -39,6 +41,6 @@ configs:
   - jdk-lxr|z|common3|hs_perf
   - jdk-lxr|parallel|common3|hs_perf
   - jdk-lxr|serial|common3|hs_perf
-  # # LXR
+  # LXR
   - jdk-lxr|lxr|common3|tph_perf
   - jdk-lxr-jul2023|lxr|common3|tph_perf

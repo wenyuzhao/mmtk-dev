@@ -3,6 +3,8 @@ hfac: 1.3x
 includes:
   - $CONFIGS/common/common-lxr.yml
 
+build_gc: LXR
+
 overrides:
   heap_range: 3
   invocations: 20
@@ -27,13 +29,16 @@ runtimes:
       mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
+    pgo: true
   jdk-lxr-jul2023:
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-jul2023/jdk-11.0.19
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-1/jdk-11.0.19
     commits:
       mmtk-core: ad9314e
       mmtk-openjdk: 98eb6f9f
       openjdk: bc9669aaed
+    pgo: true
 
 configs:
   # G1

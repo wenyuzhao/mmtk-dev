@@ -145,6 +145,7 @@ class Build:
             # if build_gc is not None:
             print(f"🟢 [build-gc]: {build_gc}")
             for runtime_name, runtime in doc["runtimes"].items():
+                ᐅᐳᐳ("make", f"clean", cwd=OPENJDK / "build" / "linux-x86_64-normal-server-release")
                 assert "commits" in runtime, f"❌ `runtimes.{runtime_name}.commits` is not defined"
                 commits = runtime["commits"]
                 if commits is None:

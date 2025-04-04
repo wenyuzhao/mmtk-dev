@@ -1,0 +1,29 @@
+hfac: 32-3-9-16-22-27-32
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 6
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+  # benchmarks.dacapochopin:
+  #   - fop
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr-no-edge-enqueue: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: c9977c11db2ce4553dc3d060fb6fd6e07c8fab6d # lxr-x/no-cmopt
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/no_dyn_dispatch,mmtk/fast_rc_check,mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  - jdk-lxr-no-edge-enqueue|g1|common3|hs
+  - jdk-lxr-no-edge-enqueue|lxr|common3|tph
