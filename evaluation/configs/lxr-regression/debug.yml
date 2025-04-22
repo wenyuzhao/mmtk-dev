@@ -1,0 +1,93 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+build_gc: LXR
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin.minheap: G1-n5
+  benchmarks.dacapochopin:
+    - h2
+    - luindex
+    - tradebeans
+    - tradesoap
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 9d4dafdd85783ef0b03d03da8f36b0e74526fdf4
+      mmtk-openjdk: 09f87beba0231e0e3cde4fdb254c275f5b7e704e
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-2:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-v0.27.0
+      mmtk-openjdk: lxr-v0.27.0
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-3:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-3/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-v0.28.0
+      mmtk-openjdk: lxr-v0.28.0
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-4:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-4/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-v0.29.0
+      mmtk-openjdk: lxr-v0.29.0
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-5:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-5/jdk-11.0.19
+    commits:
+      mmtk-core: lxr-v0.30.0
+      mmtk-openjdk: lxr-v0.30.0
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-6:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-6/jdk-11.0.19
+    commits:
+      mmtk-core: fe3430b1aa0b76b4998acf382c22f617d1e567a5
+      mmtk-openjdk: 34a3bfa557a4652b04757ceb52856c13ccbc5803
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  # G1
+  # - jdk-lxr|g1|common3|hs
+  # LXR
+  - jdk-lxr|lxr|common3|tph
+  - jdk-lxr-2|lxr|common3|tph
+  - jdk-lxr-3|lxr|common3|tph
+  - jdk-lxr-4|lxr|common3|tph
+  - jdk-lxr-5|lxr|common3|tph
+  - jdk-lxr-6|lxr|common3|tph
+
+
+# 0.26.0 .. 0.27.0
+
