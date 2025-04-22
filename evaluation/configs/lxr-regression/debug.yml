@@ -21,8 +21,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 9d4dafdd85783ef0b03d03da8f36b0e74526fdf4
-      mmtk-openjdk: 09f87beba0231e0e3cde4fdb254c275f5b7e704e
+      mmtk-core: lxr-2025-04-13
+      mmtk-openjdk: lxr-2025-04-13
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
@@ -31,8 +31,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: lxr-v0.27.0
-      mmtk-openjdk: lxr-v0.27.0
+      mmtk-core: c36e3ebc06379f497450f52bc4348e4bc6086def # a3a
+      mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
@@ -41,8 +41,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
     commits:
-      mmtk-core: lxr-v0.28.0
-      mmtk-openjdk: lxr-v0.28.0
+      mmtk-core: 5246db992f8524627be4861b862c6f1a7a635b92 # eb9
+      mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
@@ -51,8 +51,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-4/jdk-11.0.19
     commits:
-      mmtk-core: lxr-v0.29.0
-      mmtk-openjdk: lxr-v0.29.0
+      mmtk-core: 7a541f10c0178334ad71368d567f4289720c2e11 # 9a4
+      mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
@@ -61,8 +61,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-5/jdk-11.0.19
     commits:
-      mmtk-core: lxr-v0.30.0
-      mmtk-openjdk: lxr-v0.30.0
+      mmtk-core: 7ce91b6ed9c3d3b05981587d72160f02e46f8dba # 862
+      mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
@@ -71,8 +71,8 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-6/jdk-11.0.19
     commits:
-      mmtk-core: fe3430b1aa0b76b4998acf382c22f617d1e567a5
-      mmtk-openjdk: 34a3bfa557a4652b04757ceb52856c13ccbc5803
+      mmtk-core: ce10ed02e190444ecf1a4db25cbdfe910d86afd6 # 160
+      mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
