@@ -31,7 +31,7 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: c36e3ebc06379f497450f52bc4348e4bc6086def # a3a
+      mmtk-core: 5246db992f8524627be4861b862c6f1a7a635b92 # eb9
       mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
@@ -41,7 +41,7 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-3/jdk-11.0.19
     commits:
-      mmtk-core: 5246db992f8524627be4861b862c6f1a7a635b92 # eb9
+      mmtk-core: 8f75f9abdd7fad4bac368e28c0ba2f62432ba779 # 5ed
       mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
@@ -51,7 +51,7 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-4/jdk-11.0.19
     commits:
-      mmtk-core: 7a541f10c0178334ad71368d567f4289720c2e11 # 9a4
+      mmtk-core: b89c032ad72afb4e9654c725e6c6b322c7988931 # 0c1
       mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
@@ -61,17 +61,7 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr-5/jdk-11.0.19
     commits:
-      mmtk-core: 7ce91b6ed9c3d3b05981587d72160f02e46f8dba # 862
-      mmtk-openjdk: lxr-27-debug-1
-      openjdk: bc9669aaed
-    features: mmtk/no_meta_counting
-    pgo: true
-  jdk-lxr-6:
-    type: OpenJDK
-    release: 11
-    home: $BUILDS/jdk-lxr-6/jdk-11.0.19
-    commits:
-      mmtk-core: ce10ed02e190444ecf1a4db25cbdfe910d86afd6 # 160
+      mmtk-core: 7a541f10c0178334ad71368d567f4289720c2e11 # 9a4
       mmtk-openjdk: lxr-27-debug-1
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
@@ -86,8 +76,5 @@ configs:
   - jdk-lxr-3|lxr|common3|tph
   - jdk-lxr-4|lxr|common3|tph
   - jdk-lxr-5|lxr|common3|tph
-  - jdk-lxr-6|lxr|common3|tph
-
-
 # 0.26.0 .. 0.27.0
 
