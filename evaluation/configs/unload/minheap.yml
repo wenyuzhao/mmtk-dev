@@ -1,0 +1,61 @@
+# Min-heap measurement
+
+includes:
+  - "$RUNNING_NG_PACKAGE_DATA/base/minheap.yml"
+  - "../common/common-lxr.yml"
+
+overrides:
+  suites.dacapochopin.timing_iteration: 5
+  suites.dacapochopin.callback: null
+  suites.dacapochopin.timeout: 600
+  maxheap: 2048
+
+runtimes:
+  jdk-mmtk-master: &lxr
+    type: OpenJDK
+    release: 11
+    home: evaluation/builds/jdk-mmtk-0/jdk-11.0.19
+    commits:
+      mmtk-core: 5f48a8a8c263225723b82ecc31962b89c0b4dbad
+      mmtk-openjdk: 8f7bf0ad5ef5ebe21a87242d8658538d90e03ef6
+      openjdk: bc9669aaed
+  jdk-mmtk-unload:
+    type: OpenJDK
+    release: 11
+    home: evaluation/builds/jdk-mmtk-1/jdk-11.0.19
+    commits:
+      mmtk-core: 81eef6ac43193a244b8f40d3ac9dce6a840179dc
+      mmtk-openjdk: 28058b7eb9602d8070f630cc0483bb69270e0fbe
+      openjdk: bc9669aaed
+
+benchmarks:
+  dacapochopin:
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - kafka
+    - tradebeans
+    - tradesoap
+
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - fop
+    - graphchi
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
+
+configs:
+  - jdk-mmtk-master|ix|common3|tph|metaspace1g
+  - jdk-mmtk-master|ix|common3|tph
+  - jdk-mmtk-unload|ix|common3|tph|metaspace1g
+  - jdk-mmtk-unload|ix|common3|tph
