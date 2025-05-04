@@ -11,21 +11,29 @@ overrides:
   maxheap: 2048
 
 runtimes:
-  jdk-mmtk-master: &lxr
+  # jdk-mmtk-master: &lxr
+  #   type: OpenJDK
+  #   release: 11
+  #   home: evaluation/builds/jdk-mmtk-0/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 5f48a8a8c263225723b82ecc31962b89c0b4dbad
+  #     mmtk-openjdk: 8f7bf0ad5ef5ebe21a87242d8658538d90e03ef6
+  #     openjdk: bc9669aaed
+  # jdk-mmtk-unload:
+  #   type: OpenJDK
+  #   release: 11
+  #   home: evaluation/builds/jdk-mmtk-1/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 81eef6ac43193a244b8f40d3ac9dce6a840179dc
+  #     mmtk-openjdk: 28058b7eb9602d8070f630cc0483bb69270e0fbe
+  #     openjdk: bc9669aaed
+  jdk-mmtk-lxr:
     type: OpenJDK
     release: 11
-    home: evaluation/builds/jdk-mmtk-0/jdk-11.0.19
+    home: evaluation/builds/jdk-mmtk-2/jdk-11.0.19
     commits:
-      mmtk-core: 5f48a8a8c263225723b82ecc31962b89c0b4dbad
-      mmtk-openjdk: 8f7bf0ad5ef5ebe21a87242d8658538d90e03ef6
-      openjdk: bc9669aaed
-  jdk-mmtk-unload:
-    type: OpenJDK
-    release: 11
-    home: evaluation/builds/jdk-mmtk-1/jdk-11.0.19
-    commits:
-      mmtk-core: 81eef6ac43193a244b8f40d3ac9dce6a840179dc
-      mmtk-openjdk: 28058b7eb9602d8070f630cc0483bb69270e0fbe
+      mmtk-core: lxr
+      mmtk-openjdk: lxr
       openjdk: bc9669aaed
 
 benchmarks:
@@ -55,7 +63,13 @@ benchmarks:
     - zxing
 
 configs:
-  - jdk-mmtk-master|ix|common3|tph|metaspace1g
-  - jdk-mmtk-master|ix|common3|tph
-  - jdk-mmtk-unload|ix|common3|tph|metaspace1g
-  - jdk-mmtk-unload|ix|common3|tph
+  # - jdk-mmtk-master|ix|common3|tph|metaspace1g
+  # - jdk-mmtk-master|ix|common3|tph
+  # - jdk-mmtk-unload|ix|common3|tph|metaspace1g
+  # - jdk-mmtk-unload|ix|common3|tph
+  - jdk-mmtk-lxr|ix|common3|tph|metaspace1g
+  - jdk-mmtk-lxr|ix|common3|tph
+  - jdk-mmtk-lxr|ix|common3|tph|metaspace1g|no_weak
+  - jdk-mmtk-lxr|ix|common3|tph|no_weak
+  - jdk-mmtk-lxr|ix|common3|tph|metaspace1g|no_unload
+  - jdk-mmtk-lxr|ix|common3|tph|no_unload

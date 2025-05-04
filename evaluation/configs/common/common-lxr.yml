@@ -11,6 +11,12 @@ modifiers:
   no_weak_and_class_unload:
     type: JVMArg
     val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark -XX:-RegisterReferences
+  no_weak:
+    type: JVMArg
+    val: -XX:-RegisterReferences
+  no_unload:
+    type: JVMArg
+    val: -XX:-ClassUnloading -XX:-ClassUnloadingWithConcurrentMark
   nb:
     type: EnvVar
     var: "NURSERY_BLOCKS"
