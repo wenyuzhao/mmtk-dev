@@ -30,21 +30,21 @@ runtimes:
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
-  jdk-lxr-opt-134: &cm-cfg
-    type: OpenJDK
-    release: 11
-    home: /$BUILDS/jdk-lxr-2/jdk-11.0.19
-    commits:
-      mmtk-core: c9977c11db2ce4553dc3d060fb6fd6e07c8fab6d # lxr-x/no-cmopt
-      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
-      openjdk: bc9669aaed
-    features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/fast_rc_check,mmtk/no_meta_counting
-    pgo: true
-  jdk-lxr-opt-1234:
-    <<: *cm-cfg
-    home: /$BUILDS/jdk-lxr-3/jdk-11.0.19
-    features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/no_dyn_dispatch,mmtk/fast_rc_check,mmtk/no_meta_counting
-    pgo: true
+  # jdk-lxr-opt-134: &cm-cfg
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-lxr-2/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: c9977c11db2ce4553dc3d060fb6fd6e07c8fab6d # lxr-x/no-cmopt
+  #     mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+  #     openjdk: bc9669aaed
+  #   features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/fast_rc_check,mmtk/no_meta_counting
+  #   pgo: true
+  # jdk-lxr-opt-1234:
+  #   <<: *cm-cfg
+  #   home: /$BUILDS/jdk-lxr-3/jdk-11.0.19
+  #   features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/no_dyn_dispatch,mmtk/fast_rc_check,mmtk/no_meta_counting
+  #   pgo: true
 
 configs:
   # G1
@@ -54,5 +54,5 @@ configs:
   # LXR
   - jdk-lxr|lxr|common3|tph
   - jdk-lxr-jul2023|lxr|common3|tph
-  - jdk-lxr-opt134|lxr|common3|tph
-  - jdk-lxr-opt1234|lxr|common3|tph
+  # - jdk-lxr-opt134|lxr|common3|tph
+  # - jdk-lxr-opt1234|lxr|common3|tph
