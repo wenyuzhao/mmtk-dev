@@ -8,3 +8,9 @@ overrides:
   suites.dacapochopin.timing_iteration: 5
   suites.dacapochopin.callback: probe.DacapoChopinCallback
   suites.dacapochopin.timeout: 6000
+
+runtimes:
+  temurin-24:
+    type: OpenJDK
+    release: 24
+    home: /usr/lib/jvm/temurin-24-jdk-amd64

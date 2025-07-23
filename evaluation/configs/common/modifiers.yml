@@ -270,3 +270,46 @@ modifiers:
   gc_threads:
     type: JVMArg
     val: "-XX:ParallelGCThreads={0} -XX:ConcGCThreads={0}"
+  dacapochopin_jdk21:
+    type: ModifierSet
+    val: "dacapochopin_jdk17|dacapochopin_jdk21_h2o"
+  dacapochopin_jdk21_h2o:
+    type: JVMArg
+    val: "-Dsys.ai.h2o.debug.allowJavaVersions=21"
+    includes:
+      dacapochopin:
+        - h2o
+  dacapochopin_jdk17:
+    type: ModifierSet
+    val: "dacapochopin_jdk11|dacapochopin_jdk17_cassandra"
+  dacapochopin_jdk17_cassandra:
+    type: JVMArg
+    val: "-Djava.security.manager=allow"
+    includes:
+      dacapochopin:
+        - cassandra
+  dacapochopin_jdk11:
+    type: ModifierSet
+    val: "dacapochopin_jdk9"
+  dacapochopin_jdk9:
+    type: ModifierSet
+    val: "dacapochopin_jdk9_h2o|dacapochopin_jdk9_cassandra|dacapochopin_jdk9_trades"
+  dacapochopin_jdk9_h2o:
+    type: JVMArg
+    val: "--add-opens java.base/java.lang=ALL-UNNAMED"
+    includes:
+      dacapochopin:
+        - h2o
+  dacapochopin_jdk9_cassandra:
+    type: JVMArg
+    val: "--add-exports java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED"
+    includes:
+      dacapochopin:
+        - cassandra
+  dacapochopin_jdk9_trades:
+    type: JVMArg
+    val: "--add-opens java.base/java.util=ALL-UNNAMED"
+    includes:
+      dacapochopin:
+        - tradebeans
+        - tradesoap
