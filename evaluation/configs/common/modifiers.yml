@@ -169,7 +169,7 @@ modifiers:
     type: EnvVar
     var: "MMTK_PLAN"
     val: "StickyImmix"
-  
+
   epsilon:
     type: ModifierSet
     val: "hotspot_gc-Epsilon"
@@ -270,6 +270,15 @@ modifiers:
   gc_threads:
     type: JVMArg
     val: "-XX:ParallelGCThreads={0} -XX:ConcGCThreads={0}"
+  dacapochopin_jdk24:
+    type: ModifierSet
+    val: "dacapochopin_jdk17|dacapochopin_jdk24_h2o"
+  dacapochopin_jdk24_h2o:
+    type: JVMArg
+    val: "-Dsys.ai.h2o.debug.allowJavaVersions=24"
+    includes:
+      dacapochopin:
+        - h2o
   dacapochopin_jdk21:
     type: ModifierSet
     val: "dacapochopin_jdk17|dacapochopin_jdk21_h2o"
