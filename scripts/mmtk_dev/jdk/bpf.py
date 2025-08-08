@@ -9,7 +9,7 @@ from datetime import datetime
 from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
 import os
 
-BPFTRACE_SCRIPT = MMTK_DEV / "scripts" / "bpf" / "wp.bt"
+BPFTRACE_SCRIPT = MMTK_DEV / "scripts" / "ebpf" / "wp.bt"
 MMTK_BIN_X = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
 MMTK_BIN = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "images" "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
 
@@ -148,7 +148,7 @@ class LogProcessor:
         )
 
     def upload_trace(self, file: Path) -> str | None:
-        url = "https://perfetto.wenyu.me/api/trace?scope=mmtk"
+        url = "https://perfetto.pages.dev/api/trace?scope=mmtk"
         print(f"Uploading trace file {file} ...")
 
         result = subprocess.run(["cloudflared", "access", "curl", url, "-F", f"file=@{file}"], stdout=subprocess.PIPE, universal_newlines=True, check=True)
