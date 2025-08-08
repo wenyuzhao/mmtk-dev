@@ -1,0 +1,43 @@
+hfac: 3x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+build_gc: Immix
+
+overrides:
+  heap_range: 3
+  invocations: 40
+  suites.dacapochopin.minheap: G1-n5
+
+runtimes:
+  jdk-mmtk: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-mmtk-1/jdk-11.0.19
+    commits:
+      mmtk-core: 5f48a8a8c263225723b82ecc31962b89c0b4dbad
+      mmtk-openjdk: 8f7bf0ad5ef5ebe21a87242d8658538d90e03ef6
+      openjdk: bc9669aaed
+    pgo: true
+  jdk-mmtk-cls-unload:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-mmtk-2/jdk-11.0.19
+    commits:
+      mmtk-core: f4ab45e859a8b04764261f28ed37d5f3161f40ac
+      mmtk-openjdk: 8a4cbe62288de5425a7524cee2e7f08fcaf438b6
+      openjdk: bc9669aaed
+    pgo: true
+
+configs:
+  - jdk-mmtk|ix|common3|tph
+  - jdk-mmtk-cls-unload|ix|common3|tph
+  - jdk-mmtk|genix|common3|tph
+  - jdk-mmtk-cls-unload|genix|common3|tph
+  # - jdk-mmtk|gencp|common3|tph
+  # - jdk-mmtk-cls-unload|gencp|common3|tph
+  # - jdk-mmtk|stickyix|common3|tph
+  # - jdk-mmtk-cls-unload|stickyix|common3|tph
+  # - jdk-mmtk|ss|common3|tph
+  # - jdk-mmtk-cls-unload|ss|common3|tph
