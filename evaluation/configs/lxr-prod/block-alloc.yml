@@ -31,6 +31,6 @@ runtimes:
     features: mmtk/mutator_reused_block_state_bug,mmtk/no_meta_counting
 
 configs:
-  - jdk-lxr|lxr|common|tph_perf
-  - jdk-lxr-no-block-alloc-opt|lxr|common|tph_perf
-  - jdk-lxr-no-block-alloc-opt-no-bug-fix|lxr|common|tph_perf
+  - jdk-lxr|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-block-alloc-opt|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-block-alloc-opt-no-bug-fix|lxr|common|tph_perf|disable_thp

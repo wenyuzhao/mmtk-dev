@@ -110,6 +110,10 @@ modifiers:
   hugetlb:
     type: JVMArg
     val: "-XX:+UseTransparentHugePages"
+  disable_thp:
+    type: EnvVar
+    var: "TRANSPARENT_HUGEPAGE"
+    val: "0"
   barrier:
     type: EnvVar
     var: "BARRIER"

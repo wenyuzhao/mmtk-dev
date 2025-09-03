@@ -52,7 +52,7 @@ configs:
   - jdk-lxr|shenandoah|common3|hs
   - jdk-lxr|z|common3|hs
   # LXR
-  - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-jul2023|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph|disable_thp
+  - jdk-lxr-jul2023|lxr|common3|tph|disable_thp
   # - jdk-lxr-opt134|lxr|common3|tph
   # - jdk-lxr-opt1234|lxr|common3|tph

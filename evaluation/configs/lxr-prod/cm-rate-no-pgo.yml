@@ -53,12 +53,12 @@ runtimes:
 
 configs:
   # LXR
-  - jdk-lxr-no-opt|lxr|common3|tph
-  - jdk-lxr-opt-mark|lxr|common3|tph
-  - jdk-lxr-opt-space-check|lxr|common3|tph
-  - jdk-lxr-no-dyn-dispatch|lxr|common3|tph
-  - jdk-lxr-opt-rc-check|lxr|common3|tph
-  - jdk-lxr-edge-enqueuing|lxr|common3|tph
-  - jdk-lxr-opt-124|lxr|common3|tph
-  - jdk-lxr-opt-1234|lxr|common3|tph
-  - jdk-lxr-opt|lxr|common3|tph
+  - jdk-lxr-no-opt|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-mark|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-space-check|lxr|common3|tph|disable_thp
+  - jdk-lxr-no-dyn-dispatch|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-rc-check|lxr|common3|tph|disable_thp
+  - jdk-lxr-edge-enqueuing|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-124|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-1234|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt|lxr|common3|tph|disable_thp

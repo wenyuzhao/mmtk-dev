@@ -46,8 +46,8 @@ configs:
   - jdk-lxr|shenandoah|common3|hs|latency
   - jdk-lxr|z|common3|hs|latency
   # LXR
-  - jdk-lxr|lxr|common3|tph|latency
-  - jdk-lxr-jul2023|lxr|common3|tph|latency
+  - jdk-lxr|lxr|common3|tph|latency|disable_thp
+  - jdk-lxr-jul2023|lxr|common3|tph|latency|disable_thp
 
 plugins:
   dacapo-latency:

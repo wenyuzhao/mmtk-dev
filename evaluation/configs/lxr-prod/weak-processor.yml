@@ -26,5 +26,5 @@ runtimes:
       mmtk-openjdk: 85d3d7834 # lxr-x/no-weakprocessor-opt
 
 configs:
-  - jdk-lxr|lxr|common|tph_perf
-  - jdk-lxr-no-weak-processor-opt|lxr|common|tph_perf
+  - jdk-lxr|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-weak-processor-opt|lxr|common|tph_perf|disable_thp
