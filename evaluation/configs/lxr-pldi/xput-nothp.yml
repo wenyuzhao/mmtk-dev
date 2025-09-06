@@ -1,0 +1,98 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  benchmarks:
+    dacapochopin-b00bfa9:
+      - lusearch
+      - h2
+      - cassandra
+      - tomcat
+      - fop
+      - h2o
+      - avrora
+      - batik
+      - biojava
+      - eclipse
+      - graphchi
+      - jython
+      - luindex
+      - pmd
+      - sunflow
+      - xalan
+      - zxing
+  suites:
+    dacapochopin-b00bfa9:
+      callback: probe.DacapoChopinCallback
+      minheap: g1
+      minheap_values:
+        g1:
+          avrora: 7
+          batik: 1076
+          biojava: 191
+          cassandra: 263
+          eclipse: 534
+          fop: 73
+          graphchi: 255
+          h2: 1191
+          h2o: 3689
+          jme: 235
+          jython: 325
+          luindex: 41
+          lusearch: 53
+          pmd: 637
+          sunflow: 87
+          tomcat: 71
+          xalan: 43
+          zxing: 153
+      path: /home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar
+      release: evaluation
+      timeout: 600
+      timing_iteration: 5
+      type: DaCapo
+
+build_gc: LXR
+
+runtimes:
+  # jdk-lxr-pldi: &lxr-pldi
+  #   type: OpenJDK
+  #   release: 11
+  #   home: /$BUILDS/jdk-lxr-pldi/jdk-11.0.11
+  #   commits:
+  #     mmtk-core: 4d4e516
+  #     mmtk-openjdk: f933db31a
+  #     openjdk: f817e9d00b
+  #   features: lxr,lxr_heap_health_guided_gc
+  #   test-command: MMTK_PLAN=Immix TRACE_THRESHOLD2=10 LOCK_FREE_BLOCKS=32 MAX_SURVIVAL_MB=256 SURVIVAL_PREDICTOR_WEIGHTED=1 ./openjdk/build/linux-x86_64-normal-server-release/images/jdk/bin/java -XX:MetaspaceSize=1G -XX:-UseBiasedLocking -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -Djava.library.path=./evaluation/probes -cp ./evaluation/probes:./evaluation/probes/probes.jar:/home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar -XX:+UseThirdPartyHeap -Dprobes=RustMMTk -Xms100M -Xmx100M Harness -n 5 -c probe.DacapoChopinCallback lusearch
+  jdk-lxr-latest-defeatured: &lxr-latest
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-latest-defeatured/jdk-11.0.19
+    commits:
+      mmtk-core: 8f76a35015
+      mmtk-openjdk: 83f2d3aa56b
+      openjdk: bc9669aaed
+    features: no_weak_refs
+  # jdk-lxr-pldi-x:
+  #   <<: *lxr-pldi
+  #   home: /$BUILDS/jdk-lxr-pldi-x/jdk
+  #   exploded: true
+  #   test-command: MMTK_PLAN=Immix TRACE_THRESHOLD2=10 LOCK_FREE_BLOCKS=32 MAX_SURVIVAL_MB=256 SURVIVAL_PREDICTOR_WEIGHTED=1 ./openjdk/build/linux-x86_64-normal-server-release/jdk/bin/java -XX:MetaspaceSize=1G -XX:-UseBiasedLocking -XX:-TieredCompilation -XX:+UnlockDiagnosticVMOptions -XX:-InlineObjectCopy -Djava.library.path=./evaluation/probes -cp ./evaluation/probes:./evaluation/probes/probes.jar:/home/wenyuz/dacapo/dacapo-evaluation-git-b00bfa9.jar -XX:+UseThirdPartyHeap -Dprobes=RustMMTk -Xms100M -Xmx100M Harness -n 5 -c probe.DacapoChopinCallback lusearch
+  # jdk-lxr-latest-defeatured-x:
+  #   <<: *lxr-latest
+  #   home: /$BUILDS/jdk-lxr-latest-defeatured-x/jdk
+  #   exploded: true
+
+configs:
+  # Non-exploded
+  - jdk-lxr-latest-defeatured|g1|common_defeature|xcomp|hs
+  - jdk-lxr-latest-defeatured|lxr|common_defeature|xcomp|tph|disable_thp
+
+  # - jdk-lxr-pldi-x|g1|common_defeature|hs
+  # LXR
+  # - jdk-lxr-latest-defeatured-x|lxr|common_defeature|tph
+  # - jdk-lxr-pldi-x|ix|common_defeature|tph|trace2-5|srv-128|srvw|lfb-32

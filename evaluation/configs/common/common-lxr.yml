@@ -1,5 +1,6 @@
 includes:
   - "./common.yml"
+  - "./zulip.yml"
 
 modifiers:
   common_defeature:

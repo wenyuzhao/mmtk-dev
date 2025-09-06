@@ -1,0 +1,66 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr-no-opt: &base-cfg
+    type: OpenJDK
+    release: 11
+    home: /$BUILDS/jdk-lxr-satb-1/jdk-11.0.19
+    commits:
+      mmtk-core: c9977c11db2ce4553dc3d060fb6fd6e07c8fab6d # lxr-x/no-cmopt
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-opt-mark:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-satb-2/jdk-11.0.19
+    features: mmtk/opt_attempt_mark,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-opt-space-check:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-satb-3/jdk-11.0.19
+    features: mmtk/opt_space_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-no-dyn-dispatch:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-satb-4/jdk-11.0.19
+    features: mmtk/no_dyn_dispatch,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-opt-rc-check:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-satb-5/jdk-11.0.19
+    features: mmtk/fast_rc_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-edge-enqueuing:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-satb-6/jdk-11.0.19
+    features: mmtk/edge_enqueuing,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  # jdk-lxr-opt-124:
+  #   <<: *base-cfg
+  #   home: /$BUILDS/jdk-lxr-satb-7/jdk-11.0.19
+  #   features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/fast_rc_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  # jdk-lxr-opt-1234:
+  #   <<: *base-cfg
+  #   home: /$BUILDS/jdk-lxr-satb-8/jdk-11.0.19
+  #   features: mmtk/opt_attempt_mark,mmtk/opt_space_check,mmtk/no_dyn_dispatch,mmtk/fast_rc_check,mmtk/no_meta_counting,mmtk/measure_trace_rate
+  jdk-lxr-opt:
+    <<: *base-cfg
+    home: /$BUILDS/jdk-lxr-satb-9/jdk-11.0.19
+    features: mmtk/opt,mmtk/no_meta_counting,mmtk/measure_trace_rate
+
+configs:
+  # LXR
+  - jdk-lxr-no-opt|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-mark|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-space-check|lxr|common3|tph|disable_thp
+  - jdk-lxr-no-dyn-dispatch|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt-rc-check|lxr|common3|tph|disable_thp
+  - jdk-lxr-edge-enqueuing|lxr|common3|tph|disable_thp
+  # - jdk-lxr-opt-124|lxr|common3|tph|disable_thp
+  # - jdk-lxr-opt-1234|lxr|common3|tph|disable_thp
+  - jdk-lxr-opt|lxr|common3|tph|disable_thp

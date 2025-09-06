@@ -285,7 +285,7 @@ modifiers:
         - h2o
   dacapochopin_jdk21:
     type: ModifierSet
-    val: "dacapochopin_jdk17|dacapochopin_jdk21_h2o"
+    val: "dacapochopin_jdk17|dacapochopin_jdk21_h2o|dacapochopin_jdk21_lusearch"
   dacapochopin_jdk21_h2o:
     type: JVMArg
     val: "-Dsys.ai.h2o.debug.allowJavaVersions=21"
@@ -326,3 +326,9 @@ modifiers:
       dacapochopin:
         - tradebeans
         - tradesoap
+  dacapochopin_jdk21_lusearch:
+    type: JVMArg
+    val: "-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false"
+    includes:
+      dacapochopin:
+        - lusearch

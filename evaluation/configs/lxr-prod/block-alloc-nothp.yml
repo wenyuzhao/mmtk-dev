@@ -1,0 +1,40 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits: null
+    # commits: &lxr-commits
+    #   mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
+    #   mmtk-openjdk: 46f70a5da6
+    #   openjdk: bc9669aaed
+    # features: mmtk/no_meta_counting
+  jdk-lxr-no-block-alloc-opt: &lxr-old-alloc
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
+    commits:
+      mmtk-core: 5b8b874583077b9c608999080a88f1e162e907cf # lxr-x/revert-block-alloc
+      mmtk-openjdk: fb84fed66f51 # lxr-x/revert-block-alloc
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-block-alloc-opt-no-bug-fix:
+    <<: *lxr-old-alloc
+    home: $BUILDS/jdk-lxr-no-block-alloc-opt-no-bug-fix/jdk-11.0.19
+    features: mmtk/mutator_reused_block_state_bug,mmtk/no_meta_counting
+
+configs:
+  - jdk-lxr|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-block-alloc-opt|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-block-alloc-opt-no-bug-fix|lxr|common|tph_perf|disable_thp

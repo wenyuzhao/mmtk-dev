@@ -1,0 +1,35 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits: null
+    # commits: &lxr-commits
+    #   mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
+    #   mmtk-openjdk: 46f70a5da6
+    #   openjdk: bc9669aaed
+    # features: mmtk/no_meta_counting
+  jdk-lxr-no-weak-processor-opt:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-no-weak-processor-opt/jdk-11.0.19
+    commits:
+      mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
+      mmtk-openjdk: 85d3d7834 # lxr-x/no-weakprocessor-opt
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+
+configs:
+  - jdk-lxr|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-weak-processor-opt|lxr|common|tph_perf|disable_thp
