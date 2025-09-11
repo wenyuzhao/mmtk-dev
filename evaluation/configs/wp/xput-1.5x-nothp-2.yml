@@ -1,0 +1,28 @@
+includes:
+  - ./xput-nothp.yml
+
+overrides:
+  hfac: 1.5x
+  benchmarks.dacapochopin:
+    # - lusearch
+    # - h2
+    # - cassandra
+    # - tomcat
+    # - spring
+    - tradebeans
+    - tradesoap
+    - kafka
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - fop
+    - graphchi
+    - h2o
+    - jme
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing

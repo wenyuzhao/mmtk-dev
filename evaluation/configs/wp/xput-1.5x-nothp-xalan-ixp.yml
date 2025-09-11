@@ -1,0 +1,54 @@
+hfac: 1.5x
+# MMTK_PLAN=Immix MMTK_PHASE_PERF_EVENTS="PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_L1I:MISS,0,-1;PERF_COUNT_HW_BRANCH_MISSES,0,-1" TRANSPARENT_HUGEPAGE=0 /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-mmtk-xput-p/jdk-11.0.19/bin/java -server -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -XX:+ExitOnOutOfMemoryError --add-exports java.base/jdk.internal.ref=ALL-UNNAMED -XX:+UseThirdPartyHeap -Xms23M -Xmx23M -cp /usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar:/home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar Harness -c probe.DacapoChopinCallback -n 5 xalan
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 120
+  suites.dacapochopin.minheap: G1-n5
+  benchmarks.dacapochopin:
+    - xalan
+
+build_gc: LXR,Immix
+
+runtimes:
+  jdk-mmtk-baseline: &base
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-mmtk-xput-p/jdk-11.0.19
+    commits:
+      mmtk-core: 352e04e671a08288f3f189443f3339fa98a19172 # wp/dev-baseline
+      mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer
+    pgo: true
+  # jdk-mmtk-item-steal:
+  #   <<: *base
+  #   home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+  #   commits:
+  #     mmtk-core: 92c72028e1a1cb803b26ed34e72ea0cb8de2d971 # wp/dev-stealing
+  #     mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+  #     openjdk: bc9669aaed
+  # features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
+  jdk-mmtk-dep:
+    <<: *base
+    home: $BUILDS/jdk-mmtk-xput-d/jdk-11.0.19
+    commits:
+      mmtk-core: bfea2b0a793f2e9d00cd41e0c8fcc8b9d2bae6f5 # wp/dev-dep
+      mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
+      openjdk: bc9669aaed
+    pgo: true
+  jdk-mmtk-all:
+    <<: *base
+    home: $BUILDS/jdk-mmtk-xput-s/jdk-11.0.19
+    commits:
+      mmtk-core: 705dae91442f085db3030eb66a57508f4a8a9335 # wp/dev-merge
+      mmtk-openjdk: 65fa88d8fcd58890bd64c211ff1a21e36a642532 # wp/dev-dep
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer,mmtk/steal_bulk
+    pgo: true
+
+configs:
+  - jdk-mmtk-baseline|ix|common3|tph_perf|disable_thp
+  - jdk-mmtk-baseline|lxr|common3|tph_perf|disable_thp
