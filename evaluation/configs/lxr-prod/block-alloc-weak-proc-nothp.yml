@@ -20,6 +20,18 @@ runtimes:
       mmtk-openjdk: 46f70a5da6
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
+  jdk-lxr-no-block-alloc-opt: &lxr-old-alloc
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-no-block-alloc-opt/jdk-11.0.19
+    commits:
+      mmtk-core: 5b8b874583077b9c608999080a88f1e162e907cf # lxr-x/revert-block-alloc
+      mmtk-openjdk: fb84fed66f51 # lxr-x/revert-block-alloc
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+  jdk-lxr-no-block-alloc-opt-no-bug-fix:
+    <<: *lxr-old-alloc
+    home: $BUILDS/jdk-lxr-no-block-alloc-opt-no-bug-fix/jdk-11.0.19
+    features: mmtk/mutator_reused_block_state_bug,mmtk/no_meta_counting
   jdk-lxr-no-weak-processor-opt:
     <<: *lxr
     home: $BUILDS/jdk-lxr-no-weak-processor-opt/jdk-11.0.19
@@ -31,4 +43,6 @@ runtimes:
 
 configs:
   - jdk-lxr|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-block-alloc-opt|lxr|common|tph_perf|disable_thp
+  - jdk-lxr-no-block-alloc-opt-no-bug-fix|lxr|common|tph_perf|disable_thp
   - jdk-lxr-no-weak-processor-opt|lxr|common|tph_perf|disable_thp

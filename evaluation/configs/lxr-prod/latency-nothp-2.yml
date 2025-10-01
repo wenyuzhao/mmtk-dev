@@ -1,0 +1,53 @@
+hfac: 1.3x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+build_gc: LXR
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+  benchmarks.dacapochopin:
+    - lusearch
+    - cassandra
+    - h2
+    - tomcat
+    - kafka
+    - spring
+    - tradebeans
+    - tradesoap
+
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-jul2023:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    commits:
+      mmtk-core: ad9314e
+      mmtk-openjdk: 98eb6f9f
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  - jdk-lxr|lxr|common3|tph|latency|disable_thp
+  - jdk-lxr-jul2023|lxr|common3|tph|latency|disable_thp
+
+plugins:
+  dacapo-latency:
+    patterns:
+      - scratch/dacapo-latency-*.csv
+      - scratch/dacapo-latency-*.hdr
+    type: CopyFile
