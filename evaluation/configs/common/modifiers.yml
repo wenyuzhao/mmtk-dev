@@ -122,6 +122,9 @@ modifiers:
     type: EnvVar
     var: "MMTK_THREADS"
     val: "{0}"
+  metaspace1g:
+    type: JVMArg
+    val: "-XX:MetaspaceSize=1G"
   ms:
     type: JVMArg
     val: "-XX:MetaspaceSize=1G -XX:+DisableExplicitGC -XX:-UseBiasedLocking"

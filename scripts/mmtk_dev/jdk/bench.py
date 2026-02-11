@@ -370,6 +370,46 @@ class Run:
 
 
 @dataclass
+class Minheap:
+    """
+    Start a minheap run
+
+    Example: mmtk-jdk bench minheap --config minheap
+    """
+
+    config: str
+    """Running config name or path to a running config file"""
+
+    out: Path = MMTK_DEV / "_minheap.yaml"
+    """Output file"""
+
+    log: Path = MMTK_DEV / "running.log"
+    """Log file"""
+
+    def run(self):
+        # Find config file
+        config_file = Path(self.config) if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
+        config_file = config_file.absolute()
+        # Setup env
+        env = {
+            "BUILDS": f"{EVALUATION_DIR}/builds",
+            "CONFIGS": f"{EVALUATION_DIR}/configs",
+            "PATH": os.environ["PATH"],
+            "CONFIG": str(config_file),
+            "__ANU": "",  # a special flag to enable rsync results to squirrel.moma
+        }
+        os.environ.update(env)
+        # Run
+        cmd: list[str] = ["running", "minheap", str(config_file), str(self.out)]
+        print(f'🔵 RUN: {" ".join(cmd)}')
+        print(f"🔵 OUT: {self.out}")
+        print(f'🔵 BUILDS: {env["BUILDS"]}')
+        with open(self.log, "w+") as logfile:
+            subprocess.check_call(cmd, stdout=logfile, stderr=logfile, cwd=MMTK_DEV, env=env)
+        print(f"✅ Minheap completed.")
+
+
+@dataclass
 class Status:
     """
     show status of the running benchmark
@@ -408,7 +448,7 @@ class Bench:
       run         run benchmark
     """
 
-    command: Build | Rsync | Run | Status
+    command: Build | Rsync | Run | Status | Minheap
     """Sub-commands"""
 
     def run(self):
