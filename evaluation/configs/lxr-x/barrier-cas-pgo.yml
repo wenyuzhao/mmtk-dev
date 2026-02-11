@@ -1,0 +1,38 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr-spinlock:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 8355c0ad11ec0b86f8f93ddee0abd6597f638cc3
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-cas:
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 82ed851cd0e7ef2e5cc2bf95decdecbf07203d54
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  # LXR
+  - jdk-lxr-spinlock|lxr|common3|tph|disable_thp
+  - jdk-lxr-cas|lxr|common3|tph|disable_thp
