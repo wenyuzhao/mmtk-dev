@@ -108,3 +108,5 @@ Please refer to the following papers for LXR design details:
 Please note that the latest LXR may differ from the paper. Always refer to the code for the latest implementation details.
 
 The source code is also available at https://github.com/wenyuzhao/mmtk-core/tree/lxr
+
+# IMPORTANT: NEVER FINALIZE/COMMIT MERGE AUTOMATICALLY!
