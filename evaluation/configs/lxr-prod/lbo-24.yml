@@ -24,22 +24,7 @@ runtimes:
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
-  jdk-lxr-jul2023:
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-1/jdk-11.0.19
-    commits:
-      mmtk-core: ad9314e
-      mmtk-openjdk: 98eb6f9f
-      openjdk: bc9669aaed
-    pgo: true
 
 configs:
-  - jdk-lxr|g1|common3|hs_perf
-  - jdk-lxr|shenandoah|common3|hs_perf
-  - jdk-lxr|z|common3|hs_perf
-  - jdk-lxr|parallel|common3|hs_perf
-  - jdk-lxr|serial|common3|hs_perf
-  # # LXR
-  - jdk-lxr|lxr|common3|tph_perf|disable_thp
-  - jdk-lxr-jul2023|lxr|common3|tph_perf|disable_thp
-  - temurin-21|g1|common3|hs_perf|dacapochopin_jdk21
+  - temurin-24|g1|common3|hs_perf|dacapochopin_jdk24
+  - jdk-lxr|lxr|common3|tph_perf

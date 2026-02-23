@@ -1,0 +1,33 @@
+hfac: 1.5x
+
+build_gc: Immix,LXR
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+  # benchmarks.dacapochopin:
+  #   - cassandra
+  #   - tradebeans
+  #   - tradesoap
+  #   - h2o
+
+runtimes:
+  jdk-mmtk-baseline: &base
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: 352e04e671a08288f3f189443f3339fa98a19172 # wp/dev-baseline
+      mmtk-openjdk: a0c83638f8da90ed51791a789d6253e016866b9d # wp/dev-baseline
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting,mmtk/push,mmtk/satb_timer
+    pgo: true
+
+configs:
+  - temurin-21|g1|common3|hs_perf|dacapochopin_jdk21
+  - temurin-24|g1|common3|hs_perf|dacapochopin_jdk24
+  - jdk-mmtk-baseline|lxr|common3|tph_perf

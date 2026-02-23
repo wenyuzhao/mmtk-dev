@@ -1,0 +1,37 @@
+hfac: 32-3-9-16-22-27-32
+# 7 -> 1.8x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 6
+  invocations: 10
+  suites.dacapochopin.minheap: G1-n5
+
+build_gc: LXR
+#  MMTK_PLAN=LXR TRANSPARENT_HUGEPAGE=0 /home/wenyuz/MMTk-Dev/evaluation/builds/jdk-lxr-1/jdk-11.0.19/bin/java -server -Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk -XX:+ExitOnOutOfMemoryError --add-exports java.base/jdk.internal.ref=ALL-UNNAMED -XX:+UseThirdPartyHeap -Xms28M -Xmx28M -cp /usr/share/benchmarks/dacapo/dacapo-23.11-chopin.jar:/home/wenyuz/MMTk-Dev/evaluation/probes:/home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar Harness -c probe.DacapoChopinCallback -n 5 tomcat
+runtimes:
+  jdk-lxr: &lxr
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr/jdk-11.0.19
+    commits:
+      mmtk-core: ff8cf7ddb61cf64b57cfbd1f123e6071d00a6bb9
+      mmtk-openjdk: 46f70a5da616b4980ef5f7bb85ede21fe316dc60
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-jul2023:
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
+    commits:
+      mmtk-core: ad9314e
+      mmtk-openjdk: 98eb6f9f
+      openjdk: bc9669aaed
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  - jdk-lxr-jul2023|lxr|common3|tph|disable_thp
+  - temurin-21|g1|common3|hs|dacapochopin_jdk21
