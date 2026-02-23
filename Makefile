@@ -19,8 +19,7 @@ init-jks-docker: | init-dacapo-9.12 init-jks-repos
 
 python-packages:
 	pipx install running-ng
-	pipx install poetry
-	poetry install
+	uv sync --locked
 
 install-debian-packages:
 	cd scripts/init/debs && make install

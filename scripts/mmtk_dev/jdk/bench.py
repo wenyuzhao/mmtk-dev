@@ -5,10 +5,10 @@ import sys
 import tempfile
 from typing import Any
 import yaml
-from mmtk_dev.constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
+from ..constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
 from dataclasses import dataclass
 from simple_parsing import field
-from mmtk_dev.utils import ᐅᐳᐳ
+from ..utils import ᐅᐳᐳ
 from .run import JVMArgs, Run as RunJDK, Build as BuildJDK, DEFAULT_PGO_TRAINING_BENCHMARKS
 import re
 import shlex
@@ -193,9 +193,9 @@ class Rsync:
         except subprocess.CalledProcessError:
             sys.exit(f'❌ {" ".join(cmd)}')
 
-    def __run_poetry_install(self):
+    def __run_uv_sync(self):
         MMTK_DEV_REL = str(MMTK_DEV).replace(os.path.expanduser("~") + "/", "")
-        cmd = ["ssh", f"{self.remote_user}@{self.remote}", f"cd {MMTK_DEV_REL} && ~/.local/bin/poetry install"]
+        cmd = ["ssh", f"{self.remote_user}@{self.remote}", f"cd {MMTK_DEV_REL} && uv sync --locked"]
         print(f'🔵 {" ".join(cmd)}')
         try:
             subprocess.check_call(cmd, cwd=MMTK_DEV)
@@ -212,11 +212,11 @@ class Rsync:
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/schedule-bear.sh", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/schedule-boar.sh", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/evaluation/schedule-mink.sh", dst)
-        self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/poetry.lock", dst)
+        self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/uv.lock", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/pyproject.toml", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/scripts/mmtk_dev", dst)
         self.__rsync(f"/home/{USERNAME}/./{MMTK_DEV_REL}/README.md", dst)
-        self.__run_poetry_install()
+        self.__run_uv_sync()
 
 
 @dataclass

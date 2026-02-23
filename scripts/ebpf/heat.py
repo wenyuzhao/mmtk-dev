@@ -1,4 +1,4 @@
-#!/usr/bin/env -S poetry run python3
+#!/usr/bin/env -S uv run
 
 from enum import Enum
 import typer
@@ -29,7 +29,7 @@ def build_openjdk():
         typer.echo("Please add the following to [profile.release] section in mmtk-openjdk/mmtk/Cargo.toml:")
         typer.echo("debug = true")
         raise typer.Exit(1)
-    subprocess.check_call(["poetry", "run", "mmtk-jdk", "build", "--release"], cwd=PROJECT_ROOT)
+    subprocess.check_call(["uv", "run", "mmtk-jdk", "build", "--release"], cwd=PROJECT_ROOT)
 
 
 class GC(str, Enum):

@@ -1,29 +1,25 @@
-[tool.poetry]
+[project]
 name = "mmtk-dev"
 version = "0.1.0"
 description = ""
-authors = ["Wenyu Zhao <wenyu.zhao@anu.edu.au>"]
+authors = [{ name = "Wenyu Zhao", email = "wenyuzhaox@gmail.com" }]
 readme = "README.md"
-packages = [{ include = "mmtk_dev", from = "scripts" }]
+requires-python = ">=3.13"
+dependencies = [
+    "pyaml>=23.7.0",
+    "simple-parsing>=0.1.5",
+    "requests>=2.32.3",
+    "typer>=0.12.5",
+    "scipy>=1.14.1",
+]
 
-[tool.poetry.scripts]
-mmtk-jdk = "mmtk_dev.jdk.main:main"
-mmtk-jks = "mmtk_dev.jks.main:main"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-pyaml = "^23.7.0"
-simple-parsing = "^0.1.5"
-requests = "^2.32.3"
-typer = "^0.12.5"
-scipy = "^1.14.1"
-
-
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.27.1"
-hdrhistogram = "^0.10.3"
-seaborn = "^0.13.0"
+[project.scripts]
+mmtk-jdk = "scripts.mmtk_dev.jdk.main:main"
+mmtk-jks = "scripts.mmtk_dev.jks.main:main"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["hdrhistogram>=0.10.3", "ipykernel>=7.2.0", "seaborn>=0.13.2"]

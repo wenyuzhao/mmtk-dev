@@ -1,5 +1,5 @@
 import sys
-from mmtk_dev.utils import MMTkDevArgumentParser
+from ..utils import MMTkDevArgumentParser
 from simple_parsing.helpers.fields import subparsers
 from dataclasses import dataclass
 from simple_parsing.wrappers.field_wrapper import DashVariant

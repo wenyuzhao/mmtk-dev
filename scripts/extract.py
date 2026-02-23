@@ -1,4 +1,4 @@
-#!/usr/bin/env -S poetry run python3
+#!/usr/bin/env -S uv run
 
 import argparse
 from pathlib import Path

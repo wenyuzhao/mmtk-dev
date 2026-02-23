@@ -2,9 +2,9 @@ from enum import Enum
 import os
 from pathlib import Path
 from typing import Literal
-from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
-from mmtk_dev.jdk.bpf import start_capturing_process
-from mmtk_dev.utils import ᐅᐳᐳ
+from ..constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
+from ..jdk.bpf import start_capturing_process
+from ..utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import choice
 from dataclasses import dataclass
 from simple_parsing import field

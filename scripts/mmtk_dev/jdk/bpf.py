@@ -6,7 +6,7 @@ from string import Template
 import subprocess, re, json, gzip
 import tempfile
 from datetime import datetime
-from mmtk_dev.constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
+from ..constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
 import os
 
 BPFTRACE_SCRIPT = MMTK_DEV / "scripts" / "ebpf" / "wp.bt"
