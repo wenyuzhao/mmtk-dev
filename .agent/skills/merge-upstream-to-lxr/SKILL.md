@@ -11,12 +11,14 @@ Follow the following steps to merge the newer base branches from origin into the
 
 The user should provide you with the target base branches/tags/commit-hashes for both repos. For example: `v0.31.0`
 
-You need to work on the `lxr-merge` branches of both repos:
+You need to work on the `lxr-merge` branches of both repos (or only one repo, depending on the user's request):
 
 ```console
 $ cd mmtk-core && git checkout lxr-merge && cd ..
 $ cd mmtk-openjdk && git checkout lxr-merge && cd ..
 ```
+
+You can choose to only merge mmtk-core or mmtk-openjdk, or both, depending on the user's request.
 
 ## 2. Merge mmtk-core
 
