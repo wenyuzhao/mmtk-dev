@@ -18,25 +18,62 @@ $ cd mmtk-core && git checkout lxr-merge && cd ..
 $ cd mmtk-openjdk && git checkout lxr-merge && cd ..
 ```
 
-## 2. Initiate merge
+## 2. Merge mmtk-core
+
+### 2.1 Initiate merge
 
 ```console
-$ cd mmtk-core && git merge <target_base_branch> && cd ..
-$ cd mmtk-openjdk && git merge <target_base_branch> && cd ..
+$ cd mmtk-core && git merge <target_base_branch> --no-commit
 ```
 
-## 3. Resolve all conflicts
+### 2.2 Resolve all conflicts
 
 Please carefully review each conflict and the origonal intention of the change in both LXR and upstream repos. Then, resolve the conflict in a way that (1) keeps LXR working (2) make LXR's code compliant with the upstream design changes.
 
 The LXR commit history:
     * https://github.com/mmtk/mmtk-core/commits/lxr-merge
-    * https://github.com/mmtk/mmtk-openjdk/commits/lxr-merge
 
 The upstream commit history:
     * https://github.com/mmtk/mmtk-core/commits/master
+
+### 2.3 Verify
+
+`cd mmtk-core && cargo build` (or cargo check)
+
+Note: cargo run or test does not work for this project.
+
+Fix any errors.
+
+## 3. Merge mmtk-openjdk
+
+### 3.1 Initiate merge
+
+```console
+$ cd mmtk-openjdk && git merge <target_base_branch> --no-commit
+```
+
+### 3.2 Resolve all conflicts
+
+Please carefully review each conflict and the origonal intention of the change in both LXR and upstream repos. Then, resolve the conflict in a way that (1) keeps LXR working (2) make LXR's code compliant with the upstream design changes.
+
+The LXR commit history:
+    * https://github.com/mmtk/mmtk-openjdk/commits/lxr-merge
+
+The upstream commit history:
     * https://github.com/mmtk/mmtk-openjdk/commits/jdk-11
 
+**For Cargo.lock conflicts**: Ignore them all, use the lxr branch version, and let cargo build command to auto update the lock file
+
+**For mmtk-openjdk conflicts**:
+For the conflict on line `mmtk = { git = ...`, just ignore it and use the lxr branch version.
+
+### 3.3 Verify
+
+`cd mmtk-openjdk/mmtk && cargo build` (or cargo check)
+
+Note: cargo run or test does not work for this project.
+
+Fix any errors.
 
 ## 4. Verify
 
@@ -44,13 +81,7 @@ The upstream commit history:
 
 Ensure the project and the repos can build correctly. Fix any errors.
 
-Since mmtk-core does not depend on other local repos, you can verify this one first:
-    * `cd mmtk-core && cargo build` (or cargo check)
-
-After ensuring mmtk-core is correct, verify mmtk-openjdk:
-    * `cd mmtk-openjdk/mmtk && cargo build` (or cargo check)
-
-Finally the whole project: `uv run mmtk-jdk build`
+To build the whole project: `uv run mmtk-jdk build`
 
 ### Run benchmarks
 
@@ -63,3 +94,7 @@ Available benchmarks and heap sizes:
 * `h2`: 1200M
 * `tomcat`: 200M
 * `fop`: 100M
+
+## 5. IMPORTANT: NEVER FINALIZE/COMMIT THE MERGE YOURSELF OR AUTOMATICALLY!
+
+Leave the changes uncommitted and ask the user to finalize the merge.
