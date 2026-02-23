@@ -11,7 +11,7 @@ import os
 
 BPFTRACE_SCRIPT = MMTK_DEV / "scripts" / "ebpf" / "wp.bt"
 MMTK_BIN_X = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
-MMTK_BIN = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "images" "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
+MMTK_BIN = OPENJDK / "build" / "linux-x86_64-normal-server-release" / "images" / "jdk" / "lib" / "server" / "libmmtk_openjdk.so"
 
 BPFTRACE_BIN = "bpftrace"
 
@@ -154,9 +154,19 @@ class LogProcessor:
         result = subprocess.run(["cloudflared", "access", "curl", url, "-F", f"file=@{file}"], stdout=subprocess.PIPE, universal_newlines=True, check=True)
 
         if result.returncode == 0:
-            data = json.loads(result.stdout)
-            url = data["url"]
-            return url
+            try:
+                data = json.loads(result.stdout)
+                url = data["url"]
+                return url
+            except Exception as e:
+                print("Failed to parse upload response:", e)
+                print(result.stdout)
+                print(result.stderr)
+                print("File:", file)
+                # copy the trace file to a safe location
+                safe_file = Path(f"failed-upload-{file.name}.json.gz")
+                file.rename(safe_file)
+                return None
         else:
             print("Failed to upload trace file to perfetto.wenyu.me")
 
