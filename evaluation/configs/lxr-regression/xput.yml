@@ -3,12 +3,12 @@ hfac: 2x
 includes:
   - $CONFIGS/common/common-lxr.yml
 
-build_gc: LXR
-
 overrides:
   heap_range: 3
-  invocations: 40
+  invocations: 20
   suites.dacapochopin.minheap: G1-n5
+
+build_gc: LXR
 
 runtimes:
   jdk-lxr: &lxr
@@ -16,25 +16,22 @@ runtimes:
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: 9d4dafdd85783ef0b03d03da8f36b0e74526fdf4
-      mmtk-openjdk: 09f87beba0231e0e3cde4fdb254c275f5b7e704e
+      mmtk-core: e1af7fc41cbee3e77ec75ce092efb5ae7f5e65ea
+      mmtk-openjdk: 46546ed41d28dd101eb57dca5422b73148f6ee06
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
-  jdk-lxr-2: # 0.26.0
-    type: OpenJDK
-    release: 11
+  jdk-lxr-rebase: # 0.32.0
+    <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
-      mmtk-core: 97443c056874fb3c9aa447e42d264c28b30af84d
-      mmtk-openjdk: 34a3bfa557a4652b04757ceb52856c13ccbc5803
+      mmtk-core: 603e29bb1384f83711cfc0c7bf25d22ae38b3530
+      mmtk-openjdk: f39a39e6989bf150dc5d9678bf6edad8fd108daa
       openjdk: bc9669aaed
-    features: mmtk/no_meta_counting
-    pgo: true
 
 configs:
   # G1
   - jdk-lxr|g1|common3|hs
   # LXR
-  - jdk-lxr|lxr|common3|tph
-  - jdk-lxr-2|lxr|common3|tph
+  - jdk-lxr|lxr|common3|tph|disable_thp
+  - jdk-lxr-rebase|lxr|common3|tph|disable_thp
