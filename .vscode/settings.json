@@ -23,6 +23,5 @@
     "black-formatter.args": [
         "--line-length",
         "10000"
-    ],
-    "terminal.integrated.defaultProfile.linux": "bash",
+    ]
 }
