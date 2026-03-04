@@ -45,3 +45,9 @@ try:
     USERNAME = os.getlogin()
 except BaseException:
     USERNAME = os.environ["USER"]
+
+
+IS_JDK21 = False
+if (OPENJDK / "README.md").exists() and (OPENJDK / "README.md").read_text().startswith("# Welcome to OpenJDK 21 Updates!"):
+    IS_JDK21 = True
+FULL_JDK_PROFILE = lambda profile: f"linux-x86_64-normal-server-{profile}" if not IS_JDK21 else f"linux-x86_64-server-{profile}"

@@ -2,7 +2,7 @@ from enum import Enum
 import os
 from pathlib import Path
 from typing import Literal
-from ..constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES
+from ..constants import MMTK_DEV, MMTK_OPENJDK, OPENJDK, DACAPO_CHOPIN, PROBES, IS_JDK21, FULL_JDK_PROFILE
 from ..jdk.bpf import start_capturing_process
 from ..utils import ᐅᐳᐳ
 from simple_parsing.helpers.fields import choice
@@ -28,7 +28,6 @@ HOTSPOT_GCS = {
     "Shen": "-XX:+UseShenandoahGC",
     "Shenandoah": "-XX:+UseShenandoahGC",
 }
-
 
 class Profile(str, Enum):
     release = "release"
@@ -62,7 +61,7 @@ class Clean:
 
     def run(self):
         ᐅᐳᐳ("rm", "-rf", MMTK_OPENJDK / "mmtk" / "target")
-        ᐅᐳᐳ("rm", "-rf", MMTK_OPENJDK / "build" / f"linux-x86_64-normal-server-{self.profile.value}")
+        ᐅᐳᐳ("rm", "-rf", MMTK_OPENJDK / "build" / FULL_JDK_PROFILE(self.profile.value))
 
 
 @dataclass
@@ -108,17 +107,19 @@ class Build:
         if self.clean:
             Clean(profile=self.profile).run()
         # Configure when necessary
-        if self.clean or self.config or not (OPENJDK / "build" / f"linux-x86_64-normal-server-{profile}").exists():
+        full_profile = FULL_JDK_PROFILE(profile)
+        if self.clean or self.config or not (OPENJDK / "build" / full_profile).exists():
             asan_flags = ["--enable-asan"] if self.asan else []
-            ᐅᐳᐳ("sh", "configure", "--disable-zip-debug-info", "--disable-warnings-as-errors", f"--with-debug-level={profile}", "--with-target-bits=64", "--with-jvm-features=shenandoahgc", *asan_flags, cwd=OPENJDK)
-            ᐅᐳᐳ("make", "reconfigure", f"CONF=linux-x86_64-normal-server-{profile}", cwd=OPENJDK)
+            zip_debug_info_flags = ["--disable-zip-debug-info"] if not IS_JDK21 else []
+            ᐅᐳᐳ("sh", "configure", "--disable-warnings-as-errors", f"--with-debug-level={profile}", "--with-target-bits=64", "--with-jvm-features=shenandoahgc", *asan_flags, *zip_debug_info_flags, cwd=OPENJDK)
+            ᐅᐳᐳ("make", "reconfigure", f"CONF={full_profile}", cwd=OPENJDK)
         # Get target
         if self.exploded:
             assert not self.bundle, "cannot bundle an exploded image"
             target = []
         else:
             target = ["product-bundles"] if self.bundle else ["images"]
-            ᐅᐳᐳ("rm", "-f", f"{OPENJDK}/build/linux-x86_64-normal-server-{profile}/bundles/*")
+            ᐅᐳᐳ("rm", "-f", f"{OPENJDK}/build/{full_profile}/bundles/*")
         # Get envs
         env = {}
         if self.features is not None:
@@ -131,7 +132,7 @@ class Build:
         if self.asan:
             env["RUSTFLAGS"] = "-Zsanitizer=address"
         # Run
-        ᐅᐳᐳ("make", f"CONF=linux-x86_64-normal-server-{profile}", f"THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk", *target, env=env, cwd=OPENJDK)
+        ᐅᐳᐳ("make", f"CONF={full_profile}", f"THIRD_PARTY_HEAP={MMTK_OPENJDK}/openjdk", *target, env=env, cwd=OPENJDK)
 
 
 @dataclass
@@ -386,7 +387,7 @@ class Run:
 
     def __java_bin(self):
         profile = self.profile.value if not self.release else Profile.release.value
-        jdk_build_dir = f"{OPENJDK}/build/linux-x86_64-normal-server-{str(profile)}"
+        jdk_build_dir = f"{OPENJDK}/build/{FULL_JDK_PROFILE(profile)}"
         java = f"{jdk_build_dir}/jdk/bin/java" if self.exploded else f"{jdk_build_dir}/images/jdk/bin/java"
         if self.jdk is not None:
             java = f"{self.jdk}/bin/java"
