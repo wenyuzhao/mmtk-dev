@@ -468,7 +468,18 @@ class Run:
                     for gc in gcs:
                         self.run_jdk(gc=gc, bench=bench, heap=ALL_PGO_TRAINING_BENCHMARKS[bench], iter=5)
                 # Merge PGO profiles
-                llvm_profdata = Path.home() / ".cargo/bin/rust-profdata"
+                llvm_profdata = None
+                if (rt := MMTK_OPENJDK / "mmtk" / "rust-toolchain") and rt.exists():
+                    toolchain = rt.read_text().strip()
+                    llvm_profdata = Path.home() / ".rustup/toolchains" / f"{toolchain}-x86_64-unknown-linux-gnu" / "lib/rustlib/x86_64-unknown-linux-gnu/bin/llvm-profdata"
+                    if not llvm_profdata.exists():
+                        ᐅᐳᐳ("rustup", "component", "add", "llvm-tools-preview", "--toolchain", toolchain)
+                    if not llvm_profdata.exists():
+                        llvm_profdata = None
+                if not llvm_profdata:
+                    llvm_profdata = Path.home() / ".cargo/bin/rust-profdata"
+                if not llvm_profdata or not llvm_profdata.exists():
+                    raise RuntimeError("llvm-profdata not found. Please install llvm-tools-preview component for your Rust toolchain.")
                 ᐅᐳᐳ(llvm_profdata, "merge", "-o", "/tmp/pgo-data/merged.profdata", "/tmp/pgo-data", cwd=MMTK_OPENJDK / "mmtk")
                 self.__fix_pfm_sys_permission_error()
                 # Build again with PGO profiles

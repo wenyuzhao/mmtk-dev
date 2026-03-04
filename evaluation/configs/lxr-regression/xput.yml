@@ -11,7 +11,7 @@ overrides:
 build_gc: LXR
 
 runtimes:
-  jdk-lxr: &lxr
+  jdk-lxr-old: &lxr
     type: OpenJDK
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
@@ -21,7 +21,7 @@ runtimes:
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
-  jdk-lxr-rebase: # 0.32.0
+  jdk-lxr: # 0.32.0
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-11.0.19
     commits:
@@ -33,5 +33,5 @@ configs:
   # G1
   - jdk-lxr|g1|common3|hs
   # LXR
+  - jdk-lxr-old|lxr|common3|tph|disable_thp
   - jdk-lxr|lxr|common3|tph|disable_thp
-  - jdk-lxr-rebase|lxr|common3|tph|disable_thp
