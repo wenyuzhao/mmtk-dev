@@ -5,7 +5,7 @@ import sys
 import tempfile
 from typing import Any
 import yaml
-from ..constants import MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
+from ..constants import FULL_JDK_PROFILE, MMTK_DEV, EVALUATION_DIR, OPENJDK, USERNAME
 from dataclasses import dataclass
 from simple_parsing import field
 from ..utils import ᐅᐳᐳ
@@ -103,13 +103,13 @@ class Build:
         ᐅᐳᐳ("rm", "-rf", builds_dir / target)
         ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz")
         # Copy exploded jdk folder
-        ᐅᐳᐳ("cp", "-r", OPENJDK / "build" / "linux-x86_64-normal-server-release", builds_dir / target)
+        ᐅᐳᐳ("cp", "-r", OPENJDK / "build" / FULL_JDK_PROFILE("release"), builds_dir / target)
 
     def __copy_jdk_bundle(self, target: str):
         builds_dir = EVALUATION_DIR / "builds"
         builds_dir.mkdir(parents=True, exist_ok=True)
         # Get bundle file
-        bundle = subprocess.check_output(["bash", "-c", f"ls {OPENJDK}/build/linux-x86_64-normal-server-release/bundles/*.tar.gz | grep -v -e symbols -e demos"], cwd=MMTK_DEV).decode("utf-8").strip()
+        bundle = subprocess.check_output(["bash", "-c", f"ls {OPENJDK}/build/{FULL_JDK_PROFILE('release')}/bundles/*.tar.gz | grep -v -e symbols -e demos"], cwd=MMTK_DEV).decode("utf-8").strip()
         # Delete previous builds
         ᐅᐳᐳ("rm", "-rf", builds_dir / target)
         ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz")
@@ -145,7 +145,9 @@ class Build:
             # if build_gc is not None:
             print(f"🟢 [build-gc]: {build_gc}")
             for runtime_name, runtime in doc["runtimes"].items():
-                ᐅᐳᐳ("make", f"clean", cwd=OPENJDK / "build" / "linux-x86_64-normal-server-release")
+                cwd = OPENJDK / "build" / FULL_JDK_PROFILE("release")
+                if cwd.exists():
+                    ᐅᐳᐳ("make", f"clean", cwd=cwd)
                 assert "commits" in runtime, f"❌ `runtimes.{runtime_name}.commits` is not defined"
                 commits = runtime["commits"]
                 if commits is None:
