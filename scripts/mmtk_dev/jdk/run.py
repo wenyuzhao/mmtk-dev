@@ -29,6 +29,7 @@ HOTSPOT_GCS = {
     "Shenandoah": "-XX:+UseShenandoahGC",
 }
 
+
 class Profile(str, Enum):
     release = "release"
     fastdebug = "fastdebug"
@@ -371,7 +372,30 @@ class Run:
         # JVM Args
         jvm_args, jvm_envs = self.jvm.get_args()
         env = {**env, **gc_env, **jvm_envs}
-        jvm_args += ["--add-exports", "java.base/jdk.internal.ref=ALL-UNNAMED"]
+        jvm_args += [
+            # JDK <11
+            "--add-exports",
+            "java.base/jdk.internal.ref=ALL-UNNAMED",
+            "--add-exports",
+            "java.base/java.lang=ALL-UNNAMED",
+            "--add-exports",
+            "java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens",
+            "java.base/java.io=ALL-UNNAMED",
+            "--add-opens",
+            "java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens",
+            "java.base/java.util=ALL-UNNAMED",
+            "--add-opens",
+            "java.base/java.lang=ALL-UNNAMED",
+            # JDK 17
+            "-Djava.security.manager=allow",
+            # JDK 21
+            "-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false",
+            "-Dsys.ai.h2o.debug.allowJavaVersions=21",
+
+            # "-Djboss.http.port=3100",
+        ]
         jvm_args += gc_jvm_args
         # Extra
         if self.asan:
