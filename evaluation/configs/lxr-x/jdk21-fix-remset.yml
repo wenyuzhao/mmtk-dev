@@ -1,0 +1,30 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 10
+  suites.dacapochopin.minheap: G1-n5
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr: # 0.32.0
+    type: OpenJDK
+    release: 21
+    home: $BUILDS/jdk-lxr/jdk-21.0.9
+    commits:
+      mmtk-core: bc5d833631d950f225e39d2db2ccf34f23ec7d84
+      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518
+      openjdk: ee234424
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  # G1
+  - jdk-lxr|g1|common3|hs|no_class_unload|metaspace1g|dacapochopin_jdk21
+  # - jdk-lxr|g1|common3|hs|metaspace1g|dacapochopin_jdk21
+  # LXR
+  - jdk-lxr|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
