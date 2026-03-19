@@ -20,27 +20,34 @@ runtimes:
     release: 21
     home: $BUILDS/jdk-lxr/jdk-21.0.9
     commits:
-      mmtk-core: 6790b6d78fd1ba019428bc4d40088b18467649cb # lxr
-      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518 # lxr-x/jdk21
+      mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
+      mmtk-openjdk: 9b2f16948c324b88cf9f99f4d1a259d2df1a5305 # lxr-x/jdk21-barrier-opt-2
       openjdk: f3705fcdb1674dda39fa38319080acc89a670229
     features: mmtk/no_meta_counting,mmtk/lxr_stw
     pgo: true
-  jdk-lxr-opt: # 0.32.0
+  jdk-lxr-no-acb: # 0.32.0
     <<: *lxr
     home: $BUILDS/jdk-lxr-2/jdk-21.0.9
-    commits:
-      mmtk-core: fd148e535b5302e2bec2a8e449d82d64b748af12 # lxr-x/barrier-opt
-      mmtk-openjdk: 2696486d7cc76c32bed2c4fb2bc0a35cc1f12693 # lxr-x/jdk21-barrier-opt
-      openjdk: f3705fcdb1674dda39fa38319080acc89a670229
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,arraycopy_no_barrier
+  jdk-lxr-acb-no-cpp-slow: # 0.32.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-3/jdk-21.0.9
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,arraycopy_no_cpp_slow
+  jdk-lxr-acb-no-rust-slow: # 0.32.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-4/jdk-21.0.9
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,arraycopy_no_rust_slow
+  jdk-lxr-acb-opt: # 0.32.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-5/jdk-21.0.9
+    features: mmtk/no_meta_counting,mmtk/lxr_stw,mmtk/arraycopy_opt
 
 configs:
   # G1
   - jdk-lxr|g1|common3|hs|no_class_unload|metaspace1g|dacapochopin_jdk21
   # - jdk-lxr|ix|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
   - jdk-lxr|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  - jdk-lxr-opt|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  # - jdk-lxr-opt|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  # - jdk-lxr-full-only|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  # - jdk-lxr-full-only-no-arraycopy|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  # - jdk-lxr-no-arraycopy|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  # - jdk-lxr-no-arraycopy-slow|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr-no-acb|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr-acb-no-cpp-slow|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr-acb-no-rust-slow|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr-acb-opt|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
