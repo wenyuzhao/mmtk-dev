@@ -21,7 +21,7 @@ runtimes:
     home: $BUILDS/jdk-lxr/jdk-21.0.9
     commits:
       mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
-      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518 # lxr-x/jdk21-barrier-opt-2
+      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518 # lxr-x/jdk21
       openjdk: f3705fcdb1674dda39fa38319080acc89a670229
     features: mmtk/no_meta_counting,mmtk/lxr_stw
     pgo: true
@@ -31,7 +31,7 @@ runtimes:
     home: $BUILDS/jdk-lxr-2/jdk-21.0.9
     commits:
       mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
-      mmtk-openjdk: 9b2f16948c324b88cf9f99f4d1a259d2df1a5305 # lxr-x/jdk21-barrier-opt-2
+      mmtk-openjdk: 376df85617097209579541486e77eed3a4613af1 # lxr-x/jdk21-barrier-opt-2
       openjdk: f3705fcdb1674dda39fa38319080acc89a670229
     features: mmtk/no_meta_counting,mmtk/lxr_stw
     pgo: true
