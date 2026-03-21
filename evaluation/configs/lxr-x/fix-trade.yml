@@ -10,7 +10,27 @@ overrides:
   benchmarks.dacapochopin:
     - tradebeans
     - tradesoap
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - kafka
+
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - fop
+    - graphchi
+    - h2o
+    # - jme
     - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
 
 build_gc: LXR
 
@@ -23,32 +43,21 @@ runtimes:
       mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
       mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518 # lxr-x/jdk21
       openjdk: f3705fcdb1674dda39fa38319080acc89a670229
-    features: mmtk/no_meta_counting,mmtk/lxr_stw
+    features: mmtk/no_meta_counting
     pgo: true
-  jdk-lxr-x: &lxr-x # 0.32.0
+  jdk-lxr-opt: # 0.32.0
     type: OpenJDK
     release: 21
     home: $BUILDS/jdk-lxr-2/jdk-21.0.9
     commits:
       mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
-      mmtk-openjdk: 376df85617097209579541486e77eed3a4613af1 # lxr-x/jdk21-barrier-opt-2
+      mmtk-openjdk: f676c1916a3c084b8a7a985c8b265f3535f5c4ae # lxr-x/jdk21-barrier-opt-3
       openjdk: f3705fcdb1674dda39fa38319080acc89a670229
-    features: mmtk/no_meta_counting,mmtk/lxr_stw
+    features: mmtk/no_meta_counting,mmtk/arraycopy_opt
     pgo: true
-  jdk-lxr-acb-opt: # 0.32.0
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-3/jdk-21.0.9
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,mmtk/arraycopy_opt
-  jdk-lxr-x-acb-opt: # 0.32.0
-    <<: *lxr-x
-    home: $BUILDS/jdk-lxr-4/jdk-21.0.9
-    features: mmtk/no_meta_counting,mmtk/lxr_stw,mmtk/arraycopy_opt
 
 configs:
   # G1
   - jdk-lxr|g1|common3|hs|no_class_unload|metaspace1g|dacapochopin_jdk21
-  # - jdk-lxr|ix|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
   - jdk-lxr|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  - jdk-lxr-x|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  - jdk-lxr-acb-opt|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  - jdk-lxr-x-acb-opt|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr-opt|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
