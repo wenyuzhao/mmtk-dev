@@ -388,14 +388,16 @@ class Run:
             "java.base/java.util=ALL-UNNAMED",
             "--add-opens",
             "java.base/java.lang=ALL-UNNAMED",
-            # JDK 17
-            "-Djava.security.manager=allow",
-            # JDK 21
-            "-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false",
-            "-Dsys.ai.h2o.debug.allowJavaVersions=21",
-
             # "-Djboss.http.port=3100",
         ]
+        if IS_JDK21:
+            jvm_args += [
+                # JDK 17
+                "-Djava.security.manager=allow",
+                # JDK 21
+                "-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false",
+                "-Dsys.ai.h2o.debug.allowJavaVersions=21",
+            ]
         jvm_args += gc_jvm_args
         # Extra
         if self.asan:
