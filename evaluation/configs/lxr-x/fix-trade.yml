@@ -5,32 +5,34 @@ includes:
 
 overrides:
   heap_range: 3
-  invocations: 20
+  invocations: 10
   suites.dacapochopin.minheap: G1-n5
   benchmarks.dacapochopin:
-    # - tradebeans
-    # - tradesoap
-    # - lusearch
-    # - h2
-    # - cassandra
-    # - tomcat
-    # - spring
-    # - kafka
-
-    # - avrora
-    # - batik
-    # - biojava
-    # - eclipse
-    # - fop
-    # - graphchi
+    - tradebeans
     - h2o
+    - tradesoap
+    - jme
+    - lusearch
+    - h2
+    - cassandra
+    - tomcat
+    - spring
+    - kafka
+
+    - avrora
+    - batik
+    - biojava
+    - eclipse
+    - fop
+    - graphchi
+    # - h2o
     # - jme
-    # - jython
-    # - luindex
-    # - pmd
-    # - sunflow
-    # - xalan
-    # - zxing
+    - jython
+    - luindex
+    - pmd
+    - sunflow
+    - xalan
+    - zxing
 
 build_gc: LXR
 
@@ -41,8 +43,8 @@ runtimes:
     home: $BUILDS/jdk-lxr/jdk-21.0.9
     commits:
       mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
-      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518 # lxr-x/jdk21
-      openjdk: 00b6313648fe99d4ea71e3d107fb2b7b155888a8 # jdk-21.0.9+3-mmtk-lxr-workaround-h2o
+      mmtk-openjdk: 2d56b558fb820ead6b597b03c754c515be8c4f63 # lxr-x/jdk21-fix-h2o
+      openjdk: f3705fcdb1674dda39fa38319080acc89a670229 # jdk-21.0.9+3-mmtk-lxr
     features: mmtk/no_meta_counting
     pgo: true
   jdk-lxr-opt: # 0.32.0
@@ -51,8 +53,8 @@ runtimes:
     home: $BUILDS/jdk-lxr-2/jdk-21.0.9
     commits:
       mmtk-core: e39b2f2b9fe51f218f6efcf49c0f39cf6b932077 # lxr-x/arraycopy-opt-2
-      mmtk-openjdk: f676c1916a3c084b8a7a985c8b265f3535f5c4ae # lxr-x/jdk21-barrier-opt-3
-      openjdk: 00b6313648fe99d4ea71e3d107fb2b7b155888a8 # jdk-21.0.9+3-mmtk-lxr-workaround-h2o
+      mmtk-openjdk: 6fee9fccf99e6692a0c0987f2750f819399f23c2 # lxr-x/jdk21-barrier-opt-3
+      openjdk: f3705fcdb1674dda39fa38319080acc89a670229 # jdk-21.0.9+3-mmtk-lxr-workaround-h2o
     features: mmtk/no_meta_counting,mmtk/arraycopy_opt
     pgo: true
 
