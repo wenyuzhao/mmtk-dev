@@ -11,27 +11,19 @@ overrides:
 build_gc: LXR
 
 runtimes:
-  jdk-lxr-old: &lxr
+  jdk-lxr: # 0.32.0
     type: OpenJDK
     release: 11
     home: $BUILDS/jdk-lxr/jdk-11.0.19
     commits:
-      mmtk-core: e1af7fc41cbee3e77ec75ce092efb5ae7f5e65ea
-      mmtk-openjdk: 46546ed41d28dd101eb57dca5422b73148f6ee06
+      mmtk-core: 8c17aa5cfd08a61865ff2afc75034ad4c5e4dd31
+      mmtk-openjdk: a078ed046669b9a9f20f928f677c497d0879e97b
       openjdk: bc9669aaed
     features: mmtk/no_meta_counting
     pgo: true
-  jdk-lxr: # 0.32.0
-    <<: *lxr
-    home: $BUILDS/jdk-lxr-2/jdk-11.0.19
-    commits:
-      mmtk-core: 603e29bb1384f83711cfc0c7bf25d22ae38b3530
-      mmtk-openjdk: f39a39e6989bf150dc5d9678bf6edad8fd108daa
-      openjdk: bc9669aaed
 
 configs:
   # G1
   - jdk-lxr|g1|common3|hs
   # LXR
-  - jdk-lxr-old|lxr|common3|tph|disable_thp
   - jdk-lxr|lxr|common3|tph|disable_thp

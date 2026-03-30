@@ -13,6 +13,8 @@ from .run import JVMArgs, Run as RunJDK, Build as BuildJDK, DEFAULT_PGO_TRAINING
 import re
 import shlex
 
+CLASS_UNLOADING = False
+
 
 def _find_config_file(config: str):
     # Find config file
@@ -74,12 +76,16 @@ class Build:
         if os.system(f"cd {repo} && git checkout {commit} --force") != 0:
             sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
 
-    def __build_one(self, runtime_name: str, build_name: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool | str, build_gc: str | None):
+    def __build_one(self, runtime_name: str, home: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool | str, build_gc: str | None):
         try:
             if test_command is None:
                 pgo_enabled = pgo if isinstance(pgo, bool) else True
                 pgo_benchmarks = pgo if isinstance(pgo, str) else ",".join(DEFAULT_PGO_TRAINING_BENCHMARKS)
-                run = RunJDK(gc=self.gc or build_gc or "Immix", bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo_enabled, pgo_benchmarks=pgo_benchmarks)
+                if not CLASS_UNLOADING:
+                    jvm_args = JVMArgs(class_unloading=False)
+                else:
+                    jvm_args = JVMArgs()
+                run = RunJDK(gc=self.gc or build_gc or "Immix", bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, pgo=pgo_enabled, pgo_benchmarks=pgo_benchmarks, jvm=jvm_args)
                 # run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, jvm=JVMArgs(compressed_oops=False))
                 run.run()
             else:
@@ -89,36 +95,35 @@ class Build:
                 result = os.system(test_command)
                 assert result == 0, f"❌ Test command failed with exit code {result}"
 
+            jdk_home = Path(home).resolve()
             if exploded:
-                self.__copy_jdk_bundle_exploded(build_name)
+                self.__copy_jdk_bundle_exploded(jdk_home)
             else:
-                self.__copy_jdk_bundle(build_name)
+                self.__copy_jdk_bundle(jdk_home)
         except BaseException as e:
             sys.exit(f"❌ Failed to build `runtimes.{runtime_name}`!")
 
-    def __copy_jdk_bundle_exploded(self, target: str):
-        builds_dir = EVALUATION_DIR / "builds"
-        builds_dir.mkdir(parents=True, exist_ok=True)
+    def __copy_jdk_bundle_exploded(self, home: Path):
+        home.parent.mkdir(parents=True, exist_ok=True)
         # Delete previous builds
-        ᐅᐳᐳ("rm", "-rf", builds_dir / target)
-        ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz")
+        ᐅᐳᐳ("rm", "-rf", home)
         # Copy exploded jdk folder
-        ᐅᐳᐳ("cp", "-r", OPENJDK / "build" / FULL_JDK_PROFILE("release"), builds_dir / target)
+        ᐅᐳᐳ("cp", "-r", OPENJDK / "build" / FULL_JDK_PROFILE("release"), home)
 
-    def __copy_jdk_bundle(self, target: str):
-        builds_dir = EVALUATION_DIR / "builds"
-        builds_dir.mkdir(parents=True, exist_ok=True)
+    def __copy_jdk_bundle(self, home: Path):
+        home.parent.mkdir(parents=True, exist_ok=True)
         # Get bundle file
         bundle = subprocess.check_output(["bash", "-c", f"ls {OPENJDK}/build/{FULL_JDK_PROFILE('release')}/bundles/*.tar.gz | grep -v -e symbols -e demos"], cwd=MMTK_DEV).decode("utf-8").strip()
         # Delete previous builds
-        ᐅᐳᐳ("rm", "-rf", builds_dir / target)
-        ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz")
+        ᐅᐳᐳ("rm", "-rf", home)
+        home.mkdir(parents=True, exist_ok=True)
         # Copy bundle file
-        ᐅᐳᐳ("cp", bundle, builds_dir / f"{target}.tar.gz")
+        temp_file = home.parent / f"jdk.tar.gz"
+        ᐅᐳᐳ("rm", "-f", temp_file)
+        ᐅᐳᐳ("cp", bundle, temp_file)
         # Extract and remove bundle file
-        ᐅᐳᐳ("mkdir", "-p", builds_dir / target)
-        ᐅᐳᐳ("tar", "-xf", builds_dir / f"{target}.tar.gz", "-C", builds_dir / target)
-        ᐅᐳᐳ("rm", "-f", builds_dir / f"{target}.tar.gz")
+        ᐅᐳᐳ("tar", "-xf", temp_file, "--strip-components=1", "-C", home)
+        ᐅᐳᐳ("rm", "-f", temp_file)
 
     def __check_builds(self, runtimes: Any):
         builds: set[str] = set()
@@ -130,9 +135,6 @@ class Build:
             exploded: bool = runtime.get("exploded", False)
             if exploded:
                 assert home.endswith("/jdk"), f"❌ Invalid value for `runtimes.{runtime_name}.home`: {home} (must end with /jdk for exploded builds)"
-            else:
-                jdk_folder_name = home.split("/")[-1]
-                assert re.match(r"jdk-\d+\.\d+\.\d+", jdk_folder_name), f"❌ Invalid value for `runtimes.{runtime_name}.home`: {home} (must end with /jdk-<version>)"
 
     def run(self):
         os.environ["BUILDS"] = f"{EVALUATION_DIR}/builds"
@@ -147,7 +149,7 @@ class Build:
             for runtime_name, runtime in doc["runtimes"].items():
                 cwd = OPENJDK / "build" / FULL_JDK_PROFILE("release")
                 if cwd.exists():
-                    ᐅᐳᐳ("make", f"clean", cwd=cwd)
+                    ᐅᐳᐳ("rm", "-rf", cwd)
                 assert "commits" in runtime, f"❌ `runtimes.{runtime_name}.commits` is not defined"
                 commits = runtime["commits"]
                 if commits is None:
@@ -167,8 +169,7 @@ class Build:
                 home: str = os.path.expandvars(runtime["home"])
                 if home.endswith("/"):
                     home = home[:-1]
-                build_name = os.path.split(os.path.split(home)[0])[1]
-                self.__build_one(runtime_name=runtime_name, build_name=build_name, features=features, exploded=exploded, test_command=test_command, pgo=pgo, build_gc=build_gc)
+                self.__build_one(runtime_name=runtime_name, home=home, features=features, exploded=exploded, test_command=test_command, pgo=pgo, build_gc=build_gc)
                 assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`: {home}/release does not exist"
                 print(f"✅ [{runtime_name}]: Build successful\n\n\n")
 
