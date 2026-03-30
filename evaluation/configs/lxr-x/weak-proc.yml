@@ -34,6 +34,6 @@ runtimes:
 
 configs:
   # G1
-  - jdk-lxr|g1|common3|hs|no_class_unload|metaspace1g|dacapochopin_jdk21
-  - jdk-lxr|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
-  - jdk-lxr-2|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr|g1|common3|hs
+  - jdk-lxr|lxr|common3|tph|disable_thp
+  - jdk-lxr-2|lxr|common3|tph|disable_thp
