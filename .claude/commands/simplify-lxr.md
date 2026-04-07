@@ -70,6 +70,7 @@ Note that:
 4. You only need to build once before running multiple benchmarks, if no code is edited between runs.
 5. Also verify with release builds with `--release`
 6. Always add `-n 5` to run for 5 iterations.
+7. Tests maybe flaky. Run it another time if it fails.
 
 # PRECAUTIONS
 
