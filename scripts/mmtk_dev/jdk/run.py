@@ -172,7 +172,7 @@ class JVMArgs:
     jvm_args: list[str] = field(default_factory=list)
     """Extra JVM args"""
 
-    def get_args(self):
+    def get_args(self, gc: str):
         envs: dict[str, str] = {}
         args: list[str] = ["-XX:+UnlockExperimentalVMOptions", "-XX:+UnlockDiagnosticVMOptions", "-XX:+ExitOnOutOfMemoryError"]
         # Compiler args
@@ -196,7 +196,8 @@ class JVMArgs:
             args += ["-XX:-UseCompressedOops", "-XX:-UseCompressedClassPointers"]
         # Compressed oops
         if not self.weak_refs:
-            args += ["-XX:-RegisterReferences"]
+            if gc in HOTSPOT_GCS:
+                args += ["-XX:-RegisterReferences"]
             envs["MMTK_NO_REFERENCE_TYPES"] = "true"
             envs["MMTK_NO_FINALIZER"] = "true"
         # Extra
@@ -370,7 +371,7 @@ class Run:
         # wrappers
         wrappers = self.__get_wrappers()
         # JVM Args
-        jvm_args, jvm_envs = self.jvm.get_args()
+        jvm_args, jvm_envs = self.jvm.get_args(gc)
         env = {**env, **gc_env, **jvm_envs}
         jvm_args += [
             # JDK <11
