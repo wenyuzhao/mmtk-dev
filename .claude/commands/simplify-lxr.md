@@ -1,9 +1,9 @@
 # Simplify LXR GC for upstreaming
 
-`lxr-x/simplfied` branch in both mmtk-core and mmtk-openjdk contain the implementation of the LXR garbage collector. Both two repos should have a branch with this name.
+`lxr-x/simplfied` branch in mmtk-core and `lxr-x/jdk21-simplfied` branch in mmtk-openjdk contain the implementation of the LXR garbage collector.
 
 `lxr-x/simplfied` in mmtk-core is based on tag `v0.32.0`
-`lxr-x/simplfied` in mmtk-openjdk is based on tag `v0.32.0-jdk-21`
+`lxr-x/jdk21-simplfied` in mmtk-openjdk is based on tag `v0.32.0-jdk-21`
 
 Both branches contains:
 * The core LXR GC algorithm
@@ -14,9 +14,11 @@ Both branches contains:
 * Changes to the other GCs in MMTk
 * Other stale dead code
 
-You need to work on the `lxr-x/simplfied` branchs in both mmtk-core and mmtk-openjdk.
+You need to work on the `lxr-x/simplfied` and `lxr-x/jdk21-simplfied`.
 
-You need to simplify the `lxr-x/simplfied` branches so that the user can easily upstream a simplified version of LXR GC easily, although the performance may not be as good as the original one.
+You need to simplify the two branches so that the user can easily upstream a simplified version of LXR GC easily, although the performance may not be as good as the original one.
+
+Assume the upstream is at `v0.32.0` and `v0.32.0-jdk-21`.
 
 # Compare and understand git diff
 
