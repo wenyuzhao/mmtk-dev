@@ -34,6 +34,11 @@ uv run mmtk-jdk r --gc LXR --bench lusearch --heap 40M
 
 Key flags: `--gc <GC>`, `--bench <benchmark>`, `--heap <size>`, `--build`, `--release`, `--exploded`, `--no-weak-refs`, `--features <comma_separated_cargo_features>`, `-n <iterations>`
 
+The use of `--features` flag:
+* enable a mmtk-openjdk feature: `--features some_feature`
+* enable a mmtk-core feature: `--features mmtk/some_feature`
+* multiple features: `--features mmtk/feature1,feature2,mmtk/feature3`
+
 ### Building mmtk-core Rust code directly
 ```bash
 cd mmtk-core
