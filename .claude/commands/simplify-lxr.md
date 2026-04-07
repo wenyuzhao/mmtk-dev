@@ -29,6 +29,8 @@ Generate git diff for both mmtk-core and mmtk-openjdk, and understand the change
 The diff may be over 8K LOC, You can't do all the changes in one go.
 Only pick a few components/aspects of the codebase that can be simplified/refactored, and perform this task.
 
+Enter plan mode, and preset a plan before proceeding with the task.
+
 # What can be simplified/removed
 
 * Additional performance optimizations
@@ -55,22 +57,23 @@ Only pick a few components/aspects of the codebase that can be simplified/refact
 After making changes, Please run the following command to test the correctness of the simplified LXR GC:
 
 ```bash
-mmtk-jdk run --gc LXR -n 5 --heap 30M --bench xalan --build --no-weak-refs
+mmtk-jdk run --gc LXR -n 5 --heap 30M --bench xalan --build --no-weak-refs --no-class-unloading
 ```
 
 Note that:
-1. Weak/soft/phantom/finalizable reference processing should be disabled with `--no-weak-refs`
-2. The mmtk-jdk command sets `RUST_LOG=warning` by default if it is missing, to avoid verbose logging output.
-3. Testing one benchmark is not enough. You should try the following benchmark and heap size combinations:
+* Weak/soft/phantom/finalizable reference processing should be disabled with `--no-weak-refs`
+* class unloading should be disable with `--no-class-unloading`
+* The mmtk-jdk command sets `RUST_LOG=warning` by default if it is missing, to avoid verbose logging output.
+* Testing one benchmark is not enough. You should try the following benchmark and heap size combinations:
     * lusearch:	40M
     * fop: 80M (without weak refs, 80M is the minimium heap size)
     * xalan: 30M
     * cassandra: 250M
     * pmd: 400M
-4. You only need to build once before running multiple benchmarks, if no code is edited between runs.
-5. Also verify with release builds with `--release`
-6. Always add `-n 5` to run for 5 iterations.
-7. Tests maybe flaky. Run it another time if it fails.
+* You only need to build once before running multiple benchmarks, if no code is edited between runs.
+* Also verify with release builds with `--release`
+* Always add `-n 5` to run for 5 iterations.
+* Tests maybe flaky. Run it another time if it fails.
 
 # PRECAUTIONS
 
