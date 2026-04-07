@@ -7,4 +7,4 @@ Add and commit your changes with:
 
 NOTE: Commit only, do not push.
 
-$0
+$ARGUMENTS
