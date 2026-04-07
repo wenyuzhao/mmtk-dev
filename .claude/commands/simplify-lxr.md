@@ -37,7 +37,7 @@ Only pick a few components/aspects of the codebase that can be simplified/refact
     * Unless they are part of the necessary MMTk interface change
 * Changes to support additional fetures, e.g. weak refs and class unloading
 * Custom instrumentation and logging code
-* Other stale dead code
+* Other stale dead code or comments that is not in upstream
 
 # What can be refactored
 
