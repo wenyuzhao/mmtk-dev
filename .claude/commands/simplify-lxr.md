@@ -48,6 +48,7 @@ Only pick a few components/aspects of the codebase that can be simplified/refact
 
 * Necessary changes to the MMTk interface
 * The core LXR algorithm
+* Keep the following features: lxr_no_evac, lxr_no_cm, lxr_no_lazy, lxr_stw, lxr_no_nursery_evac, lxr_no_mature_evac
 
 # Testing
 
