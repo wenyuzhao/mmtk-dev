@@ -63,7 +63,7 @@ Note that:
 2. The mmtk-jdk command sets `RUST_LOG=warning` by default if it is missing, to avoid verbose logging output.
 3. Testing one benchmark is not enough. You should try the following benchmark and heap size combinations:
     * lusearch:	40M
-    * fop: 80M
+    * fop: 80M (without weak refs, 80M is the minimium heap size)
     * xalan: 30M
     * cassandra: 250M
     * pmd: 400M
