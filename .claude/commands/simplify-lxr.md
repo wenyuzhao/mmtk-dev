@@ -22,7 +22,7 @@ Assume the upstream is at `v0.32.0` and `v0.32.0-jdk-21`.
 
 # Compare and understand git diff
 
-Generate git diff for both mmtk-core and mmtk-openjdk, and understand the changes in the two `lxr-x/simplfied` branches.
+Generate git diff for both mmtk-core and mmtk-openjdk, and understand the changes in the two branches.
 
 # Start a small refactoring/simplification task
 
