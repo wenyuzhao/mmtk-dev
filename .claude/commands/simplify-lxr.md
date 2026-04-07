@@ -26,7 +26,8 @@ Generate git diff for both mmtk-core and mmtk-openjdk, and understand the change
 
 # Start a small refactoring/simplification task
 
-Only pick one component/aspect of the codebase that can be simplified/refactored, and perform this task.
+The diff may be over 8K LOC, You can't do all the changes in one go.
+Only pick a few components/aspects of the codebase that can be simplified/refactored, and perform this task.
 
 # What can be simplified/removed
 
