@@ -51,6 +51,7 @@ Enter plan mode, and preset a plan before proceeding with the task.
 * Necessary changes to the MMTk interface
 * The core LXR algorithm
 * Keep the following features: lxr_no_evac, lxr_no_cm, lxr_no_lazy, lxr_stw, lxr_no_nursery_evac, lxr_no_mature_evac
+* `panic = "abort"` in mmtk-openjdk/mmtk/Cargo.toml, otherwise pmd may fail. Leave this bug for now.
 
 # Testing
 
