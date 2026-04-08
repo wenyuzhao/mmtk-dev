@@ -5,6 +5,7 @@ from simple_parsing import ArgumentParser
 import inspect
 import pathlib
 from .constants import MMTK_DEV
+import rich
 
 
 def ᐅᐳᐳ(prog: str | os.PathLike, *args: str | os.PathLike | None, cwd: str | os.PathLike = MMTK_DEV, env: Optional[Dict[str, str]] = None) -> Any:
@@ -18,10 +19,11 @@ def ᐅᐳᐳ(prog: str | os.PathLike, *args: str | os.PathLike | None, cwd: str
     if env_s != "":
         msg += f"{env_s} "
     msg += cmd_s
-    print(f"🔵 {msg}")
+    rich.print(f"[bold on magenta]RUN[/] [magenta]{msg}[/]\n")
     result = os.system(f"cd {cwd} && {env_s} {cmd_s}")
     if result != 0:
-        sys.exit(f"❌ {cmd_s}")
+        rich.print(f"\n[bold on red]ERROR[/] [red][bold]Command failed with exit code {result}[/]\n{cmd_s}[/]")
+        sys.exit(1)
 
 
 _FIRST_KWARGS: Any = None

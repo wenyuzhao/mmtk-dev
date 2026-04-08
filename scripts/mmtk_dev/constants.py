@@ -19,6 +19,8 @@ DACAPO_ROOT = Path("/usr/share/benchmarks/dacapo")
 
 def __find_dacapo_chopin():
     possible_paths = [
+        # Chopin stable release MR2
+        DACAPO_ROOT / "dacapo-23.11-MR2-chopin.jar",
         # Chopin stable release
         DACAPO_ROOT / "dacapo-23.11-chopin.jar",
         # Chopin RC releases

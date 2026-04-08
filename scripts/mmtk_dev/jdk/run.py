@@ -9,6 +9,7 @@ from simple_parsing.helpers.fields import choice
 from dataclasses import dataclass
 from simple_parsing import field
 import shutil
+import rich
 
 # PERF_EVENTS = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_L1I:MISS,0,-1;PERF_COUNT_HW_BRANCH_MISSES,0,-1"
 
@@ -294,6 +295,12 @@ class Run:
     bpftrace: str | None = None
     """The name of the generated bpftrace file"""
 
+    preserve: bool = field(default=False, negative_prefix="--no-")
+    """Preserve benchmark-generated files for debugging"""
+
+    repeat: int | None = field(default=None)
+    """Number of times to repeat the benchmark. This is different from `iter` in that it will run the whole benchmark multiple times, while `iter` only controls the number of iterations for each benchmark run."""
+
     def build_jdk(self, pgo_step: Literal["gen", "use"] | None):
         build = Build(
             profile=self.profile,
@@ -447,6 +454,8 @@ class Run:
         if self.__is_dacapo(bench or self.bench):
             # Probe args
             bm_args: list[str] = []
+            if self.preserve:
+                bm_args.append("--preserve")
             if gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
                 if PROBES is not None:
                     jvm_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
@@ -472,7 +481,7 @@ class Run:
             jvm_args += ["-jar", MMTK_DEV / "scripts/gcbench/gcbench.jar"]
             assert not self.bpftrace, "BPFTrace is not supported for gcbench"
             if iter > 1:
-                print("Warning: gcbench does not support multiple iterations")
+                rich.print("[bold on red]WARNING[/] [red]gcbench does not support multiple iterations[/]")
             ᐅᐳᐳ(*wrappers, java, *jvm_args, env=env)
         else:
             raise ValueError(f"Unknown benchmark {bench or self.bench}")
@@ -517,5 +526,11 @@ class Run:
             else:
                 self.build_jdk(pgo_step=None)
         for gc in gcs:
-            self.run_jdk(gc=gc)
+            repeats = self.repeat if self.repeat is not None else 1
+            if repeats > 1:
+                for i in range(repeats):
+                    rich.print(f"[bold on blue][RUNNING INVOCATION {i}/{repeats}][/]\n")
+                    self.run_jdk(gc=gc)
+            else:
+                self.run_jdk(gc=gc)
         # TODO: cp bench

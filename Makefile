@@ -1,6 +1,6 @@
 
 lxr=0
-dacapo_chopin=dacapo-23.11-chopin
+dacapo_chopin=dacapo-23.11-MR2-chopin
 dacapo_dir=/usr/share/benchmarks/dacapo
 mmtk_dev_dir:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
