@@ -301,6 +301,9 @@ class Run:
     repeat: int | None = field(default=None)
     """Number of times to repeat the benchmark. This is different from `iter` in that it will run the whole benchmark multiple times, while `iter` only controls the number of iterations for each benchmark run."""
 
+    scratch_dir: Path | None = None
+    """Scratch directory for temporary files. By default, it will use $PROJECT_DIR/scratch."""
+
     def build_jdk(self, pgo_step: Literal["gen", "use"] | None):
         build = Build(
             profile=self.profile,
@@ -456,6 +459,9 @@ class Run:
             bm_args: list[str] = []
             if self.preserve:
                 bm_args.append("--preserve")
+            if self.scratch_dir is not None:
+                path = self.scratch_dir.resolve()
+                bm_args += ["--scratch-directory", str(path)]
             if gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
                 if PROBES is not None:
                     jvm_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
@@ -529,6 +535,9 @@ class Run:
             repeats = self.repeat if self.repeat is not None else 1
             if repeats > 1:
                 for i in range(repeats):
+                    # Path(MMTK_DEV / "x.log").write_text("")
+                    if i > 0 or self.build:
+                        print()
                     rich.print(f"[bold on blue][RUNNING INVOCATION {i}/{repeats}][/]\n")
                     self.run_jdk(gc=gc)
             else:
