@@ -10,10 +10,25 @@ from dataclasses import dataclass
 from simple_parsing import field
 from ..utils import ᐅᐳᐳ
 from .run import JVMArgs, Run as RunJDK, Build as BuildJDK, DEFAULT_PGO_TRAINING_BENCHMARKS
-import re
+import rich
 import shlex
 
 CLASS_UNLOADING = False
+
+
+def err(s: str):
+    rich.print(f"[bold on red]ERROR:[/] [bold red]{s}[/]")
+    sys.exit(1)
+
+
+def check(condition: bool, s: str):
+    if not condition:
+        err(s)
+    return True
+
+
+def warn(s: str):
+    rich.print(f"[bold on yellow]WARNING:[/] [bold yellow]{s}[/]")
 
 
 def _find_config_file(config: str):
@@ -55,17 +70,16 @@ class Build:
     """Allow dirty workspace"""
 
     def __validate_repos(self):
-        def err(s: str):
-            sys.exit("❌ " + s) if not self.allow_dirty else print("🚨 " + s)
+        __err = err if not self.allow_dirty else warn
 
         if os.system(f"cd {MMTK_DEV} && git diff --quiet") != 0:
-            err("Current mmtk-dev workspace is dirty!")
+            __err("Current mmtk-dev workspace is dirty!")
         if os.system(f"cd {MMTK_DEV}/mmtk-core && git diff --quiet") != 0:
-            err("Current mmtk-core repo is dirty!")
+            __err("Current mmtk-core repo is dirty!")
         if os.system(f"cd {MMTK_DEV}/mmtk-openjdk && git diff --quiet") != 0:
-            err("Current mmtk-openjdk repo is dirty!")
+            __err("Current mmtk-openjdk repo is dirty!")
         if os.system(f"cd {MMTK_DEV}/openjdk && git diff --quiet") != 0:
-            err("Current openjdk repo is dirty!")
+            __err("Current openjdk repo is dirty!")
 
     def __is_at_commit(self, repo: Path, commit: str) -> bool:
         return os.system(f"cd {repo} && git diff --quiet {commit}") == 0
@@ -74,7 +88,7 @@ class Build:
         if self.__is_at_commit(repo, commit):
             return
         if os.system(f"cd {repo} && git checkout {commit} --force") != 0:
-            sys.exit(f"❌ Failed to checkout {commit} for repo {repo.name}")
+            err(f"Failed to checkout {commit} for repo {repo.name}")
 
     def __build_one(self, runtime_name: str, home: str, features: str | None, exploded: bool, test_command: str | None, pgo: bool | str, build_gc: str | None):
         try:
@@ -89,11 +103,11 @@ class Build:
                 # run = RunJDK(gc=self.gc, bench="fop", heap="500M", build=True, release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded, jvm=JVMArgs(compressed_oops=False))
                 run.run()
             else:
-                assert not pgo, "❌ PGO is not supported with custom test command"
+                check(not pgo, "PGO is not supported with custom test command")
                 build = BuildJDK(release=True, features=features, config=self.reconfigure or self.clean, clean=self.clean, bundle=not exploded, exploded=exploded)
                 build.run()
                 result = os.system(test_command)
-                assert result == 0, f"❌ Test command failed with exit code {result}"
+                check(result == 0, f"Test command failed with exit code {result}")
 
             jdk_home = Path(home).resolve()
             if exploded:
@@ -101,7 +115,7 @@ class Build:
             else:
                 self.__copy_jdk_bundle(jdk_home)
         except BaseException as e:
-            sys.exit(f"❌ Failed to build `runtimes.{runtime_name}`!")
+            err(f"Failed to build `runtimes.{runtime_name}`: [not bold]{e}[/]")
 
     def __copy_jdk_bundle_exploded(self, home: Path):
         home.parent.mkdir(parents=True, exist_ok=True)
@@ -129,12 +143,13 @@ class Build:
         builds: set[str] = set()
         for runtime_name, runtime in runtimes.items():
             home: str | None = runtime.get("home")
-            assert home is not None, f"❌ `runtimes.{runtime_name}.home` is not defined"
-            assert home not in builds, f"❌ Duplicated value for `runtimes.{runtime_name}.home`: {home}"
+            check(home is not None, f"`runtimes.{runtime_name}.home` is not defined")
+            check(home not in builds, f"Duplicated value for `runtimes.{runtime_name}.home`: [not bold]{home}[/]")
+            assert home
             builds.add(home)
             exploded: bool = runtime.get("exploded", False)
             if exploded:
-                assert home.endswith("/jdk"), f"❌ Invalid value for `runtimes.{runtime_name}.home`: {home} (must end with /jdk for exploded builds)"
+                check(home.endswith("/jdk"), f"Invalid value for `runtimes.{runtime_name}.home`: [not bold]{home} (must end with /jdk for exploded builds)[/]")
 
     def run(self):
         os.environ["BUILDS"] = f"{EVALUATION_DIR}/builds"
@@ -145,7 +160,7 @@ class Build:
             self.__check_builds(doc["runtimes"])
             build_gc = doc.get("build_gc")
             # if build_gc is not None:
-            print(f"🟢 [build-gc]: {build_gc}")
+            rich.print(f"[bold on green]BUILD GC: {build_gc}[/]\n")
             for runtime_name, runtime in doc["runtimes"].items():
                 cwd = OPENJDK / "build" / FULL_JDK_PROFILE("release")
                 if cwd.exists():
@@ -153,14 +168,17 @@ class Build:
                 assert "commits" in runtime, f"❌ `runtimes.{runtime_name}.commits` is not defined"
                 commits = runtime["commits"]
                 if commits is None:
-                    print(f"✅ [{runtime_name}]: Skipping build\n\n\n")
+                    rich.print(f"[bold green][{runtime_name}]: Skipping build\n[/]")
                     continue
                 features = runtime.get("features")
                 exploded = runtime.get("exploded", False)
                 test_command = runtime.get("test-command")
                 pgo = runtime.get("pgo", False)
                 # checkout commits
-                print(f"🟢 [{runtime_name}]: mmtk-core@{commits['mmtk-core']} mmtk-openjdk@{commits['mmtk-openjdk']} openjdk@{commits['openjdk']} features={features}")
+                rich.print(f"[bold on green]BUILD {runtime_name}[/]")
+                rich.print(f"[bold green]CHECKOUT[/]: [green]mmtk-core@{commits['mmtk-core']} mmtk-openjdk@{commits['mmtk-openjdk']} openjdk@{commits['openjdk']}[/]")
+                if features:
+                    rich.print(f"[bold green]RUST FEATURES[/]: [green]{features}[/]")
                 self.__checkout(MMTK_DEV / "mmtk-core", commits["mmtk-core"])
                 self.__checkout(MMTK_DEV / "mmtk-openjdk", commits["mmtk-openjdk"])
                 self.__checkout(MMTK_DEV / "openjdk", commits["openjdk"])
@@ -171,7 +189,7 @@ class Build:
                     home = home[:-1]
                 self.__build_one(runtime_name=runtime_name, home=home, features=features, exploded=exploded, test_command=test_command, pgo=pgo, build_gc=build_gc)
                 assert os.path.isfile(f"{home}/release"), f"❌ Failed to build `runtimes.{runtime_name}`: {home}/release does not exist"
-                print(f"✅ [{runtime_name}]: Build successful\n\n\n")
+                rich.print(f"[bold on green]BUILD COMPLETED:  {runtime_name}[/]\n\n\n")
 
 
 @dataclass
