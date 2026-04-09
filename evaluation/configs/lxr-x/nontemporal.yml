@@ -1,0 +1,39 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+  benchmarks.dacapochopin:
+    - tradebeans
+    - tradesoap
+    - jython
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr: &lxr # 0.32.0
+    type: OpenJDK
+    release: 21
+    home: $BUILDS/jdk-lxr/jdk-21.0.9
+    commits:
+      mmtk-core: bc5d833631d950f225e39d2db2ccf34f23ec7d84
+      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518
+      openjdk: f3705fcdb1674dda39fa38319080acc89a670229
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-nontemporal: # 0.32.0
+    <<: *lxr
+    home: $BUILDS/jdk-lxr-2/jdk-21.0.9
+    commits:
+      mmtk-core: b7f1dbd4759b7f6520f1cdfbb45f2c6a6f327b3c
+      mmtk-openjdk: 16bd5f9299e98b42309d8e96d8df273099c58518
+      openjdk: f3705fcdb1674dda39fa38319080acc89a670229
+
+configs:
+  # G1
+  - jdk-lxr|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
+  - jdk-lxr-nontemporal|lxr|common3|tph|disable_thp|no_class_unload|metaspace1g|dacapochopin_jdk21
