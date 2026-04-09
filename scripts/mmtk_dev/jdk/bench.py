@@ -179,9 +179,11 @@ class Build:
                 rich.print(f"[bold green]CHECKOUT[/]: [green]mmtk-core@{commits['mmtk-core']} mmtk-openjdk@{commits['mmtk-openjdk']} openjdk@{commits['openjdk']}[/]")
                 if features:
                     rich.print(f"[bold green]RUST FEATURES[/]: [green]{features}[/]")
+                print()
                 self.__checkout(MMTK_DEV / "mmtk-core", commits["mmtk-core"])
                 self.__checkout(MMTK_DEV / "mmtk-openjdk", commits["mmtk-openjdk"])
                 self.__checkout(MMTK_DEV / "openjdk", commits["openjdk"])
+                print()
                 # build and copy target
                 features = runtime.get("features")
                 home: str = os.path.expandvars(runtime["home"])
@@ -327,7 +329,7 @@ class Run:
                 os.system(f"pkill -f java -u {USERNAME} -9")
                 workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
                 if self.invocations is not None:
-                    print(f"🔵 INVOCATIONS: {self.invocations}")
+                    rich.print(f"[bold blue]INVOCATIONS:[/] {self.invocations}")
                     inv = ["--invocations", f"{self.invocations}"]
                 else:
                     inv = []
@@ -364,7 +366,7 @@ class Run:
         with open(config_file, "r") as file:
             config: dict[str, Any] = yaml.safe_load(file)
         config_name = self.__generate_config_name(config_file)
-        print(f"🔵 PREFIX: {config_name}")
+        rich.print(f"[bold blue]PREFIX:[/] {config_name}")
         # Kill previous runs
         os.system(f"pkill -f java -u {USERNAME} -9")
         # Setup env
@@ -382,12 +384,12 @@ class Run:
             self.log.unlink(missing_ok=True)
         # Run
         for cmd in self.__get_commands(config, config_file, config_name):
-            print(f'🔵 RUN: {" ".join(cmd)}')
-            print(f"🔵 LOG: {self.log}")
-            print(f'🔵 BUILDS: {env["BUILDS"]}')
+            rich.print(f'[bold blue]RUN:[/] [bright_black]{" ".join(cmd)}')
+            rich.print(f"[bold blue]LOG:[/] {self.log}")
+            rich.print(f'[bold blue]BUILDS:[/] {env["BUILDS"]}')
             with open(self.log, "a") as logfile:
                 subprocess.check_call(cmd, stdout=logfile, stderr=logfile, cwd=MMTK_DEV, env=env)
-        print(f"✅ Benchmark completed.")
+        rich.print(f"[bold on green]Benchmark completed.[/]")
 
 
 @dataclass
@@ -422,12 +424,12 @@ class Minheap:
         os.environ.update(env)
         # Run
         cmd: list[str] = ["running", "minheap", str(config_file), str(self.out)]
-        print(f'🔵 RUN: {" ".join(cmd)}')
-        print(f"🔵 OUT: {self.out}")
-        print(f'🔵 BUILDS: {env["BUILDS"]}')
+        rich.print(f'[bold blue]RUN:[/] {" ".join(cmd)}')
+        rich.print(f"[bold blue]OUT:[/] {self.out}")
+        rich.print(f'[bold blue]BUILDS:[/] {env["BUILDS"]}')
         with open(self.log, "w+") as logfile:
             subprocess.check_call(cmd, stdout=logfile, stderr=logfile, cwd=MMTK_DEV, env=env)
-        print(f"✅ Minheap completed.")
+        rich.print(f"[bold on green]Minheap completed.[/]")
 
 
 @dataclass

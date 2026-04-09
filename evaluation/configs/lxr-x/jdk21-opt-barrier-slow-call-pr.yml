@@ -1,0 +1,35 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin-mr2.minheap: G1-n5
+
+build_gc: GenImmix
+
+runtimes:
+  jdk-mmtk: # 0.32.0
+    type: OpenJDK
+    release: 21
+    home: $BUILDS/jdk-lxr
+    commits:
+      mmtk-core: 06e55309fcb95fd9fb5ecd6856aa1ef2c621e3e5
+      mmtk-openjdk: 4037ffaa03eddf8d43be9f402f87c7d0a5bd13e0
+      openjdk: b557520f04b35d2a7a040d43f02efc1c4911ebb7
+    pgo: true
+  jdk-mmtk-opt: # 0.32.0
+    type: OpenJDK
+    release: 21
+    home: $BUILDS/jdk-lxr-2
+    commits:
+      mmtk-core: 06e55309fcb95fd9fb5ecd6856aa1ef2c621e3e5
+      mmtk-openjdk: 81383534f9e5c83b1e6525abf99c99946cc54bf8
+      openjdk: b557520f04b35d2a7a040d43f02efc1c4911ebb7
+    pgo: true
+
+configs:
+  - jdk-mmtk|genix|common|tph|metaspace1g|dacapochopin_jdk21
+  - jdk-mmtk-opt|genix|common|tph|metaspace1g|dacapochopin_jdk21
