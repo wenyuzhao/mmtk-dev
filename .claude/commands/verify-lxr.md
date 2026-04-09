@@ -27,4 +27,5 @@ Try fix any crashes or bugs discovered during verification.
 
 # PRECAUTIONS
 
+* Benchmarks can run in parallel, but don't build jdk when other benchmarks or build task are still running.
 * Don't commit, push, revert, or create/edit PRs or issues, unless the user explicitly ask you to do so.

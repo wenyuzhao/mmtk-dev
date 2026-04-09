@@ -72,7 +72,7 @@ Note that:
     * cassandra: 250M
     * pmd: 400M
 * You only need to build once before running multiple benchmarks, if no code is edited between runs.
-* Also verify with release builds with `--release`
+* Verify both debug builds and release builds (with `--release`)
 * Always add `-n 5` to run for 5 iterations.
 * Tests maybe flaky. Run it another time if it fails.
 
@@ -80,6 +80,7 @@ Note that:
 
 * Don't commit, push, revert, or create/edit PRs or issues, unless the user explicitly ask you to do so.
 * Do simplifications/refactorings one piece at a time. Don't aim to solve everything in one session.
+* Benchmarks can run in parallel, but don't build jdk when other benchmarks or build task are still running.
 
 # Additional User Messages
 
