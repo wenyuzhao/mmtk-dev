@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from simple_parsing import field
 import shutil
 import rich
+import tempfile
+import contextlib
 
 # PERF_EVENTS = "PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_L1I:MISS,0,-1;PERF_COUNT_HW_BRANCH_MISSES,0,-1"
 
@@ -302,7 +304,7 @@ class Run:
     """Number of times to repeat the benchmark. This is different from `iter` in that it will run the whole benchmark multiple times, while `iter` only controls the number of iterations for each benchmark run."""
 
     scratch_dir: Path | None = None
-    """Scratch directory for temporary files. By default, it will use $PROJECT_DIR/scratch."""
+    """Scratch directory for temporary files. By default, it will use /tmp/mmtk-dev-scratch-<random>."""
 
     def build_jdk(self, pgo_step: Literal["gen", "use"] | None):
         build = Build(
@@ -431,24 +433,31 @@ class Run:
             java = f"{self.jdk}/bin/java"
         return java
 
+    @contextlib.contextmanager
     def __bpftrace(self):
-        run = self
+        daemon = None
 
-        class BPFTracer:
-            def __enter__(self):
-                if run.bpftrace is not None:
-                    ᐅᐳᐳ("sudo", "echo", "''")
-                    self.daemon = start_capturing_process(exploded=run.exploded)
-                return self
+        if self.bpftrace is not None:
+            ᐅᐳᐳ("sudo", "echo", "''")
+            daemon = start_capturing_process(exploded=self.exploded)
+        try:
+            yield
+        finally:
+            if daemon is not None:
+                assert self.bpftrace is not None
+                name = f"{self.gc}-{self.bench}-{self.heap}".lower()
+                if self.bpftrace != "":
+                    name = name + "-" + self.bpftrace
+                daemon.finalize(name=name)
 
-            def __exit__(self, exc_type, exc_value, traceback):
-                if run.bpftrace is not None:
-                    name = f"{run.gc}-{run.bench}-{run.heap}".lower()
-                    if run.bpftrace != "":
-                        name = name + "-" + run.bpftrace
-                    self.daemon.finalize(name=name)
-
-        return BPFTracer()
+    @contextlib.contextmanager
+    def __stratch_dir(self):
+        if self.scratch_dir is not None:
+            yield self.scratch_dir
+        else:
+            with tempfile.TemporaryDirectory(prefix="mmtk-dev-scratch") as scratch_dir:
+                self.scratch_dir = Path(scratch_dir)
+                yield self.scratch_dir
 
     def run_jdk(self, gc: str, bench: str | None = None, heap: str | None = None, iter: int | None = None):
         wrappers, env, jvm_args = self.__common_args(gc, heap)
@@ -459,9 +468,6 @@ class Run:
             bm_args: list[str] = []
             if self.preserve:
                 bm_args.append("--preserve")
-            if self.scratch_dir is not None:
-                path = self.scratch_dir.resolve()
-                bm_args += ["--scratch-directory", str(path)]
             if gc in HOTSPOT_GCS or FORCE_USE_JVMTI_HOOK:
                 if PROBES is not None:
                     jvm_args.append(f"-agentpath:{PROBES}/libperf_statistics_pfm3.so")
@@ -478,7 +484,9 @@ class Run:
                 bm_args += ["-s", self.size]
             # Run
             with self.__bpftrace():
-                ᐅᐳᐳ(*wrappers, java, *jvm_args, "Harness", "-n", f"{iter}", bench or self.bench, *bm_args, env=env)
+                with self.__stratch_dir() as scratch_dir:
+                    bm_args += ["--scratch-directory", str(scratch_dir.resolve())]
+                    ᐅᐳᐳ(*wrappers, java, *jvm_args, "Harness", "-n", f"{iter}", bench or self.bench, *bm_args, env=env)
         elif self.__is_pjbb2005(bench or self.bench):
             jvm_args += ["-cp", "/usr/share/benchmarks/pjbb2005/jbb.jar:/usr/share/benchmarks/pjbb2005/check.jar"]
             assert not self.bpftrace, "BPFTrace is not supported for pjbb2005"
