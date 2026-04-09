@@ -456,8 +456,7 @@ class Run:
             yield self.scratch_dir
         else:
             with tempfile.TemporaryDirectory(prefix="mmtk-dev-scratch") as scratch_dir:
-                self.scratch_dir = Path(scratch_dir)
-                yield self.scratch_dir
+                yield Path(scratch_dir)
 
     def run_jdk(self, gc: str, bench: str | None = None, heap: str | None = None, iter: int | None = None):
         wrappers, env, jvm_args = self.__common_args(gc, heap)
