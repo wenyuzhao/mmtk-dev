@@ -17,7 +17,7 @@ Note that:
     * cassandra: 250M
     * pmd: 400M
 * You only need to build once before running multiple benchmarks, if no code is edited between runs.
-* Also verify with release builds with `--release`
+* Verify both debug builds and release builds (with `--release`)
 * Always add `-n 5` to run for 5 iterations.
 * Tests maybe flaky. Run it another time if it fails.
 
