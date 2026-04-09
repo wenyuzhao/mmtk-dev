@@ -455,7 +455,7 @@ class Run:
         if self.scratch_dir is not None:
             yield self.scratch_dir
         else:
-            with tempfile.TemporaryDirectory(prefix="mmtk-dev-scratch") as scratch_dir:
+            with tempfile.TemporaryDirectory(prefix="mmtk-dev-scratch-") as scratch_dir:
                 yield Path(scratch_dir)
 
     def run_jdk(self, gc: str, bench: str | None = None, heap: str | None = None, iter: int | None = None):
