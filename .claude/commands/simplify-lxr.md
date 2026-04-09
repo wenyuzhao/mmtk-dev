@@ -81,6 +81,7 @@ Note that:
 * Don't commit, push, revert, or create/edit PRs or issues, unless the user explicitly ask you to do so.
 * Do simplifications/refactorings one piece at a time. Don't aim to solve everything in one session.
 * Benchmarks can run in parallel, but don't build jdk when other benchmarks or build task are still running.
+* Do a `cargo fmt` under either `mmtk-core/` or `mmtk-openjdk/mmtk` before finish.
 
 # Additional User Messages
 
