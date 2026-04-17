@@ -22,7 +22,7 @@ def ᐅᐳᐳ(prog: str | os.PathLike, *args: str | os.PathLike | None, cwd: str
     rich.print(f"[bold on magenta]RUN[/] [magenta]{msg}[/]\n")
     result = os.system(f"cd {cwd} && {env_s} {cmd_s}")
     if result != 0:
-        rich.print(f"\n[bold on red]ERROR[/] [red][bold]Command failed with exit code {result}[/]\n{cmd_s}[/]")
+        rich.print(f"\n[bold on red]ERROR[/] [red][bold]Command failed with exit code {result}[/][/]")
         sys.exit(1)
 
 

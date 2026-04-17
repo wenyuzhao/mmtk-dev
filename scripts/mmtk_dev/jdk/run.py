@@ -264,6 +264,8 @@ class Run:
     gdb: bool = field(default=False, negative_prefix="--no-")
     """Launch with GDB"""
 
+    interactive: bool = field(default=True, negative_prefix="--no-")
+
     rr: bool = field(default=False, negative_prefix="--no-")
     """Launch with rr record"""
 
@@ -338,7 +340,10 @@ class Run:
             wrappers += ["taskset", "-c", f"0-{cores - 1}"]
         # GDB Wrapper
         if self.gdb:
-            wrappers += ["rust-gdb", "--args"]
+            wrappers += ["rust-gdb"]
+            if not self.interactive:
+                wrappers += ["-batch", "-ex", "run", "-ex", "bt", "-ex", "'info locals'", "-ex", "'info args'", "-ex", "quit"]
+            wrappers += ["--args"]
         elif self.rr:
             wrappers += ["rr", "record"]
         # time -v wrapper

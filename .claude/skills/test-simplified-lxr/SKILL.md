@@ -37,3 +37,4 @@ Note that:
 * Verify both debug builds and release builds (with `--release`)
 * Always add `-n 5` to run for 5 iterations.
 * Tests maybe flaky. Run it another time if it fails.
+* Use gdb: add `--gdb --no-interactive` to the command, and it will automatically run the program in gdb, and print the backtrace if it crashes. This is useful for debugging.
