@@ -72,6 +72,11 @@ To fix a crashing benchmark, you have the following options:
 2. Use GDB: add `--gdb --no-interactive` to the command, and it will automatically run the program in gdb, and print the backtrace if it crashes.
 3. Inspect crash logs: hs_err_pid*.log
 
+# Current progress
+
+* Class unload and weak refs are reverted
+* BlockPageResournce and ImmixAllocator changes are mostly reverted (may need more cleanups)
+
 # PRECAUTIONS
 
 * Don't commit, push, revert, or create/edit PRs or issues, unless the user explicitly ask you to do so.
