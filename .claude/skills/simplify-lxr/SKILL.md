@@ -1,3 +1,9 @@
+---
+name: simplify-lxr
+description: Simplify LXR GC for upstreaming
+disable-model-invocation: true
+---
+
 # Simplify LXR GC for upstreaming
 
 `lxr-x/simplified` branch in mmtk-core and `lxr-x/jdk21-simplified` branch in mmtk-openjdk contain the implementation of the LXR garbage collector.
@@ -56,6 +62,15 @@ Enter plan mode, and preset a plan before proceeding with the task.
 # Testing
 
 Use `test-simplified-lxr` skill to test and verify LXR GC.
+
+# Debugging
+
+Refer to the `test-simplified-lxr` skill on how to run the benchmarks and verify the correctness of the simplified LXR GC.
+
+To fix a crashing benchmark, you have the following options:
+1. Use debug build (without `--release`) to get more debug info
+2. Use GDB: add `--gdb --no-interactive` to the command, and it will automatically run the program in gdb, and print the backtrace if it crashes.
+3. Inspect crash logs: hs_err_pid*.log
 
 # PRECAUTIONS
 
