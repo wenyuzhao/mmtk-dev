@@ -1,5 +1,5 @@
 benchmarks:
-  dacapochopin:
+  dacapochopin-mr2:
     - lusearch
     - h2
     - cassandra

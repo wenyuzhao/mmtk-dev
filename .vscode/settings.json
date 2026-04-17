@@ -24,5 +24,6 @@
         "--line-length",
         "10000"
     ],
-    "files.trimTrailingWhitespace": false
+    "files.trimTrailingWhitespace": false,
+    "editor.formatOnSave": true
 }
