@@ -527,9 +527,12 @@ class Run:
                 llvm_profdata = None
                 if (rt := MMTK_OPENJDK / "mmtk" / "rust-toolchain") and rt.exists():
                     toolchain = rt.read_text().strip()
-                    llvm_profdata = Path.home() / ".rustup/toolchains" / f"{toolchain}-x86_64-unknown-linux-gnu" / "lib/rustlib/x86_64-unknown-linux-gnu/bin/llvm-profdata"
+                    toolchain_suffix = lambda p: p / f"{toolchain}-x86_64-unknown-linux-gnu" / "lib/rustlib/x86_64-unknown-linux-gnu/bin/llvm-profdata"
+                    llvm_profdata = toolchain_suffix(Path("/opt/rust/toolchains")) # moma
                     if not llvm_profdata.exists():
-                        ᐅᐳᐳ("rustup", "component", "add", "llvm-tools-preview", "--toolchain", toolchain)
+                        llvm_profdata = toolchain_suffix(Path.home() / ".rustup/toolchains")
+                        if not llvm_profdata.exists():
+                            ᐅᐳᐳ("rustup", "component", "add", "llvm-tools-preview", "--toolchain", toolchain)
                     if not llvm_profdata.exists():
                         llvm_profdata = None
                 if not llvm_profdata:
