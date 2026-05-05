@@ -6,7 +6,7 @@ includes:
 overrides:
   heap_range: 3
   invocations: 20
-  suites.dacapochopin-mr2.minheap: G1-n5
+  suites.dacapochopin.minheap: G1-n5
 
 build_gc: GenImmix
 
