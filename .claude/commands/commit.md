@@ -11,5 +11,6 @@ NOTE:
 * Commit only, do not push.
 * You need to review the changes to understand what's changed.
 * Don't commit other repos. mmtk-core and mmtk-openjdk only.
+* Do a `cargo fmt` under either `mmtk-core/` or `mmtk-openjdk/mmtk` before commit.
 
 $ARGUMENTS
