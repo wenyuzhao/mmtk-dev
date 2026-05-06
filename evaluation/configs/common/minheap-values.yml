@@ -2,6 +2,38 @@ includes:
   - "$RUNNING_NG_PACKAGE_DATA/base/runbms$__ANU.yml"
 
 suites:
+  # renaissance:
+  #   type: Renaissance
+  #   release: evaluation
+  #   path: /home/wenyuz/renaissance/renaissance-gpl-0.16.1.jar
+  #   minheap: G1-n5
+  #   minheap_values:
+  #     G1-n5:
+  #       avrora: 5
+  #       batik: 175
+  #       biojava: 93
+  #       cassandra: 175
+  #       eclipse: 135
+  #       fop: 15
+  #       graphchi: 183
+  #       h2: 679
+  #       h2o: 71
+  #       jme: 29
+  #       jython: 29
+  #       kafka: 205
+  #       luindex: 47
+  #       lusearch: 19
+  #       pmd: 196
+  #       spring: 51
+  #       sunflow: 35
+  #       tomcat: 21
+  #       tradebeans: 135
+  #       tradesoap: 91
+  #       xalan: 15
+  #       zxing: 141
+  #   timing_iteration: 3
+  #   timeout: 120
+
   dacapochopin-mr2:
     type: DaCapo
     release: evaluation
