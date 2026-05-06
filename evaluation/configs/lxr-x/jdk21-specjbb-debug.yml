@@ -1,11 +1,11 @@
-hfac: [ 2x, 1.3x ]
+hfac: 2x
 
 includes:
   - $CONFIGS/common/common-lxr.yml
 
 overrides:
   heap_range: 3
-  invocations: 3
+  invocations: 1
   suites.specjbb2015.minheap_values:
     default:
       composite: 2
@@ -28,7 +28,7 @@ runtimes:
     # 0.32.0
     type: OpenJDK
     release: 21
-    home: $BUILDS/jdk-lxr-2/jdk-21.0.9
+    home: /home/wenyuz/MMTk-Dev/openjdk/build/linux-x86_64-server-fastdebug/images/jdk
     commits:
       mmtk-core: 901138b008b5f3aaaca7b01852e97fc55dd45228
       mmtk-openjdk: 7fa3035445e09190852c094d4b7aa9d8ceb8a59b
