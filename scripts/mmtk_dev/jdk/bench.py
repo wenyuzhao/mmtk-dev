@@ -327,7 +327,7 @@ class Run:
             for hfac_args in self.__get_hfac_args_list(config):
                 # Run
                 os.system(f"pkill -f java -u {USERNAME} -9")
-                workdir_args = [] if self.workdir is None else ["--workdir", self.workdir]
+                workdir_args = [] if self.workdir is None else ["--workdir", str(self.workdir)]
                 if self.invocations is not None:
                     rich.print(f"[bold blue]INVOCATIONS:[/] {self.invocations}")
                     inv = ["--invocations", f"{self.invocations}"]
