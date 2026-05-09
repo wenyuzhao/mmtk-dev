@@ -1,0 +1,57 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+  - $CONFIGS/common/renaissance.yml
+
+overrides:
+  heap_range: 3
+  invocations: 1
+  benchmarks:
+    renaissance:
+      - apache-spark
+      - als
+      - chi-square
+      - dec-tree
+      - gauss-mix
+      - log-regression
+      - movie-lens
+      - naive-bayes
+      - page-rank
+      - akka-uct
+      - fj-kmeans
+      - reactors
+      - db-shootout
+      - neo4j-analytics
+      - future-genetic
+      - mnemonics
+      - par-mnemonics
+      - rx-scrabble
+      - scrabble
+      - dotty
+      - philosophers
+      - scala-doku
+      - scala-kmeans
+      - scala-stm-bench7
+      - finagle-chirper
+      - finagle-http
+
+build_gc: LXR
+bin: running2
+
+runtimes:
+  jdk-lxr:
+    # 0.32.0
+    type: OpenJDK
+    release: 21
+    home: $BUILDS/jdk-lxr-2/jdk-21.0.9
+    commits:
+      mmtk-core: 901138b008b5f3aaaca7b01852e97fc55dd45228
+      mmtk-openjdk: 7fa3035445e09190852c094d4b7aa9d8ceb8a59b
+      openjdk: f3705fcdb1674dda39fa38319080acc89a670229
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  # - jdk-lxr|g1|common3|renaissance_hs
+  - jdk-lxr|lxr|common3|tph|disable_thp|renaissance_mmtk

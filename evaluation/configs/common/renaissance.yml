@@ -1,0 +1,75 @@
+suites:
+  renaissance:
+    type: Renaissance
+    release: "0.16.1"
+    path: /home/wenyuz/renaissance/renaissance-gpl-0.16.1.jar
+    minheap: default
+    minheap_values:
+      default:
+        # These 450 values are enforced by spark and does not reflect the actual minheap.
+        als: 450
+        chi-square: 450
+        dec-tree: 450
+        gauss-mix: 450
+        log-regression: 450
+        movie-lens: 450
+
+        naive-bayes: 1504
+        page-rank: 1051
+
+        akka-uct: 230
+        fj-kmeans: 133
+        reactors: 473
+
+        db-shootout: 2272
+        neo4j-analytics: 1435
+
+        future-genetic: 11
+        mnemonics: 45
+        par-mnemonics: 45
+        rx-scrabble: 40
+        scrabble: 111
+
+        dotty: 61
+        philosophers: 8
+        scala-doku: 31
+        scala-kmeans: 29
+        scala-stm-bench7: 384
+
+        finagle-chirper: .inf
+        finagle-http: 51
+
+    timeout: 1800
+
+benchmarks:
+  renaissance:
+    # - als
+    # - chi-square
+    # - dec-tree
+    # - gauss-mix
+    # - log-regression
+    # - movie-lens
+    - naive-bayes
+    - page-rank
+
+    - akka-uct
+    - fj-kmeans
+    - reactors
+
+    - db-shootout
+    - neo4j-analytics
+
+    - future-genetic
+    - mnemonics
+    - par-mnemonics
+    - rx-scrabble
+    - scrabble
+
+    - dotty
+    - philosophers
+    - scala-doku
+    - scala-kmeans
+    - scala-stm-bench7
+
+    - finagle-chirper
+    - finagle-http

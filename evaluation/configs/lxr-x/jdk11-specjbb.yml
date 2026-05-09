@@ -1,0 +1,44 @@
+hfac: [2x, 1.3x, 3x]
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 1
+  suites.specjbb2015.minheap_values:
+    default:
+      composite: 2
+  suites.dacapochopin.minheap: G1-n5
+  suites.specjbb2015.minheap: default
+  benchmarks:
+    specjbb2015:
+      - composite
+
+build_gc: LXR
+bin: running2
+
+plugins:
+  specjbb-output:
+    type: CopyFile
+    patterns:
+      - "*.gz"
+
+runtimes:
+  jdk-lxr:
+    # 0.32.0
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-3
+    commits:
+      mmtk-core: 9625c174f3a3d226fee460afe62e9c4b581f6044
+      mmtk-openjdk: 0682434ae725787e38defbc17bd66dc918e4bdb7
+      openjdk: bc9669aaedc07924d08b939adedcad33f3e76065
+    features: mmtk/no_meta_counting
+    pgo: true
+
+configs:
+  - jdk-lxr|g1|common3|hs
+  - jdk-lxr|lxr|common3|tph|disable_thp
+  - jdk-lxr|shenandoah|common3|hs
+  - jdk-lxr|z|common3|hs

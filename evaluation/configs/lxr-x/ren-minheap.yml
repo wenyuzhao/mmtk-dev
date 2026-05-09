@@ -1,0 +1,52 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+  - $CONFIGS/common/renaissance.yml
+
+overrides:
+  heap_range: 3
+  invocations: 1
+  maxheap: 100
+  attempts: 1
+  benchmarks:
+    renaissance:
+      - apache-spark
+      - als
+      - chi-square
+      - dec-tree
+      - gauss-mix
+      - log-regression
+      - movie-lens
+      - naive-bayes
+      - page-rank
+      - akka-uct
+      - fj-kmeans
+      - reactors
+      - db-shootout
+      - neo4j-analytics
+      - future-genetic
+      - mnemonics
+      - par-mnemonics
+      - rx-scrabble
+      - scrabble
+      - dotty
+      - philosophers
+      - scala-doku
+      - scala-kmeans
+      - scala-stm-bench7
+      - finagle-chirper
+      - finagle-http
+  suites.renaissance.timeout: 20000
+
+build_gc: LXR
+bin: running2
+
+runtimes:
+  temurin-21:
+    type: OpenJDK
+    release: 21
+    home: /usr/lib/jvm/temurin-21-jdk-amd64
+
+configs:
+  - temurin-21|g1|common3|renaissance_hs

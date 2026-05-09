@@ -36,20 +36,24 @@ modifiers:
         - tradesoap
   probes_cp:
     type: JVMClasspath
-    val: "/home/wenyuz/MMTk-Dev/evaluation/probes /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes
+      /home/wenyuz/MMTk-Dev/evaluation/probes/probes.jar"
   probes:
     type: JVMArg
-    val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes -Dprobes=RustMMTk"
+    val: "-Djava.library.path=/home/wenyuz/MMTk-Dev/evaluation/probes
+      -Dprobes=RustMMTk"
   jvmti0:
     type: JVMArg
-    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so"
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm\
+      0.so"
   jvmti_env0:
     type: EnvVar
     var: "LD_PRELOAD"
     val: "/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm0.so"
   jvmti3:
     type: JVMArg
-    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm3.so"
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/libperf_statistics_pfm\
+      3.so"
   jvmti_env3:
     type: EnvVar
     var: "LD_PRELOAD"
@@ -58,14 +62,16 @@ modifiers:
     type: EnvVar
     var: "PERF_EVENTS"
     # AMD
-    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+    val: "PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L\
+      1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
     # Intel
     # val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
   perf_llc:
     type: EnvVar
     var: "PERF_EVENTS"
     # AMD
-    val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRUCTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
+    val: "PERF_COUNT_HW_CACHE_LL:MISS,PERF_COUNT_HW_CPU_CYCLES,PERF_COUNT_HW_INSTRU\
+      CTIONS,PERF_COUNT_HW_CACHE_L1D:MISS,PERF_COUNT_HW_CACHE_DTLB:MISS"
   pretouch:
     type: JVMArg
     val: "-XX:+AlwaysPreTouch"
@@ -100,7 +106,9 @@ modifiers:
   mmtk_perf_llc:
     type: EnvVar
     var: "MMTK_PHASE_PERF_EVENTS"
-    val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT_HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
+    val: "PERF_COUNT_HW_CACHE_LL:MISS,0,-1;PERF_COUNT_SW_TASK_CLOCK,0,-1;PERF_COUNT\
+      _HW_CPU_CYCLES,0,-1;PERF_COUNT_HW_INSTRUCTIONS,0,-1;PERF_COUNT_HW_CACHE_L\
+      1D:MISS,0,-1;PERF_COUNT_HW_CACHE_DTLB:MISS,0,-1"
   tph_perf:
     type: ModifierSet
     val: "tph|mmtk_perf"
@@ -309,7 +317,8 @@ modifiers:
     val: "dacapochopin_jdk9"
   dacapochopin_jdk9:
     type: ModifierSet
-    val: "dacapochopin_jdk9_h2o|dacapochopin_jdk9_cassandra|dacapochopin_jdk9_trades"
+    val: "dacapochopin_jdk9_h2o|dacapochopin_jdk9_cassandra|dacapochopin_jdk9_trade\
+      s"
   dacapochopin_jdk9_h2o:
     type: JVMArg
     val: "--add-opens java.base/java.lang=ALL-UNNAMED"
@@ -318,7 +327,9 @@ modifiers:
         - h2o
   dacapochopin_jdk9_cassandra:
     type: JVMArg
-    val: "--add-exports java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED"
+    val: "--add-exports java.base/sun.nio.ch=ALL-UNNAMED --add-opens
+      java.base/java.io=ALL-UNNAMED --add-opens
+      java.base/sun.nio.ch=ALL-UNNAMED"
     includes:
       dacapochopin:
         - cassandra
@@ -335,3 +346,22 @@ modifiers:
     includes:
       dacapochopin:
         - lusearch
+  renaissance_hs_jvmti:
+    type: JVMArg
+    val: "-agentpath:/home/wenyuz/MMTk-Dev/evaluation/probes/librenperf.so"
+  renaissance_hs_jvmti_env:
+    type: EnvVar
+    var: "LD_PRELOAD"
+    val: "/home/wenyuz/MMTk-Dev/evaluation/probes/librenperf.so"
+  renaissance_hs_plugin:
+    type: ProgramArg
+    val: "--plugin
+      /home/wenyuz/MMTk-Dev/evaluation/probes/renaissance-harness-plugin.jar"
+  renaissance_hs:
+    type: ModifierSet
+    val: "renaissance_hs_jvmti|renaissance_hs_jvmti_env|renaissance_hs_plugin"
+  renaissance_mmtk:
+    type: ProgramArg
+    val: "--plugin
+      /home/wenyuz/MMTk-Dev/evaluation/probes/renaissance-mmtk-plugin.jar
+      --with-arg /home/wenyuz/MMTk-Dev/evaluation/probes/librenmmtk.so"

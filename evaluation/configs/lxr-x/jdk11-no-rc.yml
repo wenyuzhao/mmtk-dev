@@ -1,0 +1,43 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 20
+  suites.dacapochopin.minheap: G1-n5
+
+build_gc: LXR
+
+runtimes:
+  jdk-lxr:
+    # 0.32.0
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-3
+    commits:
+      mmtk-core: 9625c174f3a3d226fee460afe62e9c4b581f6044
+      mmtk-openjdk: 0682434ae725787e38defbc17bd66dc918e4bdb7
+      openjdk: bc9669aaedc07924d08b939adedcad33f3e76065
+    features: mmtk/no_meta_counting
+    pgo: true
+  jdk-lxr-no-rc:
+    # 0.32.0
+    type: OpenJDK
+    release: 11
+    home: $BUILDS/jdk-lxr-4
+    commits:
+      mmtk-core: 9625c174f3a3d226fee460afe62e9c4b581f6044
+      mmtk-openjdk: 0682434ae725787e38defbc17bd66dc918e4bdb7
+      openjdk: bc9669aaedc07924d08b939adedcad33f3e76065
+    features: mmtk/no_meta_counting,mmtk/lxr_no_decs
+    pgo: true
+
+configs:
+  # G1
+  # - jdk-lxr|g1|common3|hs|dacapochopin_jdk21
+  - jdk-lxr-no-rc|lxr|common3|tph|disable_thp|dacapochopin_jdk11
+  - jdk-lxr|lxr|common3|tph|disable_thp|dacapochopin_jdk11
+  # - jdk-lxr|shenandoah|common3|hs|dacapochopin_jdk21
+  # - jdk-lxr|z|common3|hs|dacapochopin_jdk21

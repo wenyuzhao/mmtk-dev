@@ -1,0 +1,24 @@
+hfac: 2x
+
+includes:
+  - $CONFIGS/common/common-lxr.yml
+
+overrides:
+  heap_range: 3
+  invocations: 1
+  maxheap: 2048
+  attempts: 1
+  benchmarks:
+    specjbb2015:
+      - composite
+
+bin: running2
+
+runtimes:
+  temurin-21:
+    type: OpenJDK
+    release: 21
+    home: /usr/lib/jvm/temurin-21-jdk-amd64
+
+configs:
+  - temurin-21|g1|common3|hs

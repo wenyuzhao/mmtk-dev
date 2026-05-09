@@ -333,7 +333,8 @@ class Run:
                     inv = ["--invocations", f"{self.invocations}"]
                 else:
                     inv = []
-                cmd: list[str] = ["running", "runbms", *workdir_args, "-p", config_name, *inv, "./evaluation/results/log", str(config_file), *hfac_args]
+                bin = config.get("bin", "running")
+                cmd: list[str] = [bin, "runbms", *workdir_args, "-p", config_name, *inv, "./evaluation/results/log", str(config_file), *hfac_args]
                 commands.append(cmd)
         return commands
 
@@ -413,6 +414,8 @@ class Minheap:
         # Find config file
         config_file = Path(self.config) if self.config.endswith((".yml", ".yaml")) and Path(self.config).is_file() else _find_config_file(self.config)
         config_file = config_file.absolute()
+        with open(config_file, "r") as file:
+            config: dict[str, Any] = yaml.safe_load(file)
         # Setup env
         env = {
             "BUILDS": f"{EVALUATION_DIR}/builds",
@@ -423,7 +426,8 @@ class Minheap:
         }
         os.environ.update(env)
         # Run
-        cmd: list[str] = ["running", "minheap", str(config_file), str(self.out)]
+        bin = config.get("bin", "running")
+        cmd: list[str] = [bin, "minheap", str(config_file), str(self.out)]
         rich.print(f'[bold blue]RUN:[/] {" ".join(cmd)}')
         rich.print(f"[bold blue]OUT:[/] {self.out}")
         rich.print(f'[bold blue]BUILDS:[/] {env["BUILDS"]}')
